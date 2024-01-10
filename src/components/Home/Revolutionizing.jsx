@@ -1,12 +1,11 @@
 import styles from "../../styles/Home/Revolutionizing.module.css";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Video from "../../../public/videos/nutlip.mp4";
 import ReactPlayer from "react-player";
 import React from "react";
 import { Player, ControlBar } from "video-react";
 import "video-react/dist/video-react.css";
-import { Videos } from '/public/videos/nutlip.mp4';
+
 
 const Revolutionizing = () => {
   return (
