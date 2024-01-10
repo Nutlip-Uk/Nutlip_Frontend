@@ -1,0 +1,588 @@
+
+
+
+.container *{
+    font-family: 'Poppins';
+    margin:0;
+}
+
+
+
+
+/* WEB */
+
+
+
+
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 0px;
+    padding: unset;
+}
+
+.mainImage {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.mainImage img{
+    min-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.container{
+    flex: 1;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+    
+}
+
+.FormContainer{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.selection {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.selection p{
+    /* color: #77797E; */
+    font-size: 16px;
+    text-align: center;
+    padding: 8px 0px;
+    width: 100%;
+    border: 1px solid #001F6D;
+}
+
+.selection p:hover {
+    cursor: pointer;
+}
+
+.selection p:first-of-type {
+    border-radius: 8px 0px 0px 8px;
+}
+
+.selection p:last-of-type {
+    border-radius: 0px 8px 8px 0px;
+}
+
+.selected {
+    color: #FFFFFF;
+    border: 3px solid #001F6D;
+    background: #001F6D;
+}
+
+
+
+
+/* SIGN UP SECTION */
+
+
+.signup, .login {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.signup label, .login label{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    font-size: 14px;
+}
+
+
+
+/* Password Container */
+
+.passwordLabel{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+.passwordContainer{
+    display: flex;
+    width: 100%;
+    padding: 0px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300, #D0D5DD);
+    background: var(--white, #FFF);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+   
+}
+
+.passwordContainer:focus-within{
+    outline:2px solid #001f6d77 ;
+}
+
+.LoginpasswordLabel{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+.LoginpasswordContainer{
+    display: flex;
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300, #D0D5DD);
+    background: var(--white, #FFF);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    position: relative;
+   
+}
+
+.LoginpasswordContainer:focus-within{
+    outline:2px solid #001f6d77 ;
+    background: none;
+    background-color: none;
+}
+
+
+.signup input[type="password"]{
+    border: none;
+    background: var(none);
+    box-shadow: none;
+    width: 90%;
+    outline: none;
+
+}
+.login input[type="text"]{
+    border: none;
+    background: var(none);
+    box-shadow: none;
+    width: 90%;
+    outline: none;
+
+}
+.login input[type="password"]{
+    border: none;
+    background: var(none);
+    box-shadow: none;
+    width: 100%;
+    outline: none;
+}
+
+
+.signup input[type="texts"]{
+    border: none;
+    background: var(none);
+    box-shadow: none;
+    width: 90%;
+    outline: none;
+
+}
+
+
+.LoginHidePassword {
+    width: 25px;
+    height: auto;
+    margin: 0;
+    position: absolute;
+    right:0;
+    top:25%;
+}
+
+.RememberContainer{
+    display: flex;
+    width:100%;
+    justify-content:space-between;
+    align-items: start;
+}
+
+.Remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.Remember input{
+    height:18px;
+    width:18px;
+}
+
+.forgetPassword{
+    border:none;
+    background:transparent;
+    padding:0;
+    cursor:pointer;
+    color: #77797E;
+    transition:0.4s;;
+    -webkit-transition:0.4s;
+    -moz-transition:0.4s;
+    -ms-transition:0.4s;
+    -o-transition:0.4s;
+}
+
+.forgetPassword:hover{
+    scale: 0.94;
+    transition:0.4s;;
+    -webkit-transition:0.4s;
+    -moz-transition:0.4s;
+    -ms-transition:0.4s;
+    -o-transition:0.4s;
+}
+.signup_password:hover, .login_password:hover {
+    cursor: pointer;
+}
+
+
+.signup input, .login input{
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300, #D0D5DD);
+    background: var(--white, #FFF);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+   
+}
+
+
+
+.signup input:focus-within, .login input:focus-within{
+    outline:2px solid #001f6d77 ;
+}
+
+
+.signup select:focus-within {
+    outline: 2px solid #001f6d77;
+}
+
+
+.signup select {
+    background: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 13px;
+    margin-top: 0;
+    padding: 16px;
+    gap: 30px;
+
+    border-radius: 8px;
+    border: 1px solid var(--gray-300, #D0D5DD);
+    background-color: var(--white, #FFF);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+.signup option {
+    font-size: 14px;
+    padding: 14px;
+    height: 50px;
+    
+}
+
+/* .signup select option:disabled {
+    color: #667085;
+} */
+
+/* .signup input[type="password"]{
+    background: url('../../public/images/eye-slash.svg');
+    background-repeat: no-repeat;
+    background-position: right;
+} */
+
+.signup p, .login p {
+    color: var(--gray-500, #667085);
+    font-size: 14px;
+    font-style: normal;
+    line-height: normal;
+    margin: 0;
+    width: 100%;
+}
+
+
+.CreateAccount, .LoginButton{
+    color: var(--white, #FFF);
+    padding: 16px 38px;
+    border-radius: 8px;
+    background: var(--brand-red, #DA0025);
+    border: none;
+    cursor: pointer;
+
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+.signup button:disabled, .login button:disabled {
+    color: var(--grey-grey-3, #888);
+    background: #DBD5EF;
+    cursor: default;
+
+}
+
+/* .login button{
+    color: #FFF;
+    background: var(--brand-red, #DA0025);
+} */
+
+/* .signup div {
+    display: flex;
+    justify-content: space-around;
+    color: var(--grey-grey-3, #888);
+    margin: 20px 0px;
+} */
+
+.signup > div:first-of-type {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+
+
+.signup a, .login a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    color: #141212;
+    text-decoration: none;
+    padding: 14px;
+    gap: 15px;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300, #D0D5DD);
+    background: var(--white, #FFF);
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+
+.OR{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+font-size: 14px;
+font-weight: 400;
+letter-spacing: 0em;
+align-items: center;
+justify-content: center;
+
+
+}
+
+.OR hr{
+    width: 90%;
+    height: 0.2px;
+    border: 1px solid #6670856e;
+}
+
+
+.GoogleContainer{
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    gap:15px;
+}
+
+.Google{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #D0D5DD;
+    width: 100%;
+    padding: 10px 20px;
+    justify-content: center;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    cursor: pointer;
+    color: #141212;
+}
+.Facebook{
+    display: flex;
+    align-items: center;
+    background-color: #3F51B5;
+    border: 1px solid #D0D5DD;
+    width: 100%;
+    padding: 10px 20px;
+    justify-content: center;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    cursor: pointer;
+    color: white;
+}
+
+.Facebook p{
+    color:white;
+}
+
+.GoogleContainer button{
+    transition:0.4s;
+}
+.GoogleContainer button:hover{
+    scale:0.97;
+    transition:0.4s;
+}
+/* small screens */
+@media (width <= 400px) {
+    
+    
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap:10px;
+    padding-bottom: 50px ;
+}
+
+.mainImage {
+    flex: 1;
+    height: unset;
+    display: none;
+}
+
+
+.container{
+    flex: 1;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.FormContainer{
+    width: 90%;
+}
+
+.selection {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 5px 0;
+}
+}
+
+/* medium screens */
+
+@media (400px <= width <= 779px)  {
+
+    
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap:10px;
+    padding: unset;
+}
+
+.mainImage {
+    flex: 1;
+    height: unset;
+    display: none;
+}
+
+
+.container{
+    flex: 1;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.FormContainer{
+    width: 90%;
+}
+}
+
+
+/* Tab */
+@media (780px <= width <= 960px) {
+      
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap:10px;
+    padding: unset;
+}
+
+.mainImage {
+    flex: 1;
+    height: unset;
+    display: none;
+}
+
+
+.container{
+    flex: 1;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.FormContainer{
+    width: 90%;
+}
+}
+
+/* Large screens */
+
+@media (960px <= width <= 1200px){
+    
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    gap: 0px;
+    padding: unset;
+}
+
+.mainImage {
+    flex: 1;
+    height: 803px;
+    width: 100%;
+}
+
+
+.container{
+    flex: 2;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+    
+}
+
+.FormContainer{
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+}

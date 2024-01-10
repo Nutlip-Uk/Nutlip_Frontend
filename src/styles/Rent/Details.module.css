@@ -1,0 +1,488 @@
+.container * {
+    font-family: "Poppins";
+    margin: 0;
+    
+}
+.Section{
+    width: 100%;
+    height:auto;
+    display:grid;
+    place-items:center;
+    overflow: clip;
+    padding-top:20px ;
+    padding-bottom:100px ;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:90%;
+    gap:20px;
+}
+
+.navBack{
+    width:100%;
+
+}
+
+.navBack button{
+    background:transparent;
+    border:none;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family: Poppins;
+font-size: 18px;
+font-weight: 600;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: center;
+color:#001F6D;
+}
+
+.navBack button:hover{
+    color:#001F6D;
+}
+
+
+.view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap:20px;
+}
+
+.imagesContainer{
+    display:flex;
+    gap:20px;
+    align-items: center;
+}
+
+.mainImage{
+    flex:3;
+    width: 100%;
+    height: 504px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    object-fit: fill;
+}
+
+.SubImages{
+    flex:1;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.SubImages img{
+    width: 100%;
+    height: 244px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+
+
+/* CONTENT */
+
+.detailContainer{
+    display: flex;
+    justify-content:space-between;
+    width:100%;
+    gap:25px;
+}
+
+.content{
+    width: 90%;
+    display: flex;
+}
+
+.content_details{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items: start;
+    
+}
+
+
+#options {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 45px;
+
+}
+
+#options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 4.516px;
+    padding: 5px;
+font-size: 21px;
+font-weight: 400;
+line-height: 32px;
+letter-spacing: 0em;
+text-align: left;
+color:#3B3A3A;
+
+}
+
+#options input {
+    display: none;
+}
+
+#options > img {
+    border-radius: 4.516px;
+    background-color: rgba(0, 6, 22, 0.40);
+    padding: 5px;
+}
+
+.selected {
+    background-color: #E8EFFF;
+}
+
+.unselected {
+    background-color: transparent;
+}
+
+.student_friendly{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    width:100%;
+    justify-content:space-between;
+
+}
+
+.student_friendly button{
+    background:transparent;
+    padding: 4px 10px;
+    border:1px solid black;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:500;
+}
+.price h1{
+font-size: 42px;
+font-weight: 600;
+line-height: 63px;
+letter-spacing: 0em;
+text-align: left;
+color:#000000;
+}
+
+.price p{
+    font-size: 22px;
+font-weight: 600;
+line-height: 25px;
+color:rgb(97, 97, 97);
+}
+
+.facilities{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding-bottom: 10px;
+}
+
+.facilities span{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    padding-bottom:20px;
+}
+
+.info .desc{
+font-size: 24px;
+font-weight: 600;
+line-height: 36px;
+letter-spacing: 0em;
+text-align: left;
+color:black;
+}
+
+
+.info .location{
+color:#434343;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    
+}
+
+.deposit{
+    font-size:18px;
+    font-weight:500;
+    color:black;
+}
+.deposit p{
+    font-size:18px;
+    font-weight:500;
+    color:#434343;
+}
+.info .text{
+font-size: 18px;
+font-weight: 400;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
+color:#4A4A4A;
+width:95%;
+}
+
+
+.feature {
+    font-size: 18px;
+font-weight: 400;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
+color:#4A4A4A;
+}
+
+.extraInfo{
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    width: auto;
+    align-items:start;
+}
+.readMore{
+    border-bottom: 2px solid #001F6D ;
+    width:auto;
+color:#4A4A4A;
+font-size: 18px;
+font-weight: 400;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
+cursor: pointer;
+}
+
+.listed{
+font-size: 18px;
+font-weight: 400;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
+color:#4A4A4A;
+}
+
+.company{
+    width: 170.61px;
+height: 42.31px;
+}
+
+.buy{
+    height: auto;
+    display:flex;
+    flex-direction:column;
+    gap: 25px;
+    align-items:center;
+}
+
+.agent{
+    width: 95%;
+    height:auto;
+    padding:30px 0;
+    display:flex;
+    flex-direction:column;
+   border-radius:16px;
+    align-items:center;
+    gap:20px;
+    box-shadow: 0px 0px 20px 0px rgba(190, 190, 190, 0.692)
+}
+
+.mortgage{
+    width:75%;
+    display: flex;
+    flex-direction: column;
+    align-items:start;
+    gap:10px;
+}
+
+.mortgage h4{
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#141212;
+}
+.mortgage p{
+font-size: 16px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 0em;
+text-align: left;
+color:#626161;
+width:100%;
+
+}
+
+.mortgage a{ padding: 16px 32px; border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;
+    background-color:#E9E9E9;
+    color:black;
+    text-decoration:none;
+    transition:0.4s ease;
+}
+
+.mortgage a:hover{
+    scale:0.96;
+    transition:0.4s ease;
+    -webkit-transition:0.4s ease;
+    -moz-transition:0.4s ease;
+    -ms-transition:0.4s ease;
+    -o-transition:0.4s ease;
+}
+
+
+.conveyancer{
+    width:75%;
+    display: flex;
+    flex-direction: column;
+    align-items:start;
+    gap:10px;
+}
+
+.conveyancer h4{
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#141212;
+}
+.conveyancer p{
+font-size: 16px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 0em;
+text-align: left;
+color:#626161;
+width:100%;
+
+}
+
+.conveyancer a{ padding: 16px 32px; border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;
+    background-color:#E9E9E9;
+    color:black;
+    text-decoration:none;
+    transition:0.4s ease;
+}
+
+.conveyancer a:hover{
+    scale:0.96;
+    transition:0.4s ease;
+    -webkit-transition:0.4s ease;
+    -moz-transition:0.4s ease;
+    -ms-transition:0.4s ease;
+    -o-transition:0.4s ease;
+}
+
+.content_contact{
+    width: 95%;
+    height:auto;
+    padding:30px 0;
+    display:flex;
+    flex-direction:column;
+   border-radius:16px;
+    align-items:center;
+    gap:20px;
+    box-shadow: 0px 0px 20px 0px rgba(190, 190, 190, 0.692)
+}
+
+.contentContactBtnCon{
+    width:75%;
+    display: flex;
+    flex-direction:column;
+    gap:25px;
+}
+.transparentBorder{
+    width:100%;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    height: 56px;
+    gap:8px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border: 1px solid #141212;
+    color:#141212;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    background:transparent;
+    transition: 0.4s ease;
+    -webkit-transition: 0.4s ease;
+    -moz-transition: 0.4s ease;
+    -ms-transition: 0.4s ease;
+    -o-transition: 0.4s ease;
+    cursor:pointer;
+}
+.content_contact button{
+    transition: 0.4s ease;
+    -webkit-transition: 0.4s ease;
+    -moz-transition: 0.4s ease;
+    -ms-transition: 0.4s ease;
+    -o-transition: 0.4s ease;
+    cursor:pointer;
+}
+
+.content_contact button:hover{
+    transition: 0.4s ease;
+    -webkit-transition: 0.4s ease;
+    -moz-transition: 0.4s ease;
+    -ms-transition: 0.4s ease;
+    -o-transition: 0.4s ease;
+    scale:0.96;
+}
+
+.extraBtn {
+    display:flex;
+    gap:16px;
+}
+
+.extraBtn button{
+    height:56px;
+    width:50%;
+}
+
+.solidBorder{
+    background:#E6556E;
+    border:none;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    height: 56px;
+    gap:8px;
+    border-radius: 10px;
+    color:white;
+}

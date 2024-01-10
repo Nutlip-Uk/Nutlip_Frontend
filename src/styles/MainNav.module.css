@@ -1,0 +1,467 @@
+.textdoc{
+  text-decoration: none;
+}
+
+
+.nav {
+  display: flex;
+  width: 100%;
+  font-family: 'Poppins';
+  height: auto;
+  justify-content: center;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: #FFFFFF;
+  align-items: center;
+  position:relative;
+  
+}
+
+.Hide{
+  gap:50px;
+  display: flex;
+  align-items: center;
+
+}
+
+.Hide li{
+  list-style: none;
+}
+
+.Hide a{
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+}
+.reg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FFFFFF;
+  height: 54px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  padding: 1% 0%;
+}
+
+.reg > a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.reg > img:first-of-type {
+  width: 50%;
+  height: 53px;
+}
+
+
+
+.NavMain {
+  display: flex;
+  height: auto;
+  width: 95%;
+  justify-content: space-between;
+  align-items: center;
+  
+  
+}
+
+.navContainer {
+  display: flex;
+  gap: 50px;
+  z-index: 2;
+}
+
+.navLinks {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+}
+
+.navLinks a:hover {
+  color: #001f6d;
+}
+.NavLogin {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navLinks li {
+  list-style: none;
+}
+
+.NavLogin a {
+  text-decoration: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.NavLogin a:nth-child(1) {
+  background-color: transparent;
+  border: 1px solid black;
+  color: black;
+  transition: ease 0.6s;
+}
+.NavLogin a:nth-child(1):hover {
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+  transition: ease 0.6s;
+}
+.NavLogin a:nth-child(2) {
+  background-color: #f30029;
+  border: 1px solid #f30029;
+  color: white;
+  transition: ease 0.6s;
+  -webkit-transition: ease 0.6s;
+  -moz-transition: ease 0.6s;
+  -ms-transition: ease 0.6s;
+  -o-transition: ease 0.6s;
+}
+
+.NavLogin a:nth-child(2):hover {
+  background-color: #c00424;
+  transition: ease 0.6s;
+}
+
+.MenuBtn {
+  display: flex;
+  align-items: center;
+  display: none;
+}
+
+@media ( width <= 400px) {
+  .navigation{
+    padding-bottom: 70px;
+    height: auto;
+    position:relative;
+    z-index: 20;
+
+  }
+  .nav {
+    display: flex;
+    width: 100%;
+    font-family: 'Poppins';
+    height: 60px;
+    justify-content: center;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #FFFFFF;
+    align-items: center;
+    position:fixed;
+   
+  }
+  .NavMain {
+    display: flex;
+    height: auto;
+    width: 95%;
+    justify-content: space-between;
+  
+  }
+
+  .navContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    background-color: white;
+    right: 0;
+    z-index: 100;
+    top: 90%;
+    padding: 20px 0px;
+    width: 70%;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    box-shadow: 0px 0px 80px 10px rgba(66, 64, 64, 0.158);
+  }
+
+  .Hide {
+    display: none;
+    
+  }
+
+  
+  .navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+  }
+  .navLinks li {
+    list-style: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.418);
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .navLinks a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+  }
+
+  .NavLogin {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .NavLogin a {
+    text-decoration: none;
+    padding: 10px 15px;
+    width: 100%;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .MenuBtn {
+    display: flex;
+    align-items: center;
+    display: block;
+  }
+
+}
+
+@media (400px <= width <=779px) {
+  .navigation{
+    padding-bottom: 70px;
+    height: auto;
+    position:relative;
+    z-index: 20;
+  }
+  .nav {
+    display: flex;
+    width: 100%;
+    font-family: 'Poppins';
+    height: 70px;
+    justify-content: center;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #FFFFFF;
+    align-items: center;
+    position:fixed;
+    
+    z-index:2;
+  }
+  
+  .NavMain {
+    display: flex;
+    height: auto;
+    width: 95%;
+    justify-content: space-between;
+    position: relative;
+   
+  }
+
+  .navContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    background-color: white;
+    right: 0;
+    z-index: 100;
+    top: 90%;
+    padding: 20px 0px;
+    width: 70%;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    box-shadow: 0px 0px 80px 10px rgba(66, 64, 64, 0.158);
+  }
+
+  .Hide {
+    display: none;
+    
+  }
+
+  
+  .navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+  }
+  .navLinks li {
+    list-style: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.418);
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .navLinks a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+  }
+
+  .NavLogin {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .NavLogin a {
+    text-decoration: none;
+    padding: 10px 15px;
+    width: 100%;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .MenuBtn {
+    display: flex;
+    align-items: center;
+    display: block;
+  }
+}
+@media (780px <= width <= 1200px) {
+  .navigation{
+    padding-bottom: 70px;
+    height: auto;
+    position:relative;
+   
+  }
+  .nav {
+    display: flex;
+    width: 100%;
+    font-family: 'Poppins';
+    height: 70px;
+    justify-content: center;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #FFFFFF;
+    align-items: center;
+    position:fixed;
+    z-index:20;
+    
+  }
+  
+  .NavMain {
+    display: flex;
+    height: auto;
+    width: 95%;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .navContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    background-color: white;
+    right: 0;
+    z-index: 100;
+    top: 90%;
+    padding: 20px 0px;
+    width: 40%;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    box-shadow: 0px 0px 80px 10px rgba(66, 64, 64, 0.158);
+    
+  }
+
+  .Hide {
+    display: none;
+    
+  }
+
+  
+  .navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+    
+  }
+  .navLinks li {
+    list-style: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.418);
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .navLinks a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+  }
+
+  .NavLogin {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .NavLogin a {
+    text-decoration: none;
+    padding: 10px 15px;
+    width: 100%;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .MenuBtn {
+    display: flex;
+    align-items: center;
+    display: block;
+  }
+}
