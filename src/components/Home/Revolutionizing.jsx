@@ -47,7 +47,7 @@ const Revolutionizing = () => {
         >
           <iframe
                       className={styles.VideoTag}
-                      src="https://www.youtube.com/embed/UevtTNOTYL0"
+                      src="https://www.youtube.com/embed/wpjrKfgMgwo"
                       title="Nutlip"
                       allowFullScreen
                     ></iframe>
