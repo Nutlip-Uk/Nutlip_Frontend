@@ -18,7 +18,7 @@ const Hero = () => {
   return (
     <div className={styles.container}>
       <img className={styles.ContainerImage} src="https://framerusercontent.com/images/EyhrF1KO3bHuC8YXkOUpp50.png" alt="" />
-      <h1 className={styles.HeroText}>...your Real Estate Marketplace</h1>
+      <h1 className={styles.HeroText}>...Your Real Estate Marketplace</h1>
       <div className={styles.compCon}>
       <HeroComponent />
       </div>
