@@ -23,14 +23,9 @@ const Revolutionizing = () => {
           className={styles.MainText}
         >
           <div className={styles.textContainer}>
-            <p>Revolutionizing the Real Estate Industry</p>
+          <p>Lets make your selling and buying as easy as <span style={{color:"red"}}>1 | 2 | 3</span></p>
             <p>
-              We aim to continue to transform the way people buy and sell real
-              estate by making it as effortless and convenient as online grocery
-              shopping and also to provide potential tenants with a seamless and
-              hassle-free experience, allowing them to effortlessly discover
-              their dream homes and complete the rental process through a
-              single, user-friendly online platform.
+            Our platform ensures a seamless experience for selling and buying, making transactions effortless, straightforward and stress-free from start to finish. Our user-friendly features and streamlined process ensure that you can focus on what matters most – finding the perfect buyer or your dream property – without worrying about the complexities of the transaction.
             </p>
           </div>
         </motion.div>
