@@ -1,0 +1,171 @@
+.Section * {
+    margin: 0;
+}
+
+.Section {
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.Container {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+}
+
+.ImgContainer {
+    width: 100%;
+    height: 396.01px;
+    border-radius: 16px;    ;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    overflow: clip;
+}
+
+.ImgContainer img {
+    height: 100%;
+    width: 100%;
+}
+
+.TextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+}
+
+.TextContainer h3 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 48px;
+    letter-spacing: 0em;
+    text-align: left;
+    width: 70%;
+}
+
+.TextContainer p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    width: 75%;
+}
+
+.TextContainer button {
+    display: flex;
+    padding: 16px 38px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid var(--Brand-red, #da0025);
+    background: var(--Brand-red, #da0025);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+@media (width <=400px) {
+    .Container {
+        width: 90%;
+        flex-direction: column-reverse;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        gap: 25px;
+    }
+    .ImgContainer {
+        width: 100%;
+        height: 250px;
+    }
+    .TextContainer h3 {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 36px;
+        letter-spacing: 0em;
+        text-align: left;
+        width: 100%;
+    }
+    .TextContainer p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+        width: 100%;
+    }
+    
+}
+@media (400px <= width <=779px) {
+    .Container {
+        width: 90%;
+        flex-direction: column-reverse;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        gap: 34px;
+    }
+    .ImgContainer {
+        width: 100%;
+        height: 350px;
+    }
+
+    .TextContainer h3 {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 36px;
+        letter-spacing: 0em;
+        text-align: left;
+        width: 80%;
+    }
+
+    .TextContainer p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+        width: 100%;
+    }
+}
+
+@media (780px <= width <= 1180px) {
+    .Container {
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .ImgContainer {
+        flex: 1;
+        width: 100%;
+        height: 350px;
+    }
+    .TextContainer {
+        flex: 1;
+    }
+
+    .TextContainer h3 {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 42px;
+        letter-spacing: 0em;
+        text-align: left;
+        width: 100%;
+    }
+}

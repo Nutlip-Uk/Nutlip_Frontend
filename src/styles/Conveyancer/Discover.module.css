@@ -1,0 +1,131 @@
+.Section *{
+    margin: 0;
+}
+
+
+.Section{
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin:50px 0; 
+}
+
+.Container{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:64px;
+}
+
+.ImgContainer{
+    flex:1;
+    width: 448px;
+height: 348px 
+}
+
+.ImgContainer img{
+    height: 100%;
+    width: 100%;
+}
+
+.TextContainer{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    flex:1;
+}
+
+.TextContainer h3{
+font-size: 32px;
+font-weight: 600;
+line-height: 48px;
+letter-spacing: 0em;
+text-align: left;
+width:90%;
+}
+
+.TextContainer p{
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+
+}
+
+@media ( width <=400px) {
+    .Container{
+        width: 90%;
+        flex-direction: column;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        gap:25px;
+    }
+    .ImgContainer{
+        width: 100%;
+        height: 300px;
+    }
+    .TextContainer h3{
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 36px;
+        letter-spacing: 0em;
+        text-align: left;
+        width:100%;
+        }
+}
+@media (400px <= width <=779px) {
+    .Container{
+        width: 90%;
+        flex-direction: column;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        gap:34px;
+    }
+    .ImgContainer{
+        width: 100%;
+        height: 350px;
+    }
+    
+    .TextContainer h3{
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 36px;
+        letter-spacing: 0em;
+        text-align: left;
+        width:100%;
+        }
+}
+
+@media (780px <= width <= 1180px) {
+    .Container{
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:30px;
+    }
+
+    .ImgContainer{
+        flex:1;
+        width: 100%;
+        height: 350px;
+    }
+    .TextContainer{
+        flex:1;
+    }
+    
+    .TextContainer h3{
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 42px;
+        letter-spacing: 0em;
+        text-align: left;
+        width:100%;
+        }
+        
+}

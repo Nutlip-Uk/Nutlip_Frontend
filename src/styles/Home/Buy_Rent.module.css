@@ -324,7 +324,7 @@
   }
 }
 
-@media (780px <= width <= 1500px) {
+@media (780px <= width <= 960px) {
 
   .form {
     display: flex;

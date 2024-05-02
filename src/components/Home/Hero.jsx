@@ -57,7 +57,7 @@ const Buy = () => {
       </div>
       <Link
         href={
-          "/comingsoon"
+          "/buy/search"
         }
       >
         To Buy
@@ -107,13 +107,13 @@ const Rent = () => {
       </div>
       <Link
         href={{
-          pathname: "/comingsoon",
+          pathname: "/rent",
           query: {
             location: location,
           },
         }}
       >
-        Rent
+        To Rent
       </Link>
     </form>
   );
@@ -163,7 +163,7 @@ const Mortgages = () => {
       </div>
 
       <button
-        onClick={() => router.push("/comingsoon")}
+        onClick={() => router.push("/mortgages?type=broker+result")}
         id="search"
         className={mort_con.searchButton}
       >
@@ -217,7 +217,7 @@ const Conveyancer = () => {
       </div>
 
       <button
-        onClick={() => router.push(".comingsoon")}
+        onClick={() => router.push("/mortgages?type=broker+result")}
         id="search"
         className={mort_con.searchButton}
       >

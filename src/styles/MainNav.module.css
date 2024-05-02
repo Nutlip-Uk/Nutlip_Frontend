@@ -147,9 +147,170 @@
 }
 
 .MenuBtn {
-  display: flex;
-  align-items: center;
   display: none;
+}
+
+.UserLogContainer{
+  display: flex;
+  align-items:center;
+  flex-wrap: wrap;
+  gap:16px;
+  width:300px;
+  
+}
+
+.userInfo{
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 12px;
+  background: var(--Background-1, #F4F7FF);
+  cursor:pointer;
+  transition:0.4s;
+  -webkit-transition:0.4s;
+  -moz-transition:0.4s;
+  -ms-transition:0.4s;
+  -o-transition:0.4s;
+}
+
+.userInfo:hover{
+  scale:0.95;
+  transition:0.4s;
+  -webkit-transition:0.4s;
+  -moz-transition:0.4s;
+  -ms-transition:0.4s;
+  -o-transition:0.4s;
+}
+
+.userinfo img{
+  width: 40px;
+height: 40px;
+border-radius:50%;
+background: var(--Light-blue-5, #2B4485);
+border:1px solid #2b4485;
+
+}
+.userInfo p{
+  color: var(--Black, #141212);
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.userPopUpContainer{
+  width:25%;
+  height:auto;
+  position:absolute;
+  background:white;
+  top:110%;
+  right:2%;
+  border-radius:24px;
+  z-index:30;
+  box-shadow: 0px 4px 15px 0px #50505040;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:10px 0;
+  gap:10px;
+}
+
+.popUpHeader{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
+.popUpHeader img{
+  width: 60px;
+height: 60px;
+}
+
+.popUpHeader p{
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:black;
+}
+
+.popUpList{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.popUpList hr{
+  width:100%;
+}
+
+.popUpList button{
+  width:85%;
+  height:50px;
+  border-radius:10px;
+  border:none;
+  background: #F30029;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  color:white;
+  cursor:pointer;
+  margin-top:10px;
+  transition:0.4s;
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  -ms-border-radius:10px;
+  -o-border-radius:10px;
+}
+
+.popUplink{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  width:50%;
+  transition:0.4s;
+}
+
+.popUplink img{
+  width: 20px;
+height: 20px;
+}
+
+.popUplink p{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+cursor:pointer;
+
+}
+.popUplink a{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+cursor:pointer;
+color:black;
+text-decoration:none;
+}
+
+.popUplink:hover{
+  scale:0.95;
+  transition:0.4s;
+}
+.popUpList button:hover{
+  scale:0.95;
+  transition:0.4s;
 }
 
 @media ( width <= 400px) {
@@ -251,12 +412,49 @@
   .MenuBtn {
     display: flex;
     align-items: center;
-    display: block;
+    gap:10px;
   }
 
+  .MobileuserInfo{
+    display: flex;
+    gap: 12px;
+    border-radius: 12px;
+    background: var(--Background-1, #F4F7FF);
+  }
+
+  .userPopUpContainer{
+    width:80%;
+    height:auto;
+    position:absolute;
+    background:white;
+    top:120%;
+    right:1%;
+    border-radius:24px;
+    z-index:30;
+    box-shadow: 0px 4px 15px 0px #50505040;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:10px 0;
+    gap:10px;
+  }
+
+  .popUplink{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    width:65%;
+    transition:0.4s;
+  }
+
+  
+  .UserLogContainer{
+    display: none;
+  }
 }
 
 @media (400px <= width <=779px) {
+ 
   .navigation{
     padding-bottom: 70px;
     height: auto;
@@ -357,8 +555,45 @@
   .MenuBtn {
     display: flex;
     align-items: center;
-    display: block;
+    gap:10px;
   }
+
+  .MobileuserInfo{
+    display: flex;
+    gap: 12px;
+    border-radius: 12px;
+    background: var(--Background-1, #F4F7FF);
+  }
+
+  .userPopUpContainer{
+    width:80%;
+    height:auto;
+    position:absolute;
+    background:white;
+    top:110%;
+    right:0%;
+    border-radius:24px;
+    z-index:30;
+    box-shadow: 0px 4px 15px 0px #50505040;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:10px 0;
+    gap:10px;
+  }
+
+  .popUplink{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    width:65%;
+    transition:0.4s;
+  }
+
+  .UserLogContainer{
+    display: none;
+  }
+  
 }
 @media (780px <= width <= 1200px) {
   .navigation{
@@ -462,6 +697,34 @@
   .MenuBtn {
     display: flex;
     align-items: center;
-    display: block;
+    gap:16px;
+  }
+
+  .MobileuserInfo{
+    display: flex;
+    gap: 12px;
+    border-radius: 12px;
+    background: var(--Background-1, #F4F7FF);
+  }
+
+  .userPopUpContainer{
+    width:100%;
+    height:auto;
+    position:absolute;
+    background:white;
+    top:110%;
+    right:2%;
+    border-radius:24px;
+    z-index:30;
+    box-shadow: 0px 4px 15px 0px #50505040;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:10px 0;
+    gap:10px;
+  }
+  
+  .UserLogContainer{
+    display: none;
   }
 }
