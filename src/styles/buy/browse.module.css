@@ -1,0 +1,440 @@
+.Section{
+    width:100%;
+    height:auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0;
+    overflow:clip;
+}
+
+.container{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.TextContainer{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.Header{
+    width: 70%;
+   
+}
+
+.Header p{
+font-size: 36px;
+font-weight: 600;
+line-height: 54px;
+letter-spacing: 0em;
+text-align: left;
+color: #010B25;
+margin:0;
+}
+
+.Text{
+    width: 90%;
+}
+
+.Text p{
+font-size: 18px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:#141212;
+margin:0;
+}
+
+.imgContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 450px;
+}
+
+.Image{
+    width: 474px;
+    height: 341px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+.accessContainer{
+    background-color: white;
+    height:auto;
+    width: 200px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    position: absolute;
+    bottom: 0;
+    left: 8%;
+    box-shadow: 0px 0px 30px 10px rgba(112, 111, 111, 0.322);
+    display: flex;
+    justify-content: center;
+    align-items:center
+}
+
+.access{
+    padding: 25px 10px;
+    height: auto;
+    width: auto;
+}
+
+.access p{
+font-size: 15px;
+font-weight: 500;
+color: #0D263B;
+margin:0;
+
+}
+
+.stars{
+    width: 50%;
+    height: auto;
+}
+
+
+@media ( width < 400px) {
+    .Section{
+        width:100%;
+        height:auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 30px ;
+        padding-bottom: 80px;
+    }
+    
+    .container{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    
+.TextContainer{
+    flex:1;
+}
+
+.Header{
+    width: 85%;
+}
+
+.Header p{
+font-size: 25px;
+font-weight: 600;
+line-height: 30px;
+letter-spacing: 0em;
+text-align: left;
+color: #010B25;
+
+}
+
+.Text{
+    width: 100%;
+}
+
+.Text p{
+font-size: 15px;
+font-weight: 400;
+line-height: 25px;
+letter-spacing: 0em;
+text-align: left;
+color:#141212;
+}
+
+.imgContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: auto;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.Image{
+    width: 95%;
+    height: 250px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+.accessContainer{
+    background-color: white;
+    width: 170px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    position: absolute;
+    bottom: -10%;
+    left: 0%;
+    box-shadow: 0px 0px 30px 10px rgba(112, 111, 111, 0.322);
+}
+
+.access{
+    padding: 10px 10px;
+    height: auto;
+    width: auto;
+}
+
+.access p{
+font-size: 15px;
+font-weight: 500;
+color: #0D263B;
+
+}
+
+.stars{
+    width: auto;
+    height: auto;
+}
+
+}
+
+@media (400px <= width <=779px) {
+    .Section{
+        width:100%;
+        height:auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 30px ;
+        padding-bottom: 80px;
+    }
+    
+    .container{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    
+.TextContainer{
+    flex:1;
+}
+
+.Header{
+    width: 85%;
+}
+
+.Header p{
+font-size: 28px;
+font-weight: 600;
+line-height: 30px;
+letter-spacing: 0em;
+text-align: left;
+color: #010B25;
+
+}
+
+.Text{
+    width: 100%;
+}
+
+.Text p{
+font-size: 15px;
+font-weight: 400;
+line-height: 25px;
+letter-spacing: 0em;
+text-align: left;
+color:#141212;
+}
+
+.imgContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: auto;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.Image{
+    width: 95%;
+    height: 250px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+.accessContainer{
+    background-color: white;
+    width: 180px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    position: absolute;
+    bottom: -10%;
+    left: 0%;
+    box-shadow: 0px 0px 30px 10px rgba(112, 111, 111, 0.322);
+}
+
+.access{
+    padding: 10px 10px;
+    height: auto;
+    width: auto;
+}
+
+.access p{
+font-size: 15px;
+font-weight: 500;
+
+color: #0D263B;
+
+}
+
+.stars{
+    width: auto;
+    height: auto;
+}
+
+}
+
+
+
+@media (780px <= width <= 960px) {
+    .Section{
+        width:100%;
+        height:auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 30px ;
+        padding-bottom: 80px;
+    }
+    
+    .container{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    
+.TextContainer{
+    flex:1;
+}
+
+.Header{
+    width: 80%;
+}
+
+.Header p{
+font-size: 36px;
+font-weight: 600;
+line-height: 54px;
+letter-spacing: 0em;
+text-align: left;
+color: #010B25;
+
+}
+
+.Text{
+    width: 100%;
+}
+
+.Text p{
+font-size: 18px;
+font-weight: 400;
+line-height: 28px;
+letter-spacing: 0em;
+text-align: left;
+color:#141212;
+}
+
+.imgContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 450px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.Image{
+    width: 90%;
+    height: 341px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+.accessContainer{
+    background-color: white;
+    width: 200px;
+    height:110px;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    position: absolute;
+    bottom: -10%;
+    left: 0%;
+    box-shadow: 0px 0px 30px 10px rgba(112, 111, 111, 0.322);
+}
+
+.access{
+    padding: 10px 10px;
+    height: auto;
+    width: auto;
+}
+
+.access p{
+font-size: 18px;
+font-weight: 500;
+color: #0D263B;
+
+}
+
+.stars{
+    width: auto;
+    height: auto;
+}
+
+    
+}

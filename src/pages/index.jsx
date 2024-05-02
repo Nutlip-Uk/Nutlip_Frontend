@@ -7,11 +7,16 @@ import Hero from '../components/Home/Hero'
 import Why from '../components/Home/Why'
 import Revolutionizing from '../components/Home/Revolutionizing'
 import PropertyView from '../components/Home/PropertyView'
+import Welcome from '../components/welcome/welcome'
+import { useContext } from 'react'
+import { RegistrationContext } from '../context/Register.context'
 
 
 export default function Home() {
+  const { isUserFirstTime } =useContext(RegistrationContext);
   return (
     <main className='wrapper'>
+     { isUserFirstTime ?  <Welcome/> : null}
       <Hero />
       <Revolutionizing />
       <PropertyView />

@@ -1,0 +1,157 @@
+.container * {
+    font-family: "Poppins";
+}
+
+.Section{
+    width: auto;
+    display:flex;
+    justify-content:center;
+    background: var(--Background-2, #F8FAFF);
+    height:80dvh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 30px 0;
+    width:90%;
+}
+
+.Header{
+font-size: 28px;
+font-weight: 600;
+line-height: 42px;
+letter-spacing: 0em;
+text-align: left;
+color:black;
+text-decoration: none;
+}
+
+.ListContainer{
+    display:flex;
+    gap:24px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.ListBox{
+    width: 396px;
+    height: 180px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 20px 0px #CACACA40;
+    background: #FFFFFF;
+    display:flex;    
+    flex-direction:column;
+    justify-content: center;
+    gap:8px;
+    padding: 0 30px;
+    cursor:pointer;
+    transition:0.3s ease-in;
+    -webkit-transition:0.3s ease-in;
+    -moz-transition:0.3s ease-in;
+    -ms-transition:0.3s ease-in;
+    -o-transition:0.3s ease-in;
+    align-items:start;
+}
+
+.ListBox:hover{
+    scale:0.97;
+    transition:0.3s ease-in;
+    -webkit-transition:0.3s ease-in;
+    -moz-transition:0.3s ease-in;
+    -ms-transition:0.3s ease-in;
+    -o-transition:0.3s ease-in;
+}
+
+.ListingId{
+    background: #E6556E;
+padding: 4px 8px;
+border-radius: 4px;
+gap: 10px;
+color:white;
+text-align:center;
+font-size: 14px;
+font-weight: 400;
+line-height: 21px;
+letter-spacing: 0em;
+}
+
+.ListPrice{
+font-size: 20px;
+font-weight: 600;
+line-height: 30px;
+letter-spacing: 0em;
+text-align: left;
+}
+.Desc{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:#3B3A3A;
+}
+
+.Location{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:#434343;
+}
+
+
+@media ( width <=400px) {
+    .Section{
+        width: auto;
+        display:flex;
+        justify-content:center;
+        background: var(--Background-2, #F8FAFF);
+        height:auto;
+    }
+
+    
+.ListBox h3{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#000000;
+    }
+    .ListBox p{
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+        color:#434343;
+    }
+
+    .ListBox{
+        padding: 0 15px;   
+    }
+}
+@media (400px <= width <=779px) {
+    .Section{
+        width: auto;
+        display:flex;
+        justify-content:center;
+        background: var(--Background-2, #F8FAFF);
+        height:auto;
+    }
+    
+}
+
+@media (780px <= width <= 960px) {
+    .Section{
+        width: auto;
+        display:flex;
+        justify-content:center;
+        background: var(--Background-2, #F8FAFF);
+        height:auto;
+    }
+    
+}

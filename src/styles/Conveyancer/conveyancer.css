@@ -1,0 +1,30 @@
+.container, .container_two {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background: url('../../../public/images/mortgage-back-drop_mobile.png');
+    background-repeat: no-repeat;
+    background-size: contain; */
+    /* margin-bottom: 50px; */
+}
+
+.container {
+    padding-bottom: 50px;
+}
+
+.container > img {
+    width: 100%;
+}
+
+.img_one {
+    margin-bottom: 400px;
+}
+
+.img_two {
+    margin-bottom: 150px;
+}
+
+/* -------------------------------------------- */
+.container_two > img {
+    display: none;
+}

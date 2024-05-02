@@ -1,21 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  webpack(config, options) {
-    config.module.rules.push({
-      test: /\.mp4$/,
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            name: 'public/videos/[name].[ext]',
-            publicPath: 'videos/',
-          },
-        },
-      ],
-    });
-
-    return config;
+ /*  transpileModules: ["@mui/x-charts"], */
+  publicRuntimeConfig: {
+    NEXTAUTH_URL: process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000",
   },
 };
 

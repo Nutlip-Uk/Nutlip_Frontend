@@ -27,16 +27,14 @@
 .MainText {
   width: 50%;
   height: auto;
+ 
+  
 }
 
-.textContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.textContainer p span {
-  color: red;
+.textContainer{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 .MainText p:nth-child(1) {
   font-size: 36px;
@@ -46,7 +44,7 @@
   text-align: left;
   color: #0d263b;
   width: 85%;
-  margin: 0;
+  margin:0;
 }
 
 .MainText p:nth-child(2) {
@@ -57,7 +55,7 @@
   text-align: left;
   color: #272727;
   width: 80%;
-  margin: 0;
+  margin:0;
 }
 
 .Video {
@@ -76,125 +74,138 @@
 .VideoTag {
   height: 100%;
   width: 100%;
-  border: 1px solid black;
+  border:1px solid black;
 }
 
+
 @media (width <= 400px) {
-  .container {
-    padding: 25px 10px;
-    width: 100%;
-    gap: 36px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #f4f7ff;
-    border-radius: unset;
-    -webkit-border-radius: unset;
-    -moz-border-radius: unset;
-    -ms-border-radius: unset;
-    -o-border-radius: unset;
-  }
-  .MainText {
-    width: 100%;
-    height: auto;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-  }
+    .container {
+        padding: 25px 10px;
+        width: 100%;
+        gap: 36px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #F4F7FF;
+        border-radius: unset;
+        -webkit-border-radius: unset;
+        -moz-border-radius: unset;
+        -ms-border-radius: unset;
+        -o-border-radius: unset;
+}
+      .MainText {
+        width: 100%;
+        height: auto;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        
+      }
 
-  .textContainer {
-    display: grid;
-    width: 95%;
-  }
-  .MainText p:nth-child(1) {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 40px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #141212;
-    width: 100%;
-  }
+      .textContainer{
+        display: grid;
+        width: 95%;
+      }
+      .MainText p:nth-child(1) {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 40px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #141212;
+        width: 85%;
+      }
+    
+      .MainText p:nth-child(2) {
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
 
-  .MainText p:nth-child(2) {
-    font-size: 16px;
-    font-weight: 400;
-
-    color: #626161;
-    width: 98%;
-  }
-
-  .Video {
-    width: 95%;
-    height: 254px;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
-    overflow: hidden;
-  }
+        color: #626161;
+        width: 98%;
+      }
+    
+      .Video {
+        width: 95%;
+        height: 254px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        overflow: hidden;
+}
+    
+     
+    
 }
 
 @media (400px <= width <=779px) {
-  .container {
-    padding: 20px 10px;
-    width: 100%;
-    gap: 36px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: unset;
-    -webkit-border-radius: unset;
-    -moz-border-radius: unset;
-    -ms-border-radius: unset;
-    -o-border-radius: unset;
-  }
-  .MainText {
-    width: 100%;
-    height: auto;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-  }
+    .container {
+        padding: 20px 10px;
+        width:100%;
+        gap: 36px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: unset;
+        -webkit-border-radius: unset;
+        -moz-border-radius: unset;
+        -ms-border-radius: unset;
+        -o-border-radius: unset;
+}
+      .MainText {
+        width: 100%;
+        height: auto;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+      }
 
-  .textContainer {
-    display: grid;
-    width: 95%;
-    height: auto;
-  }
-  .MainText p:nth-child(1) {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 40px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #141212;
-    width: 95%;
-  }
+      .textContainer{
+        display: grid;
+        width: 95%;
+        height: auto;
+        
 
-  .MainText p:nth-child(2) {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #626161;
-    width: 98%;
-  }
-
-  .Video {
-    width: 95%;
-    height: 254px;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
-    overflow: hidden;
-  }
+      }
+      .MainText p:nth-child(1) {
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 40px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #141212;
+        width: 85%;
+      }
+    
+      .MainText p:nth-child(2) {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+        
+                color: #626161;
+        width: 98%;
+      }
+    
+      .Video {
+        width: 95%;
+        height: 254px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        overflow: hidden;
+}
+ 
+    
 }
 
 @media (780px <= width <= 960px) {
@@ -208,6 +219,7 @@
     height: auto;
   }
   .MainText p:nth-child(1) {
+    
     font-size: 30px;
     font-weight: 600;
     line-height: 40px;
@@ -218,12 +230,13 @@
   }
 
   .MainText p:nth-child(2) {
+    
     font-size: 18px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
-
+    
     color: #626161;
     width: 90%;
   }
@@ -244,6 +257,7 @@
   .VideoTag {
     height: 100%;
     width: 100%;
-    border: 1px solid black;
+    border:1px solid black;
   }
+  
 }
