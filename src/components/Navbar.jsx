@@ -112,7 +112,7 @@ const MainNavbar = () => {
             </Dropdown>
           </li>
           <li>
-            <a>Blockchain</a>
+            <a href={"https://nutlip-blockchain.vercel.app"}>Blockchain</a>
           </li>
 
           {userInformation ? (
