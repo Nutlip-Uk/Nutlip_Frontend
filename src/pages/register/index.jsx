@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import { HashLoader } from "react-spinners";
+import { GridLoader, HashLoader } from "react-spinners";
 import { RegistrationContext } from "../../context/Register.context";
 import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
@@ -305,6 +305,7 @@ const Login = () => {
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [loading, setLoading] = useState(false);
+  
   let forgetPassword = "forgetPassword";
 
   const { setUserInformation, userInformation } =
@@ -329,32 +330,30 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading state to true when form is submitted
     try {
-      const response = await fetch("api/login", {
-        method: "POST",
+      const response = await fetch('api/login', {
+        method: 'POST',
         body: JSON.stringify(formData),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
-  
+
       if (!response.ok) {
         throw new Error('Invalid credentials');
       }
-  
+
       const data = await response.json();
-      
-      
       const token = data.token;
-  
-    
-      setCookie(null, 'token', token, { path: '/' }); 
-  
-      
-      router.push("/");
-  
+      // Set token in cookie
+      setCookie(null, 'token', token, { path: '/' });
+      // Redirect to home page
+      router.push('/');
     } catch (error) {
-      console.error("An error occurred during form submission:", error);
+      console.error('An error occurred during form submission:', error);
+    } finally {
+      setLoading(false); // Reset loading state after request is completed
     }
   };
 
@@ -373,92 +372,107 @@ const Login = () => {
 
   return (
     <>
-      <form className={styles.login} onSubmit={handleSubmit}>
-        <label>
-          Email address
-          <input
-            type="email"
-            name="email"
-            placeholder="Email address"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label className={styles.LoginpasswordLabel}>
-          Password
-          <div className={styles.LoginpasswordContainer}>
+
+{loading ? (
+        
+      <div className={styles.loader}>
+        <GridLoader
+  color="#3670d6"
+  size={50}
+/>
+      </div>  
+
+      ) : (<>
+
+        <form className={styles.login} onSubmit={handleSubmit}>
+          <label>
+            Email address
             <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              required
-              value={formData.password}
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={formData.email}
               onChange={handleChange}
-              className={styles.passwordInput}
+              required
             />
-            <Image
-              className={styles.LoginHidePassword}
-              src="/images/eye-slash.svg"
-              width={0}
-              height={0}
-              alt="eye-slash_icon"
-              onClick={() => setShowPassword(!showPassword)}
-            />
+          </label>
+          <label className={styles.LoginpasswordLabel}>
+            Password
+            <div className={styles.LoginpasswordContainer}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className={styles.passwordInput}
+              />
+              <Image
+                className={styles.LoginHidePassword}
+                src="/images/eye-slash.svg"
+                width={0}
+                height={0}
+                alt="eye-slash_icon"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
+          </label>
+          <div className={styles.RememberContainer}>
+            <div className={styles.Remember}>
+              <input type="checkbox" name="" id="" />
+              <p>Remember me</p>
+            </div>
+
+            <button
+              onClick={() => router.push(`/register?option=${forgetPassword}`)}
+              className={styles.forgetPassword}
+            >
+              Forget password ?
+            </button>
           </div>
-        </label>
-        <div className={styles.RememberContainer}>
-          <div className={styles.Remember}>
-            <input type="checkbox" name="" id="" />
-            <p>Remember me</p>
+
+          <p style={{ color: isPasswordValid ? "black" : "red" }}>
+            {isPasswordValid
+              ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
+              : "invalid password"}
+          </p>
+
+          <button className={styles.LoginButton} type="submit">
+            Login
+          </button>
+          <div className={styles.OR}>
+            <hr />
+            OR
+            <hr />
           </div>
-
-          <button
-            onClick={() => router.push(`/register?option=${forgetPassword}`)}
-            className={styles.forgetPassword}
-          >
-            Forget password ?
-          </button>
-        </div>
-
-        <p style={{ color: isPasswordValid ? "black" : "red" }}>
-          {isPasswordValid
-            ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
-            : "invalid password"}
-        </p>
-
-        <button className={styles.LoginButton} type="submit">
-          Login
-        </button>
-        <div className={styles.OR}>
-          <hr />
-          OR
-          <hr />
-        </div>
-      </form>
-      <div className={styles.GoogleContainer}>
-        <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
-          <button
-            className={styles.Google}
-            style={{ backgroundColor: "white" }}
-          >
-            <img src="/google.svg" alt="" />
-            <p>Continue with Google</p>
-          </button>
         </form>
+        <div className={styles.GoogleContainer}>
+          <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
+            <button
+              className={styles.Google}
+              style={{ backgroundColor: "white" }}
+            >
+              <img src="/google.svg" alt="" />
+              <p>Continue with Google</p>
+            </button>
+          </form>
 
-        <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
-          <button className={styles.Facebook}>
-            <img
-              width="30"
-              height="30"
-              src="https://img.icons8.com/color/48/facebook.png"
-              alt="facebook"
-            />
-            <p>Continue with Facebook</p>
-          </button>
-        </form>
-      </div>
+          <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
+            <button className={styles.Facebook}>
+              <img
+                width="30"
+                height="30"
+                src="https://img.icons8.com/color/48/facebook.png"
+                alt="facebook"
+              />
+              <p>Continue with Facebook</p>
+            </button>
+          </form>
+        </div>
+      </>
+
+)}
     </>
   );
 };

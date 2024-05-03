@@ -26,7 +26,7 @@ export const RegistrationContextProvider = ({ children }) => {
   });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [userInformation, setUserInformation] = useState(null);
-  const [isUserFirstTime , setIsUserFirstTime]= useState(true);
+  const [isUserFirstTime , setIsUserFirstTime]= useState(false);
 
   const updateFormData = (name, value) => {
     setFormData((prevData) => ({
