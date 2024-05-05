@@ -8,17 +8,21 @@ import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider, useSession } from "next-auth/react";
 import Script from "next/script";
 
+
 const Layout = ({ children }) => {
+
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  
   //   const { data: session } = useSession();
   return (
     <SessionProvider>
       <div className="font-poppins">
          
-        <Script
-          defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKhBzC9ncDs19W9_PyUDBJVUYHzJNwZSY&libraries=places"
-        ></Script>
-        
+         <Script
+  defer
+  src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initmap`} 
+></Script>
+   
         <RegistrationContextProvider>
           <Navbar />
           <AgentOfferContextProvider>
