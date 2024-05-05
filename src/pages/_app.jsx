@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     // Check if we're on the /transaction page and dotco is true
-    if (dotco && router.pathname === '/transactions' || router.pathname==="/mortgages/result" || router.pathname==="/conveyancer/result") {
+    if (dotco && router.pathname === '/transactions' || router.pathname==="/mortgages/result" || router.pathname==="/conveyancer/result" ) {
       // Redirect to the root URL
       router.replace('/comingsoon');
     }

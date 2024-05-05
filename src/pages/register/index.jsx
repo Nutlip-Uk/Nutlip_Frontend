@@ -1,3 +1,4 @@
+
 import styles from "../../styles/Register.module.css";
 import otp from "../../styles/OTP.module.css";
 import Image from "next/image";
@@ -6,11 +7,29 @@ import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { GridLoader, HashLoader } from "react-spinners";
 import { RegistrationContext } from "../../context/Register.context";
-import { useSession, signIn, signOut } from "next-auth/react";
+import {  signIn } from "next-auth/react";
 import axios from "axios";
-import { setCookie } from 'nookies';
+import { parseCookies } from 'nookies';
+import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 
 
+
+export async function getServerSideProps(context) {
+  const cookies = parseCookies(context);
+  const token = cookies['token'];
+
+  if (!token) {
+    return {
+      props: {}, // will be passed to the page component as props
+    };
+  }
+
+  const userInformation = jwtDecode(token);
+  return {
+    props: { userInformation }, // will be passed to the page component as props
+  };
+}
 const Registration = () => {
   const router = useRouter();
   const data = router.query;
@@ -74,13 +93,6 @@ const Registration = () => {
 };
 
 const Signup = (props) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [home, setHome] = useState(false);
-  const [isError, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const router = useRouter();
-
   const {
     regType,
     formData,
@@ -88,6 +100,17 @@ const Signup = (props) => {
     setFormData,
     setIsUserFirstTime,
   } = useContext(RegistrationContext);
+
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const [home, setHome] = useState(false);
+  const [isError, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!userInformation);
+  const [userInfo, setUserInfo] = useState(userInformation || {});
+  const router = useRouter();
+
+
 
   useEffect(() => {}, [formData.password]);
 
@@ -300,16 +323,21 @@ const Signup = (props) => {
 };
 
 const Login = () => {
+  
+  const { setUserInformation, userInformation } =
+    useContext(RegistrationContext);
+
+
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [loading, setLoading] = useState(false);
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(!!userInformation);
+  const [userInfo, setUserInfo] = useState(userInformation || {});
+
   let forgetPassword = "forgetPassword";
 
-  const { setUserInformation, userInformation } =
-    useContext(RegistrationContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -328,30 +356,60 @@ const Login = () => {
     }
   });
 
+  const yourDecodingFunction = (token) => {
+    const decodedToken = jwtDecode(token);
+    return {
+      userId: decodedToken.id,
+      username: decodedToken.name,
+      email: decodedToken.email,
+    };
+  };
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      // If token exists, set the user information and mark the user as authenticated
+      setUserInformation(yourDecodingFunction(token)); // Implement yourDecodingFunction to decode the token and extract user information
+      setIsAuthenticated(true); // Assuming you have a state variable to track authentication status
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(userInformation);
+  }, [userInformation]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); // Set loading state to true when form is submitted
+    setLoading(true); 
     try {
-      const response = await fetch('api/login', {
-        method: 'POST',
+      const response = await fetch("/api/login", {
+        method: "POST",
         body: JSON.stringify(formData),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-
+  
       if (!response.ok) {
-        throw new Error('Invalid credentials');
+        throw new Error("Invalid credentials");
       }
-
+  
       const data = await response.json();
+      console.log(data);
+      setUserInformation(data);
+      console.log(userInformation);
+  
       const token = data.token;
-      // Set token in cookie
-      setCookie(null, 'token', token, { path: '/' });
-      // Redirect to home page
-      router.push('/');
+      console.log(token);
+  
+      // Store the token in a cookie named 'token'
+      Cookies.set('token', token, { expires: 7 }); // Cookie expires in 7 days
+  
+      setIsAuthenticated(true); // Mark the user as authenticated after successful login
+      router.push("/");
+  
     } catch (error) {
-      console.error('An error occurred during form submission:', error);
+      console.error("An error occurred during form submission:", error);
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }

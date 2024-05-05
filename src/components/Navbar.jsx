@@ -119,7 +119,7 @@ const MainNavbar = () => {
             <>
                <div className={sty.UserLogContainer} >
                 <div className={sty.userInfo} onClick={Popped}>
-                  <img src="/navbar/userimg.png" alt="" />
+                  {userInformation.user?.name ? <img src="/navbar/userimg.png" alt="" />: null}
                   <p>{userInformation?.user?.name}</p>
                 </div>  
 
