@@ -47,21 +47,22 @@
   @media ( width <=400px) {
     .suggestionBox{
         width: 80%;
-        top:40%;
+        top:10%;
         z-index:2;
        }
   }
   @media (400px <= width <=779px) {
     .suggestionBox{
-      width: 80%;
-     
+      width: 75%;
+      top:10%;
+      z-index:2;
      }
   }
   
-  @media (780px <= width <= 960px) {
+  @media (780px <= width <= 1200px) {
     .suggestionBox{
         width: 70%;
-        top:45%;
+        top:15%;
         z-index:2;
        }
   }
