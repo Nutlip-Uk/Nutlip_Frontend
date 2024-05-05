@@ -6,7 +6,7 @@ import { RegistrationContextProvider } from "../context/Register.context";
 import { AgentOfferContextProvider } from "../context/AgentOffer.context";
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider, useSession } from "next-auth/react";
-import Head from "next/head";
+import Script from "next/script";
 import { GOOGLE_MAPS_API_KEY } from '../utils/keys';
 
 const Layout = ({ children }) => {
@@ -14,12 +14,12 @@ const Layout = ({ children }) => {
   return (
     <SessionProvider>
       <div className="font-poppins">
-         <Head>
-         <script
+         
+         <Script
   defer
-  src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`} 
-></script>
-      </Head>
+  src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initmap`} 
+></Script>
+   
         <RegistrationContextProvider>
           <Navbar />
           <AgentOfferContextProvider>

@@ -9,7 +9,7 @@ import Stack from "@mui/joy/Stack";
 import Select from "@mui/joy/Select";
 import Browse from "../../components/buy/Browse";
 import Roadmap from "../../components/buy/Roadmap";
-import PlacesAutocomplete from "../../components/Suggestion";
+import {PlacesAutocomplete} from "../../components/Suggestion";
 
 const Buy = (props) => {
   return (
@@ -26,8 +26,8 @@ const Buy = (props) => {
         </div>
 
         
-          <Browse/>
           <Roadmap/>
+          <Browse/>
       </section>
     </>
   );
@@ -35,7 +35,7 @@ const Buy = (props) => {
 
 export default Buy;
 
-const HeroComponent = ({placeholder}) => {
+const HeroComponent = () => {
   const router = useRouter();
   return (
     <>
@@ -46,7 +46,7 @@ const HeroComponent = ({placeholder}) => {
             placeholder="Where do you want to Buy? e.g. Liverpool or L11"
           /> */}
 
-          <PlacesAutocomplete placeholder={placeholder}/>
+          <PlacesAutocomplete/>
         </div>
 
         <div className={styles.SelectContainer}>
