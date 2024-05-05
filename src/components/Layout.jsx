@@ -7,9 +7,12 @@ import { AgentOfferContextProvider } from "../context/AgentOffer.context";
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider, useSession } from "next-auth/react";
 import Script from "next/script";
-import { GOOGLE_MAPS_API_KEY } from '../utils/keys';
+
 
 const Layout = ({ children }) => {
+
+  const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
+  
   //   const { data: session } = useSession();
   return (
     <SessionProvider>
@@ -17,7 +20,7 @@ const Layout = ({ children }) => {
          
          <Script
   defer
-  src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initmap`} 
+  src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places&callback=initmap`} 
 ></Script>
    
         <RegistrationContextProvider>

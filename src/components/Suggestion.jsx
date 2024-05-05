@@ -52,9 +52,9 @@ export const PlacesAutocomplete = () => {
       } = suggestion;
 
       return (
-        <div>
+        <div key={place_id}>
           <li
-          key={place_id}
+          
             className={styles.suggestionList}
             onClick={handleSelect(suggestion)}
           >

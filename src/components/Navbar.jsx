@@ -13,7 +13,7 @@ import { RegistrationContext } from "../context/Register.context";
 
 const Navbar = () => {
   const router = useRouter();
-  const { userInformation } = useContext(RegistrationContext);
+  const { userInformation, setUserInformation } = useContext(RegistrationContext);
 
   return (
     <div className={sty.navigation}>
@@ -26,7 +26,7 @@ const Navbar = () => {
           <Link href="/">
             <Image src="/nav_icon.svg" width={130} height={90} alt={""} />
           </Link>
-          {router.pathname === "/register" ? null : <MainNavbar />}
+          {router.pathname === "/register" ? null : <MainNavbar userInformation={userInformation}/>}
         </div>
       </nav>
     </div>
@@ -35,8 +35,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MainNavbar = () => {
-  const { userInformation } = useContext(RegistrationContext);
+const MainNavbar = ({userInformation}) => {
 
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
@@ -115,7 +114,7 @@ const MainNavbar = () => {
             <a href={"https://nutlip-blockchain.vercel.app"}>Blockchain</a>
           </li>
 
-          {userInformation ? (
+          { userInformation?.user?.name  ? (
             <>
                <div className={sty.UserLogContainer} >
                 <div className={sty.userInfo} onClick={Popped}>

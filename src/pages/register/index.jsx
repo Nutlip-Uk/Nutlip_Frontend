@@ -1,4 +1,3 @@
-
 import styles from "../../styles/Register.module.css";
 import otp from "../../styles/OTP.module.css";
 import Image from "next/image";
@@ -7,29 +6,10 @@ import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { GridLoader, HashLoader } from "react-spinners";
 import { RegistrationContext } from "../../context/Register.context";
-import {  signIn } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
-import { parseCookies } from 'nookies';
-import { jwtDecode } from "jwt-decode";
-import Cookies from 'js-cookie';
+import { setCookie } from "nookies";
 
-
-
-export async function getServerSideProps(context) {
-  const cookies = parseCookies(context);
-  const token = cookies['token'];
-
-  if (!token) {
-    return {
-      props: {}, // will be passed to the page component as props
-    };
-  }
-
-  const userInformation = jwtDecode(token);
-  return {
-    props: { userInformation }, // will be passed to the page component as props
-  };
-}
 const Registration = () => {
   const router = useRouter();
   const data = router.query;
@@ -93,6 +73,13 @@ const Registration = () => {
 };
 
 const Signup = (props) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [home, setHome] = useState(false);
+  const [isError, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
   const {
     regType,
     formData,
@@ -100,17 +87,6 @@ const Signup = (props) => {
     setFormData,
     setIsUserFirstTime,
   } = useContext(RegistrationContext);
-
-  
-  const [showPassword, setShowPassword] = useState(false);
-  const [home, setHome] = useState(false);
-  const [isError, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(!!userInformation);
-  const [userInfo, setUserInfo] = useState(userInformation || {});
-  const router = useRouter();
-
-
 
   useEffect(() => {}, [formData.password]);
 
@@ -130,24 +106,30 @@ const Signup = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("api/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
         },
       });
-  
+
+      console.log(formData)
+
       if (!response.ok) {
-        throw new Error('Failed to register');
+        throw new Error("Failed to register");
       }
-  
-      // If registration is successful, you might redirect the user to the login page
-      router.push("/register?option=login");
-  
+
+      //* If registration is successful, you might redirect the user to the login page
+      if (response.status === 201) {
+        router.push("/register?option=login");
+        console.log("Registration Successful. Redirecting to login.");
+      }
+      if (response.status === 500) {
+        console.log("fields are not filled well please try again");
+      }
     } catch (error) {
-      setError(error.errors);
-      console.log(error.errors);
+      console.error("An error occurred during form submission:", error);
     }
   };
 
@@ -323,21 +305,15 @@ const Signup = (props) => {
 };
 
 const Login = () => {
-  
-  const { setUserInformation, userInformation } =
-    useContext(RegistrationContext);
-
-
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(!!userInformation);
-  const [userInfo, setUserInfo] = useState(userInformation || {});
-
   let forgetPassword = "forgetPassword";
 
+  const { setUserInformation, userInformation } =
+    useContext(RegistrationContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -356,31 +332,44 @@ const Login = () => {
     }
   });
 
-  const yourDecodingFunction = (token) => {
-    const decodedToken = jwtDecode(token);
-    return {
-      userId: decodedToken.id,
-      username: decodedToken.name,
-      email: decodedToken.email,
-    };
-  };
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await fetch("api/login", {
+  //       method: "POST",
+  //       body: JSON.stringify(formData),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
-      // If token exists, set the user information and mark the user as authenticated
-      setUserInformation(yourDecodingFunction(token)); // Implement yourDecodingFunction to decode the token and extract user information
-      setIsAuthenticated(true); // Assuming you have a state variable to track authentication status
-    }
-  }, []);
+  //     if (!response.ok) {
+  //       throw new Error("Invalid credentials");
+  //     }
+
+  //     const data = await response.json();
+  //     console.log(data);
+
+  //     const token = data.token;
+  //     console.log(token);
+
+  //     setCookie(null, "token", token, { path: "/" });
+  //     router.push("/");
+  //   } catch (error) {
+  //     console.error("An error occurred during form submission:", error);
+  //   }
+  // };
 
   useEffect(() => {
     console.log(userInformation);
   }, [userInformation]);
+  
 
+  //? alternate api call with local storage
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); 
+    setLoading(true);
+  
     try {
       const response = await fetch("/api/login", {
         method: "POST",
@@ -390,30 +379,58 @@ const Login = () => {
         },
       });
   
-      if (!response.ok) {
-        throw new Error("Invalid credentials");
+      if (response.ok) {
+        const data = await response.json();
+        setUserInformation(data);
+        console.log(userInformation);
+  
+        const { token } = data;
+  
+        // Store token securely (consider HttpOnly cookies)
+        localStorage.setItem("token", token); // Assuming token is safe for local storage
+  
+        // Store user information securely (consider session storage or server-side storage)
+        const userToSave = { ...userInformation.user }; // Destructure and remove sensitive data
+        localStorage.setItem("userInformation", JSON.stringify(userToSave));
+        console.log(userToSave);
+  
+        // Redirect to home page after token is stored
+        router.push("/");
+      } else {
+        throw new Error("Invalid login");
       }
-  
-      const data = await response.json();
-      console.log(data);
-      setUserInformation(data);
-      console.log(userInformation);
-  
-      const token = data.token;
-      console.log(token);
-  
-      // Store the token in a cookie named 'token'
-      Cookies.set('token', token, { expires: 7 }); // Cookie expires in 7 days
-  
-      setIsAuthenticated(true); // Mark the user as authenticated after successful login
-      router.push("/");
-  
     } catch (error) {
-      console.error("An error occurred during form submission:", error);
+      console.error("Error logging in", error);
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
   };
+
+  //? alternate api call with local storage
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   try {
+  //     const response = await fetch("/api/login", {
+  //       method: "POST",
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (response.status === 201) {
+  //       // Store token from response
+  //       const { token } = await response.json();
+  //       localStorage.setItem("token", token);
+
+  //       // Redirect to home page
+  //       router.push("/");
+  //     } else {
+  //       throw new Error("Invalid login");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error logging in", error);
+  //     console.log(error);
+  //   }
+  // };
 
   const GoogleSubmit = async (event) => {
     event.preventDefault();
@@ -431,107 +448,107 @@ const Login = () => {
   return (
     <>
 
-{loading ? (
-        
-      <div className={styles.loader}>
-        <GridLoader
-  color="#3670d6"
-  size={50}
-/>
-      </div>  
-
-      ) : (<>
-
-        <form className={styles.login} onSubmit={handleSubmit}>
-          <label>
-            Email address
-            <input
-              type="email"
-              name="email"
-              placeholder="Email address"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label className={styles.LoginpasswordLabel}>
-            Password
-            <div className={styles.LoginpasswordContainer}>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className={styles.passwordInput}
-              />
-              <Image
-                className={styles.LoginHidePassword}
-                src="/images/eye-slash.svg"
-                width={0}
-                height={0}
-                alt="eye-slash_icon"
-                onClick={() => setShowPassword(!showPassword)}
-              />
+    {loading ? (
+            
+          <div className={styles.loader}>
+            <GridLoader
+      color="#3670d6"
+      size={50}
+    />
+          </div>  
+    
+          ) : (<>
+    
+            <form className={styles.login} onSubmit={handleSubmit}>
+              <label>
+                Email address
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label className={styles.LoginpasswordLabel}>
+                Password
+                <div className={styles.LoginpasswordContainer}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={styles.passwordInput}
+                  />
+                  <Image
+                    className={styles.LoginHidePassword}
+                    src="/images/eye-slash.svg"
+                    width={0}
+                    height={0}
+                    alt="eye-slash_icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                </div>
+              </label>
+              <div className={styles.RememberContainer}>
+                <div className={styles.Remember}>
+                  <input type="checkbox" name="" id="" />
+                  <p>Remember me</p>
+                </div>
+    
+                <button
+                  onClick={() => router.push(`/register?option=${forgetPassword}`)}
+                  className={styles.forgetPassword}
+                >
+                  Forget password ?
+                </button>
+              </div>
+    
+              <p style={{ color: isPasswordValid ? "black" : "red" }}>
+                {isPasswordValid
+                  ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
+                  : "invalid password"}
+              </p>
+    
+              <button className={styles.LoginButton} type="submit">
+                Login
+              </button>
+              <div className={styles.OR}>
+                <hr />
+                OR
+                <hr />
+              </div>
+            </form>
+            <div className={styles.GoogleContainer}>
+              <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
+                <button
+                  className={styles.Google}
+                  style={{ backgroundColor: "white" }}
+                >
+                  <img src="/google.svg" alt="" />
+                  <p>Continue with Google</p>
+                </button>
+              </form>
+    
+              <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
+                <button className={styles.Facebook}>
+                  <img
+                    width="30"
+                    height="30"
+                    src="https://img.icons8.com/color/48/facebook.png"
+                    alt="facebook"
+                  />
+                  <p>Continue with Facebook</p>
+                </button>
+              </form>
             </div>
-          </label>
-          <div className={styles.RememberContainer}>
-            <div className={styles.Remember}>
-              <input type="checkbox" name="" id="" />
-              <p>Remember me</p>
-            </div>
-
-            <button
-              onClick={() => router.push(`/register?option=${forgetPassword}`)}
-              className={styles.forgetPassword}
-            >
-              Forget password ?
-            </button>
-          </div>
-
-          <p style={{ color: isPasswordValid ? "black" : "red" }}>
-            {isPasswordValid
-              ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
-              : "invalid password"}
-          </p>
-
-          <button className={styles.LoginButton} type="submit">
-            Login
-          </button>
-          <div className={styles.OR}>
-            <hr />
-            OR
-            <hr />
-          </div>
-        </form>
-        <div className={styles.GoogleContainer}>
-          <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
-            <button
-              className={styles.Google}
-              style={{ backgroundColor: "white" }}
-            >
-              <img src="/google.svg" alt="" />
-              <p>Continue with Google</p>
-            </button>
-          </form>
-
-          <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
-            <button className={styles.Facebook}>
-              <img
-                width="30"
-                height="30"
-                src="https://img.icons8.com/color/48/facebook.png"
-                alt="facebook"
-              />
-              <p>Continue with Facebook</p>
-            </button>
-          </form>
-        </div>
-      </>
-
-)}
-    </>
+          </>
+    
+    )}
+        </>
   );
 };
 const Verify = () => {
