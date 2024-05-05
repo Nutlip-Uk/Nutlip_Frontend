@@ -25,7 +25,7 @@ export const RegistrationContextProvider = ({ children }) => {
     businessName:"",
   });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [userInformation, setUserInformation] = useState(null);
+  const [userInformation, setUserInformation] = useState();
   const [isUserFirstTime , setIsUserFirstTime]= useState(false);
 
   const updateFormData = (name, value) => {

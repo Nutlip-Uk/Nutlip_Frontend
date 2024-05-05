@@ -5,6 +5,7 @@ import dbConnect from "../../libs/dbconnect";
 import User from "../../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookie from "cookie";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -29,13 +30,27 @@ export default async function handler(req, res) {
       const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        return res
+          .status(400)
+          .json({ message: "Invalid or incorrect password" });
       }
 
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "7d",
+        expiresIn: "1d",
       });
+      // Set cookie
+      res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("token", token, {
+          httpOnly: true,
+          maxAge: 86400, // 1 day
+          sameSite: "strict",
+          path: "/",
+        })
+      );
 
+      // Set cookie
+      // res.setHeader("Set-Cookie", `token=${token}; Path=/; HttpOnly: true`);
       res.status(200).json({
         token,
         user: {
