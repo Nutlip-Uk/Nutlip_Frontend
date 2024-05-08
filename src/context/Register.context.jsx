@@ -25,7 +25,6 @@ export const RegistrationContextProvider = ({ children }) => {
     businessName:"",
   });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [userInformation, setUserInformation] = useState();
   const [isUserFirstTime , setIsUserFirstTime]= useState(false);
 
   const updateFormData = (name, value) => {
@@ -40,10 +39,7 @@ export const RegistrationContextProvider = ({ children }) => {
     return passwordRegex.test(formData.password);
   };
 
-  useEffect(() => {
-    // Code to run after userInformation is updated
-    console.log("User information changed:", userInformation);
-  }, [userInformation]);
+
 
   return (
     <RegistrationContext.Provider
@@ -54,8 +50,6 @@ export const RegistrationContextProvider = ({ children }) => {
         updateFormData,
         isPasswordValid,
         validatePassword,
-        setUserInformation,
-        userInformation,
         setIsPasswordValid,
         setFormData,
         isUserFirstTime , 

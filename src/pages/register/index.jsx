@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { GridLoader, HashLoader } from "react-spinners";
-import { RegistrationContext } from "../../context/Register.context";
 import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
 import { setCookie } from "nookies";
+import { LoginContext } from '../../context/Login.context';
+import { RegistrationContext } from "../../context/Register.context";
 
 const Registration = () => {
   const router = useRouter();
@@ -312,8 +313,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   let forgetPassword = "forgetPassword";
 
-  const { setUserInformation, userInformation } =
-    useContext(RegistrationContext);
+
+  const { handleLogin,setUserInformation } = useContext(LoginContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -323,12 +324,13 @@ const Login = () => {
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
+
   // Redirect home
   useEffect(() => {
     if (home) {
       setTimeout(() => {
         router.push("/");
-      }, 3000);
+      }, 1000);
     }
   });
 
@@ -360,9 +362,8 @@ const Login = () => {
   //   }
   // };
 
-  useEffect(() => {
-    console.log(userInformation);
-  }, [userInformation]);
+
+
   
 
   //? alternate api call with local storage
@@ -371,30 +372,14 @@ const Login = () => {
     setLoading(true);
   
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
+      const response = await handleLogin(formData);
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("userInformation", JSON.stringify(data)); 
         setUserInformation(data);
-        console.log(userInformation);
-  
-        const { token } = data;
-  
-        // Store token securely (consider HttpOnly cookies)
-        localStorage.setItem("token", token); // Assuming token is safe for local storage
-  
-        // Store user information securely (consider session storage or server-side storage)
-        const userToSave = { ...userInformation.user }; // Destructure and remove sensitive data
-        localStorage.setItem("userInformation", JSON.stringify(userToSave));
-        console.log(userToSave);
-  
-        // Redirect to home page after token is stored
+
         router.push("/");
       } else {
         throw new Error("Invalid login");
@@ -405,6 +390,8 @@ const Login = () => {
       setLoading(false); // Reset loading state after request is completed
     }
   };
+
+
 
   //? alternate api call with local storage
   // const handleSubmit = async (event) => {

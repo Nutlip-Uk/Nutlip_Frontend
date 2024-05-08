@@ -9,11 +9,13 @@ import MenuItem from "@mui/joy/MenuItem";
 import Dropdown from "@mui/joy/Dropdown";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import { RegistrationContext } from "../context/Register.context";
+import { LoginContext } from '../context/Login.context';
 // import { signOut, useSession } from 'next-auth/react'
 
 const Navbar = () => {
   const router = useRouter();
-  const { userInformation, setUserInformation } = useContext(RegistrationContext);
+
+  const { userInformation,setUserInformation, handleLogout } = useContext(LoginContext);
 
   return (
     <div className={sty.navigation}>
@@ -26,7 +28,7 @@ const Navbar = () => {
           <Link href="/">
             <Image src="/nav_icon.svg" width={130} height={90} alt={""} />
           </Link>
-          {router.pathname === "/register" ? null : <MainNavbar userInformation={userInformation}/>}
+          {router.pathname === "/register" ? null : <MainNavbar userInformation={userInformation} handleLogout={handleLogout}/>}
         </div>
       </nav>
     </div>
@@ -35,7 +37,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MainNavbar = ({userInformation}) => {
+const MainNavbar = ({userInformation,handleLogout}) => {
 
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
@@ -111,14 +113,14 @@ const MainNavbar = ({userInformation}) => {
             </Dropdown>
           </li>
           <li>
-            <a href={"https://nutlip-blockchain.vercel.app"}>Blockchain</a>
+            <a href={"https://blockchain.nutlip.co.uk"}>Blockchain</a>
           </li>
 
-          { userInformation?.user?.name  ? (
+          { userInformation  ? (
             <>
                <div className={sty.UserLogContainer} >
                 <div className={sty.userInfo} onClick={Popped}>
-                  {userInformation.user?.name ? <img src="/navbar/userimg.png" alt="" />: null}
+                  {userInformation.user?.name ? <img src="/navbar/userimg.png" alt="" /> : null}
                   <p>{userInformation?.user?.name}</p>
                 </div>  
 
@@ -190,7 +192,7 @@ const MainNavbar = ({userInformation}) => {
                       <hr />
                       <div className={sty.popUplink}>
                         <img src="/navbar/logout.svg" />
-                        <p>Logout</p>
+                        <p onClick={handleLogout}>Logout</p>
                       </div>
 
                       <button>Book a demo</button>
