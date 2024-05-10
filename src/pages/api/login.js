@@ -35,6 +35,7 @@ export default async function handler(req, res) {
           .json({ message: "Invalid or incorrect password" });
       }
 
+
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
@@ -57,6 +58,7 @@ export default async function handler(req, res) {
           id: user._id,
           name: user.username,
           email: user.email,
+          newUser:user.newUser
         },
       });
       console.log("user has been logged in");

@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
       "private_seller",
     ],
   },
+  newUser:{
+    type:Boolean,
+    default:true,
+  },
+
   password: {
     type: String,
     required: true,

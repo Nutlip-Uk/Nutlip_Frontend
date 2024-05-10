@@ -29,7 +29,7 @@ async function Handler(req, res) {
   }
 
   try {
-    const newUser = new User({ username, email, password });
+    const newUser = new User({ username, email, password , newUser:true});
     await newUser.save();
     console.log(newUser);
     res.status(201).json({ message: "User created successfully" });

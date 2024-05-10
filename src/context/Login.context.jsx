@@ -1,9 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
-
+import { useRouter } from "next/router";
 export const LoginContext = createContext();
 
 const LoginProvider = ({ children }) => {
 const [userInformation, setUserInformation] = useState(null);
+const router = useRouter();
 
   const handleLogin = async (formData) => {
     // Login logic using fetch (replace with your API call)
@@ -49,13 +50,12 @@ useEffect(() => {
     } catch (error) {
       console.error('Error logging out on server', error);
     }
-
-    router.replace('/register?option=login');
+    window.location.reload();
   };
 
 
   return (
-    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation }}>
+    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation , handleLogout}}>
       {children}
     </LoginContext.Provider>
   );
