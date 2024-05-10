@@ -12,6 +12,7 @@ const Welcome = () => {
   const [update, setUpdate] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
   const [form, setForm] = useState({
+    description:selectedRole,
     title: "",
     firstName: "",
     middleName: "",
@@ -19,20 +20,32 @@ const Welcome = () => {
     email: "",
     country: "",
     city: "",
-    postcode: "",
+    postCode: "",
     address1: "",
     address2: "",
     website: "",
     companyNumber: "",
-    phone: "",
-    mobile: "",
-    businessName:"",
+    phoneNumber: "",
+    mobileNumber: "",
+    BusinessName:"",
   });
+
+  useEffect(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      description: selectedRole,
+    }));
+  }, [selectedRole]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setForm({ ...form, [name]: value });
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,13 +59,14 @@ const Welcome = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log("Registration successful", data);
+        console.log("Form successful", data);
       } else {
-        console.log("Registration failed");
+        console.log("Form registration failed");
       }
     } catch (error) {
       console.error("Error:", error);
-    }
+    } 
+
   };
 
   const next = (value) => {
@@ -261,9 +275,9 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
  <div>
    <label htmlFor="title">Title</label>
    <select id="title" name="title" value={form.title} onChange={handleChange}>
-     <option value="Miss">Miss</option>
-     <option value="Mr">Mr</option>
-     <option value="Mrs">Mrs</option>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
    </select>
  </div>
  <div>
@@ -279,22 +293,37 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
    <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="emailAddress">Email Address</label>
-   <input type="email" id="emailAddress" name="emailAddress" value={form.emailAddress} onChange={handleChange} />
+   <label htmlFor="email">Email Address</label>
+   <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
  </div>
  <div>
    <label htmlFor="country">Country</label>
    <select id="country" name="country" value={form.country} onChange={handleChange}>
-     {/* Add your country options here */}
-   </select>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
+
  </div>
  <div>
    <label htmlFor="city">City/State</label>
    <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="postalCode">Post Code</label>
-   <input type="text" id="postalCode" name="postalCode" value={form.postalCode} onChange={handleChange} />
+   <label htmlFor="postCode">Post Code</label>
+   <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
  </div>
  <div>
    <label htmlFor="address1">Address 1</label>
@@ -315,7 +344,7 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
  </div>
 
  <div className={styles.submit}>
-   <button type="submit"  >Continue</button>
+   <button type="submit">Continue</button>
  </div>
 </form>
         </div>
@@ -339,10 +368,10 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
             <div>
         <label htmlFor="title">Title</label>
         <select id="title" name="title" value={form.title} onChange={handleChange}>
-          <option value="Miss">Miss</option>
-          <option value="Mr">Mr</option>
-          <option value="Mrs">Mrs</option>
-        </select>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
       </div>
       <div>
         <label htmlFor="firstName">First Name</label>
@@ -357,22 +386,36 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
         <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="emailAddress">Email Address</label>
-        <input type="email" id="emailAddress" name="emailAddress" value={form.emailAddress} onChange={handleChange} />
+        <label htmlFor="email">Email Address</label>
+        <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
       </div>
       <div>
         <label htmlFor="country">Country</label>
         <select id="country" name="country" value={form.country} onChange={handleChange}>
-          {/* Add your country options here */}
-        </select>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
       </div>
       <div>
         <label htmlFor="city">City/State</label>
         <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="postalCode">Post Code</label>
-        <input type="text" id="postalCode" name="postalCode" value={form.postalCode} onChange={handleChange} />
+        <label htmlFor="postCode">Post Code</label>
+        <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
       </div>
             </div>
 
@@ -434,10 +477,10 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
         <div>
     <label htmlFor="title">Title</label>
     <select id="title" name="title" value={form.title} onChange={handleChange}>
-      <option value="Miss">Miss</option>
-      <option value="Mr">Mr</option>
-      <option value="Mrs">Mrs</option>
-    </select>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
   </div>
   <div>
     <label htmlFor="firstName">First Name</label>
@@ -452,22 +495,36 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
     <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="emailAddress">Email Address</label>
-    <input type="email" id="emailAddress" name="emailAddress" value={form.emailAddress} onChange={handleChange} />
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="country">Country</label>
     <select id="country" name="country" value={form.country} onChange={handleChange}>
-      {/* Add your country options here */}
-    </select>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
   </div>
   <div>
     <label htmlFor="city">City/State</label>
     <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="postalCode">Post Code</label>
-    <input type="text" id="postalCode" name="postalCode" value={form.postalCode} onChange={handleChange} />
+    <label htmlFor="postCode">Post Code</label>
+    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
   </div>
         </div>
 
@@ -529,10 +586,10 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
         <div>
     <label htmlFor="title">Title</label>
     <select id="title" name="title" value={form.title} onChange={handleChange}>
-      <option value="Miss">Miss</option>
-      <option value="Mr">Mr</option>
-      <option value="Mrs">Mrs</option>
-    </select>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
   </div>
   <div>
     <label htmlFor="firstName">First Name</label>
@@ -547,22 +604,36 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
     <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="emailAddress">Email Address</label>
-    <input type="email" id="emailAddress" name="emailAddress" value={form.emailAddress} onChange={handleChange} />
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="country">Country</label>
     <select id="country" name="country" value={form.country} onChange={handleChange}>
-      {/* Add your country options here */}
-    </select>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
   </div>
   <div>
     <label htmlFor="city">City/State</label>
     <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="postalCode">Post Code</label>
-    <input type="text" id="postalCode" name="postalCode" value={form.postalCode} onChange={handleChange} />
+    <label htmlFor="postCode">Post Code</label>
+    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
   </div>
         </div>
 
@@ -626,10 +697,10 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
         <div>
     <label htmlFor="title">Title</label>
     <select id="title" name="title" value={form.title} onChange={handleChange}>
-      <option value="Miss">Miss</option>
-      <option value="Mr">Mr</option>
-      <option value="Mrs">Mrs</option>
-    </select>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
   </div>
   <div>
     <label htmlFor="firstName">First Name</label>
@@ -644,22 +715,36 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
     <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="emailAddress">Email Address</label>
-    <input type="email" id="emailAddress" name="emailAddress" value={form.emailAddress} onChange={handleChange} />
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="country">Country</label>
     <select id="country" name="country" value={form.country} onChange={handleChange}>
-      {/* Add your country options here */}
-    </select>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
   </div>
   <div>
     <label htmlFor="city">City/State</label>
     <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="postalCode">Post Code</label>
-    <input type="text" id="postalCode" name="postalCode" value={form.postalCode} onChange={handleChange} />
+    <label htmlFor="postCode">Post Code</label>
+    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
   </div>
         </div>
 
@@ -698,7 +783,7 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
   </div>
 
   <div className={styles.submit}>
-        <button type="submit"  >Continue</button>
+        <button type="submit" >Continue</button>
       </div>
   </form>
       </div>

@@ -10,13 +10,17 @@ import PropertyView from '../components/Home/PropertyView'
 import Welcome from '../components/welcome/welcome'
 import { useContext } from 'react'
 import { RegistrationContext } from '../context/Register.context'
+import { LoginContext } from '../context/Login.context'
 
 
 export default function Home() {
-  const { isUserFirstTime } =useContext(RegistrationContext);
+
+  const { userInformation } = useContext(LoginContext);
+
+
   return (
     <main className='wrapper'>
-     { isUserFirstTime ?  <Welcome/> : null}
+     { userInformation?.user.newUser == true ?  <Welcome/> : null}
       <Hero />
       <Revolutionizing />
       <PropertyView />
