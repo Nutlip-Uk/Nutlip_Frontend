@@ -53,7 +53,6 @@ const userSchema = new mongoose.Schema({
     Address1: { type: String },
     Address2: { type: String },
     BusinessName: { type: String },
-    Website: { type: String },
     CompanyName: { type: String },
     CompanyNumber: { type: String },
     PhoneNumber: { type: Number },

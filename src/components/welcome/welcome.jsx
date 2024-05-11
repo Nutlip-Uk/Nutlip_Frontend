@@ -1,4 +1,4 @@
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState,useEffect,useContext } from "react";
 import styles from "../../styles/welcome/welcome.module.css";
 import * as React from "react";
 import Radio from "@mui/material/Radio";
@@ -7,26 +7,28 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { RegistrationContext } from "../../context/Register.context";
+import { LoginContext } from "../../context/Login.context";
 const Welcome = () => {
+  const { userInformation} = React.useContext(LoginContext);
   const count = useRef(1);
   const [update, setUpdate] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
   const [form, setForm] = useState({
     description:selectedRole,
-    title: "",
-    firstName: "",
-    middleName: "",
-    lastName: "",
+    Title: "",
+    FirstName: "",
+    MiddleName: "",
+    LastName: "",
     email: "",
-    country: "",
+    Country: "",
     city: "",
     postCode: "",
-    address1: "",
-    address2: "",
+    Address1: "",
+    Address2: "",
     website: "",
-    companyNumber: "",
-    phoneNumber: "",
-    mobileNumber: "",
+    CompanyNumber: "",
+    PhoneNumber: "",
+    MobileNumber: "",
     BusinessName:"",
   });
 
@@ -49,24 +51,29 @@ const Welcome = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const userId = userInformation.user.id;
+  
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch(`/api/user/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
       });
+  
       if (response.ok) {
         const data = await response.json();
-        console.log("Form successful", data);
+        console.log("Form successfully updated", data);
+        // Optionally, provide feedback to the user indicating success
       } else {
-        console.log("Form registration failed");
+        console.log("Form update failed");
+        // Optionally, provide feedback to the user indicating failure
       }
     } catch (error) {
-      console.error("Error:", error);
-    } 
-
+      console.error("Error updating form:", error);
+      // Optionally, provide feedback to the user indicating failure
+    }
   };
 
   const next = (value) => {
@@ -196,7 +203,7 @@ const WhatDescribesYou = ({next}) => {
                   label="Private Seller"
                 />
 
-                <label for="privateSeller">Private Seller</label>
+                <label htmlFor="privateSeller">Private Seller</label>
                 
                 </div>
 
@@ -208,7 +215,7 @@ const WhatDescribesYou = ({next}) => {
                   
                   label="Agent"
                 />
-                <label for="Agent">Agent</label>
+                <label htmlFor="Agent">Agent</label>
                 </div>
 
                 <div className={styles.radioButtonContainer}>
@@ -218,7 +225,7 @@ const WhatDescribesYou = ({next}) => {
                   
                   label="Mortgage Broker"
                 />
-                <label for="Agent">Mortgage Broker</label>
+                <label htmlFor="Agent">Mortgage Broker</label>
                 </div>
                 <div className={styles.radioButtonContainer}>
 
@@ -228,7 +235,7 @@ const WhatDescribesYou = ({next}) => {
                   
                   label="Conveyancer"
                 />
-                <label for="Conveyancer">Conveyancer</label>
+                <label htmlFor="Conveyancer">Conveyancer</label>
                 </div>
                 <div className={styles.radioButtonContainer}>
 
@@ -238,7 +245,7 @@ const WhatDescribesYou = ({next}) => {
                   
                   label="Buyer"
                 />
-                <label for="Buyer">Buyer</label>
+                <label htmlFor="Buyer">Buyer</label>
                 
                 </div>
 
@@ -273,32 +280,32 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
  
  <div className={styles.form}>
  <div>
-   <label htmlFor="title">Title</label>
-   <select id="title" name="title" value={form.title} onChange={handleChange}>
+   <label htmlFor="Title">Title</label>
+   <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
    </select>
  </div>
  <div>
-   <label htmlFor="firstName">First Name</label>
-   <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} />
+   <label htmlFor="FirstName">First Name</label>
+   <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="middleName">Middle Name</label>
-   <input type="text" id="middleName" name="middleName" value={form.middleName} onChange={handleChange} />
+   <label htmlFor="MiddleName">Middle Name</label>
+   <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="lastName">Last Name</label>
-   <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
+   <label htmlFor="LastName">Last Name</label>
+   <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
  </div>
  <div>
    <label htmlFor="email">Email Address</label>
    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="country">Country</label>
-   <select id="country" name="country" value={form.country} onChange={handleChange}>
+   <label htmlFor="Country">Country</label>
+   <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -326,20 +333,20 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="address1">Address 1</label>
-   <input type="text" id="address1" name="address1" value={form.address1} onChange={handleChange} />
+   <label htmlFor="Address1">Address 1</label>
+   <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="address2">Address 2</label>
-   <input type="text" id="address2" name="address2" value={form.address2} onChange={handleChange} />
+   <label htmlFor="Address2">Address 2</label>
+   <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="phoneNumber">Phone Number</label>
-   <input type="tel" id="phoneNumber" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} />
+   <label htmlFor="PhoneNumber">Phone Number</label>
+   <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="mobileNumber">Mobile Number</label>
-   <input type="tel" id="mobileNumber" name="mobileNumber" value={form.mobileNumber} onChange={handleChange} />
+   <label htmlFor="MobileNumber">Mobile Number</label>
+   <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
  </div>
  </div>
 
@@ -366,32 +373,32 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
           
             <div className={styles.formFour}>
             <div>
-        <label htmlFor="title">Title</label>
-        <select id="title" name="title" value={form.title} onChange={handleChange}>
+        <label htmlFor="Title">Title</label>
+        <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
    </select>
       </div>
       <div>
-        <label htmlFor="firstName">First Name</label>
-        <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} />
+        <label htmlFor="FirstName">First Name</label>
+        <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="middleName">Middle Name</label>
-        <input type="text" id="middleName" name="middleName" value={form.middleName} onChange={handleChange} />
+        <label htmlFor="MiddleName">Middle Name</label>
+        <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
+        <label htmlFor="LastName">Last Name</label>
+        <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
       </div>
       <div>
         <label htmlFor="email">Email Address</label>
         <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="country">Country</label>
-        <select id="country" name="country" value={form.country} onChange={handleChange}>
+        <label htmlFor="Country">Country</label>
+        <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -421,12 +428,12 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
 
         <div className={styles.form}>
         <div>
-        <label htmlFor="address1">Address 1</label>
-        <input type="text" id="address1" name="address1" value={form.address1} onChange={handleChange} />
+        <label htmlFor="Address1">Address 1</label>
+        <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="address2">Address 2</label>
-        <input type="text" id="address2" name="address2" value={form.address2} onChange={handleChange} />
+        <label htmlFor="Address2">Address 2</label>
+        <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
       </div>
       <div>
         <label htmlFor="BusinessName">Business Name</label>
@@ -440,16 +447,16 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
         <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="companyNumber">Company Number</label>
-        <input type="text" id="companyNumber" name="companyNumber" value={form.companyNumber} onChange={handleChange} />
+        <label htmlFor="CompanyNumber">Company Number</label>
+        <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="phoneNumber">Phone Number</label>
-        <input type="tel" id="phoneNumber" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} />
+        <label htmlFor="PhoneNumber">Phone Number</label>
+        <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="mobileNumber">Mobile Number</label>
-        <input type="tel" id="mobileNumber" name="mobileNumber" value={form.mobileNumber} onChange={handleChange} />
+        <label htmlFor="MobileNumber">Mobile Number</label>
+        <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
       </div>
       </div>
 
@@ -475,32 +482,32 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
       
         <div className={styles.formFour}>
         <div>
-    <label htmlFor="title">Title</label>
-    <select id="title" name="title" value={form.title} onChange={handleChange}>
+    <label htmlFor="Title">Title</label>
+    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
    </select>
   </div>
   <div>
-    <label htmlFor="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} />
+    <label htmlFor="FirstName">First Name</label>
+    <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="middleName">Middle Name</label>
-    <input type="text" id="middleName" name="middleName" value={form.middleName} onChange={handleChange} />
+    <label htmlFor="MiddleName">Middle Name</label>
+    <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="lastName">Last Name</label>
-    <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
+    <label htmlFor="LastName">Last Name</label>
+    <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
     <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="country">Country</label>
-    <select id="country" name="country" value={form.country} onChange={handleChange}>
+    <label htmlFor="Country">Country</label>
+    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -530,12 +537,12 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
 
     <div className={styles.form}>
     <div>
-    <label htmlFor="address1">Address 1</label>
-    <input type="text" id="address1" name="address1" value={form.address1} onChange={handleChange} />
+    <label htmlFor="Address1">Address 1</label>
+    <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="address2">Address 2</label>
-    <input type="text" id="address2" name="address2" value={form.address2} onChange={handleChange} />
+    <label htmlFor="Address2">Address 2</label>
+    <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="BusinessName">Business Name</label>
@@ -549,16 +556,16 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
     <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="companyNumber">Company Number</label>
-    <input type="text" id="companyNumber" name="companyNumber" value={form.companyNumber} onChange={handleChange} />
+    <label htmlFor="CompanyNumber">Company Number</label>
+    <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="phoneNumber">Phone Number</label>
-    <input type="tel" id="phoneNumber" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} />
+    <label htmlFor="PhoneNumber">Phone Number</label>
+    <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="mobileNumber">Mobile Number</label>
-    <input type="tel" id="mobileNumber" name="mobileNumber" value={form.mobileNumber} onChange={handleChange} />
+    <label htmlFor="MobileNumber">Mobile Number</label>
+    <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
   </div>
   </div>
 
@@ -584,32 +591,32 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
       
         <div className={styles.formFour}>
         <div>
-    <label htmlFor="title">Title</label>
-    <select id="title" name="title" value={form.title} onChange={handleChange}>
+    <label htmlFor="Title">Title</label>
+    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
    </select>
   </div>
   <div>
-    <label htmlFor="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} />
+    <label htmlFor="FirstName">First Name</label>
+    <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="middleName">Middle Name</label>
-    <input type="text" id="middleName" name="middleName" value={form.middleName} onChange={handleChange} />
+    <label htmlFor="MiddleName">Middle Name</label>
+    <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="lastName">Last Name</label>
-    <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
+    <label htmlFor="LastName">Last Name</label>
+    <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
     <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="country">Country</label>
-    <select id="country" name="country" value={form.country} onChange={handleChange}>
+    <label htmlFor="Country">Country</label>
+    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -639,12 +646,12 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
 
     <div className={styles.form}>
     <div>
-    <label htmlFor="address1">Address 1</label>
-    <input type="text" id="address1" name="address1" value={form.address1} onChange={handleChange} />
+    <label htmlFor="Address1">Address 1</label>
+    <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="address2">Address 2</label>
-    <input type="text" id="address2" name="address2" value={form.address2} onChange={handleChange} />
+    <label htmlFor="Address2">Address 2</label>
+    <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="BusinessName">Business Name</label>
@@ -658,16 +665,16 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
     <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="companyNumber">Company Number</label>
-    <input type="text" id="companyNumber" name="companyNumber" value={form.companyNumber} onChange={handleChange} />
+    <label htmlFor="CompanyNumber">Company Number</label>
+    <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="phoneNumber">Phone Number</label>
-    <input type="tel" id="phoneNumber" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} />
+    <label htmlFor="PhoneNumber">Phone Number</label>
+    <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="mobileNumber">Mobile Number</label>
-    <input type="tel" id="mobileNumber" name="mobileNumber" value={form.mobileNumber} onChange={handleChange} />
+    <label htmlFor="MobileNumber">Mobile Number</label>
+    <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
   </div>
   </div>
 
@@ -695,32 +702,32 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
       
         <div className={styles.formFour}>
         <div>
-    <label htmlFor="title">Title</label>
-    <select id="title" name="title" value={form.title} onChange={handleChange}>
+    <label htmlFor="Title">Title</label>
+    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
    </select>
   </div>
   <div>
-    <label htmlFor="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} />
+    <label htmlFor="FirstName">First Name</label>
+    <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="middleName">Middle Name</label>
-    <input type="text" id="middleName" name="middleName" value={form.middleName} onChange={handleChange} />
+    <label htmlFor="MiddleName">Middle Name</label>
+    <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="lastName">Last Name</label>
-    <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} />
+    <label htmlFor="LastName">Last Name</label>
+    <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
     <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="country">Country</label>
-    <select id="country" name="country" value={form.country} onChange={handleChange}>
+    <label htmlFor="Country">Country</label>
+    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -750,12 +757,12 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
 
     <div className={styles.form}>
     <div>
-    <label htmlFor="address1">Address 1</label>
-    <input type="text" id="address1" name="address1" value={form.address1} onChange={handleChange} />
+    <label htmlFor="Address1">Address 1</label>
+    <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="address2">Address 2</label>
-    <input type="text" id="address2" name="address2" value={form.address2} onChange={handleChange} />
+    <label htmlFor="Address2">Address 2</label>
+    <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="BusinessName">Business Name</label>
@@ -769,16 +776,16 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
     <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="companyNumber">Company Number</label>
-    <input type="text" id="companyNumber" name="companyNumber" value={form.companyNumber} onChange={handleChange} />
+    <label htmlFor="CompanyNumber">Company Number</label>
+    <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="phoneNumber">Phone Number</label>
-    <input type="tel" id="phoneNumber" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} />
+    <label htmlFor="PhoneNumber">Phone Number</label>
+    <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="mobileNumber">Mobile Number</label>
-    <input type="tel" id="mobileNumber" name="mobileNumber" value={form.mobileNumber} onChange={handleChange} />
+    <label htmlFor="MobileNumber">Mobile Number</label>
+    <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
   </div>
   </div>
 
