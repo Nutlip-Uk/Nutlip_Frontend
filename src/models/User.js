@@ -24,10 +24,6 @@ const userSchema = new mongoose.Schema({
       "private_seller",
     ],
   },
-  newUser:{
-    type:Boolean,
-    default:true,
-  },
 
   password: {
     type: String,
@@ -40,29 +36,26 @@ const userSchema = new mongoose.Schema({
       message:
         "Password must contain at least one uppercase, one lowercase, one number and minimum 6 characters",
     },
-    Title: {
-      type: String,
-      enum: ["Miss", "Mr", "Mrs"],
-    },
-    FirstName: { type: String },
-    MiddleName: { type: String },
-    LastName: { type: String },
-    Country: { type: String },
-    city: { type: String },
-    PostCode: { type: Number },
-    Address1: { type: String },
-    Address2: { type: String },
-    BusinessName: { type: String },
-    CompanyName: { type: String },
-    CompanyNumber: { type: String },
-    PhoneNumber: { type: Number },
-    MobileNumber: { type: Number },
-    website: { type: String },
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
+  Title: {
+    type: String,
+    enum: ["Miss", "Mr", "Mrs"],
   },
+  FirstName: { type: String },
+  MiddleName: { type: String },
+  LastName: { type: String },
+  Country: { type: String },
+  city: { type: String },
+  PostCode: { type: Number },
+  Address1: { type: String },
+  Address2: { type: String },
+  BusinessName: { type: String },
+  CompanyName: { type: String },
+  CompanyNumber: { type: String },
+  PhoneNumber: { type: Number },
+  MobileNumber: { type: Number },
+  website: { type: String },
+
   img: {
     type: String,
   },
@@ -72,6 +65,14 @@ const userSchema = new mongoose.Schema({
       ref: "Apartment",
     },
   ],
+  newUser: {
+    type: Boolean,
+    default: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
