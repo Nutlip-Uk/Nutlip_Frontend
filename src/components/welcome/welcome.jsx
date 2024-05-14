@@ -13,23 +13,42 @@ const Welcome = () => {
   const count = useRef(1);
   const [update, setUpdate] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
+
   const [form, setForm] = useState({
-    description:selectedRole,
+
+    userType:selectedRole,
+
     Title: "",
+
     FirstName: "",
+
     MiddleName: "",
+    
     LastName: "",
+
     email: "",
+
     Country: "",
+
     city: "",
-    postCode: "",
+
+    PostCode: "",
+
     Address1: "",
+
     Address2: "",
+
     website: "",
+
     CompanyNumber: "",
+
     PhoneNumber: "",
+
     MobileNumber: "",
+
     BusinessName:"",
+
+
   });
 
   useEffect(() => {
@@ -107,11 +126,11 @@ const Welcome = () => {
         <div className={styles.box}>
         {count.current === 1 && <WelcomePage next={next} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
         {count.current === 2 && <WhatDescribesYou next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-        {count.current === 3 && selectedRole === "Private Seller" && <PrivateSellerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-          {count.current === 3 && selectedRole === "Agent" && <AgentForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-          {count.current === 3 && selectedRole === "Mortgage Broker" && <MortgageBrokerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+        {count.current === 3 && selectedRole === "property_seeker" && <PrivateSellerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "Real_estate_agent" && <AgentForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "Mortgage_broker" && <MortgageBrokerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "Conveyancer" && <ConveyancerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-          {count.current === 3 && selectedRole === "Buyer" && <BuyerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "private_seller" && <BuyerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
         
         </div>
       </div>
@@ -198,7 +217,7 @@ const WhatDescribesYou = ({next}) => {
                 <input type="radio"
                 id="privateSeller"
                 name="description"
-                  value="Private Seller"
+                  value="property_seeker"
                   
                   label="Private Seller"
                 />
@@ -221,7 +240,7 @@ const WhatDescribesYou = ({next}) => {
                 <div className={styles.radioButtonContainer}>
                 <input type="radio"
                 name="description"
-                  value="Mortgage Broker"
+                  value="Mortgage_broker"
                   
                   label="Mortgage Broker"
                 />
@@ -230,7 +249,9 @@ const WhatDescribesYou = ({next}) => {
                 <div className={styles.radioButtonContainer}>
 
                 <input type="radio"
-                name="description"
+
+                  name="description"
+
                   value="Conveyancer"
                   
                   label="Conveyancer"
@@ -240,12 +261,15 @@ const WhatDescribesYou = ({next}) => {
                 <div className={styles.radioButtonContainer}>
 
                 <input type="radio"
-                name="description"
-                  value="Buyer"
+
+                  name="description"
+
+                  value="private_seller"
                   
-                  label="Buyer"
+                  label="Private Seller"
+
                 />
-                <label htmlFor="Buyer">Buyer</label>
+                <label htmlFor="Private seller">Private seller</label>
                 
                 </div>
 
@@ -329,8 +353,8 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
    <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
  </div>
  <div>
-   <label htmlFor="postCode">Post Code</label>
-   <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
+   <label htmlFor="PostCode">Post Code</label>
+   <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
  </div>
  <div>
    <label htmlFor="Address1">Address 1</label>
@@ -421,8 +445,8 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
         <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="postCode">Post Code</label>
-        <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
+        <label htmlFor="PostCode">Post Code</label>
+        <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
       </div>
             </div>
 
@@ -530,8 +554,8 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
     <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="postCode">Post Code</label>
-    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
+    <label htmlFor="PostCode">Post Code</label>
+    <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
   </div>
         </div>
 
@@ -639,8 +663,8 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
     <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="postCode">Post Code</label>
-    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
+    <label htmlFor="PostCode">Post Code</label>
+    <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
   </div>
         </div>
 
@@ -750,8 +774,8 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
     <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
   </div>
   <div>
-    <label htmlFor="postCode">Post Code</label>
-    <input type="text" id="postCode" name="postCode" value={form.postCode} onChange={handleChange} />
+    <label htmlFor="PostCode">Post Code</label>
+    <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
   </div>
         </div>
 
