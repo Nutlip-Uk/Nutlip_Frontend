@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <main className='wrapper'>
-     { userInformation?.user.newUser == true ?  <Welcome/> : null}
+     { userInformation?.user?.newUser == true ?  <Welcome/> : null}
       <Hero />
       <Revolutionizing />
       <PropertyView />

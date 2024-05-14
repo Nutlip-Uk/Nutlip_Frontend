@@ -6,23 +6,7 @@ export const RegistrationContextProvider = ({ children }) => {
   const [regType, setRegType] = useState("signup");
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
-    description: "",
-    password: "",
-    title: "",
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    country: "",
-    city: "",
-    postcode: "",
-    address1: "",
-    address2: "",
-    website: "",
-    companyNumber: "",
-    phone: "",
-    mobile: "",
-    businessName:"",
+    email: "",   
   });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isUserFirstTime , setIsUserFirstTime]= useState(false);
