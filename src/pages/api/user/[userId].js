@@ -97,12 +97,12 @@ export default async function handler(req, res) {
         { new: true, runValidators: true }
       );
       if (password) {
-        updatedFields.password = password;
+        updatedUser.password = password;
       }
 
       // Update email if provided
       if (email) {
-        updatedFields.email = email;
+        updatedUser.email = email;
       }
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
