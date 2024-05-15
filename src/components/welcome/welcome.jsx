@@ -23,7 +23,7 @@ const Welcome = () => {
     FirstName: "",
 
     MiddleName: "",
-    
+     
     LastName: "",
 
     email: "",
@@ -54,7 +54,7 @@ const Welcome = () => {
   useEffect(() => {
     setForm((prevForm) => ({
       ...prevForm,
-      description: selectedRole,
+      userType: selectedRole,
     }));
   }, [selectedRole]);
 
@@ -71,7 +71,7 @@ const Welcome = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const userId = userInformation.user.id;
-  
+    console.log("Form data:", form);
     try {
       const response = await fetch(`/api/user/${userId}`, {
         method: "PUT",
@@ -86,7 +86,9 @@ const Welcome = () => {
         console.log("Form successfully updated", data);
         // Optionally, provide feedback to the user indicating success
       } else {
-        console.log("Form update failed");
+        // Log the response body if available
+        const responseBody = await response.text();
+        console.error("Form update failed. Response:", responseBody);
         // Optionally, provide feedback to the user indicating failure
       }
     } catch (error) {
@@ -95,6 +97,7 @@ const Welcome = () => {
     }
   };
 
+  
   const next = (value) => {
     setSelectedRole(value);
     if (count.current <= 4) {
