@@ -86,9 +86,7 @@ const Welcome = () => {
         console.log("Form successfully updated", data);
         // Optionally, provide feedback to the user indicating success
       } else {
-        // Log the response body if available
-        const responseBody = await response.text();
-        console.error("Form update failed. Response:", responseBody);
+        console.log("Form update failed");
         // Optionally, provide feedback to the user indicating failure
       }
     } catch (error) {
@@ -97,7 +95,6 @@ const Welcome = () => {
     }
   };
 
-  
   const next = (value) => {
     setSelectedRole(value);
     if (count.current <= 4) {
