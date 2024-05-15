@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState,useEffect,useContext } from "react";
 import styles from "../../styles/welcome/welcome.module.css";
 import * as React from "react";
 import Radio from "@mui/material/Radio";
@@ -9,20 +9,21 @@ import FormLabel from "@mui/material/FormLabel";
 import { RegistrationContext } from "../../context/Register.context";
 import { LoginContext } from "../../context/Login.context";
 const Welcome = () => {
-  const { userInformation } = React.useContext(LoginContext);
+  const { userInformation , setUserInformation} = React.useContext(LoginContext);
   const count = useRef(1);
   const [update, setUpdate] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedRole, setSelectedRole] = useState('');
 
   const [form, setForm] = useState({
-    userType: selectedRole,
+
+    userType:selectedRole,
 
     Title: "",
 
     FirstName: "",
 
     MiddleName: "",
-
+     
     LastName: "",
 
     email: "",
@@ -45,7 +46,9 @@ const Welcome = () => {
 
     MobileNumber: "",
 
-    BusinessName: "",
+    BusinessName:"",
+
+
   });
 
   useEffect(() => {
@@ -64,6 +67,28 @@ const Welcome = () => {
     }));
   };
 
+
+  const handlePutResponse = async (data) => {
+    // Update newUser in userInformation in state
+    await setUserInformation((prevState) => {
+      const updatedUserInfo = {
+        ...prevState,
+        user: {
+          ...prevState.user,
+          newUser: false,
+        },
+      };
+      updateLocalStorage(updatedUserInfo);
+      return updatedUserInfo;
+    });
+  };
+  
+  const updateLocalStorage = (updatedUserInfo) => {
+    console.log("Storing updated userInformation:", updatedUserInfo);
+    localStorage.setItem('userInformation', JSON.stringify(updatedUserInfo));
+  };
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const userId = userInformation.user.id;
@@ -76,26 +101,23 @@ const Welcome = () => {
         },
         body: JSON.stringify(form),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log("Form successfully updated", data);
         console.log(data);
-        // Optionally, provide feedback to the user indicating success
+        
+        handlePutResponse(data);
       } else {
-<<<<<<< HEAD
         console.log("Form update failed");
-=======
         // Log the response body if available
         const responseBody = await response.text();
         console.error("Form update failed. Response:", responseBody);
         console.log(error);
->>>>>>> 461b2864169bfc89c27b5c21c0a7d3653f6e6429
         // Optionally, provide feedback to the user indicating failure
       }
-    } catch (err) {
-      console.error("Error updating form:", err);
-      console.log(err);
+    } catch (error) {
+      console.error("Error updating form:", error);
       // Optionally, provide feedback to the user indicating failure
     }
   };
@@ -113,11 +135,13 @@ const Welcome = () => {
     }
   };
 
-  const { setIsUserFirstTime } = React.useContext(RegistrationContext);
 
-  const cancelBox = () => {
-    setIsUserFirstTime(false);
-  };
+
+  const cancelBox=()=>{
+    setIsUserFirstTime(false)
+  }
+
+
 
   return (
     <div className={styles.Section}>
@@ -125,70 +149,16 @@ const Welcome = () => {
         <div className={styles.cancelButton}>
           <button onClick={cancelBox}>{"X"}</button>
         </div>
-
+        
         <div className={styles.box}>
-          {count.current === 1 && (
-            <WelcomePage
-              next={next}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {count.current === 2 && (
-            <WhatDescribesYou
-              next={next}
-              back={back}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {count.current === 3 && selectedRole === "property_seeker" && (
-            <PrivateSellerForm
-              next={next}
-              back={back}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {count.current === 3 && selectedRole === "Real_estate_agent" && (
-            <AgentForm
-              next={next}
-              back={back}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {count.current === 3 && selectedRole === "Mortgage_broker" && (
-            <MortgageBrokerForm
-              next={next}
-              back={back}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {count.current === 3 && selectedRole === "Conveyancer" && (
-            <ConveyancerForm
-              next={next}
-              back={back}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {count.current === 3 && selectedRole === "private_seller" && (
-            <BuyerForm
-              next={next}
-              back={back}
-              form={form}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
+        {count.current === 1 && <WelcomePage next={next} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+        {count.current === 2 && <WhatDescribesYou next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+        {count.current === 3 && selectedRole === "property_seeker" && <PrivateSellerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "Real_estate_agent" && <AgentForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "Mortgage_broker" && <MortgageBrokerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "Conveyancer" && <ConveyancerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "private_seller" && <BuyerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+        
         </div>
       </div>
     </div>
@@ -197,7 +167,7 @@ const Welcome = () => {
 
 export default Welcome;
 
-const WelcomePage = ({ next, back }) => {
+const WelcomePage = ({next,back}) => {
   return (
     <>
       <div className={styles.welcomeContainer}>
@@ -218,8 +188,8 @@ const WelcomePage = ({ next, back }) => {
   );
 };
 
-const WhatDescribesYou = ({ next }) => {
-  const [selectedValue, setSelectedValue] = useState("");
+const WhatDescribesYou = ({next}) => {
+    const [selectedValue, setSelectedValue] = useState('');
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -232,23 +202,22 @@ const WhatDescribesYou = ({ next }) => {
   };
 
   useEffect(() => {
-    const radioButtons = document.querySelectorAll(
-      '.radioButtonContainer input[type="radio"]'
-    );
-
+    const radioButtons = document.querySelectorAll('.radioButtonContainer input[type="radio"]');
+    
     radioButtons.forEach((radio) => {
-      radio.addEventListener("change", function () {
+      radio.addEventListener('change', function() {
         radioButtons.forEach((rb) => {
           if (rb.checked) {
-            rb.closest(".radioButtonContainer").style.border = "1px solid blue";
+            rb.closest('.radioButtonContainer').style.border = '1px solid blue';
           } else {
-            rb.closest(".radioButtonContainer").style.border = "none";
+            rb.closest('.radioButtonContainer').style.border = 'none';
           }
         });
       });
     });
   }, []);
 
+  
   return (
     <>
       <div className={styles.welcomeContainer}>
@@ -262,7 +231,7 @@ const WhatDescribesYou = ({ next }) => {
           </p>
 
           <div className="">
-            <form className={styles.DescribeForm}>
+          <form className={styles.DescribeForm}>
               <div
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
@@ -271,1182 +240,612 @@ const WhatDescribesYou = ({ next }) => {
                 className={styles.radioGroup}
               >
                 <div className={styles.radioButtonContainer}>
-                  <input
-                    type="radio"
-                    id="privateSeller"
-                    name="description"
-                    value="property_seeker"
-                    label="Private Seller"
-                  />
 
-                  <label htmlFor="privateSeller">Private Seller</label>
-                </div>
+                <input type="radio"
+                id="privateSeller"
+                name="description"
+                  value="property_seeker"
+                  
+                  label="Private Seller"
+                />
 
-                <div className={styles.radioButtonContainer}>
-                  <input
-                    type="radio"
-                    name="description"
-                    value="Agent"
-                    label="Agent"
-                  />
-                  <label htmlFor="Agent">Agent</label>
+                <label htmlFor="privateSeller">Private Seller</label>
+                
                 </div>
 
                 <div className={styles.radioButtonContainer}>
-                  <input
-                    type="radio"
-                    name="description"
-                    value="Mortgage_broker"
-                    label="Mortgage Broker"
-                  />
-                  <label htmlFor="Agent">Mortgage Broker</label>
+
+                <input type="radio"
+                name="description"
+                  value="Agent"
+                  
+                  label="Agent"
+                />
+                <label htmlFor="Agent">Agent</label>
+                </div>
+
+                <div className={styles.radioButtonContainer}>
+                <input type="radio"
+                name="description"
+                  value="Mortgage_broker"
+                  
+                  label="Mortgage Broker"
+                />
+                <label htmlFor="Agent">Mortgage Broker</label>
                 </div>
                 <div className={styles.radioButtonContainer}>
-                  <input
-                    type="radio"
-                    name="description"
-                    value="Conveyancer"
-                    label="Conveyancer"
-                  />
-                  <label htmlFor="Conveyancer">Conveyancer</label>
+
+                <input type="radio"
+
+                  name="description"
+
+                  value="Conveyancer"
+                  
+                  label="Conveyancer"
+                />
+                <label htmlFor="Conveyancer">Conveyancer</label>
                 </div>
                 <div className={styles.radioButtonContainer}>
-                  <input
-                    type="radio"
-                    name="description"
-                    value="private_seller"
-                    label="Private Seller"
-                  />
-                  <label htmlFor="Private seller">Private seller</label>
+
+                <input type="radio"
+
+                  name="description"
+
+                  value="private_seller"
+                  
+                  label="Private Seller"
+
+                />
+                <label htmlFor="Private seller">Private seller</label>
+                
                 </div>
+
+
+               
+               
+                
+              
               </div>
               <button onClick={handleContinue}>continue</button>
             </form>
           </div>
+
         </div>
       </div>
     </>
   );
 };
 
-const PrivateSellerForm = ({ form, handleSubmit, handleChange }) => {
-  return (
-    <>
-      <div className={styles.MainContainer}>
+const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
+   
+  
+
+      return (<>
+        <div className={styles.MainContainer}>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
-          <div className={styles.formHeader}>
-            <h2>Private Sellers</h2>
-            <p>Kindly fill this form, for a more personalized experience.</p>
-          </div>
 
-          <div className={styles.form}>
-            <div>
-              <label htmlFor="Title">Title</label>
-              <select
-                id="Title"
-                name="Title"
-                value={form.Title}
-                onChange={handleChange}
-              >
-                <option name="Miss" value="Miss">
-                  Miss
-                </option>
-                <option name="Mr" value="Mr">
-                  Mr
-                </option>
-                <option name="Mrs" value="Mrs">
-                  Mrs
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="FirstName">First Name</label>
-              <input
-                type="text"
-                id="FirstName"
-                name="FirstName"
-                value={form.FirstName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MiddleName">Middle Name</label>
-              <input
-                type="text"
-                id="MiddleName"
-                name="MiddleName"
-                value={form.MiddleName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="LastName">Last Name</label>
-              <input
-                type="text"
-                id="LastName"
-                name="LastName"
-                value={form.LastName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Country">Country</label>
-              <select
-                id="Country"
-                name="Country"
-                value={form.Country}
-                onChange={handleChange}
-              >
-                <option value="United States" name="United States">
-                  United States
-                </option>
-                <option value="Canada" name="Canada">
-                  Canada
-                </option>
-                <option value="United Kingdom" name="United Kingdom">
-                  United Kingdom
-                </option>
-                <option value="Australia" name="Australia">
-                  Australia
-                </option>
-                <option value="New Zealand" name="New Zealand">
-                  New Zealand
-                </option>
-                <option value="Germany" name="Germany">
-                  Germany
-                </option>
-                <option value="France" name="France">
-                  France
-                </option>
-                <option value="Spain" name="Spain">
-                  Spain
-                </option>
-                <option value="Italy" name="Italy">
-                  Italy
-                </option>
-                <option value="Japan" name="Japan">
-                  Japan
-                </option>
-                <option value="China" name="China">
-                  China
-                </option>
-                <option value="India" name="India">
-                  India
-                </option>
-                <option value="Brazil" name="Brazil">
-                  Brazil
-                </option>
-                <option value="Mexico" name="Mexico">
-                  Mexico
-                </option>
-                <option value="Russia" name="Russia">
-                  Russia
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="city">City/State</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PostCode">Post Code</label>
-              <input
-                type="text"
-                id="PostCode"
-                name="PostCode"
-                value={form.PostCode}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Address1">Address 1</label>
-              <input
-                type="text"
-                id="Address1"
-                name="Address1"
-                value={form.Address1}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Address2">Address 2</label>
-              <input
-                type="text"
-                id="Address2"
-                name="Address2"
-                value={form.Address2}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PhoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                id="PhoneNumber"
-                name="PhoneNumber"
-                value={form.PhoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MobileNumber">Mobile Number</label>
-              <input
-                type="tel"
-                id="MobileNumber"
-                name="MobileNumber"
-                value={form.MobileNumber}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+<div className={styles.formHeader}>
+   <h2>Private Sellers</h2>
+   <p>Kindly fill this form, for a more personalized experience.</p>
+</div>
+ 
+ <div className={styles.form}>
+ <div>
+   <label htmlFor="Title">Title</label>
+   <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
+ </div>
+ <div>
+   <label htmlFor="FirstName">First Name</label>
+   <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="MiddleName">Middle Name</label>
+   <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="LastName">Last Name</label>
+   <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="email">Email Address</label>
+   <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="Country">Country</label>
+   <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
 
-          <div className={styles.submit}>
-            <button type="submit">Continue</button>
-          </div>
-        </form>
-      </div>
-    </>
-  );
+ </div>
+ <div>
+   <label htmlFor="city">City/State</label>
+   <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="PostCode">Post Code</label>
+   <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="Address1">Address 1</label>
+   <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="Address2">Address 2</label>
+   <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="PhoneNumber">Phone Number</label>
+   <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
+ </div>
+ <div>
+   <label htmlFor="MobileNumber">Mobile Number</label>
+   <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
+ </div>
+ </div>
+
+ <div className={styles.submit}>
+   <button type="submit">Continue</button>
+ </div>
+</form>
+        </div>
+        </>
+      )
 };
 
-const MortgageBrokerForm = ({ form, handleSubmit, handleChange }) => {
-  return (
-    <>
-      <div className={styles.MainContainer}>
-        <form className={styles.formContainer} onSubmit={handleSubmit}>
-          <div className={styles.formHeader}>
+const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
+    
+
+    return (
+        <>
+        <div className={styles.MainContainer}>
+            <form className={styles.formContainer} onSubmit={handleSubmit}>
+            <div className={styles.formHeader}>
             <h2>Mortgage Broker</h2>
             <p>Kindly fill this form, for a more personalized experience.</p>
-          </div>
-
-          <div className={styles.formFour}>
+         </div>
+          
+            <div className={styles.formFour}>
             <div>
-              <label htmlFor="Title">Title</label>
-              <select
-                id="Title"
-                name="Title"
-                value={form.Title}
-                onChange={handleChange}
-              >
-                <option name="Miss" value="Miss">
-                  Miss
-                </option>
-                <option name="Mr" value="Mr">
-                  Mr
-                </option>
-                <option name="Mrs" value="Mrs">
-                  Mrs
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="FirstName">First Name</label>
-              <input
-                type="text"
-                id="FirstName"
-                name="FirstName"
-                value={form.FirstName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MiddleName">Middle Name</label>
-              <input
-                type="text"
-                id="MiddleName"
-                name="MiddleName"
-                value={form.MiddleName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="LastName">Last Name</label>
-              <input
-                type="text"
-                id="LastName"
-                name="LastName"
-                value={form.LastName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Country">Country</label>
-              <select
-                id="Country"
-                name="Country"
-                value={form.Country}
-                onChange={handleChange}
-              >
-                <option value="United States" name="United States">
-                  United States
-                </option>
-                <option value="Canada" name="Canada">
-                  Canada
-                </option>
-                <option value="United Kingdom" name="United Kingdom">
-                  United Kingdom
-                </option>
-                <option value="Australia" name="Australia">
-                  Australia
-                </option>
-                <option value="New Zealand" name="New Zealand">
-                  New Zealand
-                </option>
-                <option value="Germany" name="Germany">
-                  Germany
-                </option>
-                <option value="France" name="France">
-                  France
-                </option>
-                <option value="Spain" name="Spain">
-                  Spain
-                </option>
-                <option value="Italy" name="Italy">
-                  Italy
-                </option>
-                <option value="Japan" name="Japan">
-                  Japan
-                </option>
-                <option value="China" name="China">
-                  China
-                </option>
-                <option value="India" name="India">
-                  India
-                </option>
-                <option value="Brazil" name="Brazil">
-                  Brazil
-                </option>
-                <option value="Mexico" name="Mexico">
-                  Mexico
-                </option>
-                <option value="Russia" name="Russia">
-                  Russia
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="city">City/State</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PostCode">Post Code</label>
-              <input
-                type="text"
-                id="PostCode"
-                name="PostCode"
-                value={form.PostCode}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.form}>
-            <div>
-              <label htmlFor="Address1">Address 1</label>
-              <input
-                type="text"
-                id="Address1"
-                name="Address1"
-                value={form.Address1}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Address2">Address 2</label>
-              <input
-                type="text"
-                id="Address2"
-                name="Address2"
-                value={form.Address2}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="BusinessName">Business Name</label>
-              <input
-                type="text"
-                id="BusinessName"
-                name="BusinessName"
-                value={form.BusinessName}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="website">Website</label>
-              <input
-                type="url"
-                id="website"
-                name="website"
-                value={form.website}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="CompanyNumber">Company Number</label>
-              <input
-                type="text"
-                id="CompanyNumber"
-                name="CompanyNumber"
-                value={form.CompanyNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PhoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                id="PhoneNumber"
-                name="PhoneNumber"
-                value={form.PhoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MobileNumber">Mobile Number</label>
-              <input
-                type="tel"
-                id="MobileNumber"
-                name="MobileNumber"
-                value={form.MobileNumber}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.submit}>
-            <button type="submit">Continue</button>
-          </div>
-        </form>
+        <label htmlFor="Title">Title</label>
+        <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
       </div>
-    </>
-  );
+      <div>
+        <label htmlFor="FirstName">First Name</label>
+        <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="MiddleName">Middle Name</label>
+        <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="LastName">Last Name</label>
+        <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="email">Email Address</label>
+        <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="Country">Country</label>
+        <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
+      </div>
+      <div>
+        <label htmlFor="city">City/State</label>
+        <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="PostCode">Post Code</label>
+        <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
+      </div>
+            </div>
+
+        <div className={styles.form}>
+        <div>
+        <label htmlFor="Address1">Address 1</label>
+        <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="Address2">Address 2</label>
+        <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="BusinessName">Business Name</label>
+        <input type="text" id="BusinessName" name="BusinessName" value={form.BusinessName} onChange={handleChange} />
+      </div>
+        </div>
+
+      <div className={styles.formFour}>
+      <div>
+        <label htmlFor="website">Website</label>
+        <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="CompanyNumber">Company Number</label>
+        <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="PhoneNumber">Phone Number</label>
+        <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="MobileNumber">Mobile Number</label>
+        <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
+      </div>
+      </div>
+
+      <div className={styles.submit}>
+            <button type="submit"  >Continue</button>
+          </div>
+      </form>
+        </div>
+        </>
+    );
 };
-const ConveyancerForm = ({ form, handleSubmit, handleChange }) => {
-  return (
-    <>
-      <div className={styles.MainContainer}>
+const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
+    
+
+    return (
+        <>
+        <div className={styles.MainContainer}>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
-          <div className={styles.formHeader}>
-            <h2>Convenyancer</h2>
-            <p>Kindly fill this form, for a more personalized experience.</p>
-          </div>
+        <div className={styles.formHeader}>
+        <h2>Convenyancer</h2>
+        <p>Kindly fill this form, for a more personalized experience.</p>
+     </div>
+      
+        <div className={styles.formFour}>
+        <div>
+    <label htmlFor="Title">Title</label>
+    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
+  </div>
+  <div>
+    <label htmlFor="FirstName">First Name</label>
+    <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="MiddleName">Middle Name</label>
+    <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="LastName">Last Name</label>
+    <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="Country">Country</label>
+    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
+  </div>
+  <div>
+    <label htmlFor="city">City/State</label>
+    <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="PostCode">Post Code</label>
+    <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
+  </div>
+        </div>
 
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="Title">Title</label>
-              <select
-                id="Title"
-                name="Title"
-                value={form.Title}
-                onChange={handleChange}
-              >
-                <option name="Miss" value="Miss">
-                  Miss
-                </option>
-                <option name="Mr" value="Mr">
-                  Mr
-                </option>
-                <option name="Mrs" value="Mrs">
-                  Mrs
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="FirstName">First Name</label>
-              <input
-                type="text"
-                id="FirstName"
-                name="FirstName"
-                value={form.FirstName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MiddleName">Middle Name</label>
-              <input
-                type="text"
-                id="MiddleName"
-                name="MiddleName"
-                value={form.MiddleName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="LastName">Last Name</label>
-              <input
-                type="text"
-                id="LastName"
-                name="LastName"
-                value={form.LastName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Country">Country</label>
-              <select
-                id="Country"
-                name="Country"
-                value={form.Country}
-                onChange={handleChange}
-              >
-                <option value="United States" name="United States">
-                  United States
-                </option>
-                <option value="Canada" name="Canada">
-                  Canada
-                </option>
-                <option value="United Kingdom" name="United Kingdom">
-                  United Kingdom
-                </option>
-                <option value="Australia" name="Australia">
-                  Australia
-                </option>
-                <option value="New Zealand" name="New Zealand">
-                  New Zealand
-                </option>
-                <option value="Germany" name="Germany">
-                  Germany
-                </option>
-                <option value="France" name="France">
-                  France
-                </option>
-                <option value="Spain" name="Spain">
-                  Spain
-                </option>
-                <option value="Italy" name="Italy">
-                  Italy
-                </option>
-                <option value="Japan" name="Japan">
-                  Japan
-                </option>
-                <option value="China" name="China">
-                  China
-                </option>
-                <option value="India" name="India">
-                  India
-                </option>
-                <option value="Brazil" name="Brazil">
-                  Brazil
-                </option>
-                <option value="Mexico" name="Mexico">
-                  Mexico
-                </option>
-                <option value="Russia" name="Russia">
-                  Russia
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="city">City/State</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PostCode">Post Code</label>
-              <input
-                type="text"
-                id="PostCode"
-                name="PostCode"
-                value={form.PostCode}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+    <div className={styles.form}>
+    <div>
+    <label htmlFor="Address1">Address 1</label>
+    <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="Address2">Address 2</label>
+    <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="BusinessName">Business Name</label>
+    <input type="text" id="BusinessName" name="BusinessName" value={form.BusinessName} onChange={handleChange} />
+  </div>
+    </div>
 
-          <div className={styles.form}>
-            <div>
-              <label htmlFor="Address1">Address 1</label>
-              <input
-                type="text"
-                id="Address1"
-                name="Address1"
-                value={form.Address1}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Address2">Address 2</label>
-              <input
-                type="text"
-                id="Address2"
-                name="Address2"
-                value={form.Address2}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="BusinessName">Business Name</label>
-              <input
-                type="text"
-                id="BusinessName"
-                name="BusinessName"
-                value={form.BusinessName}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+  <div className={styles.formFour}>
+  <div>
+    <label htmlFor="website">Website</label>
+    <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="CompanyNumber">Company Number</label>
+    <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="PhoneNumber">Phone Number</label>
+    <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="MobileNumber">Mobile Number</label>
+    <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
+  </div>
+  </div>
 
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="website">Website</label>
-              <input
-                type="url"
-                id="website"
-                name="website"
-                value={form.website}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="CompanyNumber">Company Number</label>
-              <input
-                type="text"
-                id="CompanyNumber"
-                name="CompanyNumber"
-                value={form.CompanyNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PhoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                id="PhoneNumber"
-                name="PhoneNumber"
-                value={form.PhoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MobileNumber">Mobile Number</label>
-              <input
-                type="tel"
-                id="MobileNumber"
-                name="MobileNumber"
-                value={form.MobileNumber}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.submit}>
-            <button type="submit">Continue</button>
-          </div>
-        </form>
+  <div className={styles.submit}>
+        <button type="submit"  >Continue</button>
+      </div>
+  </form>
       </div>
     </>
-  );
+    );
 };
-const BuyerForm = ({ form, handleSubmit, handleChange }) => {
-  return (
-    <>
-      <div className={styles.MainContainer}>
+const BuyerForm = ({form, handleSubmit, handleChange}) => {
+    
+
+    return (
+        <>
+        <div className={styles.MainContainer}>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
-          <div className={styles.formHeader}>
-            <h2>Buyer</h2>
-            <p>Kindly fill this form, for a more personalized experience.</p>
-          </div>
+        <div className={styles.formHeader}>
+        <h2>Buyer</h2>
+        <p>Kindly fill this form, for a more personalized experience.</p>
+     </div>
+      
+        <div className={styles.formFour}>
+        <div>
+    <label htmlFor="Title">Title</label>
+    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
+  </div>
+  <div>
+    <label htmlFor="FirstName">First Name</label>
+    <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="MiddleName">Middle Name</label>
+    <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="LastName">Last Name</label>
+    <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="Country">Country</label>
+    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
+  </div>
+  <div>
+    <label htmlFor="city">City/State</label>
+    <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="PostCode">Post Code</label>
+    <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
+  </div>
+        </div>
 
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="Title">Title</label>
-              <select
-                id="Title"
-                name="Title"
-                value={form.Title}
-                onChange={handleChange}
-              >
-                <option name="Miss" value="Miss">
-                  Miss
-                </option>
-                <option name="Mr" value="Mr">
-                  Mr
-                </option>
-                <option name="Mrs" value="Mrs">
-                  Mrs
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="FirstName">First Name</label>
-              <input
-                type="text"
-                id="FirstName"
-                name="FirstName"
-                value={form.FirstName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MiddleName">Middle Name</label>
-              <input
-                type="text"
-                id="MiddleName"
-                name="MiddleName"
-                value={form.MiddleName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="LastName">Last Name</label>
-              <input
-                type="text"
-                id="LastName"
-                name="LastName"
-                value={form.LastName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Country">Country</label>
-              <select
-                id="Country"
-                name="Country"
-                value={form.Country}
-                onChange={handleChange}
-              >
-                <option value="United States" name="United States">
-                  United States
-                </option>
-                <option value="Canada" name="Canada">
-                  Canada
-                </option>
-                <option value="United Kingdom" name="United Kingdom">
-                  United Kingdom
-                </option>
-                <option value="Australia" name="Australia">
-                  Australia
-                </option>
-                <option value="New Zealand" name="New Zealand">
-                  New Zealand
-                </option>
-                <option value="Germany" name="Germany">
-                  Germany
-                </option>
-                <option value="France" name="France">
-                  France
-                </option>
-                <option value="Spain" name="Spain">
-                  Spain
-                </option>
-                <option value="Italy" name="Italy">
-                  Italy
-                </option>
-                <option value="Japan" name="Japan">
-                  Japan
-                </option>
-                <option value="China" name="China">
-                  China
-                </option>
-                <option value="India" name="India">
-                  India
-                </option>
-                <option value="Brazil" name="Brazil">
-                  Brazil
-                </option>
-                <option value="Mexico" name="Mexico">
-                  Mexico
-                </option>
-                <option value="Russia" name="Russia">
-                  Russia
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="city">City/State</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PostCode">Post Code</label>
-              <input
-                type="text"
-                id="PostCode"
-                name="PostCode"
-                value={form.PostCode}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+    <div className={styles.form}>
+    <div>
+    <label htmlFor="Address1">Address 1</label>
+    <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="Address2">Address 2</label>
+    <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="BusinessName">Business Name</label>
+    <input type="text" id="BusinessName" name="BusinessName" value={form.BusinessName} onChange={handleChange} />
+  </div>
+    </div>
 
-          <div className={styles.form}>
-            <div>
-              <label htmlFor="Address1">Address 1</label>
-              <input
-                type="text"
-                id="Address1"
-                name="Address1"
-                value={form.Address1}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Address2">Address 2</label>
-              <input
-                type="text"
-                id="Address2"
-                name="Address2"
-                value={form.Address2}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="BusinessName">Business Name</label>
-              <input
-                type="text"
-                id="BusinessName"
-                name="BusinessName"
-                value={form.BusinessName}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+  <div className={styles.formFour}>
+  <div>
+    <label htmlFor="website">Website</label>
+    <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="CompanyNumber">Company Number</label>
+    <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="PhoneNumber">Phone Number</label>
+    <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="MobileNumber">Mobile Number</label>
+    <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
+  </div>
+  </div>
 
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="website">Website</label>
-              <input
-                type="url"
-                id="website"
-                name="website"
-                value={form.website}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="CompanyNumber">Company Number</label>
-              <input
-                type="text"
-                id="CompanyNumber"
-                name="CompanyNumber"
-                value={form.CompanyNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PhoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                id="PhoneNumber"
-                name="PhoneNumber"
-                value={form.PhoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MobileNumber">Mobile Number</label>
-              <input
-                type="tel"
-                id="MobileNumber"
-                name="MobileNumber"
-                value={form.MobileNumber}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.submit}>
-            <button type="submit">Continue</button>
-          </div>
-        </form>
+  <div className={styles.submit}>
+        <button type="submit"  >Continue</button>
+      </div>
+  </form>
       </div>
     </>
-  );
+    );
 };
 
-const AgentForm = ({ form, handleSubmit, handleChange }) => {
-  return (
-    <>
-      <div className={styles.MainContainer}>
+const AgentForm = ({form, handleSubmit, handleChange}) => {
+    
+
+
+    return (
+        <>
+        <div className={styles.MainContainer}>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
-          <div className={styles.formHeader}>
-            <h2>Estate Agents</h2>
-            <p>Kindly fill this form, for a more personalized experience.</p>
-          </div>
+        <div className={styles.formHeader}>
+        <h2>Estate Agents</h2>
+        <p>Kindly fill this form, for a more personalized experience.</p>
+     </div>
+      
+        <div className={styles.formFour}>
+        <div>
+    <label htmlFor="Title">Title</label>
+    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
+  </div>
+  <div>
+    <label htmlFor="FirstName">First Name</label>
+    <input type="text" id="FirstName" name="FirstName" value={form.FirstName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="MiddleName">Middle Name</label>
+    <input type="text" id="MiddleName" name="MiddleName" value={form.MiddleName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="LastName">Last Name</label>
+    <input type="text" id="LastName" name="LastName" value={form.LastName} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="Country">Country</label>
+    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+    <option value="United States" name="United States">United States</option>
+  <option value="Canada" name="Canada">Canada</option>
+  <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
+  <option value="Australia" name="Australia">Australia</option>
+  <option value="New Zealand" name="New Zealand">New Zealand</option>
+  <option value="Germany" name="Germany">Germany</option>
+  <option value="France" name="France">France</option>
+  <option value="Spain" name="Spain">Spain</option>
+  <option value="Italy" name="Italy">Italy</option>
+  <option value="Japan" name="Japan">Japan</option>
+  <option value="China" name="China">China</option>
+  <option value="India" name="India">India</option>
+  <option value="Brazil" name="Brazil">Brazil</option>
+  <option value="Mexico" name="Mexico">Mexico</option>
+  <option value="Russia" name="Russia">Russia</option>
+</select>
+  </div>
+  <div>
+    <label htmlFor="city">City/State</label>
+    <input type="text" id="city" name="city" value={form.city} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="PostCode">Post Code</label>
+    <input type="text" id="PostCode" name="PostCode" value={form.PostCode} onChange={handleChange} />
+  </div>
+        </div>
 
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="Title">Title</label>
-              <select
-                id="Title"
-                name="Title"
-                value={form.Title}
-                onChange={handleChange}
-              >
-                <option name="Miss" value="Miss">
-                  Miss
-                </option>
-                <option name="Mr" value="Mr">
-                  Mr
-                </option>
-                <option name="Mrs" value="Mrs">
-                  Mrs
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="FirstName">First Name</label>
-              <input
-                type="text"
-                id="FirstName"
-                name="FirstName"
-                value={form.FirstName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MiddleName">Middle Name</label>
-              <input
-                type="text"
-                id="MiddleName"
-                name="MiddleName"
-                value={form.MiddleName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="LastName">Last Name</label>
-              <input
-                type="text"
-                id="LastName"
-                name="LastName"
-                value={form.LastName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Country">Country</label>
-              <select
-                id="Country"
-                name="Country"
-                value={form.Country}
-                onChange={handleChange}
-              >
-                <option value="United States" name="United States">
-                  United States
-                </option>
-                <option value="Canada" name="Canada">
-                  Canada
-                </option>
-                <option value="United Kingdom" name="United Kingdom">
-                  United Kingdom
-                </option>
-                <option value="Australia" name="Australia">
-                  Australia
-                </option>
-                <option value="New Zealand" name="New Zealand">
-                  New Zealand
-                </option>
-                <option value="Germany" name="Germany">
-                  Germany
-                </option>
-                <option value="France" name="France">
-                  France
-                </option>
-                <option value="Spain" name="Spain">
-                  Spain
-                </option>
-                <option value="Italy" name="Italy">
-                  Italy
-                </option>
-                <option value="Japan" name="Japan">
-                  Japan
-                </option>
-                <option value="China" name="China">
-                  China
-                </option>
-                <option value="India" name="India">
-                  India
-                </option>
-                <option value="Brazil" name="Brazil">
-                  Brazil
-                </option>
-                <option value="Mexico" name="Mexico">
-                  Mexico
-                </option>
-                <option value="Russia" name="Russia">
-                  Russia
-                </option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="city">City/State</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PostCode">Post Code</label>
-              <input
-                type="text"
-                id="PostCode"
-                name="PostCode"
-                value={form.PostCode}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+    <div className={styles.form}>
+    <div>
+    <label htmlFor="Address1">Address 1</label>
+    <input type="text" id="Address1" name="Address1" value={form.Address1} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="Address2">Address 2</label>
+    <input type="text" id="Address2" name="Address2" value={form.Address2} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="BusinessName">Business Name</label>
+    <input type="text" id="BusinessName" name="BusinessName" value={form.BusinessName} onChange={handleChange} />
+  </div>
+    </div>
 
-          <div className={styles.form}>
-            <div>
-              <label htmlFor="Address1">Address 1</label>
-              <input
-                type="text"
-                id="Address1"
-                name="Address1"
-                value={form.Address1}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="Address2">Address 2</label>
-              <input
-                type="text"
-                id="Address2"
-                name="Address2"
-                value={form.Address2}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="BusinessName">Business Name</label>
-              <input
-                type="text"
-                id="BusinessName"
-                name="BusinessName"
-                value={form.BusinessName}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+  <div className={styles.formFour}>
+  <div>
+    <label htmlFor="website">Website</label>
+    <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="CompanyNumber">Company Number</label>
+    <input type="text" id="CompanyNumber" name="CompanyNumber" value={form.CompanyNumber} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="PhoneNumber">Phone Number</label>
+    <input type="tel" id="PhoneNumber" name="PhoneNumber" value={form.PhoneNumber} onChange={handleChange} />
+  </div>
+  <div>
+    <label htmlFor="MobileNumber">Mobile Number</label>
+    <input type="tel" id="MobileNumber" name="MobileNumber" value={form.MobileNumber} onChange={handleChange} />
+  </div>
+  </div>
 
-          <div className={styles.formFour}>
-            <div>
-              <label htmlFor="website">Website</label>
-              <input
-                type="url"
-                id="website"
-                name="website"
-                value={form.website}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="CompanyNumber">Company Number</label>
-              <input
-                type="text"
-                id="CompanyNumber"
-                name="CompanyNumber"
-                value={form.CompanyNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="PhoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                id="PhoneNumber"
-                name="PhoneNumber"
-                value={form.PhoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="MobileNumber">Mobile Number</label>
-              <input
-                type="tel"
-                id="MobileNumber"
-                name="MobileNumber"
-                value={form.MobileNumber}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className={styles.submit}>
-            <button type="submit">Continue</button>
-          </div>
-        </form>
+  <div className={styles.submit}>
+        <button type="submit" >Continue</button>
+      </div>
+  </form>
       </div>
     </>
-  );
+    );
 };
+
