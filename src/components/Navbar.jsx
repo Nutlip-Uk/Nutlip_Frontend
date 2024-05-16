@@ -116,7 +116,7 @@ const MainNavbar = ({userInformation,handleLogout}) => {
             <a href={"https://blockchain.nutlip.co.uk"}>Blockchain</a>
           </li>
 
-          { userInformation  ? (
+          { userInformation?.user  ? (
             <>
                <div className={sty.UserLogContainer} >
                 <div className={sty.userInfo} onClick={Popped}>
@@ -143,10 +143,10 @@ const MainNavbar = ({userInformation,handleLogout}) => {
       </div>
 
       <div className={sty.MenuBtn}>
-        <img src="/navbar/notification.png" alt="" />
+        {userInformation?.user ? <> <img src="/navbar/notification.png" alt="" />
         <div className={sty.MobileuserInfo} onClick={Popped}>
           <img src="/navbar/userimg.png" alt="" />
-        </div>
+        </div> </> : null}
 
         <Image
           className={``}
