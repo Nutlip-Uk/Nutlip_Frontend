@@ -26,7 +26,7 @@
   position: absolute;
   display: grid;
   place-self: center;
-  top: 10%;
+  top: 13%;
   color: rgba(255, 255, 255, 0.9);
   font-size: 60px;
  font-family: "poppins";
@@ -341,7 +341,7 @@
   }
 }
 
-@media (780px <= width <= 1200px) {
+@media (780px <= width <= 1300px) {
   .container {
     height: 70dvh;
     width: 100%;
@@ -370,7 +370,7 @@
     align-items: center;
     gap: 10px;
     position:absolute;
-    bottom:15%;
+    bottom:10%;
   }
   
   .compCon{
@@ -441,5 +441,3 @@
     -o-border-radius: 20px;
   }
 }
-
-

@@ -26,7 +26,7 @@ const Welcome = () => {
      
     LastName: "",
 
-    email: "",
+    email: userInformation.user.email,
 
     Country: "",
 
@@ -107,7 +107,9 @@ const Welcome = () => {
         console.log("Form successfully updated", data);
         console.log(data);
         
-        handlePutResponse(data);
+        // handlePutResponse(data);
+
+        next();
       } else {
         console.log("Form update failed");
         // Log the response body if available
@@ -137,28 +139,25 @@ const Welcome = () => {
 
 
 
-  const cancelBox=()=>{
-    setIsUserFirstTime(false)
-  }
-
-
 
   return (
     <div className={styles.Section}>
       <div className={styles.container}>
         <div className={styles.cancelButton}>
-          <button onClick={cancelBox}>{"X"}</button>
+         {/*  <button onClick={cancelBox}>{"X"}</button> */}
         </div>
         
         <div className={styles.box}>
         {count.current === 1 && <WelcomePage next={next} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
         {count.current === 2 && <WhatDescribesYou next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-        {count.current === 3 && selectedRole === "property_seeker" && <PrivateSellerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+        {count.current === 3 && selectedRole === "property_seeker" && <PropertySeeker next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit} userInformation={userInformation}/>  }
           {count.current === 3 && selectedRole === "Real_estate_agent" && <AgentForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "Mortgage_broker" && <MortgageBrokerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "Conveyancer" && <ConveyancerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "private_seller" && <BuyerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-        
+          {count.current === 3 && selectedRole === "guest" && <Guest next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          
+        {count.current === 4 && <Congratulations next={next} back={back} handlePutResponse={handlePutResponse}/>}
         </div>
       </div>
     </div>
@@ -246,10 +245,10 @@ const WhatDescribesYou = ({next}) => {
                 name="description"
                   value="property_seeker"
                   
-                  label="Private Seller"
+                  label="property_seeker"
                 />
 
-                <label htmlFor="privateSeller">Private Seller</label>
+                <label htmlFor="property_seeker">Property Seeker</label>
                 
                 </div>
 
@@ -299,6 +298,20 @@ const WhatDescribesYou = ({next}) => {
                 <label htmlFor="Private seller">Private seller</label>
                 
                 </div>
+                <div className={styles.radioButtonContainer}>
+
+                <input type="radio"
+
+                  name="description"
+
+                  value="guest"
+                  
+                  label="Guest"
+
+                />
+                <label htmlFor="Guest">Guest</label>
+                
+                </div>
 
 
                
@@ -315,6 +328,99 @@ const WhatDescribesYou = ({next}) => {
     </>
   );
 };
+
+const PropertySeeker = ({form, handleSubmit, handleChange, userInformation}) => {
+   
+  
+
+      return (<>
+        <div className={styles.MainContainer}>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+
+<div className={styles.formHeader}>
+   <h2>Property Seeker</h2>
+   <p>Kindly fill this form, for a more personalized experience.</p>
+</div>
+ 
+ <div className={styles.form2}>
+
+ <div>
+   <label htmlFor="Title">Title</label>
+   <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
+ </div>
+  
+ 
+  <div>
+    <label htmlFor="fullname">Full Name</label>
+    <input type="fullname" id="fullname" name="fullname" value={userInformation.user.name} placeHolder={userInformation.user.name} disabled/>
+  </div>
+  <div>
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} placeHolder={userInformation.user.email} disabled/>
+  </div>
+
+
+ </div>
+
+ <div className={styles.submit}>
+   <button type="submit">Continue</button>
+ </div>
+</form>
+        </div>
+        </>
+      )
+};
+
+const Guest = ({form, handleSubmit, handleChange, userInformation}) => {
+   
+  
+
+      return (<>
+        <div className={styles.MainContainer}>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+
+<div className={styles.formHeader}>
+   <h2>Property Seeker</h2>
+   <p>Kindly fill this form, for a more personalized experience.</p>
+</div>
+ 
+ <div className={styles.form2}>
+
+ <div>
+   <label htmlFor="Title">Title</label>
+   <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+     <option name="Miss" value="Miss">Miss</option>
+     <option name="Mr" value="Mr">Mr</option>
+     <option name="Mrs" value="Mrs">Mrs</option>
+   </select>
+ </div>
+  
+ 
+  <div>
+    <label htmlFor="fullname">Full Name</label>
+    <input type="fullname" id="fullname" name="fullname" value={userInformation.user.name} placeHolder={userInformation.user.name} disabled/>
+  </div>
+  <div>
+    <label htmlFor="email">Email Address</label>
+    <input type="email" id="email" name="email" value={form.email} placeHolder={userInformation.user.email} disabled/>
+  </div>
+
+
+ </div>
+
+ <div className={styles.submit}>
+   <button type="submit">Continue</button>
+ </div>
+</form>
+        </div>
+        </>
+      )
+};
+
 
 const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
    
@@ -848,4 +954,24 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
     </>
     );
 };
+
+ const Congratulations = ({handlePutResponse}) => {
+  return (
+    <>
+      <div className={styles.welcomeContainer}>
+
+       <div className={styles.congratulationsContainer}>
+       <div className={styles.congratulationsImg}>
+          <img src="./congratulations.svg" alt=""/>
+          <p>{"Nice Job!!"}</p>
+        </div>
+        
+        <p className={styles.Thankyou}>{"Thank you for completing the forms. Enjoy the Nutlip platform."}</p>
+        <button onClick={handlePutResponse()}>proceed</button>
+       </div>
+
+      </div>
+    </>
+  )
+ }
 
