@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
       "Mortgage_broker",
       "Conveyancer",
       "private_seller",
+      "guest"
     ],
   },
 
