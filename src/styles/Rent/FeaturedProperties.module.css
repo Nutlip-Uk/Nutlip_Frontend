@@ -177,3 +177,141 @@ letter-spacing: 0em;
 text-align: left;
 color:#626161;
 }
+
+
+@media ( width <=400px) {
+    .Header p{
+        font-size: 24px;
+        line-height: unset;
+        letter-spacing: unset;
+        text-align: unset;
+        color:#010B25;
+        }
+        
+        .SubHeader{
+            display:flex;
+            width:100%;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .SubHeader p{
+        font-size: 16px;
+        font-weight: unset;
+        line-height: unset;
+        letter-spacing: unset;
+        text-align: unset;
+        color:#141212;
+        
+        }
+        
+        .SubHeader button{
+            display:flex;
+            gap:8px;
+            align-items:center;
+            padding:10px 10px;
+            border-radius:8px;
+            min-width:fit-content;
+            border:none;
+            background: #F8CCD3;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: unset;
+        letter-spacing: unset;
+        text-align: unset;
+        color:#DA0025;
+        cursor:pointer;
+        }
+
+        
+.BoxContainer{
+    display:flex;
+    gap:4%;
+    width: 100%;
+    overflow:scroll;
+    /* ::-webkit-scrollbar{ */
+        /* display: none; */
+    /* } */
+/*  */
+    /* ::-webkit-scrollbar-track { */
+        /* display: none; */
+    /* } */
+}
+
+
+
+
+}
+@media (400px <= width <=779px) {
+    .Header p{
+        font-size: 26px;
+        line-height: unset;
+        letter-spacing: unset;
+        text-align: unset;
+        color:#010B25;
+        }
+        
+        .SubHeader{
+            display:flex;
+            width:100%;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .SubHeader p{
+        font-size: 16px;
+        font-weight: unset;
+        line-height: unset;
+        letter-spacing: unset;
+        text-align: unset;
+        color:#141212;
+        
+        }
+        
+        .SubHeader button{
+            display:flex;
+            gap:8px;
+            align-items:center;
+            padding:10px 10px;
+            border-radius:8px;
+            min-width:fit-content;
+            border:none;
+            background: #F8CCD3;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: unset;
+        letter-spacing: unset;
+        text-align: unset;
+        color:#DA0025;
+        cursor:pointer;
+        }
+    .BoxContainer{
+        display:flex;
+        gap:4%;
+        width: 100%;
+        overflow:scroll;
+        /* ::-webkit-scrollbar{ */
+            /* display: none; */
+        /* } */
+    /*  */
+        /* ::-webkit-scrollbar-track { */
+            /* display: none; */
+        /* } */
+    }
+    
+}
+
+@media (780px <= width <= 960px) {
+    .BoxContainer{
+        display:flex;
+        gap:4%;
+        width: 100%;
+        overflow:scroll;
+        /* ::-webkit-scrollbar{ */
+            /* display: none; */
+        /* } */
+    /*  */
+        /* ::-webkit-scrollbar-track { */
+            /* display: none; */
+        /* } */
+    }
+    
+}
