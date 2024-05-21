@@ -98,13 +98,13 @@ font-size: 24px;
 font-weight: 600;
 }
 
-.setPriceIinputContainer{
+.setPriceInputContainer{
     display:flex;
     align-items: end;
     gap:16px;
 }
 
-.setPriceIinputContainer label{
+.setPriceInputContainer label{
     display:flex;
     flex-direction:column;
     gap:8px;
@@ -114,7 +114,7 @@ color: #141212;
 }
 
 
-.setPriceIinputContainer label input , .setPriceIinputContainer label select{
+.setPriceInputContainer label input , .setPriceInputContainer label select{
     border: 1px solid #D0D5DD;
     box-shadow: 0px 1px 2px 0px #1018280D;
     width: 300px;
@@ -182,6 +182,11 @@ gap:8px;
 }
 
     
+.address{
+    font-size: 18px;
+    font-weight: 600;
+    color:black;
+    }
     .accurateLocation{
         display:flex;
         gap:24px;
@@ -201,10 +206,35 @@ gap:8px;
     padding: 5px 10px;
     font-size: 14px;
 }
-    .setPriceIinputContainer{
+    .setPriceInputContainer{
         align-items:start;
         flex-direction:column;
         width:100%;
+    }
+
+    .setPriceInputContainer label{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+    width:100%;
+    }
+
+    .setPriceInputContainer label input , .setPriceInputContainer label select{
+        border: 1px solid #D0D5DD;
+        box-shadow: 0px 1px 2px 0px #1018280D;
+        width: 100%;
+    height: 52px;
+    padding: 14px;
+    gap: 0px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #494949;
+    
+    
     }
 
     
@@ -222,6 +252,8 @@ gap:8px;
         font-size: 16px;
         font-weight: 600;
     }
+
+    
 
 
 }
@@ -238,6 +270,11 @@ gap:8px;
     height:100%;
 }
 
+.address{
+    font-size: 20px;
+    font-weight: 600;
+    color:black;
+    }
     
     .accurateLocation{
         display:flex;
@@ -258,12 +295,36 @@ gap:8px;
     padding: 5px 10px;
     font-size: 14px;
 }
-    .setPriceIinputContainer{
+    .setPriceInputContainer{
         align-items:start;
         flex-direction:column;
         width:100%;
     }
 
+    .setPriceInputContainer label{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+    width:100%;
+    }
+
+    .setPriceInputContainer label input , .setPriceInputContainer label select{
+        border: 1px solid #D0D5DD;
+        box-shadow: 0px 1px 2px 0px #1018280D;
+        width: 100%;
+    height: 52px;
+    padding: 14px;
+    gap: 0px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #494949;
+    
+    
+    }
     
 .saveContainer{
     display:flex;
@@ -279,21 +340,23 @@ gap:8px;
         font-size: 16px;
         font-weight: 600;
     }
+
+   
 }
 
 @media (780px <= width <= 960px) {
     .mapContainer{
         width:100%;
-        height:20vh;
-        padding-bottom:0px;
+        height:30vh;
+        padding-bottom:30px;
     }
-    .setPriceIinputContainer{
+    .setPriceInputContainer{
         align-items:start;
         flex-direction:column;
         width:100%;
         gap:16px;
     }
-    .setPriceIinputContainer label{
+    .setPriceInputContainer label{
         display:flex;
         flex-direction:column;
         gap:8px;
@@ -304,7 +367,55 @@ gap:8px;
     }
     
     
-    .setPriceIinputContainer label input , .setPriceIinputContainer label select{
+    .setPriceInputContainer label input , .setPriceInputContainer label select{
+        border: 1px solid #D0D5DD;
+        box-shadow: 0px 1px 2px 0px #1018280D;
+        width: 100%;
+    height: 52px;
+    padding: 14px;
+    gap: 0px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #494949;
+    
+    
+    }
+    
+    
+
+}
+
+@media (960px <= width <= 1500px) {
+    .mapContainer{
+        width:100%;
+        height:50vh;
+        padding-bottom:30px;
+    }
+    .setPriceContainer{
+        display:flex;
+        flex-direction:column;
+        gap:16px;
+        flex-wrap:wrap;
+    }
+
+    .setPriceInputContainer{
+        display:flex;
+        gap:16px;
+        flex-wrap:wrap;
+
+    }
+    .setPriceInputContainer label{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+    width:100%;
+    }
+
+    .setPriceInputContainer label input , .setPriceInputContainer label select{
         border: 1px solid #D0D5DD;
         box-shadow: 0px 1px 2px 0px #1018280D;
         width: 100%;
@@ -320,4 +431,19 @@ gap:8px;
     }
     
 
+    .saveContainer{
+        display:flex;
+        gap:8px;
+        width:40%;
+        }
+        
+        .saveContainer button{
+            width: 100%;
+            height:56px;
+            padding: 16px 0px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    
 }
