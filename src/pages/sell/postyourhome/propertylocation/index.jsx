@@ -51,7 +51,7 @@ function PropertyLocation() {
           <div className={styles.setPriceContainer}>
               <p className={styles.setPriceHeader}>Set your price</p>
 
-              <div className={styles.setPriceIinputContainer}>
+              <div className={styles.setPriceInputContainer}>
               <label>
                 Amount
                 <input type="text" placeholder="Amount"/>

@@ -404,9 +404,9 @@ const PostPropertyDetailTwo = ({ next, back, form, handleChange }) => {
           >
             Select
             <option value="select">Select</option>
-            <option value="USD">USDT</option>
-            <option value="EUR">USDC</option>
-            <option value="GBP">Pounds</option>
+            <option name="USD" value="USD">USD</option>
+            <option name="EUR" value="EUR">EUR</option>
+            <option name="GBP" value="GBP">GBP</option>
           </select>
         </label>
       </div>
