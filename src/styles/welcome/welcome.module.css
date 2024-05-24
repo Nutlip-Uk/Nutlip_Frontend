@@ -190,6 +190,12 @@
     gap: 24px;
     width: 100%;
 }
+.form2{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 24px;
+    width: 100%;
+}
 
 .formFour {
     display: grid;
@@ -206,6 +212,19 @@
 
 .form input,
 .form select {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+}
+.form2 label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.form2 input,
+.form2 select {
     padding: 14px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -241,6 +260,42 @@
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.congratulationsContainer{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:24px;
+}
+
+.congratulationsImg{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.congratulationsImg p{
+font-size: 20px;
+font-weight: 600;
+}
+
+.Thankyou{
+    text-align:center;
+font-size: 16px;
+font-weight: 400;
+}
+
+.congratulationsContainer button{
+    width:100%;
+    background: #DA0025;
+padding: 14px 20px;
+border-radius: 8px;
+font-size: 16px;
+font-weight: 500;
+color:white;
+border:none;
+cursor:pointer;
 }
 
 @media (width <=400px) {
