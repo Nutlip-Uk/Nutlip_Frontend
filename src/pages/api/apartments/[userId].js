@@ -11,7 +11,7 @@ import Apartment from "../../../models/Apartment";
  * DELETE /api/apartments/{userId}: Deletes an apartment by its ID.
  *
  */
-export default async function handler(req, res) {d
+export default async function handler(req, res) {
   const {
     query: { id },
     method,
