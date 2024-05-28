@@ -2,7 +2,16 @@
 import dbConnect from "../../../libs/dbconnect";
 import Apartment from "../../../models/Apartment";
 
-export default async function handler(req, res) {
+/**
+ * Handles HTTP requests for the `/api/apartments/{userId}` endpoint.
+ * Supports GET, PUT, and DELETE operations on apartment resources.
+ *
+ * GET /api/apartments/{userId}: Retrieves an apartment by its ID.
+ * PUT /api/apartments/{userId}: Updates an existing apartment by its ID.
+ * DELETE /api/apartments/{userId}: Deletes an apartment by its ID.
+ *
+ */
+export default async function handler(req, res) {d
   const {
     query: { id },
     method,

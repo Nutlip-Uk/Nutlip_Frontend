@@ -1,5 +1,3 @@
-//? /api/apartments this api only works for getting all requests nd making a post req
-
 // api/apartments.js
 
 import dbConnect from "../../../libs/dbconnect";
@@ -7,8 +5,7 @@ import Apartment from "../../../models/Apartment";
 
 export default async function handler(req, res) {
   await dbConnect();
-  // console.log(Apartment);
-  console.log(req.body);
+  console.log(Apartment);
   if (req.method === "POST") {
     // Create apartment logic
 
@@ -18,7 +15,6 @@ export default async function handler(req, res) {
       purpose,
       location,
       price,
-      // rating,
       images,
       address,
       Landmark,
@@ -31,7 +27,7 @@ export default async function handler(req, res) {
       Toilets,
       size,
       stateOfProperty,
-      //  name,
+      // name,
       description,
       Amount,
       Minimum_offer,
@@ -43,7 +39,7 @@ export default async function handler(req, res) {
 
     try {
       const newApartment = await Apartment({
-        //    owner,
+        // owner,
         Title,
         purpose,
         location,
@@ -61,7 +57,7 @@ export default async function handler(req, res) {
         Toilets,
         size,
         stateOfProperty,
-        //name,
+        // name,
         description,
         Amount,
         Minimum_offer,
@@ -71,8 +67,14 @@ export default async function handler(req, res) {
         // virtual_tour_link,
       });
 
-      await newApartment.save();
+      // Validate request body
+      // const { error } = validateApartmentInput(req.body);
+      // if (error) {
+      //   return res.status(400).send(error.details[0].message);
+      // }
+
       res.status(201).json(newApartment);
+      await newApartment.save();
       console.log(newApartment);
     } catch (error) {
       console.error(error);
