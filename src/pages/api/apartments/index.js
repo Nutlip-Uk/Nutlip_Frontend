@@ -2,15 +2,15 @@
 
 import dbConnect from "../../../libs/dbconnect";
 import Apartment from "../../../models/Apartment";
+import User from "../../../models/User";
 
 export default async function handler(req, res) {
   await dbConnect();
-  console.log(Apartment);
+  // console.log(Apartment);
   if (req.method === "POST") {
     // Create apartment logic
-
+    const userId = req.userId; // Get the user ID from the request object
     const {
-      //  owner,
       Title,
       purpose,
       location,
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
     try {
       const newApartment = await Apartment({
-        // owner,
+        userId,
         Title,
         purpose,
         location,
@@ -72,6 +72,10 @@ export default async function handler(req, res) {
       // if (error) {
       //   return res.status(400).send(error.details[0].message);
       // }
+      // Update the user's Apartment field with the new Apartment document's ID
+      // await User.findByIdAndUpdate(userId, {
+      //   $push: { Apartment: newApartment._id },
+      // });
 
       res.status(201).json(newApartment);
       await newApartment.save();

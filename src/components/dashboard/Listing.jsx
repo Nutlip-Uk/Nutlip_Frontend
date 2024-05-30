@@ -1,3 +1,4 @@
+import { Apartment } from "@mui/icons-material";
 import styles from "../../styles/dashboard/listing.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext, useRef } from "react";
@@ -85,14 +86,43 @@ const Navigation = ({ handleChange, type }) => {
   );
 };
 
-const ListProperty = ({ next, handleChange, type }) => {
+const ListProperty = ({ next, handleChange, type, userId }) => {
+  const [apartment, setApartment] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchApartment = async () => {
+      try {
+        const response = await fetch(`/api/apartments/${userId}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setApartment(data);
+          console.log(data);
+        } else {
+          setError(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+        setError("Failed to fetch user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApartment();
+  }, [userId]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <>
       <p className={styles.Header}>My Listing</p>
 
       <Navigation handleChange={handleChange} type={type} />
 
-      <div className={styles.propertyContainer} >
+      <div className={styles.propertyContainer}>
         <input type="checkbox" />
 
         <div className={styles.Property} onClick={next}>
@@ -100,10 +130,21 @@ const ListProperty = ({ next, handleChange, type }) => {
             <img src="/dashboard/listimg.png" />
 
             <div className={styles.propertyText}>
-              <p>3 bedroom flat for sale</p>
-              <p>Navino road, London E8</p>
-
-              <p>Last updated: 12th June, 2023</p>
+              {apartment ? (
+                <>
+                  <p>{apartment.title}</p>
+                  <p>{apartment.location}</p>
+                  {/* Check if user exists before accessing its properties */}
+                  {user && user.date_created && (
+                    <p>
+                      Last Updated:{" "}
+                      {new Date(user.date_created).toLocaleString()}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
           </div>
 
@@ -111,8 +152,14 @@ const ListProperty = ({ next, handleChange, type }) => {
 
           <div className={styles.PropertyInfo}>
             <p>Listing ID: WYE12</p>
-            <p>£706,000</p>
-            <p>status : Available</p>
+            {apartment ? (
+              <>
+                <p>{apartment.Amount}</p>
+                <p>Is Sold: {apartment.isSold ? "Yes" : "No"}</p>
+              </>
+            ) : (
+              <p>Loading...</p>
+            )}
             <p>View property</p>
           </div>
         </div>
@@ -244,7 +291,6 @@ const ListingDetail = ({ next, back, handleChange }) => {
             </div>
           </div>
 
-          
           <div className={styles.ListingDetailRight}>
             <div className={styles.ListingDetailRightInfo}>
               <div className={styles.ListingDetailRightInfoHeader}>
@@ -253,27 +299,29 @@ const ListingDetail = ({ next, back, handleChange }) => {
               </div>
 
               <div className={styles.ListingDetailRightText}>
-                <p >
+                <p>
                   This resplendent Georgian conversion property is wonderfully
                   located for transport links, local amenities and green urban
                   spaces. The perfect first time buy or buy to let opportunity.
                 </p>
 
                 <div className={styles.keyFeatures}>
-                    <p>Key features</p> 
+                  <p>Key features</p>
 
-                    <li>Sold in March 2023</li>
-                    <li>Three bedrooms</li>
-                    <li>Family bathroom and guest w/</li>
-                    <li>Built in wardrobes to bedroom one and two</li>
-                    <li>17ft garage and off street parking</li>
-                    <li>41ft secluded rear garden</li>
-                    <li>South facing terrace to the front with fantastic views</li>
+                  <li>Sold in March 2023</li>
+                  <li>Three bedrooms</li>
+                  <li>Family bathroom and guest w/</li>
+                  <li>Built in wardrobes to bedroom one and two</li>
+                  <li>17ft garage and off street parking</li>
+                  <li>41ft secluded rear garden</li>
+                  <li>
+                    South facing terrace to the front with fantastic views
+                  </li>
                 </div>
 
                 <div className="">
-                <p className={styles.Readmore}>Read more</p>
-                <p>Listed on 10th Jun 2023</p>
+                  <p className={styles.Readmore}>Read more</p>
+                  <p>Listed on 10th Jun 2023</p>
                 </div>
               </div>
             </div>

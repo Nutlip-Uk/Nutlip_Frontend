@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const ApartmentSchema = new mongoose.Schema({
-  // owner: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: false,
-  // },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   Title: {
     type: String,
     // required: true,
@@ -105,9 +105,9 @@ const ApartmentSchema = new mongoose.Schema({
   },
   Add_features: {
     type: String,
-    enum: ['Elevator', 'Stairs'],
+    enum: ["Elevator", "Stairs"],
     required: true,
-  },  
+  },
   video_link: {
     type: String,
   },
