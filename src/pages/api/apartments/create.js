@@ -2,7 +2,9 @@
 
 import dbConnect from "../../../libs/dbconnect";
 import Apartment from "../../../models/Apartment";
+import User from "../../../models/User";
 import jwt from "jsonwebtoken";
+import isAuthenticated from "../../../middleware/verifyToken";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -48,6 +50,7 @@ export default async function handler(req, res) {
         } = req.body;
 
         const newApartment = await Apartment.create({
+          userId: User._id,
           Title,
           purpose,
           location,
@@ -70,7 +73,11 @@ export default async function handler(req, res) {
           Currency,
           Add_features,
           video_link,
-          owner: userId, // Set the owner of the apartment to the authenticated user
+        });
+
+        // Update the user's Apartment field with the new Apartment document's ID
+        await User.findByIdAndUpdate(userId, {
+          $push: { Apartment: newApartment._id },
         });
 
         res.status(201).json(newApartment);
@@ -89,10 +96,10 @@ export default async function handler(req, res) {
 // import dbConnect from "../../../libs/dbconnect";
 // import Apartment from "../../../models/Apartment";
 // import jwt from "jsonwebtoken";
-
+//
 // export default async function handler(req, res) {
 //   await dbConnect();
-  
+
 //   // Check if the request has an Authorization header
 //   const authHeader = req.headers.authorization;
 //   if (!authHeader) {
@@ -184,4 +191,3 @@ export default async function handler(req, res) {
 //     res.status(401).json({ message: "Invalid token" });
 //   }
 // }
-
