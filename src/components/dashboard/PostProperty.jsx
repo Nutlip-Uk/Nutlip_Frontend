@@ -40,7 +40,7 @@ const PostProperty = () => {
     description: "",
     Add_features: "",
     video_link: "",
-    // virtual_tour_link: "",
+    virtual_tour_link: "",
     images: [],
     //rating: "",
   });
@@ -67,6 +67,8 @@ const PostProperty = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Form submitted successfully:", data);
+        //todo redirect to a different page
+        Router.push("/dashboard?option=listing");
       } else {
         // Handle HTTP errors
         console.error("Server responded with an error:", response.status);
