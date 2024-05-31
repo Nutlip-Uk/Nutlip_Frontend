@@ -1,40 +1,35 @@
 //? /api/apartments/id note that the id is dynamic
 import dbConnect from "../../../libs/dbconnect";
 import Apartment from "../../../models/Apartment";
+import User from "../../../models/User";
 
+/**
+ * Handles HTTP requests for the `/api/apartments/{userId}` endpoint.
+ * Supports GET, PUT, and DELETE operations on apartment resources.
+ *
+ * GET /api/apartments/{userId}: Retrieves an apartment by its ID.
+ * PUT /api/apartments/{userId}: Updates an existing apartment by its ID.
+ * DELETE /api/apartments/{userId}: Deletes an apartment by its ID.
+ *
+ */
 export default async function handler(req, res) {
-  const {
-    query: { id },
-    method,
-  } = req;
+  const { userId } = req.query;
+  const { method } = req;
 
   await dbConnect();
 
   switch (method) {
     case "GET" /* Get an apartment */:
       try {
-        const apartment = await Apartment.findById(id);
-        if (!apartment) {
-          return res.status(400).json({ success: false });
-        }
-        res.status(200).json({ success: true, data: apartment });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
+        // Fetch apartments where the userId matches the provided userId
+        const apartments = await Apartment.find({ userId });
 
-    case "PUT" /* Edit an apartment */:
-      try {
-        const apartment = await Apartment.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-        });
-        if (!apartment) {
-          return res.status(400).json({ success: false });
-        }
-        res.status(200).json({ success: true, data: apartment });
+        res.status(200).json(apartments);
+        console.log(apartments);
       } catch (error) {
-        res.status(400).json({ success: false });
+        console.log(error);
+        console.error(error);
+        res.status(500).json({ message: "Error fetching apartments" });
       }
       break;
 

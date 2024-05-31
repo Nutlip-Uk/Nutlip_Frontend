@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const ApartmentSchema = new mongoose.Schema({
-  // owner: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: false,
-  // },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   Title: {
     type: String,
     // required: true,
@@ -17,7 +17,7 @@ const ApartmentSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    // required: true,
+    required: true,
   },
   price: {
     type: Number,
@@ -57,29 +57,25 @@ const ApartmentSchema = new mongoose.Schema({
     required: true,
   },
   subTypeOfProperty: {
-    type: [String],
+    type: String,
     enum: ["new_property", "retirement_home", "auction", "shared_ownership"],
     // default: [],
     required: false,
   },
   bedrooms: {
     type: Number,
-    enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
     required: true,
   },
   bathrooms: {
     type: Number,
-    enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
     required: true,
   },
   Toilets: {
-    type: String,
-    enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    type: Number,
     required: true,
   },
   size: {
-    type: String,
-    enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    type: Number,
     required: true,
   },
   stateOfProperty: {
@@ -109,7 +105,7 @@ const ApartmentSchema = new mongoose.Schema({
   },
   Add_features: {
     type: String,
-    enum: ["Elevator", "stairs"],
+    enum: ["Elevator", "Stairs"],
     required: true,
   },
   video_link: {
