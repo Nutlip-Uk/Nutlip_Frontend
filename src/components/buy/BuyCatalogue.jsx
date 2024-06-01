@@ -6,9 +6,10 @@ import { FaRegHeart } from "react-icons/fa";
 import { buy } from './../../utils/buyproperties';
 import { useRouter } from "next/router"
 import Link  from 'next/link';
+import { useState,useEffect } from "react";
 
 
-export const BuyCatalogue = () => {
+export const BuyCatalogue = ({properties}) => {
 
 
   return (
@@ -16,8 +17,8 @@ export const BuyCatalogue = () => {
         <div className={styles.container}>
           <div className={styles.gridContainer}>
             {
-              buy.map((property) => (
-                <Property key={property.id} property={property} />
+              properties.map((property) => (
+                <Property key={property._id} property={property} />
               ))
             }
           </div>
@@ -29,10 +30,12 @@ export const BuyCatalogue = () => {
 
 function Property({property}) {
   const router =  useRouter()
+  const date = new Date(property?.date_created);
+  const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return (
     <div className={styles.propertyContainer}>
                   <div className={styles.property}>
-                    <Link href={`/${router.pathname}/${property.id}`}  className={styles.ImageContainer}>
+                    <Link href={`/buy/search/${property._id}`}  className={styles.ImageContainer}>
                       <div className={styles.indications}>
                       <p style={property.just_added === false ? {opacity: 0} : null}>{property.just_added ? "Just added ":null}</p>
                         <FaRegHeart className={styles.heart}/>
@@ -43,30 +46,30 @@ function Property({property}) {
                       <div className={styles.propertyFeatures}>
                        <li>
                         <img src="/picture.svg" alt="" />
-                        <p>1/{property.options.pictures}</p>
+                        <p>1/{property?.options?.pictures}</p>
                        </li>
                        <li>
                         <img src="/video.svg" alt="" />
-                        <p>{property.options.videos}</p>
+                        <p>{property?.options?.videos}</p>
                        </li>
                        <li>
                         <img src="/vr.svg" alt="" />
-                        <p>{property.options.vr}</p>
+                        <p>{property?.options?.vr}</p>
                        </li>
                        <li>
                         <img src="/floorplan.svg" alt="" />
-                        <p>{property.options.floor_plan}</p>
+                        <p>{property?.options?.floor_plan}</p>
                        </li>
                        <li>
                         <img src="/360tour.svg" alt="" />
-                        <p>{property.options.virtual_tour}</p>
+                        <p>{property?.options?.virtual_tour}</p>
                        </li>
                       </div>
                     </Link>
 
                     <div className={styles.propertyDetails}>
                         <div className={styles.propertyOffer}>
-                          <p>£{property.price}</p>
+                          <p>£{property?.price}</p>
 
                           <button>Make an offer</button>
                         </div>
@@ -74,31 +77,31 @@ function Property({property}) {
                         <div className={styles.propertySize}>
                           <li>
                             <img src="/bedroom.svg" alt="" />
-                            <p>{property.facilities.bedrooms}</p>
+                            <p>{property?.bedrooms}</p>
                           </li>
                           <li>
                             <img src="/bathtub.svg" alt="" />
-                            <p>{property.facilities.bathrooms}</p>
+                            <p>{property?.bathrooms}</p>
                           </li>
                           <li>
                             <img src="/chair.svg" alt="" />
-                            <p>{property.facilities.livingroom}</p>
+                            <p>{property?.livingroom}</p>
                           </li>
                           <li>
                           <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
-                            <p>{property.facilities.toilets}</p>
+                            <p>{property?.Toilets}</p>
                           </li>
                         </div>
 
                         <div className={styles.propertyInfo}>
-                            <p className={styles.name}>{property.desc}</p>
-                            <p className={styles.location}>{property.location}</p>
-                            <p className={styles.desp}>{property.text}</p>
-                            <p className={styles.listed}>{property.listed}</p>
+                            <p className={styles.name}>{property?.Title}</p>
+                            <p className={styles.location}>{property?.location}</p>
+                            <p className={styles.desp}>{property?.description}</p>
+                            <p className={styles.listed}>{formattedDate}</p>
                         </div>
 
                         <div className={styles.ContactInfo}>
-                            <img src={property.company} alt="" />
+                            <img src={property?.company} alt="" />
                             <div className={styles.contact}>
                             <FiPhone />
                             <p></p>
