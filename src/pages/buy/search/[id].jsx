@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../../styles/buy/Details.module.css";
 import RelatedProperties from "../../../components/buy/BuyRelatedProperties";
-import axios from 'axios';
+import axios from "axios";
 
 import {
   DetailsContent,
@@ -12,27 +12,25 @@ import Link from "next/link";
 import OfferModal from "../../../components/Modals/Offer.modal";
 import { useState } from "react";
 
-
-
-
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  console.log('Fetching property with ID:', id); // Log the ID being fetched
+  console.log("Fetching property with ID:", id); // Log the ID being fetched
 
   try {
-    const res = await fetch(`/api/apartments/${id}`);
+    const res = await fetch(`/api/apartment/${id}`);
     if (!res.ok) {
-      throw new Error('Failed to fetch');
+      throw new Error("Failed to fetch");
     }
     const property = await res.json();
-    console.log('API Response:', property); 
+    console.log("API Response:", property);
     return {
       props: {
         property,
       },
     };
   } catch (error) {
-    console.error('API Error:', error); 
+    console.log(error);
+    console.error("API Error:", error);
     return {
       props: {
         property: null,
@@ -41,13 +39,10 @@ export async function getServerSideProps(context) {
   }
 }
 
-
-
 const Details = ({ property }) => {
   const router = useRouter();
   const { id } = router.query;
-  console.log('Router Query ID:', id);
-
+  console.log("Router Query ID:", id);
 
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
