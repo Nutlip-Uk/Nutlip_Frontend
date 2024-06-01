@@ -9,8 +9,9 @@ export default async function handler(req, res) {
   // console.log(Apartment);
   if (req.method === "POST") {
     // Create apartment logic
-    const userId = req.userId; // Get the user ID from the request object
+    //const userId = req.userId; // Get the user ID from the request object
     const {
+      userId,
       Title,
       purpose,
       location,
