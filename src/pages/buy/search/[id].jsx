@@ -2,7 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../../styles/buy/Details.module.css";
 import RelatedProperties from "../../../components/buy/BuyRelatedProperties";
-import { buy } from "../../../utils/buyproperties";
+import axios from 'axios';
+
 import {
   DetailsContent,
   DetailsImages,
@@ -11,21 +12,43 @@ import Link from "next/link";
 import OfferModal from "../../../components/Modals/Offer.modal";
 import { useState } from "react";
 
-export async function getStaticPaths() {
-  const paths = buy.map((property) => ({
-    params: { id: property.id.toString() },
-  }));
 
-  return { paths, fallback: false };
+
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  console.log('Fetching property with ID:', id); // Log the ID being fetched
+
+  try {
+    const res = await fetch(`/api/apartments/${id}`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch');
+    }
+    const property = await res.json();
+    console.log('API Response:', property); 
+    return {
+      props: {
+        property,
+      },
+    };
+  } catch (error) {
+    console.error('API Error:', error); 
+    return {
+      props: {
+        property: null,
+      },
+    };
+  }
 }
 
-export async function getStaticProps({ params }) {
-  const property = buy.find((property) => property.id === Number(params.id));
-  return { props: { property } };
-}
+
 
 const Details = ({ property }) => {
   const router = useRouter();
+  const { id } = router.query;
+  console.log('Router Query ID:', id);
+
+
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(!showModal);
@@ -35,6 +58,10 @@ const Details = ({ property }) => {
   };
 
   const [viewOptions, setViewOptions] = useState("");
+
+  if (!property) {
+    return <div className={styles.error}>Property not found</div>;
+  }
 
   return (
     <section className={styles.Section}>

@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import styles from "../../styles/buy/Details.module.css";
 import { useState } from "react";
 
-export const DetailsImages = (props) => {
-  const data = props.data;
+export const DetailsImages = ({data}) => {
+ 
   const { images, options } = data;
 
   return (

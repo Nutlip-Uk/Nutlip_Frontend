@@ -2,14 +2,30 @@ import Catalogue from "../../../components/Rent/Catalogue";
 import FilterModal from "../../../components/Rent/FilterModal";
 import Search from "../../../components/Rent/Search";
 import SearchResult from "../../../components/Rent/SearchResult";
-import { buy } from "../../../utils/buyproperties";
 import { useEffect, useState, useRef } from 'react';
 import styles from "../../../styles/Rent/SearchResult.module.css"
 import { BuyCatalogue } from "../../../components/buy/BuyCatalogue";
 
 
-export default function Rent() {
-  const [input, setInput] = useState(buy)
+export default function Buy() {
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch('/api/apartments'); 
+        const data = await response.json();
+        setProperties(data);
+        console.log(data)
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+
   const [showModal, setShowModal] = useState(false)
     const closeModal = () => {
         setShowModal(!showModal)
@@ -37,7 +53,7 @@ export default function Rent() {
       return () => {
         window.removeEventListener('scroll', handleScroll);
       };
-    }, [prevScrollPos]); // Empty array ensures that effect is only run on mount and unmount
+    }, [prevScrollPos]); 
   
 
   return (
@@ -50,7 +66,7 @@ export default function Rent() {
           </div>
         <SearchResult/>
         
-      <BuyCatalogue/>
+      <BuyCatalogue properties={properties}/>
      </div>
     </main>
   )

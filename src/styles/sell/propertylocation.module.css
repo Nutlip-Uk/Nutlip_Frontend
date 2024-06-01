@@ -206,7 +206,7 @@ gap:8px;
     padding: 5px 10px;
     font-size: 14px;
 }
-    .setPriceInputContainer{
+.setPriceInputContainer{
         align-items:start;
         flex-direction:column;
         width:100%;
