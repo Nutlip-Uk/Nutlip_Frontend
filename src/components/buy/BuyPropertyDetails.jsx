@@ -5,91 +5,91 @@ import { useState } from "react";
 
 export const DetailsImages = ({data}) => {
  
-  const { images, options } = data;
+ 
 
   return (
     <div className={styles.view}>
       <div className={styles.imagesContainer}>
-        {props.viewOptions === "" && (
+        {data?.viewOptions === "" && (
           <>
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
             />
             <div className={styles.SubImages}>
-              <Image src={images[0]} width={370} height={240} alt="image" />
-              <Image src={images[2]} width={370} height={240} alt="image" />
+              <Image src={data.images[0]} width={370} height={240} alt="image" />
+              <Image src={data.images[2]} width={370} height={240} alt="image" />
             </div>
           </>
         )}
-        {props.viewOptions === "pictures" && (
+        {data?.viewOptions === "pictures" && (
           <>
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
             />
           </>
         )}
-        {props.viewOptions === "videos" && (
+        {data?.viewOptions === "videos" && (
           <div className={styles.videoContainer}>
             {/* Render video component */}
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {props.viewOptions === "vr" && (
+        {data?.viewOptions === "vr" && (
           <div className={styles.vrContainer}>
             {/* Render VR component */}
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {props.viewOptions === "plan" && (
+        {data?.viewOptions === "plan" && (
           <div className={styles.planContainer}>
             {/* Render floor plan component */}
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {props.viewOptions === "360" && (
+        {data?.viewOptions === "360" && (
           <div className={styles.panoramaContainer}>
             {/* Render 360 panorama component */}
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {props.viewOptions === "location" && (
+        {data?.viewOptions === "location" && (
           <div className={styles.locationContainer}>
             {/* Render location component */}
             <Image
               className={styles.mainImage}
-              src={images[1]}
+              src={data.images[1]}
               width={800}
               height={500}
               alt="image"
@@ -104,11 +104,9 @@ export const DetailsImages = ({data}) => {
 export const DetailsContent = (props) => {
   const router = useRouter();
   const check = router.pathname === "/rent/search/[id]";
-  const { facilities, desc, location, info, text, features, listed, price } =
-    props.data;
+
   const data = props.data;
-  const { options } = data;
-  // console.log(router.pathname)
+  
 
   return (
     <div className={styles.content}>
@@ -134,7 +132,7 @@ export const DetailsContent = (props) => {
               value="pictures"
               onChange={(e) => props.setViewOptions(e.target.value)}
             />
-            1/{options.pictures}
+            1/{data?.images?.length}
           </label>
 
           <label
@@ -156,7 +154,7 @@ export const DetailsContent = (props) => {
               value="videos"
               onChange={(e) => props.setViewOptions(e.target.value)}
             />
-            {options.videos}
+            {data?.videos?.length}
           </label>
 
           <label
@@ -176,7 +174,7 @@ export const DetailsContent = (props) => {
               value="vr"
               onChange={(e) => props.setViewOptions(e.target.value)}
             />
-            {options.virtual_tour}
+            {data?.virtual_tour?.length}
           </label>
 
           <label
@@ -196,7 +194,7 @@ export const DetailsContent = (props) => {
               value="plan"
               onChange={(e) => props.setViewOptions(e.target.value)}
             />
-            {options.floor_plan}
+            {data?.floor_plan?.length}
           </label>
 
           <label
@@ -216,7 +214,7 @@ export const DetailsContent = (props) => {
               value="360"
               onChange={(e) => props.setViewOptions(e.target.value)}
             />
-            {options.vr}
+            {data?.vr?.length}
           </label>
 
           <label
@@ -243,7 +241,7 @@ export const DetailsContent = (props) => {
         </div>
 
         <div className={styles.price}>
-          <h1>£{price}</h1>
+          <h1>£{data?.price}</h1>
           <button onClick={props.handleShow}>Make an offer</button>
         </div>
         <div className={styles.facilities}>
@@ -254,7 +252,7 @@ export const DetailsContent = (props) => {
               height={25}
               alt="bedroom-thumbnail"
             />
-            {facilities.bedrooms}
+            {data?.bedrooms}
           </span>
           <span>
             <Image
@@ -263,7 +261,7 @@ export const DetailsContent = (props) => {
               height={25}
               alt="bathroom-thumbnail"
             />
-            {facilities.bathrooms}
+            {data?.bathrooms}
           </span>
           <span>
             <Image
@@ -272,7 +270,7 @@ export const DetailsContent = (props) => {
               height={25}
               alt="livingroom-thumbnail"
             />
-            {facilities.livingroom}
+            {data?.livingroom}
           </span>
           <span>
             <img
@@ -281,7 +279,7 @@ export const DetailsContent = (props) => {
               height={25}
               alt="toilet-bowl"
             />
-            {facilities.toilets}
+            {data?.Toilets}
           </span>
         </div>
 
@@ -289,17 +287,19 @@ export const DetailsContent = (props) => {
 
         <div className={styles.infoContainer}>
           <div className={styles.info}>
-            <p>{desc}</p>
-            <p>{location}</p>
-            <p>{text}</p>
+            <p>{data?.Title}</p>
+            <p>{data?.location}</p>
+            <p>{data?.description}</p>
           </div>
 
           <div className={styles.feature}>
             <p className={styles.keyFeatures}>Key features</p>
             <ul>
-              {features.map((item, index) => (
+              {/* {features.map((item, index) => (
                 <li key={index}>{item}</li>
-              ))}
+              ))} */}
+
+              {data?.Add_features}
             </ul>
           </div>
         </div>
@@ -307,7 +307,7 @@ export const DetailsContent = (props) => {
         <div className={styles.extraInfo}>
           <a className={styles.readMore}>Read more</a>
 
-          <p className={styles.listed}>{listed}</p>
+          <p className={styles.listed}>{data?.date_created}</p>
 
           <Image
             className={styles.company}

@@ -1,24 +1,22 @@
 import styles from "../../styles/dashboard/postProperty.module.css";
-import { useRef, useState } from "react";
+import { useRef, useState ,useContext} from "react";
 import { Image } from "next/image";
+import UploadImage from "../uploadImage";
+import { ImageContext } from '../../context/ImageContext.context';
+import { storage } from '../../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { FaPlus } from "react-icons/fa";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
+
 
 const PostProperty = () => {
   const count = useRef(1);
   const [update, setUpdate] = useState(false);
+  const { url, setUrl } = useContext(ImageContext);
+  const [fileInputs, setFileInputs] = useState([{ file: null, preview: null, status: 'Upload' }]);
+  const [showUploadMessage, setShowUploadMessage] = useState([]);
 
-  const next = () => {
-    if (count.current <= 4) {
-      count.current = count.current + 1;
-      setUpdate(!update);
-    }
-  };
-
-  const back = () => {
-    if (count.current > 1) {
-      count.current = count.current - 1;
-      setUpdate(!update);
-    }
-  };
 
   const [form, setForm] = useState({
     Title: "",
@@ -45,12 +43,104 @@ const PostProperty = () => {
     //rating: "",
   });
 
+  const next = () => {
+    if (count.current <= 4) {
+      count.current = count.current + 1;
+      setUpdate(!update);
+    }
+  };
+
+  const back = () => {
+    if (count.current > 1) {
+      count.current = count.current - 1;
+      setUpdate(!update);
+    }
+  };
+
+  const handleImageChange = (e, index) => {
+    const selectedFile = e.target.files[0];
+    const previewURL = URL.createObjectURL(selectedFile);
+
+    setFileInputs((prevFileInputs) => {
+      const newFileInputs = [...prevFileInputs];
+      newFileInputs[index].file = selectedFile;
+      newFileInputs[index].preview = previewURL;
+      return newFileInputs;
+    });
+
+    console.log(`Selected file for input ${index}:`, selectedFile);
+  };
+
+
+
+
+
+ const handleUpload = async (index) => {
+    const selectedFile = fileInputs[index].file;
+    if (!selectedFile) return;
+
+    console.log(`Starting upload for input ${index}:`, selectedFile);
+
+    const storageRef = ref(storage, `images/${selectedFile.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        // Progress function ...
+        console.log(`Upload progress for input ${index}:`, snapshot);
+      },
+      (error) => {
+        // Error function ...
+        console.error(error);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setUrl((prevUrls) => [...prevUrls, downloadURL]);
+        setForm((prevForm) => ({
+          ...prevForm,
+          images: [...prevForm.images, downloadURL],
+        }));
+        setFileInputs((prevFileInputs) => {
+          const newFileInputs = [...prevFileInputs];
+          newFileInputs[index].status = 'Upload Successful';
+          return newFileInputs;
+        });
+        console.log(`Upload successful for input ${index}:`, downloadURL);
+      }
+    );
+
+    setShowUploadMessage((prevMessages) => {
+      const newMessages = [...prevMessages];
+      newMessages[index] = true;
+      return newMessages;
+    });
+
+    setTimeout(() => {
+      setShowUploadMessage((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages[index] = false;
+        return newMessages;
+      });
+    }, 3000);
+  };
+
+
+  const addImageInput = () => {
+    setFileInputs((prevFileInputs) => [...prevFileInputs, { file: null, preview: null, status: 'Upload' }]);
+    console.log("Added new image input. Total inputs:", fileInputs.length + 1);
+  };
+
+
+  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
+    console.log(`Form field changed: ${name} = ${value}`);
   };
 
   const handleSubmit = async (e) => {
@@ -68,7 +158,7 @@ const PostProperty = () => {
         const data = await response.json();
         console.log("Form submitted successfully:", data);
         //todo redirect to a different page
-        Router.push("/dashboard?option=listing");
+        //router.push("/dashboard?option=listing");
       } else {
         // Handle HTTP errors
         console.error("Server responded with an error:", response.status);
@@ -102,6 +192,12 @@ const PostProperty = () => {
           back={back}
           form={form}
           handleChange={handleChange}
+          handleUpload={handleUpload}
+          handleImageChange={handleImageChange}
+          fileInputs={fileInputs}
+          addImageInput={addImageInput}
+          url={url}
+        showUploadMessage={showUploadMessage}
         />
       )}
       {count.current === 4 && (
@@ -427,46 +523,15 @@ const PostPropertyDescription = ({
   handleSubmit,
   form,
   handleChange,
+  handleUpload,
+  handleImageChange,
+  fileInputs,
+  addImageInput,
+  showUploadMessage,
+  url
 }) => {
-  const [imageFields, setImageFields] = useState([{ id: 1 }]);
-  const [files, setFiles] = useState([]);
-
-  const addImageField = () => {
-    const newId = imageFields.length + 1;
-    setImageFields([...imageFields, { id: newId }]);
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    // Check if a file was selected
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        // Once the file is loaded, get the data URL
-        const imageUrl = reader.result;
-
-        // Update the form state to include the image URL
-        handleChange({
-          target: {
-            name: "images",
-            value: [...form.images, imageUrl],
-          },
-        });
-
-        // Update the files state
-        setFiles([...files, file]);
-
-        // Add a new image field
-        addImageField();
-      };
-
-      // Read the file as a data URL
-      reader.readAsDataURL(file);
-    }
-  };
-
+  
+ 
   return (
     <>
       <div className={styles.Header}>
@@ -536,25 +601,33 @@ const PostPropertyDescription = ({
 
         <div className={styles.inputFieldContainer}>
           <p>Upload pictures</p>
-
-          <div className={styles.inputField}>
-            {imageFields.map((field, index) => (
-              <div key={field.id} id={styles.file_upload}>
+          <div className={styles.uploadContainer}>
+          {fileInputs.map((input, index) => (
+              <div key={index} id={styles.file_upload}>
                 <label>
-                  {!files[index] && `Upload Document`}
-                  <input type="file" onChange={handleImageChange} />
-                  {files[index] && (
-                    <img
-                      src={URL.createObjectURL(files[index])}
-                      width={210}
-                      height={200}
-                      alt={`Image ${index + 1}`}
-                    />
+                  {input.status === 'Upload' && !input.file && 'Upload Document'}
+                  <input type="file" onChange={(e) => handleImageChange(e, index)} />
+                  {input.status === 'Upload' && input.preview && (
+                    <img height={200} width={200} src={input.preview} alt={`Preview ${index}`} />
                   )}
+                  {url[index] && <img height={200} width={200} src={url[index]} alt={`Uploaded ${index}`} />}
                 </label>
+                {input.status === 'Upload' && (
+                  <button className={styles.upload} type="button" onClick={() => handleUpload(index)}>{input.status === "Upload" ? <FaCloudUploadAlt color={"#3572EF"}  size={"2.5em"}/>
+: null                }</button>
+                )}
+                {showUploadMessage[index] && (
+                  <FaCheck color={"#40A578"} size={"1em"}/>
+                )}
+                <br />
               </div>
+
+              
             ))}
+
+<button type="button" className={styles.addMore} onClick={addImageInput}><FaPlus size={"2em"} color={"#686D76"}/></button>
           </div>
+          
         </div>
       </div>
       <div className={styles.buttonContainer}>

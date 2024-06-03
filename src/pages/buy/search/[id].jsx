@@ -10,27 +10,26 @@ import {
 } from "../../../components/buy/BuyPropertyDetails";
 import Link from "next/link";
 import OfferModal from "../../../components/Modals/Offer.modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  console.log("Fetching property with ID:", id); // Log the ID being fetched
+  console.log('Fetching property with ID:', id);
 
   try {
     const res = await fetch(`/api/apartment/${id}`);
     if (!res.ok) {
-      throw new Error("Failed to fetch");
+      throw new Error('Failed to fetch');
     }
     const property = await res.json();
-    console.log("API Response:", property);
+    console.log('API Response:', property);
     return {
       props: {
         property,
       },
     };
   } catch (error) {
-    console.log(error);
-    console.error("API Error:", error);
+    console.error('API Error:', error);
     return {
       props: {
         property: null,
@@ -39,10 +38,34 @@ export async function getServerSideProps(context) {
   }
 }
 
-const Details = ({ property }) => {
+const Details = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [property, setProperty] = useState(null);
   console.log("Router Query ID:", id);
+
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`/api/apartment/${id}`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+        const data = await res.json();
+        setProperty(data);
+        console.log(data)
+      } catch (error) {
+        console.error("API Error:", error);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
@@ -54,9 +77,9 @@ const Details = ({ property }) => {
 
   const [viewOptions, setViewOptions] = useState("");
 
-  if (!property) {
-    return <div className={styles.error}>Property not found</div>;
-  }
+  // if (!property) {
+  //   return <div className={styles.error}>Property not found</div>;
+  // }
 
   return (
     <section className={styles.Section}>

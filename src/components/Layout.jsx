@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { RegistrationContextProvider } from "../context/Register.context";
 import { AgentOfferContextProvider } from "../context/AgentOffer.context";
+import { ImageProvider } from '../context/ImageContext.context';
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider, useSession } from "next-auth/react";
 import Script from "next/script";
@@ -20,7 +21,7 @@ const Layout = ({ children }) => {
           defer
           src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initmap`}
         ></Script>
-
+        <ImageProvider>
         <LoginProvider>
           <RegistrationContextProvider>
             <Navbar />
@@ -31,6 +32,7 @@ const Layout = ({ children }) => {
             <Footer />
           </RegistrationContextProvider>
         </LoginProvider>
+        </ImageProvider>
       </div>
     </SessionProvider>
   );
