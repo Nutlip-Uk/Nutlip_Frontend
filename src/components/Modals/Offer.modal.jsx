@@ -40,7 +40,7 @@ const OfferModal = (props) => {
             </button>
           </section>
 
-          {offer === "offer" && <Offer data={props.data} change={success} />}
+          {offer === "offer" && <Offer data={props} change={success} />}
           {offer === "success" && <Success change={offer}/>}
         </div>
       </div>
@@ -112,7 +112,7 @@ const Offer = (props) => {
   return (
     <form className={styles.offer}>
       <div className={styles.offerContainer}>
-        <h1 className={styles.price}>£{props.data.price}</h1>
+        <h1 className={styles.price}>£{props.price}</h1>
 
         <hr />
 
@@ -124,7 +124,7 @@ const Offer = (props) => {
               height={24}
               alt="bedroom-thumbnail"
             />
-            {props.data.facilities.bedrooms}
+            {props?.bedrooms}
           </span>
           <span>
             <Image
@@ -133,7 +133,7 @@ const Offer = (props) => {
               height={24}
               alt="bathroom-thumbnail"
             />
-            {props.data.facilities.bathrooms}
+            {props?.bathrooms}
           </span>
           <span>
             <Image
@@ -142,15 +142,15 @@ const Offer = (props) => {
               height={24}
               alt="livingroom-thumbnail"
             />
-            {props.data.facilities.livingroom}
+            {props?.livingroom}
           </span>
         </div>
 
         <hr />
 
         <div className={styles.desc}>
-          <h4>{props.data.desc}</h4>
-          <p>{props.data.location}</p>
+          <h4>{props.Title}</h4>
+          <p>{props.location}</p>
         </div>
       </div>
 
