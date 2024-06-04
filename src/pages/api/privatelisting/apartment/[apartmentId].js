@@ -1,11 +1,13 @@
-import dbConnect from "../../../libs/dbconnect";
-import Apartment from "../../../models/Apartment";
+//todo api/privatelisting/apartment/[apartmentId];
+
+import dbConnect from "../../../../libs/dbconnect";
+import PrivateListing from "../../../../models/PrivateListing";
 
 /**
- * Handles HTTP requests for the apartment API endpoint.
+ * Handles HTTP requests for a private listing apartment by its ID.
  *
  * Supports the following HTTP methods:
- * - GET: Retrieves the details of an apartment by its ID.
+ * - GET: Retrieves the details of the apartment with the specified ID.
  *
  * @param {import('next').NextApiRequest} req - The incoming HTTP request.
  * @param {import('next').NextApiResponse} res - The HTTP response to be sent back.
@@ -19,12 +21,13 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const apartment = await Apartment.findById(apartmentId);
+        const apartment = await PrivateListing.findById(apartmentId);
         if (!apartment) {
           return res.status(404).json({ message: "Apartment not found" });
         }
         res.status(200).json(apartment);
       } catch (error) {
+        console.log(error);
         console.error(error);
         res.status(500).json({ message: "Error fetching apartment" });
       }
