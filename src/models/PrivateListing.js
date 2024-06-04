@@ -1,31 +1,120 @@
 import mongoose from "mongoose";
 
-const privateListingSchema = new mongoose.Schema({
-  Amount: {
-    type: Number,
+const PrivateListingSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
-  minimum_offer: {
-    type: Number,
-    required: true,
-  },
-  Currency: {
+  StreetAddress: {
     type: String,
     required: true,
-    //todo add other currency
-    enum: ["USD", "EUR", "GBP"],
+  },
+  PostalCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  YearBuilt: {
+    type: Number,
+    required: true,
   },
   Title: {
     type: String,
-    required: true,
+  },
+  Appliances: {
+    type: String,
+    enum: [
+      "Air_conditioner",
+      "washing_machine",
+      "Dishwasher",
+      "Gas/Electric_cooker",
+      "Refrigerator",
+      "Oven",
+      "Microwave",
+      "Other",
+    ],
+  },
+  Basement: {
+    type: String,
+    enum: ["Yes", "No"],
+  },
+  FloorCovering: {
+    type: String,
+    enum: [
+      "Laminate",
+      "Vinyl",
+      "Tile",
+      "Carpet",
+      "Hardwood_Flooring",
+      "Stone_Flooring",
+      "Cork",
+      "Other",
+    ],
+  },
+  Utility_types: {
+    type: String,
+    enum: ["Electricity", "Water", "Heating"],
+  },
+  Heating_types: {
+    type: String,
+    enum: [
+      "Boilers",
+      "Furnaces",
+      "Heat_pumps",
+      "Gas_fired_spaced_heaters",
+      "Electric_heater",
+      "Fireplaces",
+      "wood_burning_and_pellet_stoves",
+    ],
+  },
+  Heating_fuel: {
+    type: String,
+    enum: [
+      "Oil",
+      "Solar",
+      "Electricity",
+      "LPG",
+      "Air_source_heat_pumps",
+      "Biomass",
+    ],
   },
   purpose: {
-    type: [String],
-    enum: ["For_Rent", "For_Sale", "short_list"],
+    type: String,
+    enum: ["For_Rent", "For_Buy"],
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    // required: true,
+  },
+
+  images: [String], // Still allows an empty array for no images
+  address: {
+    type: String,
+    // required: true,
+  },
+  Landmark: {
+    type: String,
+    // required: true,
+  },
+  Radius: {
+    type: String,
+    // required: true,
+  },
+  city: {
+    type: String,
     required: true,
   },
   typeOfProperty: {
-    type: [String],
+    type: String,
     enum: [
       "co-working_space",
       "commercial_property",
@@ -36,115 +125,75 @@ const privateListingSchema = new mongoose.Schema({
     required: true,
   },
   subTypeOfProperty: {
-    type: [String],
+    type: String,
+    enum: ["new_property", "retirement_home", "auction", "shared_ownership"],
+    // default: [],
     required: false,
   },
   bedrooms: {
-    type: [String],
+    type: Number,
     required: true,
   },
   bathrooms: {
-    type: [String],
+    type: Number,
+    required: true,
+  },
+  Rooms: {
+    type: Number,
     required: true,
   },
   Toilets: {
-    type: [String],
+    type: Number,
+    required: true,
+  },
+  size: {
+    type: Number,
     required: true,
   },
   stateOfProperty: {
     type: String,
+    enum: ["sold_stc", "under_offer"],
     required: true,
   },
-  size: {
-    type: [Number],
+  // name: String, // Optional String remains
+  description: {
+    type: String,
+    // required: true,
+  },
+  Amount: {
+    type: Number,
+    // required: true,
+  },
+  Minimum_offer: {
+    type: Number,
+    // required: true,
+  },
+  Currency: {
+    type: String,
+    required: true,
+    //todo add other currency
+    enum: ["USD", "EUR", "GBP"],
+    // default: ["USD"],
+  },
+  Add_features: {
+    type: String,
+    enum: ["Elevator", "Stairs"],
     required: true,
   },
-  year_built: {
+  video_link: {
+    type: String,
+  },
+  virtual_tour_link: {
+    type: String,
+    required: false,
+  },
+  phoneNumber: {
     type: Number,
     required: true,
   },
-  Appliances: {
-    type: [String],
-    enum: [
-      "Boiler",
-      "Washing_machine",
-      "Dishwasher",
-      "Gas/Electric_cooker",
-      "Air_Conditioner",
-      "Ovens",
-      "MicroWave",
-      "Others",
-    ],
-    required: true,
-  },
-  Basement: {
-    type: [string],
-    enum: ["yes", "no"],
-  },
-  Floor_covering: {
-    type: [string],
-    enum: [
-      "Laminate",
-      "Vinyl",
-      "Carpet",
-      "Hardwood_flooring",
-      "Stone_flooring",
-      "Cork",
-      "Other",
-    ],
-  },
-  Utility_types: {
-    type: [string],
-    enum: ["Electricity", "Heating", "Water"],
-  },
-  Heating_type: {
-    type: [string],
-    enum: [
-      "Boilers",
-      "Furnaces",
-      "Heat_Pumps",
-      "Gas_fired_space-heaters",
-      "Electric_heaters",
-      "Wood_burning_and_pellet_stoves",
-      "fireplace",
-    ],
-  },
-  heating_unit: {
-    type: [String],
-    enum: [
-      "Gas",
-      "Electricity",
-      "Solar",
-      "LPG",
-      "Air_source_heat_pumps",
-      "Biomass",
-    ],
-  },
-  description: {
+  Preferred_email_address: {
     type: String,
     required: true,
-  },
-  Video_link: {
-    type: String,
-    required: true,
-  },
-  Video_tour_link: {
-    type: String,
-    required: true,
-  },
-  add_features: {
-    type: String,
-    required: true,
-  },
-  floor_plan: {
-    type: String,
-  },
-  upload_pictures: {
-    type: String,
-  },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
   },
   isSold: {
     type: Boolean,
@@ -159,7 +208,7 @@ const privateListingSchema = new mongoose.Schema({
     default: null,
   },
 });
-
-export const PrivateListing =
-  mongoose.models?.PrivateListing ||
-  mongoose.model("PrivateListing", privateListingSchema);
+const PrivateListing =
+  mongoose.models?.PrivateListings ||
+  mongoose.model("PrivateListings", PrivateListingSchema);
+module.exports = PrivateListing;
