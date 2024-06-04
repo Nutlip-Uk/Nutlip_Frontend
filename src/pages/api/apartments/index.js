@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   await dbConnect();
   // console.log(Apartment);
   if (req.method === "POST") {
+    console.log("Request body:", req.body);
     // Create apartment logic
     //const userId = req.userId; // Get the user ID from the request object
     const {
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
       Currency,
       Add_features,
       video_link,
-      // virtual_tour_link,
+      virtual_tour_link,
     } = req.body;
 
     try {
@@ -65,7 +66,7 @@ export default async function handler(req, res) {
         Currency,
         Add_features,
         video_link,
-        // virtual_tour_link,
+        virtual_tour_link,
       });
 
       // Validate request body
