@@ -1,4 +1,4 @@
-//todo api/privatelisting/apartment/[apartmentId].js;
+//todo api/privatelisting/apartment/[apartmentId];
 
 import dbConnect from "../../../../libs/dbconnect";
 import PrivateListing from "../../../../models/PrivateListing";
