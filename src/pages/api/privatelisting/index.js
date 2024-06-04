@@ -12,7 +12,17 @@ export default async function handler(req, res) {
     //const userId = req.userId; // Get the user ID from the request object
     const {
       userId,
+      StreetAddress,
+      PostalCode,
+      country,
+      YearBuilt,
       Title,
+      Appliances,
+      Basement,
+      FloorCovering,
+      Utility_types,
+      Heating_types,
+      Heating_fuel,
       purpose,
       location,
       price,
@@ -25,27 +35,38 @@ export default async function handler(req, res) {
       subTypeOfProperty,
       bedrooms,
       bathrooms,
+      Rooms,
       Toilets,
       size,
       stateOfProperty,
-      // name,
       description,
       Amount,
       Minimum_offer,
       Currency,
       Add_features,
       video_link,
-      // virtual_tour_link,
+      virtual_tour_link,
+      PhoneNumber,
+      preferred_email_address,
     } = req.body;
 
     try {
       const newApartment = await Apartment({
         userId,
+        StreetAddress,
+        PostalCode,
+        country,
+        YearBuilt,
         Title,
+        Appliances,
+        Basement,
+        FloorCovering,
+        Utility_types,
+        Heating_types,
+        Heating_fuel,
         purpose,
         location,
         price,
-        // rating,
         images,
         address,
         Landmark,
@@ -55,32 +76,24 @@ export default async function handler(req, res) {
         subTypeOfProperty,
         bedrooms,
         bathrooms,
+        Rooms,
         Toilets,
         size,
         stateOfProperty,
-        // name,
         description,
         Amount,
         Minimum_offer,
         Currency,
         Add_features,
         video_link,
-        // virtual_tour_link,
+        virtual_tour_link,
+        PhoneNumber,
+        preferred_email_address,
       });
 
-      // Validate request body
-      // const { error } = validateApartmentInput(req.body);
-      // if (error) {
-      //   return res.status(400).send(error.details[0].message);
-      // }
-      // Update the user's Apartment field with the new Apartment document's ID
-      // await User.findByIdAndUpdate(userId, {
-      //   $push: { Apartment: newApartment._id },
-      // });
-
-      res.status(201).json(newApartment);
-      await newApartment.save();
-      console.log(newApartment);
+      await newPrivateListing.save();
+      res.status(201).json(newPrivateListing);
+      console.log(newPrivateListing);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error creating apartment" });
