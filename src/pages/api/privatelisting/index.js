@@ -1,7 +1,7 @@
 //? /api/privatelisting this api only works for getting all requests nd making a post req
 
 import dbConnect from "../../../libs/dbconnect";
-import Apartment from "../../../models/Apartment";
+import PrivateListing from "../../../models/PrivateListing";
 import User from "../../../models/User";
 
 export default async function handler(req, res) {
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     } = req.body;
 
     try {
-      const newApartment = await Apartment({
+      const newPrivateListing = await PrivateListing({
         userId,
         StreetAddress,
         PostalCode,
@@ -102,9 +102,10 @@ export default async function handler(req, res) {
     // Fetch apartments logic
 
     try {
-      const apartments = await Apartment.find();
-      res.status(200).json(apartments);
+      const newPrivateListing = await PrivateListing.find();
+      res.status(200).json(newPrivateListing);
     } catch (error) {
+      console.log(error);
       console.error(error);
       res.status(500).json({ message: "Error fetching apartments" });
     }

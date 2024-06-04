@@ -189,11 +189,11 @@ const PrivateListingSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: Number,
-    required: true,
+    required: false,
   },
   Preferred_email_address: {
     type: String,
-    required: true,
+    required: false,
   },
   isSold: {
     type: Boolean,

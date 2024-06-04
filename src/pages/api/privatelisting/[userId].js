@@ -1,11 +1,17 @@
 //? /api/privatelisting/id note that the id is dynamic
 import dbConnect from "../../../libs/dbconnect";
-import Listing from "../../../models/PrivateListing";
+import PrivateListing from "../../../models/PrivateListing";
 
 /**
- * Handler for /api/privatelisting/[id] endpoint.
- * Allows GET, PUT and DELETE requests for a private listing by ID.
- * Connects to database, finds listing by ID, and returns response.
+ * Handles HTTP requests to the `/api/privatelisting/{userId}` endpoint.
+ *
+ * Supports the following HTTP methods:
+ * - `GET`: Fetches a private listing by the provided `userId`.
+ * - `PUT`: Updates a private listing by the provided `userId`.
+ * - `DELETE`: Deletes a private listing by the provided `userId`.
+ *
+ * @param {import('next').NextApiRequest} req - The incoming HTTP request.
+ * @param {import('next').NextApiResponse} res - The HTTP response to send back.
  */
 export default async function handler(req, res) {
   const { userId } = req.query;
@@ -17,12 +23,12 @@ export default async function handler(req, res) {
     case "GET" /* Get an apartment */:
       try {
         // Fetch apartments where the userId matches the provided userId
-        const apartments = await Apartment.findById({ userId });
-        if (!apartments) {
+        const newPrivateListing = await PrivateListing.findOne({ userId });
+        if (!newPrivateListing) {
           return res.status(404).json({ message: "Apartment not found" });
         }
-        res.status(200).json(apartments);
-        console.log(apartments);
+        res.status(200).json(newPrivateListing);
+        console.log(newPrivateListing);
       } catch (error) {
         console.log(error);
         console.error(error);
@@ -32,14 +38,18 @@ export default async function handler(req, res) {
 
     case "PUT" /* Edit an apartment */:
       try {
-        const apartment = await Listing.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-        });
-        if (!apartment) {
+        const newPrivateListing = await PrivateListing.findByIdAndUpdate(
+          id,
+          req.body,
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+        if (!newPrivateListing) {
           return res.status(400).json({ success: false });
         }
-        res.status(200).json({ success: true, data: apartment });
+        res.status(200).json({ success: true, data: newPrivateListing });
       } catch (error) {
         res.status(400).json({ success: false });
       }
@@ -47,7 +57,7 @@ export default async function handler(req, res) {
 
     case "DELETE" /* Delete an apartment */:
       try {
-        const deletedApartment = await Listing.deleteOne({ _id: id });
+        const deletedApartment = await PrivateListing.deleteOne({ _id: id });
         if (!deletedApartment) {
           return res.status(400).json({ success: false });
         }
