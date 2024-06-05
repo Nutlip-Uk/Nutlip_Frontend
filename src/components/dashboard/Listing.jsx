@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useContext, useRef } from "react";
 const Listing = () => {
   const router = useRouter();
+  const { userId } = router.query; // Destructure userId from router.query
   const data = router.query;
   const [type, setType] = useState("allListing");
 
@@ -87,7 +88,7 @@ const Navigation = ({ handleChange, type }) => {
 };
 
 const ListProperty = ({ next, handleChange, type, userId }) => {
-  const [apartment, setApartment] = useState(null);
+  const [apartment, setApartment] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -118,10 +119,9 @@ const ListProperty = ({ next, handleChange, type, userId }) => {
   }
   return (
     <>
+      xxxxxx
       <p className={styles.Header}>My Listing</p>
-
       <Navigation handleChange={handleChange} type={type} />
-
       <div className={styles.propertyContainer}>
         <input type="checkbox" />
 
