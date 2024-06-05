@@ -6,7 +6,7 @@ import { LoginContext } from "../../context/Login.context";
 
 const Listing = () => {
   const router = useRouter();
-  const { userId } = router.query; // Destructure userId from router.query
+  //const { userId } = router.query; // Destructure userId from router.query
   const data = router.query;
   const [type, setType] = useState("allListing");
 
