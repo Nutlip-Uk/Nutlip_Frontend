@@ -12,7 +12,7 @@ const Listing = () => {
 
   const { userInformation } = useContext(LoginContext);
 
-  const userId = userInformation.user.id;
+  const userId = userInformation?.user.id;
 
   let allListing = "allListing";
   let recentlyAdded = "recentlyAdded";
