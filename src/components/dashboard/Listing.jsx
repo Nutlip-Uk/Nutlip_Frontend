@@ -9,7 +9,9 @@ const Listing = () => {
   //const { userId } = router.query; // Destructure userId from router.query
   const data = router.query;
   const [type, setType] = useState("allListing");
-
+  const [apartments, setApartments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { userInformation } = useContext(LoginContext);
 
   const userId = userInformation?.user.id;
@@ -39,6 +41,36 @@ const Listing = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchApartments = async () => {
+      try {
+        const response = await fetch(`/api/apartments/${userId}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setApartments(data);
+          console.log(data);
+        } else {
+          setError(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+        setError("Failed to fetch user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApartments();
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <>
       <div className={styles.Section}>
@@ -48,9 +80,10 @@ const Listing = () => {
             handleChange={handleChange}
             type={type}
             userId={userId}
+            apartments={apartments}
           />
         )}
-        {count.current === 2 && <ListingDetail next={next} back={back} />}
+        {count.current === 2 && <ListingDetail next={next} back={back} apartments={apartments}/>}
       </div>
     </>
   );
@@ -98,88 +131,72 @@ const Navigation = ({ handleChange, type }) => {
   );
 };
 
-const ListProperty = ({ next, handleChange, type, userId }) => {
-  const [apartment, setApartment] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const ListProperty = ({ next, handleChange, type, userId, apartments }) => {
 
-  useEffect(() => {
-    const fetchApartment = async () => {
-      try {
-        const response = await fetch(`/api/apartments/${userId}`);
-        const data = await response.json();
 
-        if (response.ok) {
-          setApartment(data);
-          console.log(data);
-        } else {
-          setError(data.message);
-        }
-      } catch (error) {
-        console.log(error);
-        setError("Failed to fetch user data");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchApartment();
-  }, [userId]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+
   return (
     <>
-      xxxxxx
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
-      <div className={styles.propertyContainer}>
+        {apartments.map((apartment) => (
+      <div key={apartment._id} className={styles.propertyContainer}>
         <input type="checkbox" />
 
-        <div className={styles.Property} onClick={next}>
-          <div className={styles.PropertyImg}>
-            <img src="/dashboard/listimg.png" />
+          <div key={apartment.id} className={styles.Property} onClick={next}>
+            <div className={styles.PropertyImg}>
+              <img src={apartment.images[0]} />
 
-            <div className={styles.propertyText}>
-              {apartment ? (
-                <>
-                  <p>{apartment.title}</p>
-                  <p>{apartment.location}</p>
-                  {/* Check if user exists before accessing its properties */}
-                  {user && user.date_created && (
-                    <p>
-                      Last Updated:{" "}
-                      {new Date(user.date_created).toLocaleString()}
-                    </p>
-                  )}
-                </>
-              ) : (
-                <p>Loading...</p>
-              )}
+              <div className={styles.propertyText}>
+                <p>{apartment.Title}</p>
+                <p>{apartment.location}</p>
+
+                <div className={styles.propertySize}>
+                          <li>
+                            <img src="/bedroom.svg" alt="" />
+                            <p>{apartment?.bedrooms}</p>
+                          </li>
+                          <li>
+                            <img src="/bathtub.svg" alt="" />
+                            <p>{apartment?.bathrooms}</p>
+                          </li>
+                          <li>
+                            <img src="/chair.svg" alt="" />
+                            <p>{apartment?.livingroom}</p>
+                          </li>
+                          <li>
+                          <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
+                            <p>{apartment?.Toilets}</p>
+                          </li>
+                        </div>
+
+                {apartment.date_created && (
+                  <p>
+                    Last Updated:{" "}
+                    {new Date(apartment.date_created).toLocaleString()}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <hr />
+
+            <div className={styles.PropertyInfo}>
+              <p>Listing ID: {apartment._id}</p>
+              <p>£ {apartment.Amount}</p>
+              <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
+              <p>View property</p>
             </div>
           </div>
-
-          <hr />
-
-          <div className={styles.PropertyInfo}>
-            <p>Listing ID: WYE12</p>
-            {apartment ? (
-              <>
-                <p>{apartment.Amount}</p>
-                <p>Is Sold: {apartment.isSold ? "Yes" : "No"}</p>
-              </>
-            ) : (
-              <p>Loading...</p>
-            )}
-            <p>View property</p>
-          </div>
-        </div>
       </div>
+        ))}
     </>
   );
 };
 
-const ListingDetail = ({ next, back, handleChange }) => {
+
+const ListingDetail = ({ next, back, handleChange,apartments }) => {
   return (
     <>
       <div className={styles.ListingDetailSection}>
@@ -197,7 +214,7 @@ const ListingDetail = ({ next, back, handleChange }) => {
               <div id={styles.options}>
                 <label>
                   <img
-                    src="/images/frame-42758-system-uicons-picture-1.svg"
+                    src={""}
                     width={25}
                     height={25}
                     alt="image-Thumbnail"

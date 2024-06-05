@@ -76,7 +76,7 @@ const Registration = () => {
 const Signup = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
-  const [isError, setError] = useState(null);
+  const [isError, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -106,6 +106,8 @@ const Signup = (props) => {
   // handling submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(false);
+    setError(null);
     try {
       const response = await fetch("/api/register", {
         method: "POST",
@@ -118,19 +120,22 @@ const Signup = (props) => {
       console.log(formData)
 
       if (!response.ok) {
-        throw new Error("Failed to register");
+        const errorData = await response.json();
+        console.log(errorData)
+        setError(errorData || "Failed to register check your email or password ");
+        return;
+       
       }
 
       //* If registration is successful, you might redirect the user to the login page
       if (response.status === 201) {
         router.push("/register?option=login");
-        console.log("Registration Successful. Redirecting to login.");
+        
       }
-      if (response.status === 500) {
-        console.log("fields are not filled well please try again");
-      }
+      
     } catch (error) {
-      console.error("An error occurred during form submission:", error);
+        console.log(error)
+      
     }
   };
 
@@ -192,6 +197,7 @@ const Signup = (props) => {
             value={formData.name}
             onChange={handleChange}
           />
+          <p>{isError?.errors?.username}</p>
         </label>
         <label>
           Email address
@@ -203,6 +209,7 @@ const Signup = (props) => {
             value={formData.email}
             onChange={handleChange}
           />
+          <p>{isError?.errors?.email}</p>
         </label>
         {/* changed the label nd value of the different options */}
         {/* <label>
@@ -251,12 +258,13 @@ const Signup = (props) => {
               onClick={() => setShowPassword(!showPassword)}
             />
           </div>
+
+          <p>{isError?.errors?.password}</p>
         </label>
 
         <p style={{ color: isError ? "red" : "black" }}>
           {isError
-            ? isError.password
-            : "Create a strong password with a minimum combination of 10 characters, including Uppercase letters & numbers"}
+            ? isError.message : "Create a strong password with a minimum combination of 10 characters, including Uppercase letters & numbers"}
         </p>
 
         <button
@@ -311,9 +319,8 @@ const Login = () => {
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [iserror, setError]=useState()
   let forgetPassword = "forgetPassword";
-
-
   const { handleLogin,setUserInformation } = useContext(LoginContext);
 
   const [formData, setFormData] = useState({
@@ -382,10 +389,11 @@ const Login = () => {
 
         router.push("/");
       } else {
-        throw new Error("Invalid login");
+        console.log(data)
+        setError(data || "Failed to register check your email or password ");
       }
     } catch (error) {
-      console.error("Error logging in", error);
+      
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
@@ -494,10 +502,8 @@ const Login = () => {
                 </button>
               </div>
     
-              <p style={{ color: isPasswordValid ? "black" : "red" }}>
-                {isPasswordValid
-                  ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
-                  : "invalid password"}
+              <p style={{ color: iserror ? "red" : "black" }}>
+                {iserror?.message}
               </p>
     
               <button className={styles.LoginButton} type="submit">
