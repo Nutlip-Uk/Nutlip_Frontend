@@ -1,95 +1,96 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../styles/buy/Details.module.css";
-import { useState } from "react";
+import { useState ,useContext} from "react";
+import { ImageContext } from "../../context/ImageContext.context";
 
 export const DetailsImages = ({data}) => {
- 
+  const {viewOptions,setViewOptions}=useContext(ImageContext);
  
 
   return (
     <div className={styles.view}>
       <div className={styles.imagesContainer}>
-        {data?.viewOptions === "" && (
+        {viewOptions === "" && (
           <>
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[0]}
               width={800}
               height={500}
               alt="image"
             />
             <div className={styles.SubImages}>
-              <Image src={data.images[0]} width={370} height={240} alt="image" />
-              <Image src={data.images[2]} width={370} height={240} alt="image" />
+              <img src={data?.images[1]} width={370} height={240} alt="image" />
+              <img src={data?.images[2]} width={370} height={240} alt="image" />
             </div>
           </>
         )}
-        {data?.viewOptions === "pictures" && (
+        {viewOptions === "pictures" && (
           <>
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[0]}
               width={800}
               height={500}
               alt="image"
             />
           </>
         )}
-        {data?.viewOptions === "videos" && (
+        {viewOptions === "videos" && (
           <div className={styles.videoContainer}>
             {/* Render video component */}
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[2]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {data?.viewOptions === "vr" && (
+        {viewOptions === "vr" && (
           <div className={styles.vrContainer}>
             {/* Render VR component */}
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[3]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {data?.viewOptions === "plan" && (
+        {viewOptions === "plan" && (
           <div className={styles.planContainer}>
             {/* Render floor plan component */}
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[4]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {data?.viewOptions === "360" && (
+        {viewOptions === "360" && (
           <div className={styles.panoramaContainer}>
             {/* Render 360 panorama component */}
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[1]}
               width={800}
               height={500}
               alt="image"
             />
           </div>
         )}
-        {data?.viewOptions === "location" && (
+        {viewOptions === "location" && (
           <div className={styles.locationContainer}>
             {/* Render location component */}
-            <Image
+            <img
               className={styles.mainImage}
-              src={data.images[1]}
+              src={data?.images[1]}
               width={800}
               height={500}
               alt="image"
@@ -106,6 +107,8 @@ export const DetailsContent = (props) => {
   const check = router.pathname === "/rent/search/[id]";
 
   const data = props.data;
+
+  const {viewOptions,setViewOptions}=useContext(ImageContext);
   
 
   return (
@@ -115,12 +118,12 @@ export const DetailsContent = (props) => {
         <div id={styles.options}>
           <label
             className={
-              props.viewOptions === "pictures"
+              viewOptions === "pictures"
                 ? styles.selected
                 : styles.unselected
             }
           >
-            <Image
+            <img
               src="/images/frame-42758-system-uicons-picture-1.svg"
               width={25}
               height={25}
@@ -130,19 +133,19 @@ export const DetailsContent = (props) => {
               type="radio"
               name="viewOptions"
               value="pictures"
-              onChange={(e) => props.setViewOptions(e.target.value)}
+              onChange={(e) => setViewOptions(e.target.value)}
             />
             1/{data?.images?.length}
           </label>
 
           <label
             className={
-              props.viewOptions === "videos"
+              viewOptions === "videos"
                 ? styles.selected
                 : styles.unselected
             }
           >
-            <Image
+            <img
               src="/images/frame-42758-ph-video-light-1.svg"
               width={25}
               height={25}
@@ -152,17 +155,17 @@ export const DetailsContent = (props) => {
               type="radio"
               name="viewOptions"
               value="videos"
-              onChange={(e) => props.setViewOptions(e.target.value)}
+              onChange={(e) => setViewOptions(e.target.value)}
             />
             {data?.videos?.length}
           </label>
 
           <label
             className={
-              props.viewOptions === "vr" ? styles.selected : styles.unselected
+              viewOptions === "vr" ? styles.selected : styles.unselected
             }
           >
-            <Image
+            <img
               src="/images/frame-42758-bi-badge-vr-1.svg"
               width={25}
               height={25}
@@ -172,17 +175,17 @@ export const DetailsContent = (props) => {
               type="radio"
               name="viewOptions"
               value="vr"
-              onChange={(e) => props.setViewOptions(e.target.value)}
+              onChange={(e) => setViewOptions(e.target.value)}
             />
             {data?.virtual_tour?.length}
           </label>
 
           <label
             className={
-              props.viewOptions === "plan" ? styles.selected : styles.unselected
+              viewOptions === "plan" ? styles.selected : styles.unselected
             }
           >
-            <Image
+            <img
               src="/images/frame-42758-teenyicons-floorplan-solid-1.svg"
               width={25}
               height={25}
@@ -192,17 +195,17 @@ export const DetailsContent = (props) => {
               type="radio"
               name="viewOptions"
               value="plan"
-              onChange={(e) => props.setViewOptions(e.target.value)}
+              onChange={(e) => setViewOptions(e.target.value)}
             />
             {data?.floor_plan?.length}
           </label>
 
           <label
             className={
-              props.viewOptions === "360" ? styles.selected : styles.unselected
+              viewOptions === "360" ? styles.selected : styles.unselected
             }
           >
-            <Image
+            <img
               src="/images/frame-42758-bi-badge-vr.svg"
               width={25}
               height={25}
@@ -212,19 +215,19 @@ export const DetailsContent = (props) => {
               type="radio"
               name="viewOptions"
               value="360"
-              onChange={(e) => props.setViewOptions(e.target.value)}
+              onChange={(e) => setViewOptions(e.target.value)}
             />
             {data?.vr?.length}
           </label>
 
           <label
             className={
-              props.viewOptions === "location"
+              viewOptions === "location"
                 ? styles.selected
                 : styles.unselected
             }
           >
-            <Image
+            <img
               src="/images/vuesax-linear-location.svg"
               width={25}
               height={25}
@@ -234,19 +237,19 @@ export const DetailsContent = (props) => {
               type="radio"
               name="viewOptions"
               value="location"
-              onChange={(e) => props.setViewOptions(e.target.value)}
+              onChange={(e) => setViewOptions(e.target.value)}
             />
           </label>
         </div>
         </div>
 
         <div className={styles.price}>
-          <h1>£{data?.price}</h1>
+          <h1>£{data?.Amount}</h1>
           <button onClick={props.handleShow}>Make an offer</button>
         </div>
         <div className={styles.facilities}>
           <span>
-            <Image
+            <img
               src="/images/mdi-bedroom-outline.svg"
               width={25}
               height={25}
@@ -255,7 +258,7 @@ export const DetailsContent = (props) => {
             {data?.bedrooms}
           </span>
           <span>
-            <Image
+            <img
               src="/images/mdi-shower.svg"
               width={25}
               height={25}
@@ -264,7 +267,7 @@ export const DetailsContent = (props) => {
             {data?.bathrooms}
           </span>
           <span>
-            <Image
+            <img
               src="/images/material-symbols-chair-outline.svg"
               width={25}
               height={25}
@@ -309,7 +312,7 @@ export const DetailsContent = (props) => {
 
           <p className={styles.listed}>{data?.date_created}</p>
 
-          <Image
+          <img
             className={styles.company}
             src="/images/rectangle-402.svg"
             width={170}

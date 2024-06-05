@@ -225,7 +225,7 @@ const PostProperty = () => {
           handleSubmit={handleSubmit}
         />
       )}
-      {count.current === 5 && <Congratulations />}
+      {count.current === 5 && <Congratulations back={back} />}
     </form>
   );
 };
@@ -679,7 +679,7 @@ const PostPropertyDescription = ({
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={next}>Cancel</button>
-        <button type="submit">Save & Next</button>
+        <button onClick={next}>Save & Next</button>
       </div>
     </>
   );
@@ -701,7 +701,7 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
 
       <div className={styles.detailInfo}>
         <div className={styles.price}>
-          <h1>{form.amount}</h1>
+          <h1>£ {form.Amount}</h1>
         </div>
 
         <div className={styles.facilities}>
@@ -748,7 +748,7 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
 
       <div className={styles.DetailinfoContainer}>
         <div className={styles.info}>
-          <p>{form.title}</p>
+          <p>{form.Title}</p>
           <p>{form.location}</p>
           <p>{form.description}</p>
         </div>
@@ -769,21 +769,21 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
       </div>
 
       <div className={styles.DetailImgContainer}>
-        <img src={""} width={210} height={200} />
+        <img src={form.images[2]} width={210} height={200} />
       </div>
 
       <div className={styles.buttonContainer}>
         <button onClick={next}>Cancel</button>
-        <button onClick={next}>Save & Next</button>
+        <button type="submit">Save & Next</button>
       </div>
     </>
   );
 };
-const Congratulations = () => {
+const Congratulations = ({back}) => {
   return (
     <>
       <div>
-        <h1>Congratulations</h1>
+        <h1 onClick={back}>Congratulations</h1>
       </div>
     </>
   );

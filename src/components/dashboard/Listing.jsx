@@ -2,10 +2,17 @@ import { Apartment } from "@mui/icons-material";
 import styles from "../../styles/dashboard/listing.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext, useRef } from "react";
+import { LoginContext } from '../../context/Login.context';
+
 const Listing = () => {
+
   const router = useRouter();
   const data = router.query;
   const [type, setType] = useState("allListing");
+
+  const { userInformation } = useContext(LoginContext);
+
+  const userId = userInformation.user.id;
 
   let allListing = "allListing";
   let recentlyAdded = "recentlyAdded";
@@ -16,19 +23,19 @@ const Listing = () => {
   };
 
   const count = useRef(1);
-  const [update, setUpdate] = useState(false); // Add state to force re-render
+  const [update, setUpdate] = useState(false);
 
   const next = () => {
     if (count.current <= 4) {
       count.current = count.current + 1;
-      setUpdate(!update); // Trigger a re-render
+      setUpdate(!update); 
     }
   };
 
   const back = () => {
     if (count.current > 1) {
       count.current = count.current - 1;
-      setUpdate(!update); // Trigger a re-render
+      setUpdate(!update); 
     }
   };
 
@@ -36,7 +43,7 @@ const Listing = () => {
     <>
       <div className={styles.Section}>
         {count.current === 1 && (
-          <ListProperty next={next} handleChange={handleChange} type={type} />
+          <ListProperty next={next} handleChange={handleChange} type={type} userId={userId} />
         )}
         {count.current === 2 && <ListingDetail next={next} back={back} />}
       </div>
@@ -79,7 +86,7 @@ const Navigation = ({ handleChange, type }) => {
         </div>
         <div className={styles.search}>
           <img src="/navbar/search.svg" />
-          <input type="text" placeHolder="search property" />
+          <input type="text" placeholder="search property" />
         </div>
       </div>
     </>
@@ -87,7 +94,8 @@ const Navigation = ({ handleChange, type }) => {
 };
 
 const ListProperty = ({ next, handleChange, type, userId }) => {
-  const [apartment, setApartment] = useState(null);
+
+  const [apartment, setApartment] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
