@@ -41,7 +41,7 @@ function Property({property}) {
                         <FaRegHeart className={styles.heart}/>
                       </div>
 
-                      <img className={styles.image} src={property.images[1]} alt="" />
+                      <img className={styles.image} src={property.images[0]} alt="" />
 
                       <div className={styles.propertyFeatures}>
                        <li>
@@ -69,7 +69,7 @@ function Property({property}) {
 
                     <div className={styles.propertyDetails}>
                         <div className={styles.propertyOffer}>
-                          <p>£{property?.price}</p>
+                          <p>£{property?.Amount}</p>
 
                           <button>Make an offer</button>
                         </div>
