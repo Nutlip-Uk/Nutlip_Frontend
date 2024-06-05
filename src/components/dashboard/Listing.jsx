@@ -2,11 +2,11 @@ import { Apartment } from "@mui/icons-material";
 import styles from "../../styles/dashboard/listing.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext, useRef } from "react";
-import { LoginContext } from '../../context/Login.context';
+import { LoginContext } from "../../context/Login.context";
 
 const Listing = () => {
-
   const router = useRouter();
+  //const { userId } = router.query; // Destructure userId from router.query
   const data = router.query;
   const [type, setType] = useState("allListing");
 
@@ -28,14 +28,14 @@ const Listing = () => {
   const next = () => {
     if (count.current <= 4) {
       count.current = count.current + 1;
-      setUpdate(!update); 
+      setUpdate(!update);
     }
   };
 
   const back = () => {
     if (count.current > 1) {
       count.current = count.current - 1;
-      setUpdate(!update); 
+      setUpdate(!update);
     }
   };
 
@@ -43,7 +43,12 @@ const Listing = () => {
     <>
       <div className={styles.Section}>
         {count.current === 1 && (
-          <ListProperty next={next} handleChange={handleChange} type={type} userId={userId} />
+          <ListProperty
+            next={next}
+            handleChange={handleChange}
+            type={type}
+            userId={userId}
+          />
         )}
         {count.current === 2 && <ListingDetail next={next} back={back} />}
       </div>
@@ -94,7 +99,6 @@ const Navigation = ({ handleChange, type }) => {
 };
 
 const ListProperty = ({ next, handleChange, type, userId }) => {
-
   const [apartment, setApartment] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -126,10 +130,9 @@ const ListProperty = ({ next, handleChange, type, userId }) => {
   }
   return (
     <>
+      xxxxxx
       <p className={styles.Header}>My Listing</p>
-
       <Navigation handleChange={handleChange} type={type} />
-
       <div className={styles.propertyContainer}>
         <input type="checkbox" />
 
