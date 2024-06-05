@@ -13,7 +13,7 @@ const Listing = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { userInformation } = useContext(LoginContext);
-
+  const [selectedApartment, setSelectedApartment] = useState(null);
   const userId = userInformation?.user.id;
 
   let allListing = "allListing";
@@ -81,9 +81,12 @@ const Listing = () => {
             type={type}
             userId={userId}
             apartments={apartments}
+            selectedApartment={selectedApartment}
+            setSelectedApartment={setSelectedApartment}
+
           />
         )}
-        {count.current === 2 && <ListingDetail next={next} back={back} apartments={apartments}/>}
+        {count.current === 2 && <ListingDetail next={next} back={back} apartment={selectedApartment}/>}
       </div>
     </>
   );
@@ -131,9 +134,12 @@ const Navigation = ({ handleChange, type }) => {
   );
 };
 
-const ListProperty = ({ next, handleChange, type, userId, apartments }) => {
+const ListProperty = ({ next, handleChange, type, userId, apartments ,setSelectedApartment}) => {
 
-
+  const handlePropertyClick = (apartment) => {
+    setSelectedApartment(apartment);
+    next();
+  };
 
 
   return (
@@ -141,16 +147,16 @@ const ListProperty = ({ next, handleChange, type, userId, apartments }) => {
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
         {apartments.map((apartment) => (
-      <div key={apartment._id} className={styles.propertyContainer}>
+      <div key={apartment?._id} className={styles.propertyContainer}>
         <input type="checkbox" />
 
-          <div key={apartment.id} className={styles.Property} onClick={next}>
+          <div  className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
             <div className={styles.PropertyImg}>
-              <img src={apartment.images[0]} />
+              <img src={apartment?.images[0]} />
 
               <div className={styles.propertyText}>
-                <p>{apartment.Title}</p>
-                <p>{apartment.location}</p>
+                <p>{apartment?.Title}</p>
+                <p>{apartment?.location}</p>
 
                 <div className={styles.propertySize}>
                           <li>
@@ -196,7 +202,12 @@ const ListProperty = ({ next, handleChange, type, userId, apartments }) => {
 };
 
 
-const ListingDetail = ({ next, back, handleChange,apartments }) => {
+const ListingDetail = ({ next, back, handleChange,apartment}) => {
+
+  if (!apartment) {
+    return <div>No property selected.</div>;
+  }
+
   return (
     <>
       <div className={styles.ListingDetailSection}>
@@ -208,7 +219,7 @@ const ListingDetail = ({ next, back, handleChange,apartments }) => {
           <div className={styles.ListingDetailLeft}>
             <div className={styles.ListingDetailLeftImage}>
               <div className={styles.ListingDetailImageContainer}>
-                <img src="/dashboard/listimg.png" alt="" />
+                <img src={apartment?.images[0]} alt="" />
               </div>
 
               <div id={styles.options}>
@@ -276,8 +287,8 @@ const ListingDetail = ({ next, back, handleChange,apartments }) => {
             <div className={styles.ListingDetailInfo}>
               <div className={styles.ListingDetailInfoBox}>
                 <div className={styles.ListingDetailPriceContainer}>
-                  <p>£ 706,000</p>
-                  <p>Listing ID: WYVEI112</p>
+                  <p>£ {apartment?.Amount}</p>
+                  <p>Listing ID: {apartment?._id.slice(0,8)}</p>
                 </div>
                 <hr />
                 <div className={styles.ListingDetailStatus}>
@@ -289,7 +300,7 @@ const ListingDetail = ({ next, back, handleChange,apartments }) => {
                         height={25}
                         alt="bedroom-thumbnail"
                       />
-                      2
+                      {apartment?.bedrooms}
                     </span>
                     <span>
                       <img
@@ -298,7 +309,7 @@ const ListingDetail = ({ next, back, handleChange,apartments }) => {
                         height={25}
                         alt="bathroom-thumbnail"
                       />
-                      2
+                      {apartment?.bathrooms}
                     </span>
                     <span>
                       <img
@@ -312,7 +323,7 @@ const ListingDetail = ({ next, back, handleChange,apartments }) => {
                   </div>
 
                   <p className={styles.ListingDetailStatusAvailable}>
-                    Status : Available
+                  <p>Status: {apartment?.isSold ? "Unavailable" : "Available"}</p>
                   </p>
                 </div>
               </div>
@@ -322,34 +333,25 @@ const ListingDetail = ({ next, back, handleChange,apartments }) => {
           <div className={styles.ListingDetailRight}>
             <div className={styles.ListingDetailRightInfo}>
               <div className={styles.ListingDetailRightInfoHeader}>
-                <p>3 bedroom flat for sale</p>
-                <p>Navino road, London E8</p>
+                <p>{apartment?.Title}</p>
+                <p>{apartment?.location}</p>
               </div>
 
               <div className={styles.ListingDetailRightText}>
                 <p>
-                  This resplendent Georgian conversion property is wonderfully
-                  located for transport links, local amenities and green urban
-                  spaces. The perfect first time buy or buy to let opportunity.
+                  {apartment?.description}
                 </p>
 
                 <div className={styles.keyFeatures}>
                   <p>Key features</p>
 
-                  <li>Sold in March 2023</li>
-                  <li>Three bedrooms</li>
-                  <li>Family bathroom and guest w/</li>
-                  <li>Built in wardrobes to bedroom one and two</li>
-                  <li>17ft garage and off street parking</li>
-                  <li>41ft secluded rear garden</li>
-                  <li>
-                    South facing terrace to the front with fantastic views
-                  </li>
+                  <li>{apartment.Add_features}</li>
+                 
                 </div>
 
                 <div className="">
                   <p className={styles.Readmore}>Read more</p>
-                  <p>Listed on 10th Jun 2023</p>
+                  <p>{apartment.date_created}</p>
                 </div>
               </div>
             </div>

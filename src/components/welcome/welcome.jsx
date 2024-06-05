@@ -154,7 +154,7 @@ const Welcome = () => {
           {count.current === 3 && selectedRole === "Real_estate_agent" && <AgentForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "Mortgage_broker" && <MortgageBrokerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "Conveyancer" && <ConveyancerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
-          {count.current === 3 && selectedRole === "private_seller" && <BuyerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
+          {count.current === 3 && selectedRole === "private_seller" && <PrivateSellerForm next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           {count.current === 3 && selectedRole === "guest" && <Guest next={next} back={back} form={form} handleChange={handleChange} handleSubmit={handleSubmit}/>}
           
         {count.current === 4 && <Congratulations next={next} back={back} handlePutResponse={handlePutResponse}/>}
@@ -256,9 +256,9 @@ const WhatDescribesYou = ({next}) => {
 
                 <input type="radio"
                 name="description"
-                  value="Agent"
+                  value="Real_estate_agent"
                   
-                  label="Agent"
+                  label="Real_estate_agent"
                 />
                 <label htmlFor="Agent">Agent</label>
                 </div>
@@ -306,10 +306,10 @@ const WhatDescribesYou = ({next}) => {
 
                   value="guest"
                   
-                  label="Guest"
+                  label="guest"
 
                 />
-                <label htmlFor="Guest">Guest</label>
+                <label htmlFor="guest">Guest</label>
                 
                 </div>
 
@@ -402,11 +402,11 @@ const Guest = ({form, handleSubmit, handleChange, userInformation}) => {
  
   <div>
     <label htmlFor="fullname">Full Name</label>
-    <input type="fullname" id="fullname" name="fullname" value={userInformation.user.name} placeHolder={userInformation.user.name} disabled/>
+    <input type="fullname" id="fullname" name="fullname" value={userInformation?.user?.name} placeholder={userInformation?.user?.name} disabled/>
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
-    <input type="email" id="email" name="email" value={form.email} placeHolder={userInformation.user.email} disabled/>
+    <input type="email" id="email" name="email" value={form.email} placeholder={userInformation?.user?.email} disabled/>
   </div>
 
 
@@ -853,7 +853,7 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
         <div className={styles.MainContainer}>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formHeader}>
-        <h2>Estate Agents</h2>
+        <h2>Real Estate Agents</h2>
         <p>Kindly fill this form, for a more personalized experience.</p>
      </div>
       
