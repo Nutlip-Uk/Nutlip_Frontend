@@ -22,9 +22,11 @@ export default async function handler(req, res) {
     case "GET" /* Get an apartment */:
       try {
         // Fetch apartments where the userId matches the provided userId
-        const apartments = await Apartment.findById({ userId });
+        const apartments = await Apartment.find({ userId });
         if (!apartments) {
-          return res.status(404).json({ message: "Apartment not found" });
+          return res
+            .status(404)
+            .json({ message: "No apartments found for the given userId" });
         }
         res.status(200).json(apartments);
         console.log(apartments);
