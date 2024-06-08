@@ -8,7 +8,7 @@ import { GridLoader, HashLoader } from "react-spinners";
 import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
 import { setCookie } from "nookies";
-import { LoginContext } from '../../context/Login.context';
+import { LoginContext } from "../../context/Login.context";
 import { RegistrationContext } from "../../context/Register.context";
 
 const Registration = () => {
@@ -106,6 +106,7 @@ const Signup = (props) => {
   // handling submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       const response = await fetch("/api/register", {
         method: "POST",
@@ -115,22 +116,37 @@ const Signup = (props) => {
         },
       });
 
-      console.log(formData)
+      console.log(formData);
 
       if (!response.ok) {
-        throw new Error("Failed to register");
-      }
+        const data = await response.json();
 
-      //* If registration is successful, you might redirect the user to the login page
-      if (response.status === 201) {
-        router.push("/register?option=login");
-        console.log("Registration Successful. Redirecting to login.");
-      }
-      if (response.status === 500) {
-        console.log("fields are not filled well please try again");
+        if (response.status === 400) {
+          // Handle validation errors
+          if (Object.keys(data.errors).length > 1) {
+            // Multiple validation errors
+            console.error("Multiple validation errors:", data.errors);
+          } else {
+            // Single validation error
+            console.error("Validation failed:", data.errors);
+          }
+        } else if (response.status === 409) {
+          // Handle email already exists error
+          console.error("Email already exists:", data.message);
+        } else {
+          throw new Error("Failed to register");
+        }
+      } else {
+        if (response.status === 201) {
+          // Registration successful
+          router.push("/register?option=login");
+          console.log("Registration Successful. Redirecting to login.");
+        } else {
+          throw new Error("Unexpected response status");
+        }
       }
     } catch (error) {
-      console.error("An error occurred during form submission:", error);
+      console.log(error);
     }
   };
 
@@ -313,8 +329,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   let forgetPassword = "forgetPassword";
 
-
-  const { handleLogin,setUserInformation } = useContext(LoginContext);
+  const { handleLogin, setUserInformation } = useContext(LoginContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -362,22 +377,18 @@ const Login = () => {
   //   }
   // };
 
-
-
-  
-
   //? alternate api call with local storage
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-  
+
     try {
       const response = await handleLogin(formData);
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token)
-        localStorage.setItem("userInformation", JSON.stringify(data)); 
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userInformation", JSON.stringify(data));
         setUserInformation(data);
 
         router.push("/");
@@ -390,8 +401,6 @@ const Login = () => {
       setLoading(false); // Reset loading state after request is completed
     }
   };
-
-
 
   //? alternate api call with local storage
   // const handleSubmit = async (event) => {
@@ -434,108 +443,103 @@ const Login = () => {
 
   return (
     <>
-
-    {loading ? (
-            
-          <div className={styles.loader}>
-            <GridLoader
-      color="#3670d6"
-      size={50}
-    />
-          </div>  
-    
-          ) : (<>
-    
-            <form className={styles.login} onSubmit={handleSubmit}>
-              <label>
-                Email address
+      {loading ? (
+        <div className={styles.loader}>
+          <GridLoader color="#3670d6" size={50} />
+        </div>
+      ) : (
+        <>
+          <form className={styles.login} onSubmit={handleSubmit}>
+            <label>
+              Email address
+              <input
+                type="email"
+                name="email"
+                placeholder="Email address"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label className={styles.LoginpasswordLabel}>
+              Password
+              <div className={styles.LoginpasswordContainer}>
                 <input
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  value={formData.email}
-                  onChange={handleChange}
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
                   required
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={styles.passwordInput}
                 />
-              </label>
-              <label className={styles.LoginpasswordLabel}>
-                Password
-                <div className={styles.LoginpasswordContainer}>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Password"
-                    required
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={styles.passwordInput}
-                  />
-                  <Image
-                    className={styles.LoginHidePassword}
-                    src="/images/eye-slash.svg"
-                    width={0}
-                    height={0}
-                    alt="eye-slash_icon"
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                </div>
-              </label>
-              <div className={styles.RememberContainer}>
-                <div className={styles.Remember}>
-                  <input type="checkbox" name="" id="" />
-                  <p>Remember me</p>
-                </div>
-    
-                <button
-                  onClick={() => router.push(`/register?option=${forgetPassword}`)}
-                  className={styles.forgetPassword}
-                >
-                  Forget password ?
-                </button>
+                <Image
+                  className={styles.LoginHidePassword}
+                  src="/images/eye-slash.svg"
+                  width={0}
+                  height={0}
+                  alt="eye-slash_icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
               </div>
-    
-              <p style={{ color: isPasswordValid ? "black" : "red" }}>
-                {isPasswordValid
-                  ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
-                  : "invalid password"}
-              </p>
-    
-              <button className={styles.LoginButton} type="submit">
-                Login
+            </label>
+            <div className={styles.RememberContainer}>
+              <div className={styles.Remember}>
+                <input type="checkbox" name="" id="" />
+                <p>Remember me</p>
+              </div>
+
+              <button
+                onClick={() =>
+                  router.push(`/register?option=${forgetPassword}`)
+                }
+                className={styles.forgetPassword}
+              >
+                Forget password ?
               </button>
-              <div className={styles.OR}>
-                <hr />
-                OR
-                <hr />
-              </div>
-            </form>
-            <div className={styles.GoogleContainer}>
-              <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
-                <button
-                  className={styles.Google}
-                  style={{ backgroundColor: "white" }}
-                >
-                  <img src="/google.svg" alt="" />
-                  <p>Continue with Google</p>
-                </button>
-              </form>
-    
-              <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
-                <button className={styles.Facebook}>
-                  <img
-                    width="30"
-                    height="30"
-                    src="https://img.icons8.com/color/48/facebook.png"
-                    alt="facebook"
-                  />
-                  <p>Continue with Facebook</p>
-                </button>
-              </form>
             </div>
-          </>
-    
-    )}
+
+            <p style={{ color: isPasswordValid ? "black" : "red" }}>
+              {isPasswordValid
+                ? "Password must be a minimum combination of 10 characters, including Uppercase letters & numbers"
+                : "invalid password"}
+            </p>
+
+            <button className={styles.LoginButton} type="submit">
+              Login
+            </button>
+            <div className={styles.OR}>
+              <hr />
+              OR
+              <hr />
+            </div>
+          </form>
+          <div className={styles.GoogleContainer}>
+            <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
+              <button
+                className={styles.Google}
+                style={{ backgroundColor: "white" }}
+              >
+                <img src="/google.svg" alt="" />
+                <p>Continue with Google</p>
+              </button>
+            </form>
+
+            <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
+              <button className={styles.Facebook}>
+                <img
+                  width="30"
+                  height="30"
+                  src="https://img.icons8.com/color/48/facebook.png"
+                  alt="facebook"
+                />
+                <p>Continue with Facebook</p>
+              </button>
+            </form>
+          </div>
         </>
+      )}
+    </>
   );
 };
 const Verify = () => {
