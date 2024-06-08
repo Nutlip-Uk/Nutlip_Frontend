@@ -74,6 +74,10 @@ const ApartmentSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  LivingRoom: {
+    type: Number,
+    required: true,
+  },
   size: {
     type: Number,
     required: true,
@@ -115,6 +119,16 @@ const ApartmentSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  PCM: {
+    type: Integer,
+  },
+  PCW: {
+    type: Integer,
+  },
+  justAddedExpiration: {
+    type: Boolean,
+    default: true,
+  },
   isSold: {
     type: Boolean,
     default: false,
@@ -128,6 +142,30 @@ const ApartmentSchema = new mongoose.Schema({
     default: null,
   },
 });
+
+// Set the justAddedExpiration field to 48 hours from the current time
+ApartmentSchema.pre("save", function (next) {
+  if (this.isNew) {
+    const expirationTime = new Date();
+    expirationTime.setHours(expirationTime.getHours() + 48);
+    this.justAddedExpiration = expirationTime;
+  }
+  next();
+});
+
+// Reset the justAdded field to false if the justAddedExpiration time has passed
+ApartmentSchema.pre("findOne", function (next) {
+  this.populate("justAddedExpiration");
+  next();
+});
+
+ApartmentSchema.pre(/^find/, function (next) {
+  this.find({ justAddedExpiration: { $lte: new Date() } }).updateMany({
+    justAdded: false,
+  });
+  next();
+});
+
 const Apartment =
   mongoose.models?.Apartments || mongoose.model("Apartments", ApartmentSchema);
 module.exports = Apartment;

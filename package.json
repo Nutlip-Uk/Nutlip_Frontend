@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^2.5.0",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/inter": "^5.0.15",
@@ -47,6 +48,7 @@
     "next": "^13.5.6",
     "next-auth": "^4.24.7",
     "next-cloudinary": "^6.6.2",
+    "nodemailer": "^6.9.13",
     "nookies": "^2.5.2",
     "react": "^18.2.0",
     "react-cool-onclickoutside": "^1.7.0",
@@ -62,6 +64,7 @@
     "swiper": "^11.0.5",
     "uploadthing": "^6.6.0",
     "use-places-autocomplete": "^4.0.1",
+    "uuid": "^9.0.1",
     "video-react": "^0.16.0",
     "yarn": "^1.22.22"
   },
