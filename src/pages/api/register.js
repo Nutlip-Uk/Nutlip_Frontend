@@ -16,7 +16,8 @@ async function Handler(req, res) {
   if (!email) errors.email = "Email is required";
   if (!password) errors.password = "Password is required";
   if (password.length < 6)
-    errors.password = "Password must be at least 6 characters";
+    errors.password =
+      "Password must contain at least one uppercase, one lowercase, one number and minimum 6 characters";
 
   if (Object.keys(errors).length > 0) {
     return res.status(400).json({ message: "Validation failed", errors });
@@ -27,9 +28,10 @@ async function Handler(req, res) {
   if (existingUser) {
     return res.status(409).json({ message: "Email already exists" });
   }
+  console.log(existingUser);
 
   try {
-    const newUser = new User({ username, email, password , newUser:true});
+    const newUser = new User({ username, email, password, newUser: true });
     await newUser.save();
     console.log(newUser);
     res.status(201).json({ message: "User created successfully" });
