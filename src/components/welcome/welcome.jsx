@@ -107,7 +107,7 @@ const Welcome = () => {
         console.log("Form successfully updated", data);
         console.log(data);
         
-        // handlePutResponse(data);
+        handlePutResponse(data);
 
         next();
       } else {

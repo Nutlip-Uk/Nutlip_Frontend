@@ -15,8 +15,13 @@ export default function Buy() {
       try {
         const response = await fetch('/api/apartments'); 
         const data = await response.json();
-        setProperties(data);
-        console.log(data)
+        console.log("API Data", data)
+
+        // Filter the properties based on the 'purpose' value
+        const filteredProperties = data.filter(property => property.purpose === 'For_Buy');
+        
+        setProperties(filteredProperties);
+        console.log("Filtered properties",filteredProperties);
       } catch (error) {
         console.error('Error fetching properties:', error);
       }

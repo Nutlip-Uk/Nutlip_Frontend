@@ -21,6 +21,12 @@ const OfferModal = (props) => {
   const success = () => {
     setOffer("success");
   };
+  
+  const Back = () => {
+    setOffer("offer");
+  };
+  
+  const data = props.data
 
   return (
     <section className={styles.Section}>
@@ -40,8 +46,8 @@ const OfferModal = (props) => {
             </button>
           </section>
 
-          {offer === "offer" && <Offer data={props} change={success} />}
-          {offer === "success" && <Success change={offer}/>}
+          {offer === "offer" && <Offer data={data} change={success} />}
+          {offer === "success" && <Success Back={Back}/>}
         </div>
       </div>
     </section>
@@ -104,15 +110,17 @@ export const ConveyancerModal = (props) => {
   );
 };
 
-const Offer = (props) => {
+const Offer = ({data, change}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
+ 
+
   return (
     <form className={styles.offer}>
       <div className={styles.offerContainer}>
-        <h1 className={styles.price}>£{props.price}</h1>
+        <h1 className={styles.price}>£{data?.Amount}</h1>
 
         <hr />
 
@@ -124,7 +132,7 @@ const Offer = (props) => {
               height={24}
               alt="bedroom-thumbnail"
             />
-            {props?.bedrooms}
+            {data?.bedrooms}
           </span>
           <span>
             <Image
@@ -133,7 +141,7 @@ const Offer = (props) => {
               height={24}
               alt="bathroom-thumbnail"
             />
-            {props?.bathrooms}
+            {data?.bathrooms}
           </span>
           <span>
             <Image
@@ -142,15 +150,15 @@ const Offer = (props) => {
               height={24}
               alt="livingroom-thumbnail"
             />
-            {props?.livingroom}
+            {data?.livingroom}
           </span>
         </div>
 
         <hr />
 
         <div className={styles.desc}>
-          <h4>{props.Title}</h4>
-          <p>{props.location}</p>
+          <h4>{data?.Title}</h4>
+          <p>{data?.location}</p>
         </div>
       </div>
 
@@ -249,13 +257,13 @@ const Offer = (props) => {
 
       <section className={styles.btns}>
         <button>Cancel</button>
-        <button onClick={() => props.change()}>Continue</button>
+        <button onClick={() => change()}>Continue</button>
       </section>
     </form>
   );
 };
 
-export const Success = (props) => { 
+export const Success = ({Back}) => { 
     const router = useRouter();
   return (
     <div className={styles.success}>
@@ -269,7 +277,7 @@ export const Success = (props) => {
 
       <div className={styles.SuccessButtonContainer}>
         <button>Need Conveyancer?</button>
-        <button onClick={() => props.change()}>Go Back</button>
+        <button onClick={() => Back()}>Go Back</button>
       </div>
     </div>
   );
