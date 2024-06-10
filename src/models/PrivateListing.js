@@ -150,6 +150,10 @@ const PrivateListingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  LivingRoom: {
+    type: Number,
+    required: true,
+  },
   stateOfProperty: {
     type: String,
     enum: ["sold_stc", "under_offer"],
@@ -195,6 +199,16 @@ const PrivateListingSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  PCM: {
+    type: Integer,
+  },
+  PCW: {
+    type: Integer,
+  },
+  justAddedExpiration: {
+    type: Boolean,
+    default: true,
+  },
   isSold: {
     type: Boolean,
     default: false,
@@ -208,6 +222,30 @@ const PrivateListingSchema = new mongoose.Schema({
     default: null,
   },
 });
+
+// Set the justAddedExpiration field to 48 hours from the current time
+PrivateListingSchema.pre("save", function (next) {
+  if (this.isNew) {
+    const expirationTime = new Date();
+    expirationTime.setHours(expirationTime.getHours() + 48);
+    this.justAddedExpiration = expirationTime;
+  }
+  next();
+});
+
+// Reset the justAdded field to false if the justAddedExpiration time has passed
+PrivateListingSchema.pre("findOne", function (next) {
+  this.populate("justAddedExpiration");
+  next();
+});
+
+PrivateListingSchema.pre(/^find/, function (next) {
+  this.find({ justAddedExpiration: { $lte: new Date() } }).updateMany({
+    justAdded: false,
+  });
+  next();
+});
+
 const PrivateListing =
   mongoose.models?.PrivateListings ||
   mongoose.model("PrivateListings", PrivateListingSchema);
