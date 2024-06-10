@@ -10,11 +10,11 @@
     height: 50dvh;
     width: 100%;
     background: linear-gradient(rgba(17, 17, 17, 0.274), rgba(7, 6, 6, 0.267)),
-    url("../../../public/buyimage.png");
+    url("https://framerusercontent.com/images/JqIOTdbBsZxZ7nrSsTydwl3rjs.png");
   background-repeat: no-repeat;
   object-fit: cover;
   background-size: cover;
-  background-size: 100% 90%;
+  background-size: 100% 85%;
   display: flex;
   align-items: end;
   justify-content:center;
@@ -60,7 +60,7 @@
       height: 85%;
       border: none;
       outline: none;
-      font-size: 18px;
+      font-size: 16px;
   }
   
 
@@ -124,10 +124,10 @@
 
   @media ( width <= 400px) {
     .container{
-        height: 50dvh;
+        height: 60dvh;
         width: 100%;
         background: linear-gradient(rgba(17, 17, 17, 0.274), rgba(7, 6, 6, 0.267)),
-        url("../../../public/buyimageMobile.png");
+        url("https://framerusercontent.com/images/JqIOTdbBsZxZ7nrSsTydwl3rjs.png");
       background-repeat: no-repeat;
       object-fit: cover;
       background-size: cover;
@@ -139,7 +139,7 @@
     }
     
     .HeroCompContainer{
-        width: 90%;
+        width: 95%;
         height: auto;
         background-color: white;
         display: flex;
@@ -168,12 +168,13 @@
         display: flex;
         align-items: center;
         width: 90%;
-        height: 50px;
+        height: 52px;
         padding: 0px 0px;
         color: #2c3a61;
         text-decoration: none;
         border: solid 1px #000000;
         border-radius: 8px;
+        font-size:16px;
         
       }
 
@@ -186,20 +187,20 @@
     border: solid 1px #000000;
     border-radius: 8px;
     width: 90%;
-    height: 50px;
+    height: 52px;
     display: flex;
     justify-content: center;
     }
     
     .searchButton {
-    height: 50px;
+    height: 52px;
     width: 90%;
     background-color: #da0025;
     border: none;
     color: white;
     font-size: 16px;
     font-weight: 500;
-    line-height: 24px;
+    line-height: unset;
     letter-spacing: 0em;
     text-align: center;
     border-radius: 10px;
@@ -212,14 +213,14 @@
 
   @media (400px <= width <=779px) {
     .container{
-        height: 50dvh;
+        height: 60dvh;
         width: 100%;
         background: linear-gradient(rgba(17, 17, 17, 0.274), rgba(7, 6, 6, 0.267)),
-        url("../../../public/buyimageMobile.png");
+        url("https://framerusercontent.com/images/JqIOTdbBsZxZ7nrSsTydwl3rjs.png");
       background-repeat: no-repeat;
       object-fit: cover;
       background-size: cover;
-      background-size: 100% 60%;
+      background-size: 100% 65%;
       display: flex;
       align-items: end;
       justify-content:center;
@@ -227,7 +228,7 @@
     }
     
     .HeroCompContainer{
-        width: 90%;
+        width: 95%;
         height: auto;
         background-color: white;
         display: flex;
@@ -256,7 +257,7 @@
         display: flex;
         align-items: center;
         width: 90%;
-        height: 50px;
+        height: 52px;
         padding: 0px 0px;
         color: #2c3a61;
         text-decoration: none;
@@ -269,13 +270,13 @@
     border: solid 1px #000000;
     border-radius: 8px;
     width: 90%;
-    height: 50px;
+    height: 52px;
     display: flex;
     justify-content: center;
     }
     
     .searchButton {
-    height: 50px;
+    height: 52px;
     width: 90%;
     background-color: #da0025;
     border: none;
@@ -296,14 +297,14 @@
   @media (780px <= width <= 960px) {
   
   .container{
-    height: 35dvh;
+    height: 50dvh;
     width: 100%;
     background: linear-gradient(rgba(17, 17, 17, 0.274), rgba(7, 6, 6, 0.267)),
-    url("../../../public/buyimageTablet.png");
+    url("https://framerusercontent.com/images/JqIOTdbBsZxZ7nrSsTydwl3rjs.png");
   background-repeat: no-repeat;
   object-fit: cover;
   background-size: cover;
-  background-size: 100% 90%;
+  background-size: 100% 80%;
   display: flex;
   align-items: end;
   justify-content:center;

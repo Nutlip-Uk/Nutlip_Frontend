@@ -11,6 +11,8 @@ import { SessionProvider, useSession } from "next-auth/react";
 import Script from "next/script";
 import LoginProvider from "../context/Login.context";
 
+
+
 const Layout = ({ children }) => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
@@ -22,6 +24,7 @@ const Layout = ({ children }) => {
           defer
           src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initmap`}
         ></Script>
+       
         <PrivatePostPropertyContextProvider>
         <ImageProvider>
         <LoginProvider>
@@ -36,6 +39,7 @@ const Layout = ({ children }) => {
         </LoginProvider>
         </ImageProvider>
         </PrivatePostPropertyContextProvider>
+        
       </div>
     </SessionProvider>
   );

@@ -57,14 +57,17 @@ const Details = () => {
         const data = await res.json();
         setProperty(data);
         console.log(data)
-      } catch (error) {
-        console.error("API Error:", error);
-      }
+
+        } catch (error) {
+          console.error("API Error:", error);
+          }
+       ;
     };
 
     if (id) {
       fetchData();
     }
+    console.log("PROPERTY DATA:", property)
   }, [id]);
 
   const [showModal, setShowModal] = useState(false);
@@ -113,7 +116,7 @@ const Details = () => {
           <section className={styles.buy}>
             <div className={styles.agent}>
               <div className={styles.mortgage}>
-                x<h4>Need a Mortgage Broker?</h4>
+                <h4>Need a Mortgage Broker?</h4>
                 <p>
                   Search for a mortgage broker from the copiled list on the
                   platform

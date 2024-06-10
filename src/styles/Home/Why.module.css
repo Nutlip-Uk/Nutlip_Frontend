@@ -28,7 +28,7 @@
 }
 
 .Header p:nth-child(1){
-font-size: 36px;
+font-size: 32px;
 font-weight: 600;
 line-height: 34px;
 letter-spacing: 0em;
@@ -38,7 +38,7 @@ margin:0;
 
 }
 .Header p:nth-child(2){
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0em;
@@ -277,7 +277,7 @@ margin:0;
 
 @media (780px <= width <= 1200px) {
     .Header p:nth-child(2){
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
         line-height: 24px;
         letter-spacing: 0em;

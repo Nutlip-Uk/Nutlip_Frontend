@@ -101,7 +101,7 @@ const MainNavbar = ({userInformation,handleLogout}) => {
           </li>
           <li>
             <Dropdown>
-              <MenuButton endDecorator={<ArrowDropDown />}>Services</MenuButton>
+              <MenuButton className={sty.services} variant={"plain"}  endDecorator={<ArrowDropDown />}>Services</MenuButton>
               <Menu>
                 <Link href={"/mortgages"} className={sty.textdoc}>
                   <MenuItem>Find Mortgage broker</MenuItem>
@@ -160,7 +160,7 @@ const MainNavbar = ({userInformation,handleLogout}) => {
         />
       </div>
 
-      {/* <div id="google_translate_element"></div> */}
+      {/*<div id="google_translate_element"></div>*/}
 
       {popup ? (
                 <>
