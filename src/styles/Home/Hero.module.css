@@ -148,7 +148,7 @@
       position: absolute;
       display: grid;
       place-self: center;
-      top: 17%;
+      top: 15%;
       color: rgba(255, 255, 255, 0.904);
       font-size: 1.4rem;
      font-family: "poppins";
@@ -170,7 +170,7 @@
       align-items: center;
       gap: 10px;
       position:absolute;
-      top:28%;
+      top:35%;
       
     }
     
@@ -271,7 +271,7 @@
       align-items: center;
       gap: 10px;
       position:absolute;
-      bottom:13%;
+      bottom:0%;
       
     }
     
@@ -371,7 +371,7 @@
     place-self: center;
     top: 20%;
     color: white;
-    font-size: 54px;
+    font-size: 40px;
    font-family: "poppins";
   }
   
