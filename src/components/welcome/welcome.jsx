@@ -347,6 +347,7 @@ const PropertySeeker = ({form, handleSubmit, handleChange, userInformation}) => 
  <div>
    <label htmlFor="Title">Title</label>
    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+    <option name="select" >Select</option>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
@@ -393,6 +394,7 @@ const Guest = ({form, handleSubmit, handleChange, userInformation}) => {
  <div>
    <label htmlFor="Title">Title</label>
    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+    <option name="select" >Select</option>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
@@ -439,6 +441,7 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
  <div>
    <label htmlFor="Title">Title</label>
    <select id="Title" name="Title" value={form.Title} onChange={handleChange}>
+    <option name="select" >Select</option>
      <option name="Miss" value="Miss">Miss</option>
      <option name="Mr" value="Mr">Mr</option>
      <option name="Mrs" value="Mrs">Mrs</option>
@@ -458,11 +461,12 @@ const PrivateSellerForm = ({form, handleSubmit, handleChange}) => {
  </div>
  <div>
    <label htmlFor="email">Email Address</label>
-   <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+   <input type="email" id="email" name="email" value={form.email} onChange={handleChange} disabled/>
  </div>
  <div>
    <label htmlFor="Country">Country</label>
    <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+    <option name="select">Select</option>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -551,11 +555,12 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
       </div>
       <div>
         <label htmlFor="email">Email Address</label>
-        <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+        <input type="email" id="email" name="email" value={form.email} onChange={handleChange} disabled/>
       </div>
       <div>
         <label htmlFor="Country">Country</label>
         <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+          <option name="select">Select</option>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -660,11 +665,12 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
-    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} disabled/>
   </div>
   <div>
     <label htmlFor="Country">Country</label>
     <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+      <option name="select">Select</option>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -769,11 +775,12 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
-    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} disabled/>
   </div>
   <div>
     <label htmlFor="Country">Country</label>
     <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+      <option name="select">Select</option>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>
@@ -880,11 +887,12 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
   </div>
   <div>
     <label htmlFor="email">Email Address</label>
-    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} />
+    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} disabled/>
   </div>
   <div>
     <label htmlFor="Country">Country</label>
     <select id="Country" name="Country" value={form.Country} onChange={handleChange}>
+      <option name="select">Select</option>
     <option value="United States" name="United States">United States</option>
   <option value="Canada" name="Canada">Canada</option>
   <option value="United Kingdom" name="United Kingdom">United Kingdom</option>

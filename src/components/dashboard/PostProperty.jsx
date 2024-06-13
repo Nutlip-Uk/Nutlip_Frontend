@@ -43,6 +43,8 @@ const PostProperty = () => {
     video_link: "",
     virtual_tour_link: "",
     images: [],
+    LivingRoom:"",
+    FloorPLan:[],
     //rating: "",
   });
 
@@ -74,6 +76,55 @@ const PostProperty = () => {
     console.log(`Selected file for input ${index}:`, selectedFile);
   };
 
+  const handleFloorPlanUpload = async (index) => {
+    const selectedFile = fileInputs[index].file;
+    if (!selectedFile) return;
+
+    console.log(`Starting upload for input ${index}:`, selectedFile);
+
+    const storageRef = ref(storage, `images/${selectedFile.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Progress function ...
+        console.log(`Upload progress for input ${index}:`, snapshot);
+      },
+      (error) => {
+        // Error function ...
+        console.error(error);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setUrl((prevUrls) => [...prevUrls, downloadURL]);
+        setForm((prevForm) => ({
+          ...prevForm,
+          FloorPLan: [...prevForm.FloorPlan, downloadURL],
+        }));
+        setFileInputs((prevFileInputs) => {
+          const newFileInputs = [...prevFileInputs];
+          newFileInputs[index].status = "Upload Successful";
+          return newFileInputs;
+        });
+        console.log(`Upload successful for input ${index}:`, downloadURL);
+      }
+    );
+
+    setShowUploadMessage((prevMessages) => {
+      const newMessages = [...prevMessages];
+      newMessages[index] = true;
+      return newMessages;
+    });
+
+    setTimeout(() => {
+      setShowUploadMessage((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages[index] = false;
+        return newMessages;
+      });
+    }, 3000);
+  };
   const handleUpload = async (index) => {
     const selectedFile = fileInputs[index].file;
     if (!selectedFile) return;
@@ -214,6 +265,7 @@ const PostProperty = () => {
           addImageInput={addImageInput}
           url={url}
           showUploadMessage={showUploadMessage}
+          handleFloorPlanUpload={handleFloorPlanUpload}
         />
       )}
       {count.current === 4 && (
@@ -383,8 +435,8 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
         <label>
             Living room
             <select
-              name="Toilets"
-              value={form.Toilets}
+              name="LivingRoom"
+              value={form.LivingRoom}
               onChange={handleChange}
               defaultValue="select"
             >
@@ -573,6 +625,7 @@ const PostPropertyDescription = ({
   addImageInput,
   showUploadMessage,
   url,
+  handleFloorPlanUpload
 }) => {
   return (
     <>
@@ -641,63 +694,120 @@ const PostPropertyDescription = ({
           </label>
         </div>
 
-        <div className={styles.inputFieldContainer}>
-          <p>Upload pictures</p>
-          <div className={styles.uploadContainer}>
-            {fileInputs.map((input, index) => (
-              <div key={index} id={styles.file_upload}>
-                <label>
-                  {input.status === "Upload" &&
-                    !input.file &&
-                    "Upload Document"}
-                  <input
-                    type="file"
-                    onChange={(e) => handleImageChange(e, index)}
-                  />
-                  {input.status === "Upload" && input.preview && (
-                    <img
-                      height={200}
-                      width={200}
-                      src={input.preview}
-                      alt={`Preview ${index}`}
+          <div className={styles.inputFieldContainer}>
+            <p>Floor plan</p>
+            <div className={styles.uploadContainer}>
+              {fileInputs.map((input, index) => (
+                <div key={index} id={styles.file_upload}>
+                  <label>
+                    {input.status === "Upload" &&
+                      !input.file &&
+                      "Upload Document"}
+                    <input
+                      type="file"
+                      onChange={(e) => handleImageChange(e, index)}
                     />
+                    {input.status === "Upload" && input.preview && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={input.preview}
+                        alt={`Preview ${index}`}
+                      />
+                    )}
+                    {url[index] && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={url[index]}
+                        alt={`Uploaded ${index}`}
+                      />
+                    )}
+                  </label>
+                  {input.status === "Upload" && (
+                    <button
+                      className={styles.upload}
+                      type="button"
+                      onClick={() => handleFloorPlanUpload(index)}
+                    >
+                      {input.status === "Upload" ? (
+                        <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
+                      ) : null}
+                    </button>
                   )}
-                  {url[index] && (
-                    <img
-                      height={200}
-                      width={200}
-                      src={url[index]}
-                      alt={`Uploaded ${index}`}
-                    />
+                  {showUploadMessage[index] && (
+                    <FaCheck color={"#40A578"} size={"1em"} />
                   )}
-                </label>
-                {input.status === "Upload" && (
-                  <button
-                    className={styles.upload}
-                    type="button"
-                    onClick={() => handleUpload(index)}
-                  >
-                    {input.status === "Upload" ? (
-                      <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
-                    ) : null}
-                  </button>
-                )}
-                {showUploadMessage[index] && (
-                  <FaCheck color={"#40A578"} size={"1em"} />
-                )}
-                <br />
-              </div>
-            ))}
+                  <br />
+                </div>
+              ))}
 
-            <button
-              type="button"
-              className={styles.addMore}
-              onClick={addImageInput}
-            >
-              <FaPlus size={"2em"} color={"#686D76"} />
-            </button>
+              <button
+                type="button"
+                className={styles.addMore}
+                onClick={addImageInput}
+              >
+                <FaPlus size={"2em"} color={"#686D76"} />
+              </button>
+            </div>
           </div>
-        </div>
+          <div className={styles.inputFieldContainer}>
+            <p>Upload pictures</p>
+            <div className={styles.uploadContainer}>
+              {fileInputs.map((input, index) => (
+                <div key={index} id={styles.file_upload}>
+                  <label>
+                    {input.status === "Upload" &&
+                      !input.file &&
+                      "Upload Document"}
+                    <input
+                      type="file"
+                      onChange={(e) => handleImageChange(e, index)}
+                    />
+                    {input.status === "Upload" && input.preview && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={input.preview}
+                        alt={`Preview ${index}`}
+                      />
+                    )}
+                    {url[index] && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={url[index]}
+                        alt={`Uploaded ${index}`}
+                      />
+                    )}
+                  </label>
+                  {input.status === "Upload" && (
+                    <button
+                      className={styles.upload}
+                      type="button"
+                      onClick={() => handleUpload(index)}
+                    >
+                      {input.status === "Upload" ? (
+                        <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
+                      ) : null}
+                    </button>
+                  )}
+                  {showUploadMessage[index] && (
+                    <FaCheck color={"#40A578"} size={"1em"} />
+                  )}
+                  <br />
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className={styles.addMore}
+                onClick={addImageInput}
+              >
+                <FaPlus size={"2em"} color={"#686D76"} />
+              </button>
+            </div>
+          </div>
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={next}>Cancel</button>
