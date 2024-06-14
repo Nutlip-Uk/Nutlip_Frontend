@@ -5,11 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { SessionProvider } from "next-auth/react"
 import { useRouter } from 'next/router'
-
-
-import { ConfigProvider } from 'antd';
-import theme from '../theme/theme';
-
 export default function App({ Component, pageProps }) {
   const { session, ...otherPageProps } = pageProps;
 
@@ -30,9 +25,9 @@ export default function App({ Component, pageProps }) {
     // <SessionProvider session={session}>
     
       <Layout>
-       <ConfigProvider theme={theme}>
+       
         <Component {...otherPageProps} />
-      </ConfigProvider>
+        
 
         <ToastContainer
         position='top-right'

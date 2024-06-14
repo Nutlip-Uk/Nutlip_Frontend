@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema(
     LastName: { type: String },
     Country: { type: String },
     city: { type: String },
-    PostCode: { type: String },
+    PostCode: { type: Number },
     Address1: { type: String },
     Address2: { type: String },
     BusinessName: { type: String },
