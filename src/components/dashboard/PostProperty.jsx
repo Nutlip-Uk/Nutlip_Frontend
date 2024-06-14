@@ -269,6 +269,7 @@ const PostProperty = () => {
           url={url}
           showUploadMessage={showUploadMessage}
           handleFloorPlanUpload={handleFloorPlanUpload}
+          setForm={setForm}
         />
       )}
       {count.current === 4 && (
@@ -614,6 +615,7 @@ const PostPropertyDescription = ({
   addImageInput,
   showUploadMessage,
   url,
+  setForm,
   handleFloorPlanUpload
 }) => {
   return (
@@ -641,7 +643,7 @@ const PostPropertyDescription = ({
 
         <label className={styles.title}>
           Add Features
-          <MultiInput form={form}/>
+          <MultiInput form={form} setForm={setForm}/>
         </label>
 
         <div className={styles.twoColumn}>
@@ -899,18 +901,26 @@ const Congratulations = ({back}) => {
 };
 
 
-const MultiInput =({form})=>{
+const MultiInput =({form,setForm})=>{
   const [inputValue, setInputValue] = useState('');
   const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      Add_features: todos
+    }));
+  }, [todos, setForm]);
+
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
-  const handleAddTodo = (e) => {
+ const handleAddTodo = (e) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      setTodos([...todos, inputValue]);
+      setTodos((prevTodos) => [...prevTodos, inputValue]);
       setInputValue('');
     }
   };
