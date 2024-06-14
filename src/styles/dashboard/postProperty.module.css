@@ -302,7 +302,7 @@ font-weight: 500;
 }
 
 .info p:nth-child(1){
-font-size: 16px;
+font-size: 18px;
 font-weight: 600;
 text-align: left;
 color:black;
@@ -385,88 +385,7 @@ border:none;
 }
 
 
-.congratulationsSection{
-    width:100%;
-    height:80dvh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
 
-.congratulationsContainer{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    align-items:center;
-}
-.congrats{
-    font-size: 28px;
-    font-weight: 600;
-}
-.congratsText{
-font-size: 16px;
-font-weight: 400;
-text-align:center;
-text-wrap:wrap;
-}
-
-.TodoContainer{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    width:100%;
-}
-
-.TodoList{
-    height:auto;
-    width:100%;
-    background:white;
-    padding: 10px 5px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    flex-wrap:wrap;
-    border-radius:8px;
-}
-
-.TodoItem{
-    list-style:none;
-    display:flex;
-    gap:8px;
-    border:1px solid gray;
-    padding:2px 5px;
-    font-size:16px;
-    font-weight:300;
-    border-radius:8px;
-    align-items:center;
-    color:#4A4A4A;
-}
-
-.TodoItem button{
-    border:none;
-    background:transparent;
-    font-weight:900;
-    font-size:14px;
-    cursor:pointer;
-    color:#4A4A4A;
-}
-
-.TodoMultiInput {
-    border:1px solid gray;
-    display:flex;
-    border-radius:8px;
-    overflow:hidden;
-}
-
-.TodoMultiInput input{
-    border: none;
-    outline: none;
-}
-
-.TodoMultiInput button{
-    width:50px;
-    cursor:pointer;
-}
 @media ( width <=400px) {
     .threeColumn{
         width:100%;
