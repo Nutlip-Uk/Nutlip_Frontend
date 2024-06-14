@@ -150,8 +150,17 @@ const Offer = ({data, change}) => {
               height={24}
               alt="livingroom-thumbnail"
             />
-            {data?.livingroom}
+            {data?.LivingRoom}
           </span>
+          <span>
+          <img
+              src="https://img.icons8.com/ios/50/toilet-bowl.png"
+              width={25}
+              height={25}
+              alt="toilet-bowl"
+            />
+            {data.Toilets}
+            </span>
         </div>
 
         <hr />

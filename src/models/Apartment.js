@@ -12,7 +12,7 @@ const ApartmentSchema = new mongoose.Schema({
   },
   purpose: {
     type: String,
-    enum: ["For_Rent", "For_Buy"],
+    enum: ["For_Rent", "For_Sale"],
     required: true,
   },
   location: {
@@ -79,12 +79,12 @@ const ApartmentSchema = new mongoose.Schema({
     required: true,
   },
   size: {
-    type: Number,
+    type: String,
     required: true,
   },
-  stateOfProperty: {
+  TenureOfProperty: {
     type: String,
-    enum: ["sold_stc", "under_offer"],
+    enum: ["Freehold", "Leasehold"],
     required: true,
   },
   // name: String, // Optional String remains
@@ -107,11 +107,7 @@ const ApartmentSchema = new mongoose.Schema({
     enum: ["USD", "EUR", "GBP"],
     // default: ["USD"],
   },
-  Add_features: {
-    type: String,
-    enum: ["Elevator", "Stairs"],
-    required: true,
-  },
+  Add_features: [String],
   video_link: {
     type: String,
   },
@@ -119,6 +115,7 @@ const ApartmentSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  FloorPlan: [String],
   PCM: {
     type: Number,
   },
