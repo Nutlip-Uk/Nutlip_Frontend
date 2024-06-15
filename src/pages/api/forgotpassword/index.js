@@ -1,5 +1,5 @@
 import connectDB from "../../../libs/dbconnect";
-import { hashPassword } from "../../../util/auth";
+import  hashPassword  from "../../../libs/hashPassword";
 import User from "../../../models/User";
 import { v4 as uuidv4 } from "uuid";
 

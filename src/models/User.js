@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import Apartment from "../models/Apartment";
+import userType from "./UserTypes";
 
 const userSchema = new mongoose.Schema(
   {
@@ -16,18 +17,10 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
     userType: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserType", // Reference to the UserType model
       required: false,
-      enum: [
-        "property_seeker",
-        "Real_estate_agent",
-        "Mortgage_broker",
-        "Conveyancer",
-        "private_seller",
-        "guest",
-      ],
     },
-
     password: {
       type: String,
       required: true,
