@@ -129,6 +129,10 @@ const ApartmentSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  isAccepted: {
+    type: Boolean,
+    default: false,
+  },
   isSold: {
     type: Boolean,
     default: false,
