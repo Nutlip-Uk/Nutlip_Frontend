@@ -12,6 +12,10 @@ const offerSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
   status: {
     type: String,
     required: true,
@@ -22,19 +26,4 @@ const offerSchema = new mongoose.Schema({
 
 const Offer = mongoose.models?.Offers || mongoose.model("Offers", offerSchema);
 
-// Function to update the offer status
-const acceptOffer = async (offerId) => {
-  try {
-    const updatedOffer = await Offer.findOneAndUpdate(
-      { _id: offerId },
-      { status: "accepted", offerCheckedDate: Date.now() },
-      { new: true }
-    );
-    console.log("Offer accepted:", updatedOffer);
-  } catch (err) {
-    console.error("Error accepting offer:", err);
-  }
-};
-
 export default Offer;
-export { acceptOffer };
