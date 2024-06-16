@@ -35,7 +35,6 @@ export default async function handler(req, res) {
           .json({ message: "Invalid or incorrect password" });
       }
 
-
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
@@ -52,19 +51,18 @@ export default async function handler(req, res) {
 
       // Set cookie
       // res.setHeader("Set-Cookie", `token=${token}; Path=/; HttpOnly: true`);
-      res.status(200).json({
+      return res.status(200).json({
         token,
         user: {
           id: user._id,
           name: user.username,
           email: user.email,
-          newUser:user.newUser
+          newUser: user.newUser,
         },
       });
-      console.log("user has been logged in");
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Server error" });
+      return res.status(500).json({ message: "Server error" });
     }
   } else {
     res.setHeader("Allow", "POST");

@@ -93,6 +93,7 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
+
 userSchema.virtual("Apartments", {
   ref: "Apartments",
   localField: "_id",
