@@ -1,6 +1,5 @@
 import dbConnect from "../../../libs/dbconnect";
 import OfferTransaction from "../../../models/Transaction";
-import transactionBool from "../../../models/TransactionBool";
 import transactionContents from "../../../models/TransactionContent";
 
 // uupload proof of funds
@@ -8,20 +7,51 @@ import transactionContents from "../../../models/TransactionContent";
 export default async function handler(req, res) {
   await dbConnect();
 
-  const { content, transactionId } = req.body;
+  const { transactionId } = req.body;
 
-  if (req.method === "GET") {
+  if (req.method === "POST") {
     try {
-      const transactionBool = await transactionBool.findOne({
+      const tx = await OfferTransaction.findOne({
         _id: transactionId,
       });
 
+      if (tx.transactionCurrentStage != 2) {
+        res.status(400).json({
+          message: "Content for proof already uploaded",
+        });
+        return;
+      }
+
+      Promise.all([
+        await transactionContents.updateOne(
+          {
+            transaction_id: transactionId,
+          },
+          {
+            $set: {
+              confirm_proof_of_funds: true,
+              confirm_proof_of_funds_date: Date.now(),
+            },
+          }
+        ),
+        await OfferTransaction.updateOne(
+          {
+            _id: transactionId,
+          },
+          {
+            $set: {
+              transactionCurrentStage: 3,
+            },
+          }
+        ),
+      ]);
+
       return res.status(200).json({
-        message: "suucessfully confirmed proof of funds",
+        message: "suucessfully confirm proof of funds",
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error confirming proof of funds" });
+      res.status(500).json({ message: "Error uploading proof of funds" });
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });

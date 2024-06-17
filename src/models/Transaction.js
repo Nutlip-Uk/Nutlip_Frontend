@@ -16,6 +16,10 @@ const offerTransactionSchema = new mongoose.Schema({
     ref: "Apartment",
     required: true,
   },
+  transactionCurrentStage: {
+    type: Number,
+    default: 1,
+  },
   status: {
     type: String,
     enum: ["pending", "accepted", "rejected"],
