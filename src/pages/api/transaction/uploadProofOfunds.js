@@ -10,9 +10,9 @@ export default async function handler(req, res) {
 
   const { content, transactionId } = req.body;
 
-  if (req.method === "GET") {
+  if (req.method === "POST") {
     try {
-      const transactionBool = await transactionBool.findOne({
+      const tx = await OfferTransaction.findOne({
         _id: transactionId,
       });
 
@@ -22,24 +22,36 @@ export default async function handler(req, res) {
         });
         return;
       }
-      if (transactionBool.first == true) {
+      if (tx.transactionCurrentStage != 1) {
         res.status(400).json({
           message: "Content for proof already uploaded",
         });
         return;
       }
 
-      await transactionContents.updateOne(
-        {
-          _id: transactionId,
-        },
-        {
-          $set: {
-            proof_of_funds: content,
-            proof_of_funds_date: Date.now(),
+      Promise.all([
+        await transactionContents.updateOne(
+          {
+            transaction_id: transactionId,
           },
-        }
-      );
+          {
+            $set: {
+              proof_of_funds: content,
+              proof_of_funds_date: Date.now(),
+            },
+          }
+        ),
+        await OfferTransaction.updateOne(
+          {
+            _id: transactionId,
+          },
+          {
+            $set: {
+              transactionCurrentStage: 2,
+            },
+          }
+        ),
+      ]);
 
       return res.status(200).json({
         message: "suucessfully uploaded proof of funds",
