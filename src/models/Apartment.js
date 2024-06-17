@@ -145,6 +145,9 @@ const ApartmentSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  transaction_id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
 });
 
 // Set the justAddedExpiration field to 48 hours from the current time
