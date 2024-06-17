@@ -9,11 +9,12 @@ export default async function handler(req, res) {
   // console.log(Apartment);
   if (req.method === "POST") {
     try {
-      const { apartmentId, userId } = req.body;
+      const { apartmentId, userId, offerPrice } = req.body;
 
       const newAddedData = new Offer({
         apartmentId,
         userId,
+        offerPrice,
       });
       await newAddedData.save();
 
