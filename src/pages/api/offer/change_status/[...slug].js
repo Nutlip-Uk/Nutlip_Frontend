@@ -2,7 +2,6 @@ import dbConnect from "../../../../libs/dbconnect";
 import Apartment from "../../../../models/Apartment";
 import Offer from "../../../../models/Offers";
 import OfferTransaction from "../../../../models/Transaction";
-import transactionBool from "../../../../models/TransactionBool";
 import transactionContents from "../../../../models/TransactionContent";
 
 // get offer belonging to a user
@@ -36,13 +35,8 @@ export default async function handler(req, res) {
           transaction_id: tx._id,
         });
 
-        const txBools = new transactionBool({
-          transaction_id: tx._id,
-        });
-
         await Promise.all([
           tx.save(),
-          txBools.save(),
           contents.save(),
           await Offer.updateOne(
             { _id: slug[1] },

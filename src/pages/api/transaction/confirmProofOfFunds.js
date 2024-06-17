@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
       if (tx.transactionCurrentStage != 2) {
         res.status(400).json({
-          message: "Content for proof already uploaded",
+          message: "Proof Of funds already confirmed",
         });
         return;
       }
