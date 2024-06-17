@@ -21,6 +21,9 @@ const offerSchema = new mongoose.Schema({
     required: true,
     default: "pending",
   },
+  transaction_id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   offerCheckedDate: { type: Date },
 });
 

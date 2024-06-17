@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const TransactionBool = new mongoose.Schema({
+  transaction_id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   first: {
     type: Boolean,
     default: false,
