@@ -63,6 +63,7 @@ export default async function handler(req, res) {
           {
             $set: {
               status: status,
+              offerCheckedDate: new Date.now(),
             },
           }
         ),
