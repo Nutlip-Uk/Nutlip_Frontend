@@ -11,6 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import { Cascader, Input, Select, Space } from 'antd';
 
 
 const PostProperty = () => {
@@ -649,22 +650,22 @@ const PostPropertyDescription = ({
         <div className={styles.twoColumn}>
           <label>
             Video Link
-            <input
-              name="video_link"
+          <Input 
+               name="video_link"
               value={form.video_link}
-              onChange={handleChange}
-              type="text"
-              placeholder="Link"
+              onChange={handleChange} 
+              addonBefore="http://" 
+              placeholder="Link" 
             />
           </label>
           <label>
             Virtual tour link
-            <input
-              name="virtual_tour_link"
-              value={form.virtual_tour_link}
-              onChange={handleChange}
-              type="text"
-              placeholder="Link"
+            <Input 
+               name="virtual_tour_link"
+               value={form.virtual_tour_link}
+               onChange={handleChange} 
+              addonBefore="http://" 
+              placeholder="Link" 
             />
           </label>
         </div>

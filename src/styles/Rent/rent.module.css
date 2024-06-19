@@ -53,8 +53,10 @@
     padding: 0px 10px;
     color: #2c3a61;
     text-decoration: none;
-    border: solid 1px #000000;
+    border: solid 1px transparent;
     border-radius: 8px;
+    background: #F4F7FF;
+
   }
   
   .inputContainer input{
@@ -63,12 +65,13 @@
       border: none;
       outline: none;
       font-size: 16px;
+      background: #F4F7FF;
   }
   
 
   
 .SelectContainer {
-    border: solid 1px #000000;
+    border: solid 1px transparent;
     border-radius: 8px;
     width: 23%;
     height: 50px;
@@ -174,7 +177,7 @@
         padding: 0px 0px;
         color: #2c3a61;
         text-decoration: none;
-        border: solid 1px #000000;
+        border: solid 1px transparent;
         border-radius: 8px;
         
       }
@@ -185,7 +188,7 @@
     
       
     .SelectContainer {
-    border: solid 1px #000000;
+    border: solid 1px transparent;
     border-radius: 8px;
     width: 90%;
     height: 50px;
@@ -262,13 +265,13 @@
         padding: 0px 0px;
         color: #2c3a61;
         text-decoration: none;
-        border: solid 1px #000000;
+        border: solid 1px transparent;
         border-radius: 8px;
       }
     
       
     .SelectContainer {
-    border: solid 1px #000000;
+    border: solid 1px transparent;
     border-radius: 8px;
     width: 90%;
     height: 50px;
@@ -342,13 +345,13 @@
     padding: 0px 10px;
     color: #2c3a61;
     text-decoration: none;
-    border: solid 1px #000000;
+    border: solid 1px transparent;
     border-radius: 8px;
   }
 
   
 .SelectContainer {
-border: solid 1px #000000;
+border: solid 1px transparent;
 border-radius: 8px;
 width: 25%;
 height: 50px;
