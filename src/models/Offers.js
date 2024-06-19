@@ -16,6 +16,38 @@ const offerSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  FullName: {
+    type: String,
+    required: true,
+  },
+  Address: {
+    type: String,
+    required: true,
+  },
+  Interested: {
+    type: Boolean,
+    required: true,
+  },
+  PriceOffer: {
+    type: Number,
+    required: true,
+  },
+  NutlipCommission: {
+    type: Number,
+    required: true,
+  },
+  receivedPayment: {
+    type: Number,
+    required: true,
+  },
+  PaymentType: {
+    type: String,
+    required: true,
+  },
+  cryptoType: {
+    type: String,
+    required: true,
+  },
   deleted: {
     type: Boolean,
     default: false,

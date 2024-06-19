@@ -6,6 +6,14 @@ import Offer from "../../../models/Offers";
 // delete offer belonging to user
 // get an offer
 
+/**
+ * Handles HTTP requests to the /api/offer/[...slug] endpoint.
+ * Supports the following operations:
+ * - GET /api/offer/[userId]: Retrieves all offers belonging to the specified user.
+ * - DELETE /api/offer/[offerId]: Deletes the offer with the specified ID, if the user is the owner and the offer has not been accepted.
+ * - GET /api/offer/[offerId]: Retrieves the offer with the specified ID.
+ *
+ */
 export default async function handler(req, res) {
   await dbConnect();
   // console.log(Apartment);
