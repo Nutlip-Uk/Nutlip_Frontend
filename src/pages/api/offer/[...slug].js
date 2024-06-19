@@ -2,7 +2,7 @@ import dbConnect from "../../../libs/dbconnect";
 import Apartment from "../../../models/Apartment";
 import Offer from "../../../models/Offers";
 
-// get offer belonging to a user
+// get offers belonging to a user
 // delete offer belonging to user
 // get an offer
 

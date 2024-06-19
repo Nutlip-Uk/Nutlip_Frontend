@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       });
       await newAddedData.save();
 
-      return res.status(200).json({ message: "Offer created sucessfully" });
+      res.status(200).json({ message: "Offer created sucessfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error creating apartment" });
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     try {
       const offers = await Offer.find();
 
-      return res
+      res
         .status(200)
         .json({ message: "Gotten all offers successfully", offers: offers });
     } catch (error) {

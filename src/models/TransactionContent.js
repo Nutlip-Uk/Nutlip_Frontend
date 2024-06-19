@@ -12,6 +12,7 @@ const TransactionContents = new mongoose.Schema({
   },
   confirm_proof_of_funds: {
     type: Boolean,
+    default: false,
   },
   confirm_proof_of_funds_date: {
     type: Date,
