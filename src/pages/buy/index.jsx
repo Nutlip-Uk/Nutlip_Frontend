@@ -9,6 +9,8 @@ import Stack from "@mui/joy/Stack";
 import Select from "@mui/joy/Select";
 import Browse from "../../components/buy/Browse";
 import Roadmap from "../../components/buy/Roadmap";
+import Road from "../../components/buy/Road";
+import Howitworks from "../../components/buy/Howitworks";
 import {PlacesAutocomplete} from "../../components/Suggestion";
 
 const Buy = (props) => {
@@ -24,10 +26,10 @@ const Buy = (props) => {
           </div>
 
         </div>
-
-        
+          <Howitworks/>
           <Roadmap/>
           <Browse/>
+          <Road/>
       </section>
     </>
   );

@@ -1,17 +1,17 @@
-/* eslint-disable react/no-unescaped-entities */
 import styles from "../../styles/Rent/OfferModal.module.css";
 import conveyancer from "../../styles/Modals/ConveyancerModal.module.css";
-// import { rentExclude, buyExclude, propertyType, furnished, addedToSite, rentMusthaves, buyMusthaves, rentShowOnly, buyShowOnly, buyInclude } from '../utils/filters';
-// import { viewType } from '../utils/view_type';
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "../styled components/Button";
 import { NutlipCommission } from "./../Buyer Process/Commission";
+import { MakeAnOfferProvider } from "../../context/MakeAnOffer.context";
 
 // NOTE: THIS MODAL IS TO BE RE FACTORED
 
 const OfferModal = (props) => {
+   const {form,handleChange} = useContext(MakeAnOfferProvider);
+
   const [offer, setOffer] = useState("offer");
 
   const handleSubmit = (event) => {
@@ -46,7 +46,7 @@ const OfferModal = (props) => {
             </button>
           </section>
 
-          {offer === "offer" && <Offer data={data} change={success} />}
+          {offer === "offer" && <Offer form={form} handleChange={handleChange} data={data} change={success} />}
           {offer === "success" && <Success Back={Back}/>}
         </div>
       </div>
@@ -110,7 +110,7 @@ export const ConveyancerModal = (props) => {
   );
 };
 
-const Offer = ({data, change}) => {
+const Offer = ({data, change,form, handleChange}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
   };

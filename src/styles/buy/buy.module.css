@@ -1,8 +1,11 @@
 .Section{
     height: auto;
     width:100%;
-    padding-bottom: 50px;
+    padding-bottom: 0px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap:80px;
     
 }
 
@@ -51,8 +54,10 @@
     padding: 0px 10px;
     color: #2c3a61;
     text-decoration: none;
-    border: solid 1px #000000;
+    border: solid 1px transparent;
     border-radius: 8px;
+    background: #F4F7FF;
+
   }
   
   .inputContainer input{
@@ -61,12 +66,14 @@
       border: none;
       outline: none;
       font-size: 16px;
+      background: #F4F7FF;
+
   }
   
 
   
 .SelectContainer {
-    border: solid 1px #000000;
+    border: 1px solid #D0D5DD;
     border-radius: 8px;
     width: 23%;
     height: 50px;
@@ -172,20 +179,21 @@
         padding: 0px 0px;
         color: #2c3a61;
         text-decoration: none;
-        border: solid 1px #000000;
+        border: solid 1px transparent;
         border-radius: 8px;
         font-size:16px;
+        background: #F4F7FF;
         
       }
 
       .inputContainer input{
         font-size:16px;
+        background: #F4F7FF;
       }
     
       
     .SelectContainer {
-    border: solid 1px #000000;
-    border-radius: 8px;
+      border: 1px solid #D0D5DD;    border-radius: 8px;
     width: 90%;
     height: 52px;
     display: flex;
@@ -261,14 +269,16 @@
         padding: 0px 0px;
         color: #2c3a61;
         text-decoration: none;
-        border: solid 1px #000000;
+        border: solid 1px transparent;
         border-radius: 8px;
+        background: #F4F7FF;
       }
     
-      
+      .inputContainer input {
+        background: #F4F7FF;
+      }
     .SelectContainer {
-    border: solid 1px #000000;
-    border-radius: 8px;
+      border: 1px solid #D0D5DD;    border-radius: 8px;
     width: 90%;
     height: 52px;
     display: flex;
@@ -341,13 +351,18 @@
     padding: 0px 10px;
     color: #2c3a61;
     text-decoration: none;
-    border: solid 1px #000000;
+    border: solid 1px transparent;
+    background: #F4F7FF;
     border-radius: 8px;
+  }
+
+  .inputContainer input{
+    background: #F4F7FF;
   }
 
   
 .SelectContainer {
-border: solid 1px #000000;
+border: solid 1px #D0D5DD;
 border-radius: 8px;
 width: 25%;
 height: 50px;

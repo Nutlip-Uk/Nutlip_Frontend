@@ -466,6 +466,7 @@ text-wrap:wrap;
 .TodoMultiInput button{
     width:50px;
     cursor:pointer;
+    
 }
 @media ( width <=400px) {
     .threeColumn{
