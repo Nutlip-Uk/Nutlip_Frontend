@@ -5,6 +5,7 @@ const offerSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  // ...
   apartmentId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

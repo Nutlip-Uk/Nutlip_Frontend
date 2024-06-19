@@ -54,6 +54,14 @@ export default async function handler(req, res) {
               },
             }
           ),
+          Apartment.updateOne(
+            { _id: slug[0] },
+            {
+              $set: {
+                isAccepted: true,
+              },
+            }
+          ),
         ]);
       }
 
@@ -67,14 +75,7 @@ export default async function handler(req, res) {
             },
           }
         ),
-        Apartment.updateOne(
-          { _id: slug[0] },
-          {
-            $set: {
-              isAccepted: status == "accepted" ? true : false,
-            },
-          }
-        ),
+        ,
       ]).catch((error) => {
         console.error(error.message);
       });
