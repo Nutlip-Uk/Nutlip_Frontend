@@ -21,9 +21,9 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const {
+        offerPrice,
         apartmentId,
         userId,
-        offerPrice,
         FullName,
         Address,
         Interested,
@@ -35,9 +35,9 @@ export default async function handler(req, res) {
       } = req.body;
 
       const newAddedData = new Offer({
+        offerPrice,
         apartmentId,
         userId,
-        offerPrice,
         FullName,
         Address,
         Interested,

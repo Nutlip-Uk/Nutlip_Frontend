@@ -1,6 +1,5 @@
 import dbConnect from "../../../libs/dbconnect";
 import OfferTransaction from "../../../models/Transaction";
-import transactionBool from "../../../models/TransactionBool";
 import transactionContents from "../../../models/TransactionContent";
 
 // uupload proof of funds
@@ -8,7 +7,7 @@ import transactionContents from "../../../models/TransactionContent";
 export default async function handler(req, res) {
   await dbConnect();
 
-  const { content, transactionId } = req.body;
+  const { transactionId, offerid } = req.body;
 
   if (req.method === "POST") {
     try {
@@ -16,15 +15,9 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      if (content == "") {
+      if (tx.transactionCurrentStage != 11) {
         res.status(400).json({
-          message: "Content can't be an empty string",
-        });
-        return;
-      }
-      if (tx.transactionCurrentStage != 1) {
-        res.status(400).json({
-          message: "Content for proof already uploaded",
+          message: "already confirmed set date",
         });
         return;
       }
@@ -36,29 +29,31 @@ export default async function handler(req, res) {
           },
           {
             $set: {
-              proof_of_funds: content,
-              proof_of_funds_date: Date.now(),
+              agreeded_on_completion_date_buyer: true,
+              agreeded_on_completion_date_buyer_date: Date.now(),
             },
           }
         ),
         await OfferTransaction.updateOne(
           {
-            _id: transactionId,
+            _id: offerid,
           },
           {
             $set: {
-              transactionCurrentStage: 2,
+              transactionCurrentStage: 12,
             },
           }
         ),
       ]);
 
       return res.status(200).json({
-        message: "suucessfully uploaded proof of funds",
+        message: "suucessfully completed research and survey",
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error uploading proof of funds" });
+      res
+        .status(500)
+        .json({ message: "Error completing research and survery" });
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });
