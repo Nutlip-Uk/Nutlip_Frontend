@@ -19,10 +19,35 @@
   background-size: cover;
   background-size: 100% 85%;
   display: flex;
-  align-items: end;
-  justify-content:center;
+  flex-direction: column;
+  justify-content: end;
+ align-items:center;
+ gap:16px;
+ position: relative;
 }
 
+.Textcontainer{
+  
+  width: 90%;
+  position: absolute;
+  top:15%;
+}
+
+.Text{
+  width: 35%;
+}
+
+.Text h2{
+  font-size: 36px;
+  font-weight: 600; 
+  color:white;
+}
+
+.Text p{
+font-size: 16px;
+font-weight: 500;
+color: white;
+}
 .HeroCompContainer{
     width: 80%;
     height: 121.96px;
@@ -140,11 +165,31 @@
       background-size: cover;
       background-size: 100% 60%;
       display: flex;
-      align-items: end;
-      justify-content:center;
-      overflow:clip;
+  flex-direction: column;
+  justify-content: end;
+ align-items:center;
+ gap:16px;
+ position: relative;
+    }
+
+    .Textcontainer{
+      
+      width: 95%;
+      position: absolute;
+      top:2%;
     }
     
+    .Text{
+      width: 95%;
+        }
+    
+    .Text h2{
+      font-size: 24px;
+      font-weight: 600; 
+      color:white;
+    }
+
+
     .HeroCompContainer{
         width: 95%;
         height: auto;
@@ -230,10 +275,30 @@
       background-size: cover;
       background-size: 100% 65%;
       display: flex;
-      align-items: end;
-      justify-content:center;
-      overflow:clip;
+  flex-direction: column;
+  justify-content: end;
+ align-items:center;
+ gap:16px;
+ position: relative;
     }
+
+    .Textcontainer{
+      
+      width: 95%;
+      position: absolute;
+      top:5%;
+    }
+    
+    .Text{
+      width: 95%;
+        }
+    
+    .Text h2{
+      font-size: 24px;
+      font-weight: 600; 
+      color:white;
+    }
+
     
     .HeroCompContainer{
         width: 95%;
@@ -304,7 +369,7 @@
     }
   }
 
-  @media (780px <= width <= 960px) {
+  @media (780px <= width <= 1200px) {
   
   .container{
     height: 50dvh;
@@ -316,9 +381,30 @@
   background-size: cover;
   background-size: 100% 80%;
   display: flex;
-  align-items: end;
-  justify-content:center;
+  flex-direction: column;
+  justify-content: end;
+ align-items:center;
+ gap:16px;
+ position: relative;
 }
+
+.Textcontainer{
+  
+  width: 95%;
+  position: absolute;
+  top:8%;
+}
+
+.Text{
+  width: 55%;
+}
+
+.Text h2{
+  font-size: 32px;
+  font-weight: 600; 
+  color:white;
+}
+
 
 .HeroCompContainer{
     width: 90%;

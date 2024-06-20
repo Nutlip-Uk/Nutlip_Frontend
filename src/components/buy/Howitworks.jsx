@@ -22,27 +22,28 @@ const Howitworks = () => {
                                 items={[
                                     {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
-                                        children: 'A private seller lists a property on the platform.',
+                                        children: 'Browse listed properties on Nutlip and choose the one you want.',
                                     },
                                     {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
-                                        children: 'A buyer makes an electronic offer on the property',
+                                        children: 'Submit your offer easily online.',
                                     },
                                     {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
-                                        children: 'The seller electronically accepts the offer',
+                                        children: 'Once accepted, provide proof of funds through Nutlip.',
+                                    },
+                                    
+                                    {
+                                        dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
+                                        children: 'Add your Conveyancer and any other parties to the transaction online.',
                                     },
                                     {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
-                                        children: 'The buyer electronically provides proof of funds.',
-                                    },
-                                    {
-                                        dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
-                                        children: 'Conveyancers and additional parties are electronically added to the transaction, and a 0.5% transaction fee is paid to Nutlip upon contract exchange, leading to completion.',
+                                        children: ' Exchange contracts and complete your purchase smoothly.',
                                     },
                                     {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "transparent" }} />,
-                                        children: '',
+                                        children: ' ',
                                     },
                                 ]}
                             />
