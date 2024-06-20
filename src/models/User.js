@@ -106,4 +106,5 @@ userSchema.pre(/^find/, function () {
 });
 
 const User = mongoose.models?.Users || mongoose.model("Users", userSchema);
-module.exports = User;
+
+export default User;

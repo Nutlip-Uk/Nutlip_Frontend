@@ -1,14 +1,14 @@
 import dbConnect from "../../../libs/dbconnect";
 import OfferTransaction from "../../../models/Transaction";
+import transactionBool from "../../../models/TransactionBool";
 import transactionContents from "../../../models/TransactionContent";
-import User from "../../../models/User";
 
 // uupload proof of funds
 
 export default async function handler(req, res) {
   await dbConnect();
 
-  const { transactionId, userid } = req.body;
+  const { content, transactionId } = req.body;
 
   if (req.method === "PUT") {
     try {
@@ -16,17 +16,15 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      const user = await User.findOne({ _id: userid });
-      if (!user) {
+      if (content == "") {
         res.status(400).json({
-          message: "User doesnt exist",
+          message: "Content can't be an empty string",
         });
         return;
       }
-
-      if (tx.transactionCurrentStage != 4) {
+      if (tx.transactionCurrentStage != 1) {
         res.status(400).json({
-          message: "Seller convenyancer already added",
+          message: "Content for proof already uploaded",
         });
         return;
       }
@@ -38,8 +36,8 @@ export default async function handler(req, res) {
           },
           {
             $set: {
-              convenyancer_buyer: userid,
-              convenyancer_buyer_date: Date.now(),
+              proof_of_funds: content,
+              proof_of_funds_date: Date.now(),
             },
           }
         ),
@@ -49,18 +47,18 @@ export default async function handler(req, res) {
           },
           {
             $set: {
-              transactionCurrentStage: 5,
+              transactionCurrentStage: 2,
             },
           }
         ),
       ]);
 
       return res.status(200).json({
-        message: "suucessfully added buyer conveyancer",
+        message: "suucessfully uploaded proof of funds",
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error adding buyer conveyancer" });
+      res.status(500).json({ message: "Error uploading proof of funds" });
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });
