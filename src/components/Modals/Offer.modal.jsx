@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import Button from "../styled components/Button";
 import { NutlipCommission } from "./../Buyer Process/Commission";
-import { MakeAnOfferProvider } from "../../context/MakeAnOffer.context";
+import { MakeAnOffer } from "../../context/MakeAnOffer.context";
 
 // NOTE: THIS MODAL IS TO BE RE FACTORED
 
 const OfferModal = (props) => {
-   const {form,handleChange} = useContext(MakeAnOfferProvider);
+   const {form,handleChange} = useContext(MakeAnOffer);
 
   const [offer, setOffer] = useState("offer");
 

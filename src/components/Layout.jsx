@@ -11,6 +11,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import Script from "next/script";
 import LoginProvider from "../context/Login.context";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { MakeAnOfferProvider } from "../context/MakeAnOffer.context";
 
 
 const Layout = ({ children }) => {
@@ -21,6 +22,7 @@ const Layout = ({ children }) => {
       <div className="font-poppins">
         
        <AntdRegistry>
+        <MakeAnOfferProvider>
         <PrivatePostPropertyContextProvider>
         <ImageProvider>
         <LoginProvider>
@@ -35,6 +37,7 @@ const Layout = ({ children }) => {
         </LoginProvider>
         </ImageProvider>
         </PrivatePostPropertyContextProvider>
+        </MakeAnOfferProvider>
         </AntdRegistry>
       </div>
     </SessionProvider>
