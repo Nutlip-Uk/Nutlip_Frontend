@@ -9,7 +9,9 @@ import Stack from "@mui/joy/Stack";
 import Select from "@mui/joy/Select";
 import Browse from "../../components/buy/Browse";
 import Roadmap from "../../components/buy/Roadmap";
-import {PlacesAutocomplete} from "../../components/Suggestion";
+import Road from "../../components/buy/Road";
+import Howitworks from "../../components/buy/Howitworks";
+import { PlacesAutocomplete } from "../../components/Suggestion";
 
 const Buy = (props) => {
   return (
@@ -19,15 +21,23 @@ const Buy = (props) => {
           className={styles.container}
           style={{ backgroundImage: `url(${BuyImage})` }}
         >
+
+         <div className={styles.Textcontainer}>
+          <div className={styles.Text}>
+              <h2>Get the keys to your new home 60% faster </h2>
+              <p>At Nutlip we know there is a better way to buy a home with ease and 60% faster than the traditional methods.</p>
+            </div>
+         </div>
+
           <div className={styles.HeroCompContainer}>
-            <HeroComponent placeholder="Where do you want to Buy? e.g. Liverpool or L11"/>
+            <HeroComponent placeholder="Where do you want to Buy? e.g. Liverpool or L11" />
           </div>
 
         </div>
-
-        
-          <Roadmap/>
-          <Browse/>
+        <Howitworks />
+        <Roadmap />
+        <Browse />
+        <Road />
       </section>
     </>
   );
@@ -46,7 +56,7 @@ const HeroComponent = () => {
             placeholder="Where do you want to Buy? e.g. Liverpool or L11"
           /> */}
 
-          <PlacesAutocomplete/>
+          <PlacesAutocomplete />
         </div>
 
         <div className={styles.SelectContainer}>
@@ -57,7 +67,7 @@ const HeroComponent = () => {
             //  onChange={handleChange}
             className={styles.muti}
             multiple
-            defaultValue={["View type e.g video, virtual tour"]}
+            placeholder={["View type e.g video, virtual tour"]}
           >
             <Option value="Picture">Picture</Option>
             <Option value="Video">Video</Option>
@@ -68,7 +78,7 @@ const HeroComponent = () => {
         </div>
 
         <a
-          
+
           onClick={() => router.push(`/buy/search`)}
           id="search"
           className={styles.searchButton}
