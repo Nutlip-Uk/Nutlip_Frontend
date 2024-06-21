@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../styles/buy/Details.module.css";
-import { useState ,useContext} from "react";
+import { useState, useContext } from "react";
 import { ImageContext } from "../../context/ImageContext.context";
+import { Carousel } from 'antd';
 
-export const DetailsImages = ({data}) => {
-  const {viewOptions,setViewOptions}=useContext(ImageContext);
- 
+
+export const DetailsImages = ({ data }) => {
+  const { viewOptions, setViewOptions } = useContext(ImageContext);
 
   return (
     <div className={styles.view}>
@@ -28,74 +29,135 @@ export const DetailsImages = ({data}) => {
         )}
         {viewOptions === "pictures" && (
           <>
-            <img
-              className={styles.mainImage}
-              src={data?.images[0]}
-              width={800}
-              height={500}
-              alt="image"
-            />
+            <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
+
+              {
+                data.images.map((image, index) => {
+                  return (
+                    <>
+                      <img
+                        key={index}
+                        className={styles.mainImage}
+                        src={image}
+                        width={800}
+                        height={500}
+                      />
+                    </>
+                  );
+                })
+              }
+            </Carousel>
           </>
         )}
         {viewOptions === "videos" && (
-          <div className={styles.videoContainer}>
-            {/* Render video component */}
-            <img
-              className={styles.mainImage}
-              src={data?.images[2]}
-              width={800}
-              height={500}
-              alt="image"
-            />
-          </div>
+          < >
+            <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
+
+              {
+                data.images.map((image, index) => {
+                  return (
+                    <>
+                      <img
+                        key={index}
+                        className={styles.mainImage}
+                        src={image}
+                        width={800}
+                        height={500}
+                      />
+                    </>
+                  );
+                })
+              }
+            </Carousel>
+          </>
         )}
         {viewOptions === "vr" && (
-          <div className={styles.vrContainer}>
-            {/* Render VR component */}
-            <img
-              className={styles.mainImage}
-              src={data?.images[3]}
-              width={800}
-              height={500}
-              alt="image"
-            />
-          </div>
+          <>
+            <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
+
+              {
+                data.images.map((image, index) => {
+                  return (
+                    <>
+                      <img
+                        key={index}
+                        className={styles.mainImage}
+                        src={image}
+                        width={800}
+                        height={500}
+                      />
+                    </>
+                  );
+                })
+              }
+            </Carousel>
+          </>
         )}
         {viewOptions === "plan" && (
-          <div className={styles.planContainer}>
-            {/* Render floor plan component */}
-            <img
-              className={styles.mainImage}
-              src={data?.images[4]}
-              width={800}
-              height={500}
-              alt="image"
-            />
-          </div>
+          <>
+            <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
+
+              {
+                data.images.map((image, index) => {
+                  return (
+                    <>
+                      <img
+                        key={index}
+                        className={styles.mainImage}
+                        src={image}
+                        width={800}
+                        height={500}
+                      />
+                    </>
+                  );
+                })
+              }
+            </Carousel>
+          </>
         )}
         {viewOptions === "360" && (
-          <div className={styles.panoramaContainer}>
-            {/* Render 360 panorama component */}
-            <img
-              className={styles.mainImage}
-              src={data?.images[1]}
-              width={800}
-              height={500}
-              alt="image"
-            />
-          </div>
+          <>
+            <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
+
+              {
+                data.images.map((image, index) => {
+                  return (
+                    <>
+                      <img
+                        key={index}
+                        className={styles.mainImage}
+                        src={image}
+                        width={800}
+                        height={500}
+                      />
+                    </>
+                  );
+                })
+              }
+            </Carousel>
+          </>
         )}
         {viewOptions === "location" && (
-          <div className={styles.locationContainer}>
-            {/* Render location component */}
-            <img
-              className={styles.mainImage}
-              src={data?.images[1]}
-              width={800}
-              height={500}
-              alt="image"
-            />
-          </div>
+          <>
+            <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
+
+              {
+                data.images.map((image, index) => {
+                  return (
+                    <>
+                      <img
+                        key={index}
+                        className={styles.mainImage}
+                        src={image}
+                        width={800}
+                        height={500}
+                      />
+                    </>
+                  );
+                })
+              }
+            </Carousel>
+          </>
         )}
       </div>
     </div>
@@ -108,139 +170,139 @@ export const DetailsContent = (props) => {
 
   const data = props.data;
 
-  const {viewOptions,setViewOptions}=useContext(ImageContext);
-  
+  const { viewOptions, setViewOptions } = useContext(ImageContext);
+
 
   return (
     <div className={styles.content}>
       <div className={styles.content_details}>
         <div className={styles.optionContainer}>
-        <div id={styles.options}>
-          <label
-            className={
-              viewOptions === "pictures"
-                ? styles.selected
-                : styles.unselected
-            }
-          >
-            <img
-              src="/images/frame-42758-system-uicons-picture-1.svg"
-              width={25}
-              height={25}
-              alt="image-Thumbnail"
-            />
-            <input
-              type="radio"
-              name="viewOptions"
-              value="pictures"
-              onChange={(e) => setViewOptions(e.target.value)}
-            />
-            1/{data?.images?.length}
-          </label>
+          <div id={styles.options}>
+            <label
+              className={
+                viewOptions === "pictures"
+                  ? styles.selected
+                  : styles.unselected
+              }
+            >
+              <img
+                src="/images/frame-42758-system-uicons-picture-1.svg"
+                width={25}
+                height={25}
+                alt="image-Thumbnail"
+              />
+              <input
+                type="radio"
+                name="viewOptions"
+                value="pictures"
+                onChange={(e) => setViewOptions(e.target.value)}
+              />
+              1/{data?.images?.length}
+            </label>
 
-          <label
-            className={
-              viewOptions === "videos"
-                ? styles.selected
-                : styles.unselected
-            }
-          >
-            <img
-              src="/images/frame-42758-ph-video-light-1.svg"
-              width={25}
-              height={25}
-              alt="video-thumbnail"
-            />
-            <input
-              type="radio"
-              name="viewOptions"
-              value="videos"
-              onChange={(e) => setViewOptions(e.target.value)}
-            />
-            {data?.videos?.length}
-          </label>
+            <label
+              className={
+                viewOptions === "videos"
+                  ? styles.selected
+                  : styles.unselected
+              }
+            >
+              <img
+                src="/images/frame-42758-ph-video-light-1.svg"
+                width={25}
+                height={25}
+                alt="video-thumbnail"
+              />
+              <input
+                type="radio"
+                name="viewOptions"
+                value="videos"
+                onChange={(e) => setViewOptions(e.target.value)}
+              />
+              {data?.videos?.length}
+            </label>
 
-          <label
-            className={
-              viewOptions === "vr" ? styles.selected : styles.unselected
-            }
-          >
-            <img
-              src="/images/frame-42758-bi-badge-vr-1.svg"
-              width={25}
-              height={25}
-              alt="vr-thumbnail"
-            />
-            <input
-              type="radio"
-              name="viewOptions"
-              value="vr"
-              onChange={(e) => setViewOptions(e.target.value)}
-            />
-            {data?.virtual_tour?.length}
-          </label>
+            <label
+              className={
+                viewOptions === "vr" ? styles.selected : styles.unselected
+              }
+            >
+              <img
+                src="/images/frame-42758-bi-badge-vr-1.svg"
+                width={25}
+                height={25}
+                alt="vr-thumbnail"
+              />
+              <input
+                type="radio"
+                name="viewOptions"
+                value="vr"
+                onChange={(e) => setViewOptions(e.target.value)}
+              />
+              {data?.virtual_tour?.length}
+            </label>
 
-          <label
-            className={
-              viewOptions === "plan" ? styles.selected : styles.unselected
-            }
-          >
-            <img
-              src="/images/frame-42758-teenyicons-floorplan-solid-1.svg"
-              width={25}
-              height={25}
-              alt="floor-plan-thumbnail"
-            />
-            <input
-              type="radio"
-              name="viewOptions"
-              value="plan"
-              onChange={(e) => setViewOptions(e.target.value)}
-            />
-            {data?.floor_plan?.length}
-          </label>
+            <label
+              className={
+                viewOptions === "plan" ? styles.selected : styles.unselected
+              }
+            >
+              <img
+                src="/images/frame-42758-teenyicons-floorplan-solid-1.svg"
+                width={25}
+                height={25}
+                alt="floor-plan-thumbnail"
+              />
+              <input
+                type="radio"
+                name="viewOptions"
+                value="plan"
+                onChange={(e) => setViewOptions(e.target.value)}
+              />
+              {data?.floor_plan?.length}
+            </label>
 
-          <label
-            className={
-              viewOptions === "360" ? styles.selected : styles.unselected
-            }
-          >
-            <img
-              src="/images/frame-42758-bi-badge-vr.svg"
-              width={25}
-              height={25}
-              alt="thumbnail"
-            />
-            <input
-              type="radio"
-              name="viewOptions"
-              value="360"
-              onChange={(e) => setViewOptions(e.target.value)}
-            />
-            {data?.vr?.length}
-          </label>
+            <label
+              className={
+                viewOptions === "360" ? styles.selected : styles.unselected
+              }
+            >
+              <img
+                src="/images/frame-42758-bi-badge-vr.svg"
+                width={25}
+                height={25}
+                alt="thumbnail"
+              />
+              <input
+                type="radio"
+                name="viewOptions"
+                value="360"
+                onChange={(e) => setViewOptions(e.target.value)}
+              />
+              {data?.vr?.length}
+            </label>
 
-          <label
-            className={
-              viewOptions === "location"
-                ? styles.selected
-                : styles.unselected
-            }
-          >
-            <img
-              src="/images/vuesax-linear-location.svg"
-              width={25}
-              height={25}
-              alt="thumbnail"
-            />
-            <input
-              type="radio"
-              name="viewOptions"
-              value="location"
-              onChange={(e) => setViewOptions(e.target.value)}
-            />
-          </label>
-        </div>
+            <label
+              className={
+                viewOptions === "location"
+                  ? styles.selected
+                  : styles.unselected
+              }
+            >
+              <img
+                src="/images/vuesax-linear-location.svg"
+                width={25}
+                height={25}
+                alt="thumbnail"
+              />
+              <input
+                type="radio"
+                name="viewOptions"
+                value="location"
+                onChange={(e) => setViewOptions(e.target.value)}
+              />
+            </label>
+          </div>
         </div>
 
         <div className={styles.price}>
