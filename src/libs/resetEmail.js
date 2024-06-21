@@ -4,18 +4,18 @@ async function sendEmail(to, subject, text, html) {
   try {
     // Create a transporter (a way to send emails)
     const transporter = nodemailer.createTransport({
-      host: "your-smtp-server.com", // SMTP server address
+      host: process.env.SERVER_ADDRESS, // SMTP server address
       port: 587, // SMTP server port
       secure: false, // true for 465, false for other ports
       auth: {
-        user: "your-email@example.com", // Your email address
-        pass: "your-email-password", // Your email password
+        user: process.env.SECRET_EMAIL, // Your email address
+        pass: process.env.SECRET_EMAIL_PASSWORD, // Your email password
       },
     });
 
     // Define the email options
     const mailOptions = {
-      from: "your-email@example.com", // Sender's email address
+      from: process.env.SECRET_EMAIL, // Sender's email address
       to: to, // Recipient's email address
       subject: subject, // Subject line
       text: text, // Plain text body
@@ -33,7 +33,7 @@ async function sendEmail(to, subject, text, html) {
 // Example usage
 sendEmail(
   "recipient@example.com",
-  "Hello from Node.js",
+  "Hello from NUTLIP-ORG",
   "This is a plain text email",
   "<h1>This is an HTML email</h1><p>With some formatted content</p>"
 );

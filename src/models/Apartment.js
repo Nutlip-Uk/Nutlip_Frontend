@@ -12,7 +12,7 @@ const ApartmentSchema = new mongoose.Schema({
   },
   purpose: {
     type: String,
-    enum: ["For_Rent", "For_Sale"],
+    enum: ["For_Rent", "For_Buy"],
     required: true,
   },
   location: {
@@ -79,12 +79,12 @@ const ApartmentSchema = new mongoose.Schema({
     required: true,
   },
   size: {
-    type: String,
+    type: Number,
     required: true,
   },
-  TenureOfProperty: {
+  stateOfProperty: {
     type: String,
-    enum: ["Freehold", "Leasehold"],
+    enum: ["sold_stc", "under_offer"],
     required: true,
   },
   // name: String, // Optional String remains
@@ -107,7 +107,11 @@ const ApartmentSchema = new mongoose.Schema({
     enum: ["USD", "EUR", "GBP"],
     // default: ["USD"],
   },
-  Add_features: [String],
+  Add_features: {
+    type: String,
+    enum: ["Elevator", "Stairs"],
+    required: true,
+  },
   video_link: {
     type: String,
   },
@@ -115,7 +119,6 @@ const ApartmentSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  FloorPlan: [String],
   PCM: {
     type: Number,
   },
@@ -125,6 +128,10 @@ const ApartmentSchema = new mongoose.Schema({
   justAddedExpiration: {
     type: Boolean,
     default: true,
+  },
+  isAccepted: {
+    type: Boolean,
+    default: false,
   },
   isSold: {
     type: Boolean,
@@ -137,6 +144,9 @@ const ApartmentSchema = new mongoose.Schema({
   date_updated: {
     type: Date,
     default: null,
+  },
+  transaction_id: {
+    type: mongoose.Schema.Types.ObjectId,
   },
 });
 
