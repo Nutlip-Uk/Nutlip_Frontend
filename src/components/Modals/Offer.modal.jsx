@@ -10,7 +10,7 @@ import { MakeAnOffer } from "../../context/MakeAnOffer.context";
 // NOTE: THIS MODAL IS TO BE RE FACTORED
 
 const OfferModal = (props) => {
-   const {form,handleChange} = useContext(MakeAnOffer);
+  const { form, handleChange } = useContext(MakeAnOffer);
 
   const [offer, setOffer] = useState("offer");
 
@@ -21,12 +21,6 @@ const OfferModal = (props) => {
   const success = () => {
     setOffer("success");
   };
-  
-  const Back = () => {
-    setOffer("offer");
-  };
-  
-  const data = props.data
 
   return (
     <section className={styles.Section}>
@@ -46,8 +40,15 @@ const OfferModal = (props) => {
             </button>
           </section>
 
-          {offer === "offer" && <Offer form={form} handleChange={handleChange} data={data} change={success} />}
-          {offer === "success" && <Success Back={Back}/>}
+          {offer === "offer" && (
+            <Offer
+              form={form}
+              handleChange={handleChange}
+              data={data}
+              change={success}
+            />
+          )}
+          {offer === "success" && <Success Back={Back} />}
         </div>
       </div>
     </section>
@@ -110,17 +111,15 @@ export const ConveyancerModal = (props) => {
   );
 };
 
-const Offer = ({data, change,form, handleChange}) => {
+const Offer = ({ data, change, form, handleChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
- 
-
   return (
     <form className={styles.offer}>
       <div className={styles.offerContainer}>
-        <h1 className={styles.price}>£{data?.Amount}</h1>
+        <h1 className={styles.price}>£{props.price}</h1>
 
         <hr />
 
@@ -132,7 +131,7 @@ const Offer = ({data, change,form, handleChange}) => {
               height={24}
               alt="bedroom-thumbnail"
             />
-            {data?.bedrooms}
+            {props?.bedrooms}
           </span>
           <span>
             <Image
@@ -141,7 +140,7 @@ const Offer = ({data, change,form, handleChange}) => {
               height={24}
               alt="bathroom-thumbnail"
             />
-            {data?.bathrooms}
+            {props?.bathrooms}
           </span>
           <span>
             <Image
@@ -150,24 +149,15 @@ const Offer = ({data, change,form, handleChange}) => {
               height={24}
               alt="livingroom-thumbnail"
             />
-            {data?.LivingRoom}
+            {props?.livingroom}
           </span>
-          <span>
-          <img
-              src="https://img.icons8.com/ios/50/toilet-bowl.png"
-              width={25}
-              height={25}
-              alt="toilet-bowl"
-            />
-            {data.Toilets}
-            </span>
         </div>
 
         <hr />
 
         <div className={styles.desc}>
-          <h4>{data?.Title}</h4>
-          <p>{data?.location}</p>
+          <h4>{props.Title}</h4>
+          <p>{props.location}</p>
         </div>
       </div>
 
@@ -175,105 +165,110 @@ const Offer = ({data, change,form, handleChange}) => {
 
       <div className={styles.formInfoContainer}>
         <div className={styles.formOne}>
-        <div className={styles.formInfo}>
-          <label htmlFor="name">Full Name</label>
-          <input type="text" id="name" placeholder="Full name"/>
-        </div>
-
-        <div className={styles.formInfo}>
-          <label htmlFor="interested">
-            Are you really interested in this property?
-          </label>
-        
-            <div className={styles.radioContainer}>
-
-            <div className={styles.radio} onClick={() => document.getElementById('Yes').click()}>
-            <input type="radio" id="Yes" name="interested" value="Yes" />
-            <label htmlFor="Yes">Yes</label>
-            </div>
-          
-            <div className={styles.radio} onClick={() => document.getElementById('No').click()}>
-            <input type="radio" id="No" name="interested" value="No" />
-            <label htmlFor="No">No</label>
-            </div>
-         
-            </div>
-        </div>
-
-        <div className={styles.formInfo}>
-          <label htmlFor="offer">Nutlip Commission</label>
-          <div className={styles.euroContainer}>
-            <p>£</p>
-            <input type="number" id="offer" />
+          <div className={styles.formInfo}>
+            <label htmlFor="name">Full Name</label>
+            <input type="text" id="name" placeholder="Full name" />
           </div>
-        </div>
 
-        <div className={styles.formInfo}>
-          <label htmlFor="paymentMethod">What’s your payment method?</label>
-          <select id="paymentMethod" name="paymentMethod">
-            <option value="" disabled selected>
-              Select (Pay with cash, Mortgage, Crypto)
-            </option>
-            <option value="cash">Pay with cash</option>
-            <option value="mortgage">Mortgage</option>
-            <option value="crypto">Crypto</option>
-          </select>
-        </div>
+          <div className={styles.formInfo}>
+            <label htmlFor="interested">
+              Are you really interested in this property?
+            </label>
+
+            <div className={styles.radioContainer}>
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("Yes").click()}
+              >
+                <input type="radio" id="Yes" name="interested" value="Yes" />
+                <label htmlFor="Yes">Yes</label>
+              </div>
+
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("No").click()}
+              >
+                <input type="radio" id="No" name="interested" value="No" />
+                <label htmlFor="No">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.formInfo}>
+            <label htmlFor="offer">Nutlip Commission</label>
+            <div className={styles.euroContainer}>
+              <p>£</p>
+              <input type="number" id="offer" />
+            </div>
+          </div>
+
+          <div className={styles.formInfo}>
+            <label htmlFor="paymentMethod">What’s your payment method?</label>
+            <select id="paymentMethod" name="paymentMethod">
+              <option value="" disabled selected>
+                Select (Pay with cash, Mortgage, Crypto)
+              </option>
+              <option value="cash">Pay with cash</option>
+              <option value="mortgage">Mortgage</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </div>
         </div>
         <div className={styles.formTwo}>
-        <div className={styles.formInfo}>
-          <label htmlFor="name">Address</label>
-          <input type="text" id="name" placeholder="Address"/>
-        </div>
-
-
-        <div className={styles.formInfo}>
-          <label htmlFor="priceoffer">Price offer</label>
-          <div className={styles.euroContainer}>
-            <p>£</p>
-            <input type="number" id="priceoffer" />
+          <div className={styles.formInfo}>
+            <label htmlFor="name">Address</label>
+            <input type="text" id="name" placeholder="Address" />
           </div>
-        </div>
-        <div className={styles.formInfo}>
-          <label htmlFor="receives">Agent/Seller receives</label>
-          <div className={styles.euroContainer}>
-            <p>£</p>
-            <input type="number" id="receives" />
-          </div>
-        </div>
 
-        <div className={styles.formInfo}>
-          <label htmlFor="interested">
-            What cryptocurrency
-          </label>
-
-          <div className={styles.radioContainer}>
-          <div className={styles.radio}  onClick={() => document.getElementById('USDT').click()}>
-            <input type="radio" id="USDT" name="interested" value="USDT" />
-            <label htmlFor="USDT">USDT</label>
-            </div>
-
-            
-            <div className={styles.radio}  onClick={() => document.getElementById('USDC').click()}>
-            <input type="radio" id="USDC" name="interested" value="USDC" />
-            <label htmlFor="USDC">USDC</label>
+          <div className={styles.formInfo}>
+            <label htmlFor="priceoffer">Price offer</label>
+            <div className={styles.euroContainer}>
+              <p>£</p>
+              <input type="number" id="priceoffer" />
             </div>
           </div>
-        </div>
-       
+          <div className={styles.formInfo}>
+            <label htmlFor="receives">Agent/Seller receives</label>
+            <div className={styles.euroContainer}>
+              <p>£</p>
+              <input type="number" id="receives" />
+            </div>
+          </div>
+
+          <div className={styles.formInfo}>
+            <label htmlFor="interested">What cryptocurrency</label>
+
+            <div className={styles.radioContainer}>
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("USDT").click()}
+              >
+                <input type="radio" id="USDT" name="interested" value="USDT" />
+                <label htmlFor="USDT">USDT</label>
+              </div>
+
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("USDC").click()}
+              >
+                <input type="radio" id="USDC" name="interested" value="USDC" />
+                <label htmlFor="USDC">USDC</label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <section className={styles.btns}>
         <button>Cancel</button>
-        <button onClick={() => change()}>Continue</button>
+        <button onClick={() => props.change()}>Continue</button>
       </section>
     </form>
   );
 };
 
-export const Success = ({Back}) => { 
-    const router = useRouter();
+export const Success = (props) => {
+  const router = useRouter();
   return (
     <div className={styles.success}>
       <Image src="/modal/success.svg" width={200} height={150} alt="success" />
@@ -281,12 +276,13 @@ export const Success = ({Back}) => {
       <h2>Successful</h2>
 
       <p>
-      Congratulations!! You’ve successfully made an offer on your preferred property. What’s next?
+        Congratulations!! You’ve successfully made an offer on your preferred
+        property. What’s next?
       </p>
 
       <div className={styles.SuccessButtonContainer}>
         <button>Need Conveyancer?</button>
-        <button onClick={() => Back()}>Go Back</button>
+        <button onClick={() => props.change()}>Go Back</button>
       </div>
     </div>
   );

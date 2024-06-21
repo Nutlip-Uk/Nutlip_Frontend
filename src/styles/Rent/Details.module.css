@@ -33,7 +33,7 @@
     align-items:center;
     gap:10px;
     font-family: Poppins;
-font-size: 16px;
+font-size: 18px;
 font-weight: 600;
 line-height: 27px;
 letter-spacing: 0em;
@@ -233,17 +233,17 @@ color:#434343;
 }
 
 .deposit{
-    font-size:16px;
+    font-size:18px;
     font-weight:500;
     color:black;
 }
 .deposit p{
-    font-size:16px;
+    font-size:18px;
     font-weight:500;
     color:#434343;
 }
 .info .text{
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -254,7 +254,7 @@ width:95%;
 
 
 .feature {
-    font-size: 16px;
+    font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -273,7 +273,7 @@ color:#4A4A4A;
     border-bottom: 2px solid #001F6D ;
     width:auto;
 color:#4A4A4A;
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -282,7 +282,7 @@ cursor: pointer;
 }
 
 .listed{
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -613,7 +613,7 @@ color:#3B3A3A;
     padding-bottom: 5px;
 }
 .facilities span{
-font-size: 16px;
+font-size: 18px;
 font-weight: 500;
 text-align: left;
 }
@@ -728,7 +728,7 @@ height: 32.31px;
 }
 
 .mortgage h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -769,7 +769,7 @@ width:100%;
 }
 
 .conveyancer h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -1006,7 +1006,7 @@ color:#3B3A3A;
         padding:4px 10px;
         color:white;
         border-radius:10px;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 400;
         text-align: center;
         cursor:pointer;
@@ -1025,7 +1025,7 @@ color:#3B3A3A;
     padding-bottom: 5px;
 }
 .facilities span{
-font-size: 16px;
+font-size: 18px;
 font-weight: 500;
 text-align: left;
 }
@@ -1140,7 +1140,7 @@ height: 32.31px;
 }
 
 .mortgage h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -1181,7 +1181,7 @@ width:100%;
 }
 
 .conveyancer h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }

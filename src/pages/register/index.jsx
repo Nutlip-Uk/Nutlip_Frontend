@@ -218,7 +218,7 @@ const Signup = (props) => {
             value={formData.description}
             onChange={handleChange}
 
-            // className=" rounded-[8px] block text-[#505050] p-[16px] w-full text-[16px]"
+            // className=" rounded-[8px] block text-[#505050] p-[16px] w-full text-[18px]"
           >
             <option
               value=""

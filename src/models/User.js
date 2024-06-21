@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import Apartment from "../models/Apartment";
+import userType from "./UserTypes";
 
 const userSchema = new mongoose.Schema(
   {
@@ -16,18 +17,10 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
     userType: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserType", // Reference to the UserType model
       required: false,
-      enum: [
-        "property_seeker",
-        "Real_estate_agent",
-        "Mortgage_broker",
-        "Conveyancer",
-        "private_seller",
-        "guest",
-      ],
     },
-
     password: {
       type: String,
       required: true,
@@ -49,7 +42,7 @@ const userSchema = new mongoose.Schema(
     LastName: { type: String },
     Country: { type: String },
     city: { type: String },
-    PostCode: { type: String },
+    PostCode: { type: Number },
     Address1: { type: String },
     Address2: { type: String },
     BusinessName: { type: String },
@@ -100,6 +93,7 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
+
 userSchema.virtual("Apartments", {
   ref: "Apartments",
   localField: "_id",
@@ -112,4 +106,5 @@ userSchema.pre(/^find/, function () {
 });
 
 const User = mongoose.models?.Users || mongoose.model("Users", userSchema);
-module.exports = User;
+
+export default User;

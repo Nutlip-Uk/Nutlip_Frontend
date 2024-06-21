@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   await dbConnect();
   // console.log(Apartment);
   if (req.method === "POST") {
-    console.log("Request body:", req.body);
+    //console.log("Request body:", req.body);
     // Create apartment logic
     //const userId = req.userId; // Get the user ID from the request object
     const {
@@ -28,11 +28,10 @@ export default async function handler(req, res) {
       bathrooms,
       Toilets,
       size,
-      LivingRoom,
-      FloorPlan,
+      livingRoom,
       PCW,
       PCM,
-      TenureOfProperty,
+      stateOfProperty,
       // name,
       description,
       Amount,
@@ -62,11 +61,10 @@ export default async function handler(req, res) {
         bathrooms,
         Toilets,
         size,
-        LivingRoom,
-        FloorPlan,
+        livingRoom,
         PCW,
         PCM,
-        TenureOfProperty,
+        stateOfProperty,
         // name,
         description,
         Amount,

@@ -11,27 +11,6 @@ import { useEffect, useState, useRef } from 'react';
 
 export default function Rent() {
   const [input, setInput] = useState(rent)
-  const [properties, setProperties] = useState([]);
-
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await fetch('/api/apartments'); 
-        const data = await response.json();
-        console.log("API Data", data)
-
-        // Filter the properties based on the 'purpose' value
-        const filteredProperties = data.filter(property => property.purpose === 'For_Rent');
-        
-        setProperties(filteredProperties);
-        console.log("Filtered properties",filteredProperties);
-      } catch (error) {
-        console.error('Error fetching properties:', error);
-      }
-    };
-
-    fetchProperties();
-  }, []);
 
   const [showModal, setShowModal] = useState(false)
     const closeModal = () => {

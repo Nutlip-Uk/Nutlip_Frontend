@@ -40,7 +40,7 @@ const Buy = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
       </div>
-      
+      <hr />
       <div className={buy_rent.checkboxContainer}>
         <label>
           <input type="checkbox" />
@@ -87,7 +87,7 @@ const Rent = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
       </div>
-      
+      <hr />
       <div className={buy_rent.checkboxContainer}>
         <label>
           <input

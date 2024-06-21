@@ -1,6 +1,7 @@
 // pages/api/user/[userId].js
 import dbConnect from "../../../libs/dbconnect";
 import User from "../../../models/User";
+import UserType from "../../../models/UserTypes";
 import bcrypt from "bcrypt";
 //import { getSession } from "next-auth/react";
 
@@ -70,6 +71,8 @@ export default async function handler(req, res) {
         const salt = await bcrypt.genSalt(10);
         hashedPassword = await bcrypt.hash(password, salt);
       }
+      // Find the UserType document based on the provided userType string
+      const userTypeDoc = await UserType.findOne({ type: userType });
 
       const updatedUser = await User.findByIdAndUpdate(
         userId,
@@ -77,7 +80,7 @@ export default async function handler(req, res) {
           username,
           email,
           password: hashedPassword || undefined, //? Use the new hashed password or keep the existing one
-          userType,
+          userType: userTypeDoc ? userTypeDoc._id : undefined, // Use the ObjectId of the found UserType document
           Title,
           FirstName,
           MiddleName,
@@ -113,76 +116,6 @@ export default async function handler(req, res) {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-    // } else if (req.method === "POST") {
-    //   try {
-    //     const {
-    //       username,
-    //       email,
-    //       password,
-    //       userType,
-    //       Title,
-    //       FirstName,
-    //       MiddleName,
-    //       LastName,
-    //       Country,
-    //       city,
-    //       PostCode,
-    //       Address1,
-    //       Address2,
-    //       BusinessName,
-    //       CompanyName,
-    //       CompanyNumber,
-    //       PhoneNumber,
-    //       MobileNumber,
-    //       website,
-    //     } = req.body;
-
-    //     const updatedFields = {
-    //       username,
-    //       userType,
-    //       Title,
-    //       FirstName,
-    //       MiddleName,
-    //       LastName,
-    //       Country,
-    //       city,
-    //       PostCode,
-    //       Address1,
-    //       Address2,
-    //       BusinessName,
-    //       CompanyName,
-    //       CompanyNumber,
-    //       PhoneNumber,
-    //       MobileNumber,
-    //       website,
-    //       newUser: false, // Set newUser to false when updating an existing user
-    //     };
-
-    //     console.log("updatedFields:", updatedFields);
-    //     // Update password if provided
-    //     if (password) {
-    //       updatedFields.password = password;
-    //     }
-
-    //     // Update email if provided
-    //     if (email) {
-    //       updatedFields.email = email;
-    //     }
-
-    //     const updatedUser = await User.findOneAndUpdate(
-    //       { _id: userId },
-    //       { $set: updatedFields },
-    //       { new: true, runValidators: true }
-    //     );
-
-    //     if (!updatedUser) {
-    //       return res.status(404).json({ message: "User not found" });
-    //     }
-    //     console.log("updatedUser", updatedUser);
-    //     return res.status(200).json(updatedUser);
-    //   } catch (error) {
-    //     return res.status(500).json({ message: error.message });
-    //   }
   } else if (req.method === "DELETE") {
     try {
       await User.findByIdAndDelete(userId);

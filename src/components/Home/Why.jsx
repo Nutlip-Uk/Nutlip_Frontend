@@ -30,13 +30,13 @@ const Why = () => {
       id: 5,
       icon: <Location />,
       title: "Integration of Video Conferencing Platform",
-      text: "By utilising Video Conferencing, transaction times are accelerated, as it enables face-to-face discussions and efficient decision-making.",
+      text: "By utilising GoogleMeet, transaction times are accelerated, as it enables face-to-face discussions and efficient decision-making.",
     },
     {
       id: 6,
       icon: <Pie />,
       title: "Seamless Onboarding of Additional Parties",
-      text: "Seamlessly onboarding additional parties like conveyancers, mortgage brokers, and lenders ensures effective communication and comprehensive transaction management.",
+      text: "The seamless onboarding of additional parties to a transaction, such as conveyancers, mortgage brokers, and lenders, ensures effective communication and ensuring comprehensive transaction management.",
     },
   ];
   return (
@@ -81,7 +81,7 @@ const Ticket = () => {
   return <img src="/ticket.svg" alt="" />;
 };
 const Heart = () => {
-  return <img src="https://framerusercontent.com/images/7qqJiMiPwJOcNzcZ5KGywVIzo.svg" alt="" />;
+  return <img src="/heart.svg" alt="" />;
 };
 const Shield = () => {
   return <img src="/shield.png" alt="" />;
@@ -90,7 +90,7 @@ const Location = () => {
   return <img src="/Location.svg" alt="" />;
 };
 const Star = () => {
-  return <img src="https://framerusercontent.com/images/aphtGL6kRdWG9SWXR9SYMcRbFsg.svg" alt="" />;
+  return <img src="/star.svg" alt="" />;
 };
 const Pie = () => {
   return <img src="/Graph.svg" alt="" />;
