@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
       return res
         .status(200)
-        .json({ message: "Transactions gotten sucessfully", transactions });
+        .json({ message: "Transactions gotten successfully", transactions });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error getting all transactions" });

@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       ]);
 
       return res.status(200).json({
-        message: "suucessfully added seller conveyancer",
+        message: "successfully added seller conveyancer",
       });
     } catch (error) {
       console.error(error);
