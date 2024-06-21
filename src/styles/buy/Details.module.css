@@ -29,7 +29,7 @@
     display:flex;
     align-items:center;
     gap:10px;
-font-size: 16px;
+font-size: 18px;
 font-weight: 600;
 text-align: center;
 color:#001F6D;
@@ -91,17 +91,15 @@ cursor:pointer;
     display: flex;
     justify-content:space-between;
     width:100%;
-    gap:5px;
+    gap:25px;
 }
 
 .content{
-    width: 75%;
+    width: 90%;
     display: flex;
-    
 }
 
 .content_details{
-    width:100%;
     display:flex;
     flex-direction:column;
     gap:10px;
@@ -236,7 +234,7 @@ color:#434343;
     
 }
 .info p:nth-child(3){
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -247,7 +245,7 @@ width:95%;
 
 
 .feature {
-    font-size: 16px;
+    font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -266,7 +264,7 @@ color:#4A4A4A;
     border-bottom: 2px solid #001F6D ;
     width:auto;
 color:#4A4A4A;
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -275,7 +273,7 @@ cursor: pointer;
 }
 
 .listed{
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 27px;
 letter-spacing: 0em;
@@ -289,30 +287,27 @@ height: 42.31px;
 }
 
 .buy{
-    width:25%;
     height: auto;
     display:flex;
     flex-direction:column;
     gap: 25px;
     align-items:center;
-    justify-content:center;
 }
 
 .agent{
-    width: 100%;
+    width: 95%;
     height:auto;
     padding:30px 0;
     display:flex;
     flex-direction:column;
    border-radius:16px;
     align-items:center;
-    justify-content:center;
     gap:20px;
     box-shadow: 0px 0px 20px 0px rgba(190, 190, 190, 0.692)
 }
 
 .mortgage{
-    width:85%;
+    width:75%;
     display: flex;
     flex-direction: column;
     align-items:start;
@@ -356,7 +351,7 @@ width:100%;
 
 
 .conveyancer{
-    width:85%;
+    width:75%;
     display: flex;
     flex-direction: column;
     align-items:start;
@@ -399,7 +394,7 @@ width:100%;
 }
 
 .content_contact{
-    width: 100%;
+    width: 95%;
     height:auto;
     padding:30px 0;
     display:flex;
@@ -411,7 +406,7 @@ width:100%;
 }
 
 .contentContactBtnCon{
-    width:85%;
+    width:75%;
     display: flex;
     flex-direction:column;
     gap:25px;
@@ -563,10 +558,9 @@ width:100%;
   
 #options {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 8px;
-    width:100%;
 }
 #options label {
     display: flex;
@@ -580,8 +574,8 @@ color:#3B3A3A;
 
 }
 #options img{
-    height:22px;
-    width:22px;
+    height:20px;
+    width:20px;
 }
 .price {
     display:flex;
@@ -625,7 +619,7 @@ color:#3B3A3A;
     padding-bottom: 5px;
 }
 .facilities span{
-font-size: 16px;
+font-size: 18px;
 font-weight: 500;
 text-align: left;
 }
@@ -740,7 +734,7 @@ height: 32.31px;
 }
 
 .mortgage h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -781,7 +775,7 @@ width:100%;
 }
 
 .conveyancer h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -968,15 +962,13 @@ width:100%;
 
 .optionContainer{
     width:100%;
-    display:flex;
-    justify-content:center;
 }
   
 
 #options {
-    width:90%;
+    width:100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap:8px;
 }
@@ -1001,7 +993,7 @@ color:#3B3A3A;
     align-items:center;
     justify-content:space-between;
     gap:16px;
-    width:auto;
+    width:80%;
 
 }
 
@@ -1020,7 +1012,7 @@ color:#3B3A3A;
         padding:4px 10px;
         color:white;
         border-radius:10px;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 400;
         text-align: center;
         cursor:pointer;
@@ -1039,7 +1031,7 @@ color:#3B3A3A;
     padding-bottom: 5px;
 }
 .facilities span{
-font-size: 16px;
+font-size: 18px;
 font-weight: 500;
 text-align: left;
 }
@@ -1154,7 +1146,7 @@ height: 32.31px;
 }
 
 .mortgage h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -1195,7 +1187,7 @@ width:100%;
 }
 
 .conveyancer h4{
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color:#141212;
 }
@@ -1367,11 +1359,11 @@ width:100%;
     display: flex;
     justify-content:space-between;
     width:100%;
-    gap:5px;
+    gap:25px;
 }
 
 .content{
-    width: 65%;
+    width: 70%;
     display: flex;
 }
 
@@ -1428,7 +1420,7 @@ color:#4A4A4A;
 }
 
 .buy{
-    width:32.5%;
+    width:70%;
     height: auto;
     display:flex;
     flex-direction:column;

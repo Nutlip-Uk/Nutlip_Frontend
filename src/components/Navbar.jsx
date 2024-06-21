@@ -1,19 +1,22 @@
 import Image from "next/image";
 import sty from "../styles/MainNav.module.css";
-import { useContext, useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Menu from "@mui/joy/Menu";
+import MenuButton from "@mui/joy/MenuButton";
+import MenuItem from "@mui/joy/MenuItem";
+import Dropdown from "@mui/joy/Dropdown";
+import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import { RegistrationContext } from "../context/Register.context";
-import { LoginContext } from "../context/Login.context";
+import { LoginContext } from '../context/Login.context';
 // import { signOut, useSession } from 'next-auth/react'
-import { DownOutlined, SmileOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
 
 const Navbar = () => {
   const router = useRouter();
 
-  const { userInformation, setUserInformation, handleLogout } =
-    useContext(LoginContext);
+  const { userInformation,setUserInformation, handleLogout } = useContext(LoginContext);
+
   return (
     <div className={sty.navigation}>
       <nav className={sty.nav}>
@@ -25,13 +28,7 @@ const Navbar = () => {
           <Link href="/">
             <Image src="/nav_icon.svg" width={130} height={90} alt={""} />
           </Link>
-          {router.pathname === "/register" ? null : (
-            <MainNavbar
-              userInformation={userInformation}
-              handleLogout={handleLogout}
-              
-            />
-          )}
+          {router.pathname === "/register" ? null : <MainNavbar userInformation={userInformation} handleLogout={handleLogout}/>}
         </div>
       </nav>
     </div>
@@ -40,7 +37,8 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MainNavbar = ({ userInformation, handleLogout }) => {
+const MainNavbar = ({userInformation,handleLogout}) => {
+
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
   const [popup, setPopup] = useState(false);
@@ -73,19 +71,8 @@ const MainNavbar = ({ userInformation, handleLogout }) => {
 
   const Popped = () => {
     setPopup(!popup);
-    setOpen(false);
+    setOpen(false)
   };
-
-  const items = [
-    {
-      key: "1",
-      label: <Link href="/mortgages">Find Mortgage broker</Link>,
-    },
-    {
-      key: "2",
-      label: <Link href="/conveyancer">Find a Conveyancer</Link>,
-    },
-  ];
 
   return (
     <>
@@ -113,28 +100,29 @@ const MainNavbar = ({ userInformation, handleLogout }) => {
             </Link>
           </li>
           <li>
-            <Dropdown menu={{ items }}>
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  Services
-                  <DownOutlined />
-                </Space>
-              </a>
+            <Dropdown>
+              <MenuButton endDecorator={<ArrowDropDown />}>Services</MenuButton>
+              <Menu>
+                <Link href={"/mortgages"} className={sty.textdoc}>
+                  <MenuItem>Find Mortgage broker</MenuItem>
+                </Link>
+                <Link href={"/conveyancer"} className={sty.textdoc}>
+                  <MenuItem>Find a Conveyancer</MenuItem>
+                </Link>
+              </Menu>
             </Dropdown>
           </li>
           <li>
             <a href={"https://blockchain.nutlip.co.uk"}>Blockchain</a>
           </li>
 
-          {userInformation?.user ? (
+          { userInformation?.user  ? (
             <>
-              <div className={sty.UserLogContainer}>
+               <div className={sty.UserLogContainer} >
                 <div className={sty.userInfo} onClick={Popped}>
-                  {userInformation.user?.name ? (
-                    <img src="/navbar/userimg.png" alt="" />
-                  ) : null}
+                  {userInformation.user?.name ? <img src="/navbar/userimg.png" alt="" /> : null}
                   <p>{userInformation?.user?.name}</p>
-                </div>
+                </div>  
 
                 <img src="/navbar/notification.png" alt="" />
               </div>
@@ -155,15 +143,10 @@ const MainNavbar = ({ userInformation, handleLogout }) => {
       </div>
 
       <div className={sty.MenuBtn}>
-        {userInformation?.user ? (
-          <>
-            {" "}
-            <img src="/navbar/notification.png" alt="" />
-            <div className={sty.MobileuserInfo} onClick={Popped}>
-              <img src="/navbar/userimg.png" alt="" />
-            </div>{" "}
-          </>
-        ) : null}
+        {userInformation?.user ? <> <img src="/navbar/notification.png" alt="" />
+        <div className={sty.MobileuserInfo} onClick={Popped}>
+          <img src="/navbar/userimg.png" alt="" />
+        </div> </> : null}
 
         <Image
           className={``}
@@ -177,46 +160,46 @@ const MainNavbar = ({ userInformation, handleLogout }) => {
         />
       </div>
 
-      {/*<div id="google_translate_element"></div>*/}
+      {/* <div id="google_translate_element"></div> */}
 
       {popup ? (
-        <>
-          <div className={sty.userPopUpContainer}>
-            <div className={sty.popUpHeader}>
-              <img src="/navbar/userimg.png/" alt="" />
-              <p>{userInformation?.user?.email}</p>
-            </div>
-            <div className={sty.popUpList}>
-              <div className={sty.popUplink}>
-                <img src="/navbar/search.svg" />
-                <p>Recent Search</p>
-              </div>
-              <hr />
-              <div className={sty.popUplink}>
-                <img src="/navbar/heart.svg" />
-                <p>Saved properties</p>
-              </div>
-              <hr />
-              <div className={sty.popUplink}>
-                <img src="/navbar/transaction.svg" />
-                <Link href={"/transactions"}>Transactions</Link>
-              </div>
-              <hr />
-              <div className={sty.popUplink}>
-                <img src="/navbar/settings.svg" />
-                <p>Account settings</p>
-              </div>
-              <hr />
-              <div className={sty.popUplink}>
-                <img src="/navbar/logout.svg" />
-                <p onClick={handleLogout}>Logout</p>
-              </div>
+                <>
+                  <div className={sty.userPopUpContainer}>
+                    <div className={sty.popUpHeader}>
+                      <img src="/navbar/userimg.png/" alt="" />
+                      <p>{userInformation?.user?.email}</p>
+                    </div>
+                    <div className={sty.popUpList}>
+                      <div className={sty.popUplink}>
+                        <img src="/navbar/search.svg" />
+                        <p>Recent Search</p>
+                      </div>
+                      <hr />
+                      <div className={sty.popUplink}>
+                        <img src="/navbar/heart.svg" />
+                        <p>Saved properties</p>
+                      </div>
+                      <hr />
+                      <div className={sty.popUplink}>
+                        <img src="/navbar/transaction.svg" />
+                        <Link href={"/transactions"}>Transactions</Link>
+                      </div>
+                      <hr />
+                      <div className={sty.popUplink}>
+                        <img src="/navbar/settings.svg" />
+                        <p>Account settings</p>
+                      </div>
+                      <hr />
+                      <div className={sty.popUplink}>
+                        <img src="/navbar/logout.svg" />
+                        <p onClick={handleLogout}>Logout</p>
+                      </div>
 
-              <button>Book a demo</button>
-            </div>
-          </div>
-        </>
-      ) : null}
+                      <button>Book a demo</button>
+                    </div>
+                  </div>
+                </>
+              ) : null}
     </>
   );
 };
