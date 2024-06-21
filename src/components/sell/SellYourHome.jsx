@@ -23,7 +23,7 @@ export default function SellYourHome() {
         <article className={styles.TextContainer}>
           <h3>List and sell your home with ease. <span style={{color:"red"}}> Close 60% faster.</span> </h3>
           <p>
-          Opting to independently sell your home, commonly involves a process akin to traditional selling, yet devoid of the guidance of a real estate agent. In such instances, you take on the responsibility for tasks such as home preparation, marketing, showings, and negotiations.
+          Opting to nnegotiations sell your home, commonly involves a process akin to traditional selling, yet devoid of the guidance of a real estate agent. In such instances, you take on the responsibility for tasks such as home preparation, marketing, showings, and negotiations.
           </p>
 
           <button onClick={handleSubmit}>Post your home for sale</button>

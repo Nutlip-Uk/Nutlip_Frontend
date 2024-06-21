@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { RegistrationContext } from "../../context/Register.context";
 import { LoginContext } from "../../context/Login.context";
+import { Cascader, Input, Select, Space } from 'antd';
 const Welcome = () => {
   const { userInformation , setUserInformation} = React.useContext(LoginContext);
   const count = useRef(1);
@@ -601,7 +602,7 @@ const MortgageBrokerForm = ({form, handleSubmit, handleChange}) => {
       <div className={styles.formFour}>
       <div>
         <label htmlFor="website">Website</label>
-        <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+        <Input addonBefore="http://"  value={form.website} onChange={handleChange} />
       </div>
       <div>
         <label htmlFor="CompanyNumber">Company Number</label>
@@ -710,7 +711,7 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
   <div className={styles.formFour}>
   <div>
     <label htmlFor="website">Website</label>
-    <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+    <Input addonBefore="http://" value={form.website} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="CompanyNumber">Company Number</label>
@@ -819,7 +820,7 @@ const BuyerForm = ({form, handleSubmit, handleChange}) => {
   <div className={styles.formFour}>
   <div>
     <label htmlFor="website">Website</label>
-    <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+    <Input addonBefore="http://"  value={form.website} onChange={handleChange}   />
   </div>
   <div>
     <label htmlFor="CompanyNumber">Company Number</label>
@@ -930,7 +931,7 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
   <div className={styles.formFour}>
   <div>
     <label htmlFor="website">Website</label>
-    <input type="url" id="website" name="website" value={form.website} onChange={handleChange} />
+    <Input addonBefore="http://" value={form.website} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="CompanyNumber">Company Number</label>

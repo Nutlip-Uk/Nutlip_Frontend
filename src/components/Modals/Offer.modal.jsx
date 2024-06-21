@@ -1,17 +1,17 @@
-/* eslint-disable react/no-unescaped-entities */
 import styles from "../../styles/Rent/OfferModal.module.css";
 import conveyancer from "../../styles/Modals/ConveyancerModal.module.css";
-// import { rentExclude, buyExclude, propertyType, furnished, addedToSite, rentMusthaves, buyMusthaves, rentShowOnly, buyShowOnly, buyInclude } from '../utils/filters';
-// import { viewType } from '../utils/view_type';
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "../styled components/Button";
 import { NutlipCommission } from "./../Buyer Process/Commission";
+import { MakeAnOffer } from "../../context/MakeAnOffer.context";
 
 // NOTE: THIS MODAL IS TO BE RE FACTORED
 
 const OfferModal = (props) => {
+  const { form, handleChange } = useContext(MakeAnOffer);
+
   const [offer, setOffer] = useState("offer");
 
   const handleSubmit = (event) => {
@@ -40,8 +40,15 @@ const OfferModal = (props) => {
             </button>
           </section>
 
-          {offer === "offer" && <Offer data={props} change={success} />}
-          {offer === "success" && <Success change={offer}/>}
+          {offer === "offer" && (
+            <Offer
+              form={form}
+              handleChange={handleChange}
+              data={data}
+              change={success}
+            />
+          )}
+          {offer === "success" && <Success Back={Back} />}
         </div>
       </div>
     </section>
@@ -104,7 +111,7 @@ export const ConveyancerModal = (props) => {
   );
 };
 
-const Offer = (props) => {
+const Offer = ({ data, change, form, handleChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -158,92 +165,97 @@ const Offer = (props) => {
 
       <div className={styles.formInfoContainer}>
         <div className={styles.formOne}>
-        <div className={styles.formInfo}>
-          <label htmlFor="name">Full Name</label>
-          <input type="text" id="name" placeholder="Full name"/>
-        </div>
-
-        <div className={styles.formInfo}>
-          <label htmlFor="interested">
-            Are you really interested in this property?
-          </label>
-        
-            <div className={styles.radioContainer}>
-
-            <div className={styles.radio} onClick={() => document.getElementById('Yes').click()}>
-            <input type="radio" id="Yes" name="interested" value="Yes" />
-            <label htmlFor="Yes">Yes</label>
-            </div>
-          
-            <div className={styles.radio} onClick={() => document.getElementById('No').click()}>
-            <input type="radio" id="No" name="interested" value="No" />
-            <label htmlFor="No">No</label>
-            </div>
-         
-            </div>
-        </div>
-
-        <div className={styles.formInfo}>
-          <label htmlFor="offer">Nutlip Commission</label>
-          <div className={styles.euroContainer}>
-            <p>£</p>
-            <input type="number" id="offer" />
+          <div className={styles.formInfo}>
+            <label htmlFor="name">Full Name</label>
+            <input type="text" id="name" placeholder="Full name" />
           </div>
-        </div>
 
-        <div className={styles.formInfo}>
-          <label htmlFor="paymentMethod">What’s your payment method?</label>
-          <select id="paymentMethod" name="paymentMethod">
-            <option value="" disabled selected>
-              Select (Pay with cash, Mortgage, Crypto)
-            </option>
-            <option value="cash">Pay with cash</option>
-            <option value="mortgage">Mortgage</option>
-            <option value="crypto">Crypto</option>
-          </select>
-        </div>
+          <div className={styles.formInfo}>
+            <label htmlFor="interested">
+              Are you really interested in this property?
+            </label>
+
+            <div className={styles.radioContainer}>
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("Yes").click()}
+              >
+                <input type="radio" id="Yes" name="interested" value="Yes" />
+                <label htmlFor="Yes">Yes</label>
+              </div>
+
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("No").click()}
+              >
+                <input type="radio" id="No" name="interested" value="No" />
+                <label htmlFor="No">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.formInfo}>
+            <label htmlFor="offer">Nutlip Commission</label>
+            <div className={styles.euroContainer}>
+              <p>£</p>
+              <input type="number" id="offer" />
+            </div>
+          </div>
+
+          <div className={styles.formInfo}>
+            <label htmlFor="paymentMethod">What’s your payment method?</label>
+            <select id="paymentMethod" name="paymentMethod">
+              <option value="" disabled selected>
+                Select (Pay with cash, Mortgage, Crypto)
+              </option>
+              <option value="cash">Pay with cash</option>
+              <option value="mortgage">Mortgage</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </div>
         </div>
         <div className={styles.formTwo}>
-        <div className={styles.formInfo}>
-          <label htmlFor="name">Address</label>
-          <input type="text" id="name" placeholder="Address"/>
-        </div>
-
-
-        <div className={styles.formInfo}>
-          <label htmlFor="priceoffer">Price offer</label>
-          <div className={styles.euroContainer}>
-            <p>£</p>
-            <input type="number" id="priceoffer" />
+          <div className={styles.formInfo}>
+            <label htmlFor="name">Address</label>
+            <input type="text" id="name" placeholder="Address" />
           </div>
-        </div>
-        <div className={styles.formInfo}>
-          <label htmlFor="receives">Agent/Seller receives</label>
-          <div className={styles.euroContainer}>
-            <p>£</p>
-            <input type="number" id="receives" />
-          </div>
-        </div>
 
-        <div className={styles.formInfo}>
-          <label htmlFor="interested">
-            What cryptocurrency
-          </label>
-
-          <div className={styles.radioContainer}>
-          <div className={styles.radio}  onClick={() => document.getElementById('USDT').click()}>
-            <input type="radio" id="USDT" name="interested" value="USDT" />
-            <label htmlFor="USDT">USDT</label>
-            </div>
-
-            
-            <div className={styles.radio}  onClick={() => document.getElementById('USDC').click()}>
-            <input type="radio" id="USDC" name="interested" value="USDC" />
-            <label htmlFor="USDC">USDC</label>
+          <div className={styles.formInfo}>
+            <label htmlFor="priceoffer">Price offer</label>
+            <div className={styles.euroContainer}>
+              <p>£</p>
+              <input type="number" id="priceoffer" />
             </div>
           </div>
-        </div>
-       
+          <div className={styles.formInfo}>
+            <label htmlFor="receives">Agent/Seller receives</label>
+            <div className={styles.euroContainer}>
+              <p>£</p>
+              <input type="number" id="receives" />
+            </div>
+          </div>
+
+          <div className={styles.formInfo}>
+            <label htmlFor="interested">What cryptocurrency</label>
+
+            <div className={styles.radioContainer}>
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("USDT").click()}
+              >
+                <input type="radio" id="USDT" name="interested" value="USDT" />
+                <label htmlFor="USDT">USDT</label>
+              </div>
+
+              <div
+                className={styles.radio}
+                onClick={() => document.getElementById("USDC").click()}
+              >
+                <input type="radio" id="USDC" name="interested" value="USDC" />
+                <label htmlFor="USDC">USDC</label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -255,8 +267,8 @@ const Offer = (props) => {
   );
 };
 
-export const Success = (props) => { 
-    const router = useRouter();
+export const Success = (props) => {
+  const router = useRouter();
   return (
     <div className={styles.success}>
       <Image src="/modal/success.svg" width={200} height={150} alt="success" />
@@ -264,7 +276,8 @@ export const Success = (props) => {
       <h2>Successful</h2>
 
       <p>
-      Congratulations!! You’ve successfully made an offer on your preferred property. What’s next?
+        Congratulations!! You’ve successfully made an offer on your preferred
+        property. What’s next?
       </p>
 
       <div className={styles.SuccessButtonContainer}>
