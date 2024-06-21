@@ -44,7 +44,7 @@ margin:0;
 }
 
 .Text p{
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 24px;
 letter-spacing: 0em;
@@ -330,7 +330,7 @@ color: #0D263B;
 
 
 
-@media (780px <= width <= 1080px) {
+@media (780px <= width <= 960px) {
     .Section{
         width:100%;
         height:auto;
@@ -374,7 +374,7 @@ color: #010B25;
 }
 
 .Text p{
-font-size: 16px;
+font-size: 18px;
 font-weight: 400;
 line-height: 28px;
 letter-spacing: 0em;
@@ -426,7 +426,7 @@ color:#141212;
 }
 
 .access p{
-font-size: 16px;
+font-size: 18px;
 font-weight: 500;
 color: #0D263B;
 

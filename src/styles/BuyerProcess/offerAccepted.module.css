@@ -54,7 +54,7 @@ color:#434343;
 
 .transactionId strong{
     color: var(--Grey-5, #3B3A3A);
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -75,7 +75,7 @@ color:#434343;
 
 .transactionPrice strong{
     color: var(--Grey-5, #3B3A3A);
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -106,7 +106,7 @@ color:#434343;
 
 .transactionDesc p:nth-child(1){
     color: var(--Grey-5, #3B3A3A);
-font-size: 16px;
+font-size: 18px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
@@ -151,7 +151,7 @@ background: #FFF;
 
 .details > div h4{
     color: var(--Grey-5, #3B3A3A);
-font-size: 16px;
+font-size: 18px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
