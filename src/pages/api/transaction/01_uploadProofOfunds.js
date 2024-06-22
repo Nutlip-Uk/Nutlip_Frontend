@@ -5,6 +5,17 @@ import transactionContents from "../../../models/TransactionContent";
 
 // uupload proof of funds
 
+/**
+ * Handles the upload of proof of funds for a transaction.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} req.body - The request body containing the transaction details.
+ * @param {string} req.body.content - The content of the proof of funds.
+ * @param {string} req.body.transactionId - The ID of the transaction.
+ * @param {string} req.method - The HTTP method of the request.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Promise<void>} - A Promise that resolves when the response is sent.
+ */
 export default async function handler(req, res) {
   await dbConnect();
 
@@ -54,7 +65,7 @@ export default async function handler(req, res) {
       ]);
 
       return res.status(200).json({
-        message: "suucessfully uploaded proof of funds",
+        message: "successfully uploaded proof of funds",
       });
     } catch (error) {
       console.error(error);
