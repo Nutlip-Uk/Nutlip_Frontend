@@ -7,7 +7,7 @@ import transactionContents from "../../../models/TransactionContent";
 export default async function handler(req, res) {
   await dbConnect();
 
-  const { transactionId, offerid, content } = req.body;
+  const { transactionId, offerId, content } = req.body;
 
   if (req.method === "POST") {
     try {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         ),
         await OfferTransaction.updateOne(
           {
-            _id: offerid,
+            _id: offerId,
           },
           {
             $set: {
