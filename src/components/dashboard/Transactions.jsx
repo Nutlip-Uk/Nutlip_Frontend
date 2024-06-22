@@ -90,6 +90,8 @@ const MainTransaction = ({ handleChange }) => {
 };
 
 const Offers = ({ handleChange }) => {
+ 
+
   return (
     <>
       <div className={styles.NavContainer}>
@@ -136,6 +138,36 @@ const Offers = ({ handleChange }) => {
 };
 
 const OfferReceived = ({ handleChange }) => {
+
+  const [apartments, setApartments] = useState([]);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
+    console.log("userInformation:", userInformation);
+
+    if (userInformation && userInformation.user) {
+      const userId = userInformation.user.id;
+      setUserId(userId);
+      console.log("userId:", userId);
+
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`/api/apartments/${userId}`);
+          const data = await response.json();
+          setApartments(data);
+          console.log(data)
+        } catch (error) {
+          console.error("Error fetching offers:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, []);
+
+
+
   return (
     <>
       <div className={styles.NavContainer}>
@@ -149,38 +181,70 @@ const OfferReceived = ({ handleChange }) => {
         </div>
       </div>
 
-      <div className={styles.propertyContainer}>
-        <div className={styles.Property}>
-          <div className={styles.PropertyImg}>
-            <img src="/dashboard/listimg.png" />
+        <div className={styles.propertyList}>
+        {apartments.map((apartment) => (
+      <div key={apartment?._id} className={styles.propertyContainer}>
+          <div className={styles.Property}>
+            <div className={styles.PropertyImg}>
+              <img src={apartment?.images[0]} alt={apartment?.Title} />
 
-            <div className={styles.propertyText}>
-              <p>3 bedroom flat for sale</p>
-              <p>Navino road, London E8</p>
+              <div className={styles.propertyText}>
+                <p>{apartment?.Title || "Title N/A"}</p>
+                <p>{apartment?.address || "Address N/A"}</p>
 
-              <p>Last updated: 12th June, 2023</p>
+                <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+              </div>
             </div>
+
+            <hr />
+
+            <div className={styles.PropertyInfo}>
+              <p>{apartment._id ? `Listing ID: ${apartment?._id.slice(4)}` : 'Listing ID: N/A'}</p>
+              <p>{`£ ${apartment?.Amount}`}</p>
+              <p>{`Status: ${apartment.status || "Available"}`}</p>
+            </div>
+
+            <hr />
+
           </div>
-
-          <hr />
-
-          <div className={styles.PropertyInfo}>
-            <p>Listing ID: WYE12</p>
-            <p>£706,000</p>
-            <p>status : Available</p>
-          </div>
-
-          <hr />
-
-          <button className={styles.viewOffer} onClick={() => handleChange("viewOffers")}>
-            View offers
-          </button>
-        </div>
       </div>
+        ))}
+            <button className={styles.viewOffer} onClick={() => handleChange("viewOffers")}>
+              <p>View offers</p>
+            </button>
+        </div>
     </>
   );
 };
 const ViewOffers = ({ handleChange }) => {
+
+  const [offers, setOffers] = useState([]);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
+    console.log("userInformation:", userInformation);
+
+    if (userInformation && userInformation.user) {
+      const userId = userInformation.user.id;
+      setUserId(userId);
+      console.log("userId:", userId);
+
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`/api/offer/getuseroffers/${userId}`);
+          const data = await response.json();
+          setOffers(data.offers);
+          console.log(data.offers)
+        } catch (error) {
+          console.error("Error fetching offers:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, []);
+
   return (
     <>
       <div className={styles.NavContainer}>

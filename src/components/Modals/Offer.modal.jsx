@@ -2,7 +2,7 @@ import styles from "../../styles/Rent/OfferModal.module.css";
 import conveyancer from "../../styles/Modals/ConveyancerModal.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import Button from "../styled components/Button";
 import { NutlipCommission } from "./../Buyer Process/Commission";
 import { MakeAnOffer } from "../../context/MakeAnOffer.context";
@@ -10,17 +10,70 @@ import { MakeAnOffer } from "../../context/MakeAnOffer.context";
 // NOTE: THIS MODAL IS TO BE RE FACTORED
 
 const OfferModal = (props) => {
-  const { form, handleChange } = useContext(MakeAnOffer);
+  // const { form, handleChange } = useContext(MakeAnOffer);
 
   const [offer, setOffer] = useState("offer");
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
 
   const success = () => {
     setOffer("success");
   };
+
+  useEffect(() => {
+    // Retrieve the userInformation from the local storage
+    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
+    console.log("userInformation:", userInformation);
+
+    if (userInformation && userInformation.user) {
+      // Extract the userId from the userInformation object
+      const userId = userInformation.user.id;
+      console.log("userId:", userId);
+      if (userId) {
+        setForm((prevForm) => ({ ...prevForm, userId }));
+      }
+    }
+  }, []);
+    const [form, setForm] = useState({
+      apartmentId:props.data._id,
+      userId: "",
+        FullName:"",
+        Address:"",
+        Interested:"",
+        offerPrice:"",
+        NutlipCommission:"",
+        receivedPayment:"",
+        PaymentType:"",
+        cryptoType:"",
+        PriceOffer:""
+      });
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+      
+        if (name === "offerPrice") {
+          const nutlipCommission = value * 0.005;
+          const receivedPayment = value - nutlipCommission;
+          const priceOffer = value;
+          setForm({
+            ...form,
+            [name]: value,
+            NutlipCommission: nutlipCommission.toFixed(2),
+            receivedPayment: receivedPayment.toFixed(2),
+            PriceOffer: priceOffer
+          });
+        } else if (name === "Interested") {
+          setForm({
+            ...form,
+            [name]: value === "Yes" ? true : false,
+          });
+        } else {
+          setForm({
+            ...form,
+            [name]: value,
+          });
+        }
+      };
+
+
 
   return (
     <section className={styles.Section}>
@@ -44,11 +97,11 @@ const OfferModal = (props) => {
             <Offer
               form={form}
               handleChange={handleChange}
-              data={data}
               change={success}
+              data={props.data}
             />
           )}
-          {offer === "success" && <Success Back={Back} />}
+          {offer === "success" && <Success />}
         </div>
       </div>
     </section>
@@ -111,15 +164,35 @@ export const ConveyancerModal = (props) => {
   );
 };
 
-const Offer = ({ data, change, form, handleChange }) => {
-  const handleSubmit = (event) => {
+const Offer = ({ change, form, handleChange, data }) => {
+
+  const handleSubmit = async(event) => {
+   
     event.preventDefault();
+    console.log(form)
+    const response = await fetch('/api/offer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+
+    if (response.ok) {
+      const responseData = await response.json(); 
+      console.log("Response from API:", responseData);
+      change();
+    } else {
+      console.error("API response was not ok", response);
+      console.log(response.json());
+    }
+
+    
   };
 
+
   return (
-    <form className={styles.offer}>
+    <form className={styles.offer} onSubmit={handleSubmit}>
       <div className={styles.offerContainer}>
-        <h1 className={styles.price}>£{props.price}</h1>
+        <h1 className={styles.price}>£{data.Amount}</h1>
 
         <hr />
 
@@ -131,7 +204,7 @@ const Offer = ({ data, change, form, handleChange }) => {
               height={24}
               alt="bedroom-thumbnail"
             />
-            {props?.bedrooms}
+            {data?.bedrooms}
           </span>
           <span>
             <Image
@@ -140,7 +213,7 @@ const Offer = ({ data, change, form, handleChange }) => {
               height={24}
               alt="bathroom-thumbnail"
             />
-            {props?.bathrooms}
+            {data?.bathrooms}
           </span>
           <span>
             <Image
@@ -149,15 +222,25 @@ const Offer = ({ data, change, form, handleChange }) => {
               height={24}
               alt="livingroom-thumbnail"
             />
-            {props?.livingroom}
+            {data?.LivingRoom}
+          </span>
+
+          <span>
+            <img
+              src="https://img.icons8.com/ios/50/toilet-bowl.png"
+              width={25}
+              height={25}
+              alt="toilet-bowl"
+            />
+            {data.Toilets}
           </span>
         </div>
 
         <hr />
 
         <div className={styles.desc}>
-          <h4>{props.Title}</h4>
-          <p>{props.location}</p>
+          <h4>{data.Title}</h4>
+          <p>{data.location}</p>
         </div>
       </div>
 
@@ -166,8 +249,8 @@ const Offer = ({ data, change, form, handleChange }) => {
       <div className={styles.formInfoContainer}>
         <div className={styles.formOne}>
           <div className={styles.formInfo}>
-            <label htmlFor="name">Full Name</label>
-            <input type="text" id="name" placeholder="Full name" />
+            <label htmlFor="FullName">Full Name</label>
+            <input type="text" id="FullName" name="FullName" placeholder="Fullname" value={form.FullName} onChange={handleChange} />
           </div>
 
           <div className={styles.formInfo}>
@@ -178,60 +261,59 @@ const Offer = ({ data, change, form, handleChange }) => {
             <div className={styles.radioContainer}>
               <div
                 className={styles.radio}
-                onClick={() => document.getElementById("Yes").click()}
+
               >
-                <input type="radio" id="Yes" name="interested" value="Yes" />
-                <label htmlFor="Yes">Yes</label>
+                <input type="radio" id="Yes" name="Interested" value="Yes" onChange={handleChange} checked={form.Interested === true} />                 <label htmlFor="Yes">Yes</label>
               </div>
 
               <div
                 className={styles.radio}
-                onClick={() => document.getElementById("No").click()}
+
               >
-                <input type="radio" id="No" name="interested" value="No" />
+                <input type="radio" id="No" name="Interested" value="No" onChange={handleChange} checked={form.Interested === false} />
                 <label htmlFor="No">No</label>
               </div>
             </div>
           </div>
 
           <div className={styles.formInfo}>
-            <label htmlFor="offer">Nutlip Commission</label>
+            <label htmlFor="offer">{"Nutlip Commission (0.5%)"}</label>
             <div className={styles.euroContainer}>
               <p>£</p>
-              <input type="number" id="offer" />
+              <input type="number" id="offer" name="NutlipCommission" disabled value={form.NutlipCommission} onChange={handleChange} />
             </div>
           </div>
 
           <div className={styles.formInfo}>
-            <label htmlFor="paymentMethod">What’s your payment method?</label>
-            <select id="paymentMethod" name="paymentMethod">
+            <label htmlFor="PaymentType">What’s your payment method?</label>
+            <select id="PaymentType" name="PaymentType" value={form.PaymentType} onChange={handleChange}>
               <option value="" disabled selected>
                 Select (Pay with cash, Mortgage, Crypto)
               </option>
-              <option value="cash">Pay with cash</option>
-              <option value="mortgage">Mortgage</option>
-              <option value="crypto">Crypto</option>
+              <option name="cash" value="cash">Pay with cash</option>
+              <option name="mortgage" value="mortgage">Mortgage</option>
+              <option name="crypto" value="crypto">Crypto</option>
             </select>
           </div>
         </div>
         <div className={styles.formTwo}>
           <div className={styles.formInfo}>
             <label htmlFor="name">Address</label>
-            <input type="text" id="name" placeholder="Address" />
+            <input type="text" id="address" name="Address" placeholder="Address" value={form.Address} onChange={handleChange} />
           </div>
 
           <div className={styles.formInfo}>
-            <label htmlFor="priceoffer">Price offer</label>
+            <label htmlFor="offerPrice">Price offer</label>
             <div className={styles.euroContainer}>
               <p>£</p>
-              <input type="number" id="priceoffer" />
+              <input type="number" name="offerPrice" id="offerPrice" value={form.offerPrice} onChange={handleChange} />
             </div>
           </div>
           <div className={styles.formInfo}>
             <label htmlFor="receives">Agent/Seller receives</label>
             <div className={styles.euroContainer}>
               <p>£</p>
-              <input type="number" id="receives" />
+              <input type="number" id="receivedPayment" name="receivedPayment" value={form.receivedPayment} onChange={handleChange} disabled/>
             </div>
           </div>
 
@@ -241,18 +323,14 @@ const Offer = ({ data, change, form, handleChange }) => {
             <div className={styles.radioContainer}>
               <div
                 className={styles.radio}
-                onClick={() => document.getElementById("USDT").click()}
               >
-                <input type="radio" id="USDT" name="interested" value="USDT" />
-                <label htmlFor="USDT">USDT</label>
+                <input type="radio" id="USDT" name="cryptoType" value="USDT" onChange={handleChange} checked={form.cryptoType === "USDT"} />                <label htmlFor="USDT">USDT</label>
               </div>
 
               <div
                 className={styles.radio}
-                onClick={() => document.getElementById("USDC").click()}
               >
-                <input type="radio" id="USDC" name="interested" value="USDC" />
-                <label htmlFor="USDC">USDC</label>
+                <input type="radio" id="USDC" name="cryptoType" value="USDC" onChange={handleChange} checked={form.cryptoType === "USDC"} />                <label htmlFor="USDC">USDC</label>
               </div>
             </div>
           </div>
@@ -261,7 +339,7 @@ const Offer = ({ data, change, form, handleChange }) => {
 
       <section className={styles.btns}>
         <button>Cancel</button>
-        <button onClick={() => props.change()}>Continue</button>
+        <button type="submit">Continue</button>
       </section>
     </form>
   );
