@@ -7,7 +7,7 @@ import transactionContents from "../../../models/TransactionContent";
 export default async function handler(req, res) {
   await dbConnect();
 
-  const { transactionId } = req.body;
+  const { transactionId, content } = req.body;
 
   if (req.method === "POST") {
     try {
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
           },
           {
             $set: {
-              proof_of_funds_10: true,
+              proof_of_funds_10: content,
               proof_of_funds_10_date: Date.now(),
             },
           }
