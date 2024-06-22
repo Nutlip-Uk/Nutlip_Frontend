@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const offerSchema = new mongoose.Schema({
-  offerPrice: {
-    type: Number,
-    required: true,
-  },
   apartmentId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
