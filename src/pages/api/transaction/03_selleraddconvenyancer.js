@@ -5,10 +5,20 @@ import User from "../../../models/User";
 
 // uupload proof of funds
 
+/**
+ * Handles the POST request to add a seller's conveyancer to a transaction.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} req.body - The request body containing the `transactionId` and `userid`.
+ * @param {string} req.body.transactionId - The ID of the transaction.
+ * @param {string} req.body.userid - The ID of the user.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Promise<void>} - A JSON response indicating the success or failure of the operation.
+ */
 export default async function handler(req, res) {
   await dbConnect();
 
-  const { transactionId, userid } = req.body;
+  const { transactionId, userId } = req.body;
 
   if (req.method === "POST") {
     try {
@@ -16,7 +26,7 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      const user = await User.findOne({ _id: userid });
+      const user = await User.findOne({ _id: userId });
       if (!user) {
         res.status(400).json({
           message: "User doesnt exist",
@@ -38,7 +48,7 @@ export default async function handler(req, res) {
           },
           {
             $set: {
-              convenyancer_seller: userid,
+              convenyancer_seller: userId,
               convenyancer_seller_date: Date.now(),
             },
           }
@@ -56,7 +66,7 @@ export default async function handler(req, res) {
       ]);
 
       return res.status(200).json({
-        message: "suucessfully added seller conveyancer",
+        message: "successful added seller conveyancer",
       });
     } catch (error) {
       console.error(error);
