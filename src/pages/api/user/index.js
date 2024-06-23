@@ -16,8 +16,6 @@ import {
  *
  * Returns the appropriate data or an error message in the response.
  *
- * @param {import('next').NextApiRequest} req - The incoming HTTP request.
- * @param {import('next').NextApiResponse} res - The HTTP response to send back.
  */
 export default async function handler(req, res) {
   const { method, query } = req;
