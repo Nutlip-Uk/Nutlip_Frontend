@@ -72,7 +72,7 @@ export default async function handler(req, res) {
         hashedPassword = await bcrypt.hash(password, salt);
       }
       // Find the UserType document based on the provided userType string
-      const userTypeDoc = await UserType.findOne({ type: userType });
+      const userTypeDoc = await UserType.findOne({ type: userType }); // ?
 
       const updatedUser = await User.findByIdAndUpdate(
         userId,
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
           username,
           email,
           password: hashedPassword || undefined, //? Use the new hashed password or keep the existing one
-          userType: userTypeDoc ? userTypeDoc._id : undefined, // Use the ObjectId of the found UserType document
+          userType: userTypeDoc ? userTypeDoc._id : undefined, // Use the ObjectId of the found UserType document // ?
           Title,
           FirstName,
           MiddleName,

@@ -3,19 +3,20 @@ import Apartment from "../../../../models/Apartment";
 import Offer from "../../../../models/Offers";
 
 /**
- * Handles HTTP requests to the /api/offer/getoffersreceived/userid endpoint.
+ * Handles HTTP requests to the /api/offer/getoffersreceived/sellerid endpoint.
  * Supports the following operations:
- * - GET /api/offer/getoffersreceived/[userid]: Retrieves the offer made by a user.
+ * - GET /api/offer/getoffersreceived/[sellerid]: Retrieves the offer a seller has received from different users.
  *
  */
+
 export default async function handler(req, res) {
   await dbConnect();
   // console.log(Apartment);
-  const { userid } = req.query;
+  const { sellerid } = req.query;
 
   if (req.method === "GET") {
     try {
-      const offersForUser = await Offer.find({ userId: userid });
+      const offersForUser = await Offer.find({ sellerId: sellerid });
 
       res.status(200).json({
         message: "Gotten the user offers successfully",
