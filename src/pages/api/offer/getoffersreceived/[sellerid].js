@@ -16,11 +16,12 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const offersForUser = await Offer.find({ sellerId: sellerid });
+      const offersrUserreceived = await Offer.find({ sellerId: sellerid });
 
       res.status(200).json({
-        message: "Gotten the user offers successfully",
-        offers: offersForUser,
+        message:
+          "Gotten the offers this user has received from all property he/she listed",
+        offers: offersrUserreceived,
       });
     } catch (error) {
       console.error(error);

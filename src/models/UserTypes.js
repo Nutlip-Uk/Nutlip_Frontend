@@ -20,15 +20,15 @@ const userTypeSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    //required: true,
   },
   permissions: {
     type: [String],
-    required: true,
+    // required: true,
   },
   features: {
     type: [String],
-    required: true,
+    // required: true,
   },
 });
 
