@@ -1,3 +1,4 @@
+import UserType from "../../../../models/UserTypes";
 import dbConnect from "../../../libs/dbconnect";
 import OfferTransaction from "../../../models/Transaction";
 import transactionContents from "../../../models/TransactionContent";
@@ -12,51 +13,26 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
-      const tx = await OfferTransaction.findOne({
-        _id: transactionId,
-      });
-
-      const user = await User.findOne({ _id: userid });
-      if (!user) {
-        res.status(400).json({
-          message: "User doesnt exist",
-        });
-        return;
-      }
-
-      if (tx.transactionCurrentStage != 3) {
-        res.status(400).json({
-          message: "Seller convenyancer already added",
-        });
-        return;
-      }
-
-      Promise.all([
-        await transactionContents.updateOne(
-          {
-            transaction_id: transactionId,
+      const conveyancers = await UserType.aggregate([
+        { $match: { type: "Conveyancer" } },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "conveyancers",
           },
-          {
-            $set: {
-              convenyancer_seller: userid,
-              convenyancer_seller_date: Date.now(),
-            },
-          }
-        ),
-        await OfferTransaction.updateOne(
-          {
-            _id: transactionId,
+        },
+        {
+          $project: {
+            "$conveyancers.password": 0,
           },
-          {
-            $set: {
-              transactionCurrentStage: 4,
-            },
-          }
-        ),
+        },
       ]);
 
       return res.status(200).json({
-        message: "successfully added seller conveyancer",
+        message: "successfully gotten all conveyancers",
+        conveyancers: conveyancers,
       });
     } catch (error) {
       console.error(error);
