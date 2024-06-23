@@ -3,23 +3,23 @@ import Apartment from "../../../../models/Apartment";
 import Offer from "../../../../models/Offers";
 
 /**
- * Handles HTTP requests to the /api/offer/userid endpoint.
+ * Handles HTTP requests to the /api/offer/getpropertyoffers/apartmentid endpoint.
  * Supports the following operations:
- * - GET /api/offer/getuseroffers/[userid]: Retrieves the offer made by a user.
+ * - GET /api/offer/getpropertyoffers/[apartmentid]: Retrieves the offers that belongs to a property.
  *
  */
 export default async function handler(req, res) {
   await dbConnect();
   // console.log(Apartment);
-  const { userid } = req.query;
+  const { apartmentid } = req.query;
 
   if (req.method === "GET") {
     try {
-      const offersForUser = await Offer.find({ userId: userid });
+      const offersForProperty = await Offer.find({ apartmentId: apartmentid });
 
       res.status(200).json({
-        message: "Gotten the user offers successfully",
-        offers: offersForUser,
+        message: "Gotten the offers that belongs to a property",
+        offers: offersForProperty,
       });
     } catch (error) {
       console.error(error);
