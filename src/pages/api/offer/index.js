@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       const {
         offerPrice,
         apartmentId,
+        sellerId,
         userId,
         FullName,
         Address,
@@ -37,6 +38,7 @@ export default async function handler(req, res) {
       const newAddedData = new Offer({
         offerPrice,
         apartmentId,
+        sellerId,
         userId,
         FullName,
         Address,

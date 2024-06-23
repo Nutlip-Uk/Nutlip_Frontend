@@ -6,6 +6,10 @@ const offerSchema = new mongoose.Schema({
     required: true,
     ref: "Apartments",
   },
+  sellerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   date: { type: Date, required: true, default: Date.now },
   userId: {
     type: mongoose.Schema.Types.ObjectId,

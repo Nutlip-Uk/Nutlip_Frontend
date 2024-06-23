@@ -3,9 +3,9 @@ import Apartment from "../../../../models/Apartment";
 import Offer from "../../../../models/Offers";
 
 /**
- * Handles HTTP requests to the /api/offer/userid endpoint.
+ * Handles HTTP requests to the /api/offer/getofferssent/userid endpoint.
  * Supports the following operations:
- * - GET /api/offer/getuseroffers/[userid]: Retrieves the offer made by a user.
+ * - GET /api/offer/getofferssent/[userid]: Retrieves the offers made by a user.
  *
  */
 export default async function handler(req, res) {

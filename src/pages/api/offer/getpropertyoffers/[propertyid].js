@@ -5,7 +5,7 @@ import Offer from "../../../../models/Offers";
 /**
  * Handles HTTP requests to the /api/offer/getpropertyoffers/apartmentid endpoint.
  * Supports the following operations:
- * - GET /api/offer/getpropertyoffers/[apartmentid]: Retrieves the offers for a property.
+ * - GET /api/offer/getpropertyoffers/[apartmentid]: Retrieves the offers that belongs to a property.
  *
  */
 export default async function handler(req, res) {
