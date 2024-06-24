@@ -4,9 +4,6 @@ import Offer from "../../../../models/Offers";
 import OfferTransaction from "../../../../models/Transaction";
 import transactionContents from "../../../../models/TransactionContent";
 
-// get offer belonging to a user
-// delete offer belonging to user
-
 export default async function handler(req, res) {
   await dbConnect();
   if (req.method === "PUT") {
@@ -14,6 +11,7 @@ export default async function handler(req, res) {
       const { slug } = req.query;
       const { status } = req.body;
 
+      console.log(slug);
       // 0 = property Id, 1 = offer id, 2 = userId
 
       if (status == "accepted") {
@@ -51,13 +49,6 @@ export default async function handler(req, res) {
             {
               $set: {
                 transaction_id: tx._id,
-              },
-            }
-          ),
-          Apartment.updateOne(
-            { _id: slug[0] },
-            {
-              $set: {
                 isAccepted: true,
               },
             }
@@ -71,7 +62,7 @@ export default async function handler(req, res) {
           {
             $set: {
               status: status,
-              offerCheckedDate: new Date.now(),
+              offerCheckedDate: Date.now(),
             },
           }
         ),
@@ -81,11 +72,11 @@ export default async function handler(req, res) {
       });
 
       res.status(200).json({
-        message: `Success - ${status}`,
+        message: `Successfully set status to - ${status}`,
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error getting user offers" });
+      return res.status(400).json({ message: "Error changing status" });
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });
