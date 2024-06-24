@@ -21,7 +21,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const {
-        offerPrice,
         apartmentId,
         sellerId,
         userId,
@@ -36,7 +35,6 @@ export default async function handler(req, res) {
       } = req.body;
 
       const newAddedData = new Offer({
-        offerPrice,
         apartmentId,
         sellerId,
         userId,
