@@ -6,6 +6,7 @@
   justify-content: center;
 }
 
+
 .container {
   color: #000000;
   display: flex;
@@ -14,7 +15,6 @@
   height: auto;
   padding: 60px 0;
   width: 90%;
-  gap: 40px;
   background: #e8efff;
   border-radius: 20px;
   -webkit-border-radius: 20px;
@@ -23,45 +23,56 @@
   -o-border-radius: 20px;
   overflow: hidden;
 }
+ 
+.mainContainer{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:90%;
+  
+}
 
 .MainText {
   width: 50%;
   height: auto;
+  
 }
 
 .textContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-wrap:wrap;
 }
 
 .textContainer p span {
   color: red;
+  text-wrap:wrap;
 }
 .MainText p:nth-child(1) {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 600;
-  line-height: 54px;
+  line-height: unset;
   letter-spacing: 0em;
-  text-align: left;
+  text-wrap:wrap;
   color: #0d263b;
-  width: 85%;
+  width: 80%;
   margin: 0;
 }
 
 .MainText p:nth-child(2) {
   font-size: 16px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: unset;
   letter-spacing: 0em;
   text-align: left;
   color: black;
-  width: 80%;
+  width: 85%;
   margin: 0;
 }
 
 .Video {
-  width: 40%;
+  width: 42%;
   height: 341px;
   border-radius: 20px;
   -webkit-border-radius: 20px;
@@ -71,15 +82,16 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+ 
 }
 
 .VideoTag {
   height: 100%;
   width: 100%;
-  border: 1px solid black;
+  
 }
 
-@media (width <= 400px) {
+@media (width <= 405px) {
   .container {
     padding: 25px 10px;
     width: 100%;
@@ -94,6 +106,16 @@
     -ms-border-radius: unset;
     -o-border-radius: unset;
   }
+
+  .mainContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    width:90%;
+    gap:24px;
+  }
+  
   .MainText {
     width: 100%;
     height: auto;
@@ -104,14 +126,14 @@
   }
 
   .textContainer {
-    display: grid;
-    width: 95%;
+    display: flex;
+    width: 100%;
   }
   .MainText p:nth-child(1) {
     font-size: 24px;
     font-weight: 600;
-    line-height: 40px;
-    letter-spacing: 0em;
+    line-height: unset;
+    letter-spacing: unset;
     text-align: left;
     color: #141212;
     width: 100%;
@@ -122,11 +144,11 @@
     font-weight: 400;
 
     color: black;
-    width: 98%;
+    width: 100%;
   }
 
   .Video {
-    width: 95%;
+    width: 100%;
     height: 254px;
     border-radius: 8px;
     -webkit-border-radius: 8px;
@@ -137,7 +159,7 @@
   }
 }
 
-@media (400px <= width <=779px) {
+@media (405px <= width <=520px) {
   .container {
     padding: 20px 10px;
     width: 100%;
@@ -151,6 +173,14 @@
     -ms-border-radius: unset;
     -o-border-radius: unset;
   }
+  .mainContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    width:90%;
+    gap:24px;
+  }
   .MainText {
     width: 100%;
     height: auto;
@@ -162,31 +192,31 @@
 
   .textContainer {
     display: grid;
-    width: 95%;
+    width: 100%;
     height: auto;
   }
   .MainText p:nth-child(1) {
     font-size: 26px;
     font-weight: 600;
-    line-height: 40px;
+    line-height: unset;
     letter-spacing: 0em;
     text-align: left;
     color: #141212;
-    width: 95%;
+    width: 100%;
   }
 
   .MainText p:nth-child(2) {
     font-size: 16px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: unset;
     letter-spacing: 0em;
     text-align: left;
     color: black;
-    width: 98%;
+    width: 100%;
   }
 
   .Video {
-    width: 95%;
+    width: 100%;
     height: 254px;
     border-radius: 8px;
     -webkit-border-radius: 8px;
@@ -197,40 +227,116 @@
   }
 }
 
-@media (780px <= width <= 960px) {
+@media (520px <= width <=700px) {
   .container {
-    padding: 30px 20px;
-    width: 100%;
-    gap: 10px;
+    padding: 20px 10px;
+    width: 90%;
+    gap: 36px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+  .mainContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    width:90%;
+    gap:24px;
   }
   .MainText {
-    width: 50%;
+    width: 100%;
+    height: auto;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .textContainer {
+    display: grid;
+    width: 100%;
     height: auto;
   }
   .MainText p:nth-child(1) {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 600;
-    line-height: 40px;
+    line-height: unset;
     letter-spacing: 0em;
     text-align: left;
     color: #141212;
-    width: 85%;
+    width: 100%;
   }
 
   .MainText p:nth-child(2) {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: unset;
     letter-spacing: 0em;
     text-align: left;
-
     color: black;
-    width: 90%;
+    width: 100%;
   }
 
   .Video {
-    width: 50%;
+    width: 100%;
     height: 254px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    overflow: hidden;
+  }
+}
+
+@media (700px <= width <= 1000px) {
+  .container {
+    padding: 30px 20px;
+    width: 90%;
+    gap: 10px;
+  }
+
+  .mainContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    width:80%;
+    gap:24px;
+  }
+  .MainText {
+    width: 100%;
+    height: auto;
+  }
+  .MainText p:nth-child(1) {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: unset;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #141212;
+    width: 95%;
+  }
+
+  .MainText p:nth-child(2) {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: unset;
+    letter-spacing: 0em;
+    text-align: left;
+    color: black;
+    width: 100%;
+  }
+
+  .Video {
+    width: 100%;
+    height: 354px;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -246,4 +352,20 @@
     width: 100%;
     border: 1px solid black;
   }
+}
+
+@media (1000px <= width <= 1300px) {
+  .mainContainer{
+    gap:24px;
+  }
+  .MainText p:nth-child(1) {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: unset;
+    letter-spacing: 0em;
+    text-wrap:pretty;
+    color: #141212;
+    width: 100%;
+  }
+
 }

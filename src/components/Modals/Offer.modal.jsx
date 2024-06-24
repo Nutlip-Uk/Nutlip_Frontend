@@ -33,7 +33,8 @@ const OfferModal = (props) => {
     }
   }, []);
     const [form, setForm] = useState({
-      apartmentId:props.data._id,
+      apartmentId:props?.data._id,
+      sellerId:props?.data.userId,
       userId: "",
         FullName:"",
         Address:"",
@@ -170,21 +171,25 @@ const Offer = ({ change, form, handleChange, data }) => {
    
     event.preventDefault();
     console.log(form)
-    const response = await fetch('/api/offer', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-
-    if (response.ok) {
-      const responseData = await response.json(); 
-      console.log("Response from API:", responseData);
-      change();
-    } else {
-      console.error("API response was not ok", response);
-      console.log(response.json());
-    }
-
+    try{
+      const response = await fetch('/api/offer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+  
+      if (response.ok) {
+        const responseData = await response.json(); 
+        console.log("Response from API:", responseData);
+        change();
+      } else {
+        console.error("API response was not ok", response);
+        console.log(response.json());
+      }
+  
+    }catch(error){
+      console.error("Error occurred:", error);
+    } 
     
   };
 

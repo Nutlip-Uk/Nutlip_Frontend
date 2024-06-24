@@ -86,7 +86,7 @@ const Listing = () => {
 
           />
         )}
-        {count.current === 2 && <ListingDetail next={next} back={back} apartment={selectedApartment}/>}
+        {count.current === 2 && <ListingDetail next={next} back={back} apartment={selectedApartment} />}
       </div>
     </>
   );
@@ -100,26 +100,23 @@ const Navigation = ({ handleChange, type }) => {
       <div className={styles.NavContainer}>
         <div className={styles.selection}>
           <p
-            className={`${
-              type === "allListing" ? styles.selected : styles.unselected
-            }`}
+            className={`${type === "allListing" ? styles.selected : styles.unselected
+              }`}
             onClick={() => handleChange("allListing")}
           >
             All listings
           </p>
           <p
-            className={`${
-              type === "recentlyAdded" ? styles.selected : styles.unselected
-            }`}
+            className={`${type === "recentlyAdded" ? styles.selected : styles.unselected
+              }`}
             onClick={() => handleChange("recentlyAdded")}
           >
             Recently added
           </p>
 
           <p
-            className={`${
-              type === "featured" ? styles.selected : styles.unselected
-            }`}
+            className={`${type === "featured" ? styles.selected : styles.unselected
+              }`}
             onClick={() => handleChange("featured")}
           >
             Featured
@@ -134,7 +131,7 @@ const Navigation = ({ handleChange, type }) => {
   );
 };
 
-const ListProperty = ({ next, handleChange, type, userId, apartments ,setSelectedApartment}) => {
+const ListProperty = ({ next, handleChange, type, userId, apartments, setSelectedApartment }) => {
 
   const handlePropertyClick = (apartment) => {
     setSelectedApartment(apartment);
@@ -146,11 +143,12 @@ const ListProperty = ({ next, handleChange, type, userId, apartments ,setSelecte
     <>
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
-        {apartments.map((apartment) => (
-      <div key={apartment?._id} className={styles.propertyContainer}>
-        <input type="checkbox" />
+      <div className={styles.propertyListing}>
+      {apartments.map((apartment) => (
+        <div key={apartment?._id} className={styles.propertyContainer}>
+          <input type="checkbox" />
 
-          <div  className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
+          <div className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
             <div className={styles.PropertyImg}>
               <img src={apartment?.images[0]} />
 
@@ -159,23 +157,23 @@ const ListProperty = ({ next, handleChange, type, userId, apartments ,setSelecte
                 <p>{apartment?.location}</p>
 
                 <div className={styles.propertySize}>
-                          <li>
-                            <img src="/bedroom.svg" alt="" />
-                            <p>{apartment?.bedrooms}</p>
-                          </li>
-                          <li>
-                            <img src="/bathtub.svg" alt="" />
-                            <p>{apartment?.bathrooms}</p>
-                          </li>
-                          <li>
-                            <img src="/chair.svg" alt="" />
-                            <p>{apartment?.livingroom}</p>
-                          </li>
-                          <li>
-                          <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
-                            <p>{apartment?.Toilets}</p>
-                          </li>
-                        </div>
+                  <li>
+                    <img src="/bedroom.svg" alt="" />
+                    <p>{apartment?.bedrooms}</p>
+                  </li>
+                  <li>
+                    <img src="/bathtub.svg" alt="" />
+                    <p>{apartment?.bathrooms}</p>
+                  </li>
+                  <li>
+                    <img src="/chair.svg" alt="" />
+                    <p>{apartment?.LivingRoom}</p>
+                  </li>
+                  <li>
+                    <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
+                    <p>{apartment?.Toilets}</p>
+                  </li>
+                </div>
 
                 {apartment.date_created && (
                   <p>
@@ -189,20 +187,21 @@ const ListProperty = ({ next, handleChange, type, userId, apartments ,setSelecte
             <hr />
 
             <div className={styles.PropertyInfo}>
-              <p>Listing ID: {apartment._id}</p>
+              <p>Listing ID: {apartment._id.slice(0, 5)}</p>
               <p>£ {apartment.Amount}</p>
               <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
               <p>View property</p>
             </div>
           </div>
+        </div>
+      ))}
       </div>
-        ))}
     </>
   );
 };
 
 
-const ListingDetail = ({ next, back, handleChange,apartment}) => {
+const ListingDetail = ({ next, back, handleChange, apartment }) => {
 
   if (!apartment) {
     return <div>No property selected.</div>;
@@ -288,7 +287,7 @@ const ListingDetail = ({ next, back, handleChange,apartment}) => {
               <div className={styles.ListingDetailInfoBox}>
                 <div className={styles.ListingDetailPriceContainer}>
                   <p>£ {apartment?.Amount}</p>
-                  <p>Listing ID: {apartment?._id.slice(0,8)}</p>
+                  <p>Listing ID: {apartment?._id.slice(0, 4)}</p>
                 </div>
                 <hr />
                 <div className={styles.ListingDetailStatus}>
@@ -323,7 +322,7 @@ const ListingDetail = ({ next, back, handleChange,apartment}) => {
                   </div>
 
                   <p className={styles.ListingDetailStatusAvailable}>
-                  <p>Status: {apartment?.isSold ? "Unavailable" : "Available"}</p>
+                    <p>Status: {apartment?.isSold ? "Unavailable" : "Available"}</p>
                   </p>
                 </div>
               </div>
@@ -346,7 +345,7 @@ const ListingDetail = ({ next, back, handleChange,apartment}) => {
                   <p>Key features</p>
 
                   <li>{apartment.Add_features}</li>
-                 
+
                 </div>
 
                 <div className="">
