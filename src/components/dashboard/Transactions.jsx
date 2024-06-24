@@ -6,6 +6,13 @@ const Transactions = () => {
   const data = router.query;
 
   const [type, setType] = useState("transaction");
+  const [apartments, setApartments] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [selectedApartmentId, setSelectedApartmentId] = useState(null);
+  const [selectedApartmentAmount, setSelectedApartmentAmount] = useState(null);
+  const [offers, setOffers] = useState([]);
+
+
 
   let allListing = "allListing";
   let recentlyAdded = "recentlyAdded";
@@ -32,6 +39,81 @@ const Transactions = () => {
     }
   };
 
+
+  useEffect(() => {
+    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
+    console.log("userInformation:", userInformation);
+
+    if (userInformation && userInformation.user) {
+      const userId = userInformation.user.id;
+      setUserId(userId);
+      console.log("userId:", userId);
+
+      const fetchApartmentsData = async () => {
+        try {
+          const response = await fetch(`/api/apartments/${userId}`);
+          const data = await response.json();
+          setApartments(data);
+          console.log("Apartment data", data);
+        } catch (error) {
+          console.error("Error fetching apartments:", error);
+        }
+      };
+
+      const fetchOffersReceived = async () => {
+        try {
+          const response = await fetch(`/api/offer/getoffersreceived/${userId}`);
+          const data = await response.json();
+          setOffers(data);
+          console.log("offers received:", data);
+        } catch (error) {
+          console.error("Error fetching offers:", error);
+        }
+      }
+
+      const fetchOfferSent = async () => {
+        try {
+          const response = await fetch(`/api/offer/getofferssent/${userId}`);
+          const data = await response.json();
+          setOffers(data);
+          console.log("offers Sent:", data);
+        } catch (error) {
+          console.error("Error fetching offers:", error);
+        }
+     
+      }
+      
+      fetchOffersReceived();
+      fetchApartmentsData();
+      fetchOfferSent();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("selectedApartmentId:", selectedApartmentId);
+    
+    if (selectedApartmentId) {
+      const fetchPropertyOffers = async () => {
+        try {
+          const response = await fetch(`/api/offer/getpropertyoffers/${selectedApartmentId}`);
+          const data = await response.json();
+          setOffers(data.offers);
+          console.log("Property offers:", data.offers);
+        } catch (error) {
+          console.error("Error fetching offers:", error);
+        }
+      };
+
+      fetchPropertyOffers();
+    }
+  }, [selectedApartmentId]);
+
+  const handleViewOffers = (apartmentId, apartmentAmount) => {
+    setSelectedApartmentId(apartmentId);
+    setSelectedApartmentAmount(apartmentAmount);
+    handleChange("viewOffers"); 
+  };
+
   return (
     <>
       <div className={styles.Section}>
@@ -41,9 +123,23 @@ const Transactions = () => {
         {type === "offers" && <Offers handleChange={handleChange} />}
         {type === "ongoing" && <Ongoing />}
         {type === "offerReceived" && (
-          <OfferReceived handleChange={handleChange} />
+          <OfferReceived
+            handleViewOffers={handleViewOffers}
+            selectedApartmentId={selectedApartmentId}
+            apartments={apartments}
+            userId={userId}
+            handleChange={handleChange}
+          />
         )}
-        {type === "viewOffers" && <ViewOffers handleChange={handleChange} />}
+        {type === "viewOffers" && (
+          <ViewOffers
+            userId={userId}
+            offers={offers}
+            selectedApartmentId={selectedApartmentId}
+            selectedApartmentAmount={selectedApartmentAmount}
+            handleChange={handleChange}
+          />
+        )}
       </div>
     </>
   );
@@ -58,7 +154,7 @@ const MainTransaction = ({ handleChange }) => {
         <h1 className={styles.Header}>Transaction</h1>
 
         <div className={styles.search}>
-          <input type="text" placeHolder="search property" />
+          <input type="text" placeholder="search property" />
           <img src="/navbar/search.svg" />
         </div>
       </div>
@@ -90,7 +186,7 @@ const MainTransaction = ({ handleChange }) => {
 };
 
 const Offers = ({ handleChange }) => {
- 
+
 
   return (
     <>
@@ -103,7 +199,7 @@ const Offers = ({ handleChange }) => {
         </h1>
 
         <div className={styles.search}>
-          <input type="text" placeHolder="search property" />
+          <input type="text" placeholder="search property" />
           <img src="/navbar/search.svg" />
         </div>
       </div>
@@ -137,34 +233,8 @@ const Offers = ({ handleChange }) => {
   );
 };
 
-const OfferReceived = ({ handleChange }) => {
+const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, selectedApartmentId }) => {
 
-  const [apartments, setApartments] = useState([]);
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
-    console.log("userInformation:", userInformation);
-
-    if (userInformation && userInformation.user) {
-      const userId = userInformation.user.id;
-      setUserId(userId);
-      console.log("userId:", userId);
-
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`/api/apartments/${userId}`);
-          const data = await response.json();
-          setApartments(data);
-          console.log(data)
-        } catch (error) {
-          console.error("Error fetching offers:", error);
-        }
-      };
-
-      fetchData();
-    }
-  }, []);
 
 
 
@@ -176,74 +246,70 @@ const OfferReceived = ({ handleChange }) => {
         </h1>
 
         <div className={styles.search}>
-          <input type="text" placeHolder="search property" />
+          <input type="text" placeholder="search property" />
           <img src="/navbar/search.svg" />
         </div>
       </div>
 
-        <div className={styles.propertyList}>
+      <div className={styles.propertyList}>
         {apartments.map((apartment) => (
-      <div key={apartment?._id} className={styles.propertyContainer}>
-          <div className={styles.Property}>
-            <div className={styles.PropertyImg}>
-              <img src={apartment?.images[0]} alt={apartment?.Title} />
+          <div key={apartment?._id} className={styles.propertyContainer}>
+            <div className={styles.Property}>
+              <div className={styles.PropertyImg}>
+                <img src={apartment?.images[0]} alt={apartment?.Title} />
 
-              <div className={styles.propertyText}>
-                <p>{apartment?.Title || "Title N/A"}</p>
-                <p>{apartment?.address || "Address N/A"}</p>
+                <div className={styles.propertyText}>
+                  <p>{apartment?.Title || "Title N/A"}</p>
+                  <p>{apartment?.address || "Address N/A"}</p>
 
-                <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+                  <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+                </div>
               </div>
+
+              <hr />
+
+              <div className={styles.PropertyInfo}>
+                <p> Listing ID: {apartment._id ? apartment?._id.slice(-6) : ' N/A' }</p>
+                <p>{`£ ${apartment?.Amount}`}</p>
+                <p>{`Status: ${apartment.status || "Available"}`}</p>
+              </div>
+
+              <hr />
+
+              <button className={styles.viewOffer} onClick={() => handleViewOffers(apartment._id,apartment.Amount)}>
+                <p>View offers</p>
+              </button>
             </div>
-
-            <hr />
-
-            <div className={styles.PropertyInfo}>
-              <p>{apartment._id ? `Listing ID: ${apartment?._id.slice(4)}` : 'Listing ID: N/A'}</p>
-              <p>{`£ ${apartment?.Amount}`}</p>
-              <p>{`Status: ${apartment.status || "Available"}`}</p>
-            </div>
-
-            <hr />
-
           </div>
-      </div>
         ))}
-            <button className={styles.viewOffer} onClick={() => handleChange("viewOffers")}>
-              <p>View offers</p>
-            </button>
-        </div>
+      </div>
     </>
   );
 };
-const ViewOffers = ({ handleChange }) => {
+const ViewOffers = ({ handleChange, offers=[],selectedApartmentAmount  }) => {
+  const [offerStatuses, setOfferStatuses] = useState({});
 
-  const [offers, setOffers] = useState([]);
-  const [userId, setUserId] = useState(null);
+  const handleButtonClick = (index, status) => {
+    setOfferStatuses(prevStatuses => ({
+      ...prevStatuses,
+      [index]: status
+    }));
+  };
 
-  useEffect(() => {
-    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
-    console.log("userInformation:", userInformation);
+  const validStatuses = ['accepted', 'on hold', 'declined'];
 
-    if (userInformation && userInformation.user) {
-      const userId = userInformation.user.id;
-      setUserId(userId);
-      console.log("userId:", userId);
-
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`/api/offer/getuseroffers/${userId}`);
-          const data = await response.json();
-          setOffers(data.offers);
-          console.log(data.offers)
-        } catch (error) {
-          console.error("Error fetching offers:", error);
-        }
-      };
-
-      fetchData();
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case 'accepted':
+        return { color: 'green' };
+      case 'declined':
+        return { color: 'red' };
+      case 'on hold':
+        return { color: 'blue' };
+      default:
+        return {};
     }
-  }, []);
+  };
 
   return (
     <>
@@ -256,46 +322,61 @@ const ViewOffers = ({ handleChange }) => {
         </h1>
 
         <div className={styles.search}>
-          <input type="text" placeHolder="search property" />
-          <img src="/navbar/search.svg" />
+          <input type="text" placeholder="search property" />
+          <img src="/navbar/search.svg" alt="search" />
         </div>
       </div>
 
+       <div className={styles.viewOfferListing}>
+       {Array.isArray(offers) && offers.map((offer, index) => (
       <div className={styles.viewOfferContainer}>
-        <div className={styles.Property}>
-          <div className={styles.actualPrice}>
-            <p>Actual price</p>
-            <p>£706,000</p>
+          <div key={index} className={styles.Offer}>
+            <div className={styles.actualPrice}>
+              <p>Actual price</p>
+              <p>{`£${selectedApartmentAmount }`}</p>
+            </div>
+
+            <hr />
+
+            <div className={styles.offered}>
+              <p>Offer</p>
+              <p>{`£${offer.PriceOffer}`}</p>
+              <p>Offer Detail</p>
+              <p>{offer.detail}</p>
+            </div>
+
+            <hr />
+
+            <div className={styles.offerContact}>
+              <img src="/dashboard/call.svg" alt="call" />
+              <img src="/dashboard/whatsapp.svg" alt="whatsapp" />
+              <img src="/dashboard/message.svg" alt="message" />
+            </div>
+
+            <hr />
+
+            <div className={styles.decision}>
+                {validStatuses.includes(offerStatuses[index]) ? (
+                  <p style={getStatusStyle(offerStatuses[index])}>
+                    {`Offer ${offerStatuses[index]}`}
+                  </p>
+                ) : (
+                  <>
+                    <button onClick={() => handleButtonClick(index, 'accepted')}>Accept</button>
+                    <button onClick={() => handleButtonClick(index, 'on hold')}>Hold</button>
+                    <button onClick={() => handleButtonClick(index, 'declined')}>Decline</button>
+                  </>
+                )}
+              </div>
           </div>
-
-          <hr />
-
-          <div className={styles.offered}>
-            <p>Offer</p>
-            <p>£806,000</p>
-            <p>Offer Detail</p>
-          </div>
-
-          <hr />
-
-          <div className={styles.offerContact}>
-            <img src="/dashboard/call.svg" />
-            <img src="/dashboard/whatsapp.svg" />
-            <img src="/dashboard/message.svg" />
-          </div>
-
-          <hr />
-
-          <div className={styles.decision}>
-            <button>Accept</button>
-            <button>Hold</button>
-            <button>Decline</button>
-          </div>
-        </div>
-      </div>
+      </div> 
+        ))}
+       </div>
     </>
   );
 };
+
+
 const Ongoing = () => {
   return (
     <>
