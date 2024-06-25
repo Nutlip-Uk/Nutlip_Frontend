@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { RegistrationContext } from "../context/Register.context";
 import { LoginContext } from "../context/Login.context";
 // import { signOut, useSession } from 'next-auth/react'
-import { DownOutlined, SmileOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 
 const Navbar = () => {
