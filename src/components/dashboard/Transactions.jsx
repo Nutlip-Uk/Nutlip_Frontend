@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../../styles/dashboard/transaction.module.css";
+
 const Transactions = () => {
   const router = useRouter();
   const data = router.query;
@@ -10,97 +11,68 @@ const Transactions = () => {
   const [userId, setUserId] = useState(null);
   const [selectedApartmentId, setSelectedApartmentId] = useState(null);
   const [selectedApartmentAmount, setSelectedApartmentAmount] = useState(null);
-  const [offers, setOffers] = useState([]);
-
-
-
-  let allListing = "allListing";
-  let recentlyAdded = "recentlyAdded";
-  let featured = "featured";
+  const [offersReceived, setOffersReceived] = useState([]);
+  const [propertyOffers, setPropertyOffers] = useState([]);
+  const [sentOffers, setSentOffers] = useState([]);
+  const count = useRef(1);
+  const [update, setUpdate] = useState(false);
 
   const handleChange = (newType) => {
     setType(newType);
   };
 
-  const count = useRef(1);
-  const [update, setUpdate] = useState(false);
-
   const next = () => {
     if (count.current <= 4) {
-      count.current = count.current + 1;
-      setUpdate(!update); // Trigger a re-render
+      count.current += 1;
+      setUpdate(!update);
     }
   };
 
   const back = () => {
     if (count.current > 1) {
-      count.current = count.current - 1;
+      count.current -= 1;
       setUpdate(!update);
     }
   };
 
-
   useEffect(() => {
     const userInformation = JSON.parse(localStorage.getItem("userInformation"));
-    console.log("userInformation:", userInformation);
-
     if (userInformation && userInformation.user) {
       const userId = userInformation.user.id;
       setUserId(userId);
-      console.log("userId:", userId);
 
-      const fetchApartmentsData = async () => {
+      const fetchData = async () => {
         try {
-          const response = await fetch(`/api/apartments/${userId}`);
-          const data = await response.json();
-          setApartments(data);
-          console.log("Apartment data", data);
+          const apartmentsResponse = await fetch(`/api/apartments/${userId}`);
+          const apartmentsData = await apartmentsResponse.json();
+          setApartments(apartmentsData);
+
+          const offersReceivedResponse = await fetch(`/api/offer/getoffersreceived/${userId}`);
+          const offersReceivedData = await offersReceivedResponse.json();
+          setOffersReceived(offersReceivedData);
+
+          const offersSentResponse = await fetch(`/api/offer/getofferssent/${userId}`);
+          const offersSentData = await offersSentResponse.json();
+          setSentOffers(offersSentData);
         } catch (error) {
-          console.error("Error fetching apartments:", error);
+          console.error("Error fetching data:", error);
         }
       };
 
-      const fetchOffersReceived = async () => {
-        try {
-          const response = await fetch(`/api/offer/getoffersreceived/${userId}`);
-          const data = await response.json();
-          setOffers(data);
-          console.log("offers received:", data);
-        } catch (error) {
-          console.error("Error fetching offers:", error);
-        }
-      }
-
-      const fetchOfferSent = async () => {
-        try {
-          const response = await fetch(`/api/offer/getofferssent/${userId}`);
-          const data = await response.json();
-          setOffers(data);
-          console.log("offers Sent:", data);
-        } catch (error) {
-          console.error("Error fetching offers:", error);
-        }
-     
-      }
-      
-      fetchOffersReceived();
-      fetchApartmentsData();
-      fetchOfferSent();
+      fetchData();
     }
   }, []);
 
   useEffect(() => {
-    console.log("selectedApartmentId:", selectedApartmentId);
-    
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
         try {
           const response = await fetch(`/api/offer/getpropertyoffers/${selectedApartmentId}`);
           const data = await response.json();
-          setOffers(data.offers);
-          console.log("Property offers:", data.offers);
+          setPropertyOffers(data.offers);
+          console.log("propertyOffers:", data.offers);
         } catch (error) {
-          console.error("Error fetching offers:", error);
+          console.error("Error fetching property offers:", error);
         }
       };
 
@@ -111,41 +83,38 @@ const Transactions = () => {
   const handleViewOffers = (apartmentId, apartmentAmount) => {
     setSelectedApartmentId(apartmentId);
     setSelectedApartmentAmount(apartmentAmount);
-    handleChange("viewOffers"); 
+    handleChange("viewOffers");
   };
 
   return (
-    <>
-      <div className={styles.Section}>
-        {type === "transaction" && (
-          <MainTransaction handleChange={handleChange} />
-        )}
-        {type === "offers" && <Offers handleChange={handleChange} />}
-        {type === "ongoing" && <Ongoing />}
-        {type === "offerReceived" && (
-          <OfferReceived
-            handleViewOffers={handleViewOffers}
-            selectedApartmentId={selectedApartmentId}
-            apartments={apartments}
-            userId={userId}
-            handleChange={handleChange}
-          />
-        )}
-        {type === "viewOffers" && (
-          <ViewOffers
-            userId={userId}
-            offers={offers}
-            selectedApartmentId={selectedApartmentId}
-            selectedApartmentAmount={selectedApartmentAmount}
-            handleChange={handleChange}
-          />
-        )}
-      </div>
-    </>
+    <div className={styles.Section}>
+      {type === "transaction" && <MainTransaction handleChange={handleChange} />}
+      {type === "offers" && <Offers handleChange={handleChange} />}
+      {type === "ongoing" && <Ongoing />}
+      {type === "offerReceived" && (
+        <OfferReceived
+          handleViewOffers={handleViewOffers}
+          apartments={apartments}
+          userId={userId}
+          handleChange={handleChange}
+        />
+      )}
+      {type === "viewOffers" && (
+        <ViewOffers
+          userId={userId}
+          selectedApartmentId={selectedApartmentId}
+          selectedApartmentAmount={selectedApartmentAmount}
+          handleChange={handleChange}
+          propertyOffers={propertyOffers}
+
+        />
+      )}
+    </div>
   );
 };
 
 export default Transactions;
+
 
 const MainTransaction = ({ handleChange }) => {
   return (
@@ -269,14 +238,14 @@ const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, sel
               <hr />
 
               <div className={styles.PropertyInfo}>
-                <p> Listing ID: {apartment._id ? apartment?._id.slice(-6) : ' N/A' }</p>
+                <p> Listing ID: {apartment._id ? apartment?._id.slice(-6) : ' N/A'}</p>
                 <p>{`£ ${apartment?.Amount}`}</p>
                 <p>{`Status: ${apartment.status || "Available"}`}</p>
               </div>
 
               <hr />
 
-              <button className={styles.viewOffer} onClick={() => handleViewOffers(apartment._id,apartment.Amount)}>
+              <button className={styles.viewOffer} onClick={() => handleViewOffers(apartment._id, apartment.Amount)}>
                 <p>View offers</p>
               </button>
             </div>
@@ -286,15 +255,29 @@ const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, sel
     </>
   );
 };
-const ViewOffers = ({ handleChange, offers=[],selectedApartmentAmount  }) => {
-  const [offerStatuses, setOfferStatuses] = useState({});
 
-  const handleButtonClick = (index, status) => {
+const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount, selectedApartmentId }) => {
+  const [offerStatuses, setOfferStatuses] = useState({});
+  const [offerAlreadyAccepted, setOfferAlreadyAccepted] = useState();
+
+  const handleButtonClick = (index, status, apartmentId, offerId, userId) => {
     setOfferStatuses(prevStatuses => ({
       ...prevStatuses,
       [index]: status
     }));
+
+    handleOffer(apartmentId, offerId, userId, status);
   };
+
+  useEffect(() => {
+    let timer;
+    if (offerAlreadyAccepted) {
+      timer = setTimeout(() => {
+        setOfferAlreadyAccepted(null);
+      }, 3000); // Hide after 3 seconds
+    }
+    return () => clearTimeout(timer);
+  }, [offerAlreadyAccepted]);
 
   const validStatuses = ['accepted', 'on hold', 'declined'];
 
@@ -311,13 +294,31 @@ const ViewOffers = ({ handleChange, offers=[],selectedApartmentAmount  }) => {
     }
   };
 
+  const handleOffer = async (apartmentId, offerId, userId, status) => {
+    console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
+    try {
+      const response = await fetch(`/api/offer/change_status/${apartmentId}/${offerId}/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+      const data = await response.json();
+      console.log("data:", data);
+
+      if (data.message === 'Property already has an accepted offer'){
+        setOfferAlreadyAccepted(data.message)
+      }
+    } catch (error) {
+      console.error("Error updating offer status:", error);
+    }
+  };
+
   return (
     <>
       <div className={styles.NavContainer}>
-        <h1
-          onClick={() => handleChange("offerReceived")}
-          className={styles.NavBack}
-        >
+        <h1 onClick={() => handleChange("offerReceived")} className={styles.NavBack}>
           {"< Back"}
         </h1>
 
@@ -327,60 +328,67 @@ const ViewOffers = ({ handleChange, offers=[],selectedApartmentAmount  }) => {
         </div>
       </div>
 
-       <div className={styles.viewOfferListing}>
-       {Array.isArray(offers) && offers.map((offer, index) => (
-      <div className={styles.viewOfferContainer}>
-          <div key={index} className={styles.Offer}>
-            <div className={styles.actualPrice}>
-              <p>Actual price</p>
-              <p>{`£${selectedApartmentAmount }`}</p>
-            </div>
+      <div className={styles.viewOfferListing}>
+      {offerAlreadyAccepted && (
+          <div className={styles.acceptedcontainer}>
+            <p className={styles.alreadyAccepted}>This {offerAlreadyAccepted}</p>
+          </div>
+        )}
+        {Array.isArray(propertyOffers) && propertyOffers.map((offer, index) => (
+          <div key={offer._id} className={styles.viewOfferContainer}>
+            <div className={styles.Offer}>
+              <div className={styles.actualPrice}>
+                <p>Actual price</p>
+                <p>{`£${selectedApartmentAmount}`}</p>
+              </div>
 
-            <hr />
+              <hr />
 
-            <div className={styles.offered}>
-              <p>Offer</p>
-              <p>{`£${offer.PriceOffer}`}</p>
-              <p>Offer Detail</p>
-              <p>{offer.detail}</p>
-            </div>
+              <div className={styles.offered}>
+                <p>Offer</p>
+                <p>{`£${offer.PriceOffer}`}</p>
+                <p>Offer Detail</p>
+                {/* <p>offer id {offer._id}</p>
+                <p>apartment id {offer.apartmentId}</p>
+                <p>user.id {offer.userId}</p> */}
+              </div>
 
-            <hr />
+              <hr />
 
-            <div className={styles.offerContact}>
-              <img src="/dashboard/call.svg" alt="call" />
-              <img src="/dashboard/whatsapp.svg" alt="whatsapp" />
-              <img src="/dashboard/message.svg" alt="message" />
-            </div>
+              <div className={styles.offerContact}>
+                <img src="/dashboard/call.svg" alt="call" />
+                <img src="/dashboard/whatsapp.svg" alt="whatsapp" />
+                <img src="/dashboard/message.svg" alt="message" />
+              </div>
 
-            <hr />
+              <hr />
 
-            <div className={styles.decision}>
-                {validStatuses.includes(offerStatuses[index]) ? (
-                  <p style={getStatusStyle(offerStatuses[index])}>
-                    {`Offer ${offerStatuses[index]}`}
+              <div className={styles.decision}>
+                {offer.status === 'accepted' || offer.status === 'on hold' || offer.status === 'declined' ? (
+                  <p style={getStatusStyle(offer.status)}>
+                    {`Offer ${offer.status}`}
                   </p>
                 ) : (
                   <>
-                    <button onClick={() => handleButtonClick(index, 'accepted')}>Accept</button>
-                    <button onClick={() => handleButtonClick(index, 'on hold')}>Hold</button>
-                    <button onClick={() => handleButtonClick(index, 'declined')}>Decline</button>
+                    <button onClick={() => handleButtonClick(index, 'accepted', offer.apartmentId, offer._id, offer.userId)}>Accept</button>
+                    <button onClick={() => handleButtonClick(index, 'on hold', offer.apartmentId, offer._id, offer.userId)}>Hold</button>
+                    <button onClick={() => handleButtonClick(index, 'declined', offer.apartmentId, offer._id, offer.userId)}>Decline</button>
                   </>
                 )}
               </div>
+            </div>
           </div>
-      </div> 
         ))}
-       </div>
+      </div>
     </>
   );
 };
 
 
-const Ongoing = () => {
-  return (
-    <>
-      <h1>Ongoing</h1>
-    </>
-  );
-};
+  const Ongoing = () => {
+    return (
+      <>
+        <h1>Ongoing</h1>
+      </>
+    );
+  };
