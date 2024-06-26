@@ -1,6 +1,5 @@
 import dbConnect from "../../../libs/dbconnect";
 import OfferTransaction from "../../../models/Transaction";
-import transactionBool from "../../../models/TransactionBool";
 import transactionContents from "../../../models/TransactionContent";
 
 // uupload proof of funds

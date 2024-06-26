@@ -1,13 +1,11 @@
 import UserType from "../../../../models/UserTypes";
-import dbConnect from "../../../libs/dbconnect";
-import OfferTransaction from "../../../models/Transaction";
-import transactionContents from "../../../models/TransactionContent";
-import User from "../../../models/User";
+import connectDB from "../../../../libs/dbconnect";
+
 
 // uupload proof of funds
 
 export default async function handler(req, res) {
-  await dbConnect();
+  await connectDB();
 
   const { transactionId, userid } = req.body;
 
