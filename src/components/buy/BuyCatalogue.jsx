@@ -37,7 +37,7 @@ function Property({property}) {
                   <div className={styles.property}>
                     <Link href={`/buy/search/${property._id}`}  className={styles.ImageContainer}>
                       <div className={styles.indications}>
-                      <p style={property.just_added === false ? {opacity: 0} : null}>{property.just_added ? "Just added ":null}</p>
+                      <p style={property.justAddedExpiration === false ? {display: "none"} : null}>{property.justAddedExpiration ? "Just added ":null}</p>
                         <FaRegHeart className={styles.heart}/>
                       </div>
 

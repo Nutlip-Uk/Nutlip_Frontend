@@ -21,7 +21,7 @@ const Footer = () => {
           <div className={styles.footerList}>
             <div id={styles.contact} className={styles.contact}>
               <h3>Contact</h3>
-              <li>
+              {/* <li>
                 <Image
                   src="/images/ic-baseline-phone.svg"
                   width={20}
@@ -29,7 +29,7 @@ const Footer = () => {
                   alt={""}
                 />
                 +33 415 65356 - 9
-              </li>
+              </li> */}
               <li>
                 <Image
                   src="/images/ic-baseline-email.svg"
@@ -46,8 +46,7 @@ const Footer = () => {
                   height={20}
                   alt={""}
                 />
-                Piccadilly Business Centre, Aldow Enterprise Park, Manchester,
-                England, M12 6AE
+                149-153 Harehills Road, Leeds, LS8 5BW, United Kingdom
               </li>
             </div>
 
@@ -77,7 +76,7 @@ const Footer = () => {
         </footer>
 
         <div className={styles.copyright}>
-          <p>Copyright @ 2023 nutlip</p>
+          <p>Copyright @ 2024 nutlip</p>
         </div>
       </div>
     </>
