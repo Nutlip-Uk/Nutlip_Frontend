@@ -63,6 +63,7 @@ export default async function handler(req, res) {
         PhoneNumber,
         MobileNumber,
         website,
+        newUser
       } = req.body;
 
       // Hash the new password if it's provided
@@ -96,6 +97,7 @@ export default async function handler(req, res) {
           PhoneNumber,
           MobileNumber,
           website,
+          newUser
         },
         { new: true, runValidators: true }
       );
