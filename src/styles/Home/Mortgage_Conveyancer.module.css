@@ -15,9 +15,8 @@
   padding: 0px 10px;
   color: #2c3a61;
   text-decoration: none;
-  border: solid 1px transparent;
+  border: solid 1px #000000;
   border-radius: 8px;
-  background: #f4f7ff;
 }
 
 .inputContainer input{
@@ -26,15 +25,13 @@
     border: none;
     outline: none;
     font-size: 16px;
-    background-color: transparent
-    ;
 }
 
 
 .SelectContainer {
-  border: 1px solid #D0D5DD;
+  border: solid 1px #000000;
   border-radius: 8px;
-  width: 23%;
+  width: 15%;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -54,8 +51,6 @@
 .searchButton {
   height: 50px;
   width: 7%;
-  min-width: fit-content;
-  padding: 0 10px;
   background-color: #da0025;
   border: none;
   color: white;
