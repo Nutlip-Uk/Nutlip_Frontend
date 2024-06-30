@@ -13,11 +13,40 @@ const router = useRouter();
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
-
     return response; // Return the response object for further processing (optional)
+    GetUser();
+  };
+  const GetUser = async () => {
+    const response = await fetch(`/api/user/${userInformation.user.id}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },})
+    const data = await response.json();
+    console.log("handleWelcome data:", data);
+  
+    if(response.ok){
+      console.log(data.newUser);
+      console.log(data)
+    }
+    return response; 
   };
 
 
+  const handleWelcome = async () => {
+    const response = await fetch(`/api/user/${userInformation.user.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        newUser: false
+      })
+    });
+    const data = await response.json();
+    console.log("handleWelcome data:", data);
+  
+    if(response.ok){
+      console.log(data);
+    }
+    return response; 
+  };
 
 useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -55,7 +84,7 @@ useEffect(() => {
 
 
   return (
-    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation , handleLogout}}>
+    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation , handleLogout,handleWelcome}}>
       {children}
     </LoginContext.Provider>
   );

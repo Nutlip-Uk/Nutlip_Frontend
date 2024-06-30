@@ -11,6 +11,7 @@ const Revolutionizing = () => {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
+        <div className={styles.mainContainer}>
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -23,7 +24,7 @@ const Revolutionizing = () => {
           className={styles.MainText}
         >
           <div className={styles.textContainer}>
-          <p>Lets make your selling and buying easy as <span>1 | 2 | 3</span></p>
+          <p>Lets make your selling and buying easy as  <span> 1 | 2 | 3</span> </p>
             <p>
             Our platform ensures a seamless experience for selling and buying, making transactions effortless, straightforward and stress-free from start to finish. Our user-friendly features and streamlined process ensure that you can focus on what matters most – finding the perfect buyer or your dream property – without worrying about the complexities of the transaction.
             </p>
@@ -48,6 +49,7 @@ const Revolutionizing = () => {
                     ></iframe>
 
         </motion.div>
+        </div>
       </div>
     </section>
   );

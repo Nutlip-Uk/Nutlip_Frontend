@@ -52,9 +52,9 @@ const Why = () => {
         </div>
 
         <div className={styles.GridContainer}>
-          {Datas.map((data) => (
+          {Datas.map((data, index) => (
             <>
-              <div key={data.id} className={styles.BoxContainer}>
+              <div key={index} className={styles.BoxContainer}>
                 <div className={styles.Box}>
                   <div className={styles.IconContainer}>{data.icon}</div>
 
