@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         { $match: { type: "Conveyancer" } },
         {
           $lookup: {
-            from: "Users",
+            from: "users",
             localField: "userId",
             foreignField: "_id",
             as: "conveyancers",
