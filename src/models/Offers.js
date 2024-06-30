@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 
 const offerSchema = new mongoose.Schema({
   apartmentId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     required: true,
     ref: "Apartments",
   },
   sellerId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     required: true,
   },
   date: { type: Date, required: true, default: Date.now },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     required: true,
     ref: "User",
   },
