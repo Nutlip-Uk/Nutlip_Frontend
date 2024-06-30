@@ -47,6 +47,7 @@ export default async function handler(req, res) {
         PaymentType,
         cryptoType,
       });
+      newAddedData.offerId = newAddedData._id;
       await newAddedData.save();
 
       res.status(200).json({ message: "Offer created sucessfully" });
