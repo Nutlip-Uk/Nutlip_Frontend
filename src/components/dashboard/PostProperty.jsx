@@ -11,7 +11,8 @@ import { FaPlus } from "react-icons/fa";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
-import { Cascader, Input, Select, Space } from "antd";
+import { Cascader, Input, Select, Space } from 'antd';
+
 
 const PostProperty = () => {
   const count = useRef(1);
@@ -32,7 +33,7 @@ const PostProperty = () => {
     bedrooms: "",
     Toilets: "",
     size: "",
-    stateOfProperty: "",
+    TenureOfProperty: "",
     location: "",
     address: "",
     Landmark: "",
@@ -41,10 +42,12 @@ const PostProperty = () => {
     Minimum_offer: "",
     Currency: "",
     description: "",
-    Add_features: "",
+    Add_features:[],
     video_link: "",
     virtual_tour_link: "",
     images: [],
+    LivingRoom:"",
+    FloorPlan:[],
     //rating: "",
   });
 
@@ -76,6 +79,55 @@ const PostProperty = () => {
     console.log(`Selected file for input ${index}:`, selectedFile);
   };
 
+  const handleFloorPlanUpload = async (index) => {
+    const selectedFile = fileInputs[index].file;
+    if (!selectedFile) return;
+
+    console.log(`Starting upload for input ${index}:`, selectedFile);
+
+    const storageRef = ref(storage, `images/${selectedFile.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Progress function ...
+        console.log(`Upload progress for input ${index}:`, snapshot);
+      },
+      (error) => {
+        // Error function ...
+        console.error(error);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setUrl((prevUrls) => [...prevUrls, downloadURL]);
+        setForm((prevForm) => ({
+          ...prevForm,
+          FloorPLan: [...prevForm.FloorPlan, downloadURL],
+        }));
+        setFileInputs((prevFileInputs) => {
+          const newFileInputs = [...prevFileInputs];
+          newFileInputs[index].status = "Upload Successful";
+          return newFileInputs;
+        });
+        console.log(`Upload successful for input ${index}:`, downloadURL);
+      }
+    );
+
+    setShowUploadMessage((prevMessages) => {
+      const newMessages = [...prevMessages];
+      newMessages[index] = true;
+      return newMessages;
+    });
+
+    setTimeout(() => {
+      setShowUploadMessage((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages[index] = false;
+        return newMessages;
+      });
+    }, 3000);
+  };
   const handleUpload = async (index) => {
     const selectedFile = fileInputs[index].file;
     if (!selectedFile) return;
@@ -177,6 +229,7 @@ const PostProperty = () => {
         console.log("Form submitted successfully:", data);
         //todo redirect to a different page
         //router.push("/dashboard?option=listing");
+        next();
       } else {
         // Handle HTTP errors
         console.error("Server responded with an error:", response.status);
@@ -216,6 +269,8 @@ const PostProperty = () => {
           addImageInput={addImageInput}
           url={url}
           showUploadMessage={showUploadMessage}
+          handleFloorPlanUpload={handleFloorPlanUpload}
+          setForm={setForm}
         />
       )}
       {count.current === 4 && (
@@ -272,8 +327,8 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               <option name="For_Rent" value="For_Rent">
                 For Rent
               </option>
-              <option name="For_Buy" value="For_Buy">
-                For Buy
+              <option name="For_Sale" value="For_Sale">
+                For Sale
               </option>
             </select>
           </label>
@@ -380,25 +435,13 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
           </label>
         </div>
 
-        <div className={styles.twoColumn}>
-          <label>
-            State of property
+        <div className={styles.threeColumn}>
+
+        <label>
+            Living room
             <select
-              name="stateOfProperty"
-              value={form.stateOfProperty}
-              onChange={handleChange}
-              defaultValue="select"
-            >
-              <option value="select">Select</option>
-              <option value="sold_stc">Sold STC</option>
-              <option value="under_offer">Under offer</option>
-            </select>
-          </label>
-          <label>
-            Size
-            <select
-              name="size"
-              value={form.size}
+              name="LivingRoom"
+              value={form.LivingRoom}
               onChange={handleChange}
               defaultValue="select"
             >
@@ -414,6 +457,26 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               <option value="9">9</option>
               <option value="10+">10+</option>
             </select>
+          </label>
+          <label>
+            Tenure of Property
+            <select
+              name="TenureOfProperty"
+              value={form.TenureOfProperty}
+              onChange={handleChange}
+              defaultValue="select"
+            >
+              <option value="select">Select</option>
+              <option name="Freehold" value="Freehold">Freehold</option>
+              <option name="Leasehold" value="Leasehold">Leasehold</option>
+            </select>
+          </label>
+          <label>
+            Size
+            <input name="size"
+            placeholder="size in square feet"
+              value={form.size}
+              onChange={handleChange}/>
           </label>
         </div>
       </div>
@@ -553,6 +616,8 @@ const PostPropertyDescription = ({
   addImageInput,
   showUploadMessage,
   url,
+  setForm,
+  handleFloorPlanUpload
 }) => {
   return (
     <>
@@ -579,105 +644,146 @@ const PostPropertyDescription = ({
 
         <label className={styles.title}>
           Add Features
-          <select
-            name="Add_features"
-            value={form.Add_features}
-            onChange={handleChange}
-            defaultValue="select"
-          >
-            select
-            <option value="select" name="select">
-              Select
-            </option>
-            <option value="Elevator" name="Elevator">
-              Elevator
-            </option>
-            <option value="stairs" name="stairs">
-              Stairs
-            </option>
-          </select>
+          <MultiInput form={form} setForm={setForm}/>
         </label>
 
         <div className={styles.twoColumn}>
           <label>
             Video Link
-            <Input
-              name="video_link"
+          <Input 
+               name="video_link"
               value={form.video_link}
-              onChange={handleChange}
-              addonBefore="http://"
-              placeholder="Link"
+              onChange={handleChange} 
+              addonBefore="http://" 
+              placeholder="Link" 
             />
           </label>
           <label>
             Virtual tour link
-            <Input
-              name="virtual_tour_link"
-              value={form.virtual_tour_link}
-              onChange={handleChange}
-              addonBefore="http://"
-              placeholder="Link"
+            <Input 
+               name="virtual_tour_link"
+               value={form.virtual_tour_link}
+               onChange={handleChange} 
+              addonBefore="http://" 
+              placeholder="Link" 
             />
           </label>
         </div>
 
-        <div className={styles.inputFieldContainer}>
-          <p>Upload pictures</p>
-          <div className={styles.uploadContainer}>
-            {fileInputs.map((input, index) => (
-              <div key={index} id={styles.file_upload}>
-                <label>
-                  {input.status === "Upload" &&
-                    !input.file &&
-                    "Upload Document"}
-                  <input
-                    type="file"
-                    onChange={(e) => handleImageChange(e, index)}
-                  />
-                  {input.status === "Upload" && input.preview && (
-                    <img
-                      height={200}
-                      width={200}
-                      src={input.preview}
-                      alt={`Preview ${index}`}
+          {/* <div className={styles.inputFieldContainer}>
+            <p>Floor plan</p>
+            <div className={styles.uploadContainer}>
+              {fileInputs.map((input, index) => (
+                <div key={index} id={styles.file_upload}>
+                  <label>
+                    {input.status === "Upload" &&
+                      !input.file &&
+                      "Upload Document"}
+                    <input
+                      type="file"
+                      onChange={(e) => handleImageChange(e, index)}
                     />
+                    {input.status === "Upload" && input.preview && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={input.preview}
+                        alt={`Preview ${index}`}
+                      />
+                    )}
+                    {url[index] && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={url[index]}
+                        alt={`Uploaded ${index}`}
+                      />
+                    )}
+                  </label>
+                  {input.status === "Upload" && (
+                    <button
+                      className={styles.upload}
+                      type="button"
+                      onClick={() => handleFloorPlanUpload(index)}
+                    >
+                      {input.status === "Upload" ? (
+                        <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
+                      ) : null}
+                    </button>
                   )}
-                  {url[index] && (
-                    <img
-                      height={200}
-                      width={200}
-                      src={url[index]}
-                      alt={`Uploaded ${index}`}
-                    />
+                  {showUploadMessage[index] && (
+                    <FaCheck color={"#40A578"} size={"1em"} />
                   )}
-                </label>
-                {input.status === "Upload" && (
-                  <button
-                    className={styles.upload}
-                    type="button"
-                    onClick={() => handleUpload(index)}
-                  >
-                    {input.status === "Upload" ? (
-                      <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
-                    ) : null}
-                  </button>
-                )}
-                {showUploadMessage[index] && (
-                  <FaCheck color={"#40A578"} size={"1em"} />
-                )}
-                <br />
-              </div>
-            ))}
+                  <br />
+                </div>
+              ))}
 
-            <button
-              type="button"
-              className={styles.addMore}
-              onClick={addImageInput}
-            >
-              <FaPlus size={"2em"} color={"#686D76"} />
-            </button>
+              <button
+                type="button"
+                className={styles.addMore}
+                onClick={addImageInput}
+              >
+                <FaPlus size={"2em"} color={"#686D76"} />
+              </button>
+            </div>
+          </div> */}
+          <div className={styles.inputFieldContainer}>
+            <p>Upload pictures</p>
+            <div className={styles.uploadContainer}>
+              {fileInputs.map((input, index) => (
+                <div key={index} id={styles.file_upload}>
+                  <label>
+                    {input.status === "Upload" &&
+                      !input.file &&
+                      "Upload Document"}
+                    <input
+                      type="file"
+                      onChange={(e) => handleImageChange(e, index)}
+                    />
+                    {input.status === "Upload" && input.preview && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={input.preview}
+                        alt={`Preview ${index}`}
+                      />
+                    )}
+                    {url[index] && (
+                      <img
+                        height={200}
+                        width={200}
+                        src={url[index]}
+                        alt={`Uploaded ${index}`}
+                      />
+                    )}
+                  </label>
+                  {input.status === "Upload" && (
+                    <button
+                      className={styles.upload}
+                      type="button"
+                      onClick={() => handleUpload(index)}
+                    >
+                      {input.status === "Upload" ? (
+                        <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
+                      ) : null}
+                    </button>
+                  )}
+                  {showUploadMessage[index] && (
+                    <FaCheck color={"#40A578"} size={"1em"} />
+                  )}
+                  <br />
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className={styles.addMore}
+                onClick={addImageInput}
+              >
+                <FaPlus size={"2em"} color={"#686D76"} />
+              </button>
+            </div>
           </div>
-        </div>
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={next}>Cancel</button>
@@ -741,7 +847,7 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
               height={25}
               alt="toilet-bowl"
             />
-            {form.toilets}
+            {form.Toilets}
           </span>
         </div>
 
@@ -771,7 +877,9 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
       </div>
 
       <div className={styles.DetailImgContainer}>
-        <img src={form.images[2]} width={210} height={200} />
+        {form.images.map((image)=>{
+          <img src={image} width={210} height={200} />
+        })}
       </div>
 
       <div className={styles.buttonContainer}>
@@ -781,12 +889,75 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
     </>
   );
 };
-const Congratulations = ({ back }) => {
+const Congratulations = ({back}) => {
   return (
-    <>
-      <div>
-        <h1 onClick={back}>Congratulations</h1>
+    <div className={styles.congratulationsSection}>
+      <div className={styles.congratulationsContainer}>
+        <img src="/congratulations.svg"/>
+        <p className={styles.congrats}>{"Congratulations !"}</p>
+        <p className={styles.congratsText}>You have successfully listed your property</p>
       </div>
-    </>
+    </div>
   );
 };
+
+
+const MultiInput =({form,setForm})=>{
+  const [inputValue, setInputValue] = useState('');
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      Add_features: todos
+    }));
+  }, [todos, setForm]);
+
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+ const handleAddTodo = (e) => {
+    e.preventDefault();
+    if (inputValue.trim()) {
+      setTodos((prevTodos) => [...prevTodos, inputValue]);
+      setInputValue('');
+    }
+  };
+
+  const handleRemoveTodo = (index, e) => {
+    e.preventDefault();
+    const newTodos = todos.filter((_, i) => i !== index);
+    setTodos(newTodos);
+  };
+
+  return (
+    <div className={styles.TodoContainer}>
+      <ul className={styles.TodoList}>
+        {todos.map((todo, index) => (
+          <li key={index} className={styles.TodoItem}>
+            {todo}
+            <button onClick={(e) => handleRemoveTodo(index,e)} className={styles.RemoveButton}>
+              X
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className={styles.TodoMultiInput}>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleAddTodo(e);
+          }
+        }}
+        placeholder="Type the features of your property and press Enter"
+      />
+      <button onClick={handleAddTodo}><FiPlus size={"1.5em"}/></button>
+      </div>
+    </div>
+  );
+}

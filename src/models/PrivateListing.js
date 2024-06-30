@@ -200,10 +200,10 @@ const PrivateListingSchema = new mongoose.Schema({
     required: false,
   },
   PCM: {
-    type: Integer,
+    type: Number,
   },
   PCW: {
-    type: Integer,
+    type: Number,
   },
   justAddedExpiration: {
     type: Boolean,
