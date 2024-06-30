@@ -9,7 +9,22 @@ export default async function handler(req, res) {
   // console.log(Apartment);
   if (req.method === "GET") {
     try {
-      const transactions = await OfferTransaction.find();
+      const transactions = await OfferTransaction.aggregate([
+        {
+          $lookup: {
+            from: "offers",
+            localField: "offerId",
+            foreignField: "_id",
+            as: "offer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$offer",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ]);
 
       return res
         .status(200)

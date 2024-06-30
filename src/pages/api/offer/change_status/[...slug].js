@@ -16,12 +16,12 @@ export default async function handler(req, res) {
 
       if (status == "accepted") {
         const apartment = await Apartment.findOne({ _id: slug[0] });
-        if (apartment.isAccepted == true) {
-          res.status(400).json({
-            message: "Property already has an accepted offer",
-          });
-          return;
-        }
+        // if (apartment.isAccepted == true) {
+        //   res.status(400).json({
+        //     message: "Property already has an accepted offer",
+        //   });
+        //   return;
+        // }
 
         const tx = new OfferTransaction({
           offerId: slug[1],
