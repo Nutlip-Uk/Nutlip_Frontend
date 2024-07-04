@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     userType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserType", // Reference to the UserType model
+      ref: "UserTypes", // Reference to the UserType model
       required: false,
     },
     password: {
