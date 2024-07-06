@@ -1,6 +1,7 @@
 // models/User.js
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import Apartment from "./Apartment";
 import UserType from "./UserType"; // Correct import
 
 const userSchema = new mongoose.Schema(
