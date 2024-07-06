@@ -1,7 +1,8 @@
+// models/User.js
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import Apartment from "../models/Apartment";
-import userType from "./UserTypes";
+import Apartment from "./Apartment";
+import UserType from "./UserType"; // Correct import
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,7 +19,7 @@ const userSchema = new mongoose.Schema(
     },
     userType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserTypes", // Reference to the UserType model
+      ref: "UserType", // Correct reference
       required: false,
     },
     password: {
@@ -51,16 +52,7 @@ const userSchema = new mongoose.Schema(
     PhoneNumber: { type: Number },
     MobileNumber: { type: Number },
     website: { type: String },
-
-    img: {
-      type: String,
-    },
-    // Apartment: [
-    //   {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: "Apartment",
-    //   },
-    // ],
+    img: { type: String },
     newUser: {
       type: Boolean,
       default: true,
@@ -105,6 +97,6 @@ userSchema.pre(/^find/, function () {
   this.populate("Apartments");
 });
 
-const User = mongoose.models?.Users || mongoose.model("Users", userSchema);
+const User = mongoose.models.Users || mongoose.model("Users", userSchema);
 
 export default User;
