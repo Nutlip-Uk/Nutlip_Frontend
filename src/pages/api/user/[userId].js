@@ -1,7 +1,7 @@
 // pages/api/user/[userId].js
 import dbConnect from "../../../libs/dbconnect";
 import User from "../../../models/User";
-import UserType from "../../../models/UserTypes";
+import UserType from "../../../models/UserType";
 import bcrypt from "bcrypt";
 //import { getSession } from "next-auth/react";
 
@@ -14,10 +14,10 @@ import bcrypt from "bcrypt";
  * - `DELETE`: Deletes the user with the specified `userId`.
  *
  * The endpoint requires authentication. Only the user with the matching `userId` is allowed to access their own data.
-
  */
 export default async function handler(req, res) {
   await dbConnect();
+
   // const session = await getSession({ req });
 
   // if (!session) {
@@ -29,11 +29,11 @@ export default async function handler(req, res) {
   // if (session.user.id !== userId) {
   //   return res.status(403).json({ message: "Forbidden" });
   // }
-  // console.log(req.body);
   const { userId } = req.query;
+
   if (req.method === "GET") {
     try {
-      const user = await User.findById(userId);
+      const user = await User.findById(userId).populate("userType");
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
         newUser,
       } = req.body;
 
-      console.log("Received userType:", req.body);
+      // console.log("Received userType:", req.body);
 
       // Hash the new password if it's provided
       let hashedPassword = null;
@@ -75,24 +75,11 @@ export default async function handler(req, res) {
         hashedPassword = await bcrypt.hash(password, salt);
       }
 
-      // Find the UserType document based on the provided userType string
-      // Find the UserType document based on the provided userType string
-      let userTypeId = undefined;
-      if (userType) {
-        const userTypeDoc = await UserType.findOne(
-          { type: { $regex: new RegExp(`^${userType}$`, "i") } },
-          { _id: 1, type: 1 } // Only select the _id and type fields
-        );
-        console.log("Found UserType:", userTypeDoc);
-        if (userTypeDoc) {
-          userTypeId = userTypeDoc._id;
-        } else {
-          const availableTypes = await UserType.find({}, "type");
-          console.log("Available UserTypes:", availableTypes);
-          return res
-            .status(400)
-            .json({ message: "Invalid user type", availableTypes });
-        }
+      // Find or create the UserType document based on the provided userType string
+      let userTypeDoc = await UserType.findOne({ type: userType });
+      if (!userTypeDoc) {
+        userTypeDoc = new UserType({ type: userType, userId });
+        await userTypeDoc.save();
       }
 
       const updatedUser = await User.findByIdAndUpdate(
@@ -100,8 +87,8 @@ export default async function handler(req, res) {
         {
           username,
           email,
-          password: hashedPassword || undefined, //? Use the new hashed password or keep the existing one
-          userType: userTypeId, // Use the ObjectId of the found UserType document // ?
+          password: hashedPassword || undefined, // Use the new hashed password or keep the existing one
+          userType: userTypeDoc._id, // Use the ObjectId of the found or created UserType document
           Title,
           FirstName,
           MiddleName,
@@ -121,18 +108,11 @@ export default async function handler(req, res) {
         },
         { new: true, runValidators: true }
       ).populate("userType");
-      if (password) {
-        updatedUser.password = password;
-      }
 
-      // Update email if provided
-      if (email) {
-        updatedUser.email = email;
-      }
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
-
+      //
       console.log(updatedUser);
       return res.status(200).json(updatedUser);
     } catch (error) {
