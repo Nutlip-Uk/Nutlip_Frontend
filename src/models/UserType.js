@@ -1,3 +1,4 @@
+// models/UserType.js
 import mongoose from "mongoose";
 
 const userTypeSchema = new mongoose.Schema({
@@ -22,6 +23,6 @@ const userTypeSchema = new mongoose.Schema({
 });
 
 const UserType =
-  mongoose.models?.UserType || mongoose.model("UserType", userTypeSchema);
+  mongoose.models.UserType || mongoose.model("UserType", userTypeSchema);
 
 export default UserType;
