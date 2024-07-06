@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const userTypeSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Users",
     required: true,
+    unique: true,
   },
   type: {
     type: String,
@@ -18,21 +19,9 @@ const userTypeSchema = new mongoose.Schema({
     ],
     required: true,
   },
-  description: {
-    type: String,
-    //required: true,
-  },
-  permissions: {
-    type: [String],
-    // required: true,
-  },
-  features: {
-    type: [String],
-    // required: true,
-  },
 });
 
 const UserType =
-  mongoose.models?.UserTypes || mongoose.model("UserTypes", userTypeSchema);
+  mongoose.models?.UserType || mongoose.model("UserType", userTypeSchema);
 
 export default UserType;

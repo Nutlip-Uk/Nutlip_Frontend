@@ -63,8 +63,10 @@ export default async function handler(req, res) {
         PhoneNumber,
         MobileNumber,
         website,
-        newUser
+        newUser,
       } = req.body;
+
+      console.log("Received userType:", req.body);
 
       // Hash the new password if it's provided
       let hashedPassword = null;
@@ -72,8 +74,26 @@ export default async function handler(req, res) {
         const salt = await bcrypt.genSalt(10);
         hashedPassword = await bcrypt.hash(password, salt);
       }
+
       // Find the UserType document based on the provided userType string
-      const userTypeDoc = await UserType.findOne({ type: userType }); // ?
+      // Find the UserType document based on the provided userType string
+      let userTypeId = undefined;
+      if (userType) {
+        const userTypeDoc = await UserType.findOne(
+          { type: { $regex: new RegExp(`^${userType}$`, "i") } },
+          { _id: 1, type: 1 } // Only select the _id and type fields
+        );
+        console.log("Found UserType:", userTypeDoc);
+        if (userTypeDoc) {
+          userTypeId = userTypeDoc._id;
+        } else {
+          const availableTypes = await UserType.find({}, "type");
+          console.log("Available UserTypes:", availableTypes);
+          return res
+            .status(400)
+            .json({ message: "Invalid user type", availableTypes });
+        }
+      }
 
       const updatedUser = await User.findByIdAndUpdate(
         userId,
@@ -82,7 +102,7 @@ export default async function handler(req, res) {
           username,
           email,
           password: hashedPassword || undefined, //? Use the new hashed password or keep the existing one
-          userType: userTypeDoc ? userTypeDoc._id : undefined, // Use the ObjectId of the found UserType document // ?
+          userType: userTypeId, // Use the ObjectId of the found UserType document // ?
           Title,
           FirstName,
           MiddleName,
@@ -98,10 +118,10 @@ export default async function handler(req, res) {
           PhoneNumber,
           MobileNumber,
           website,
-          newUser
+          newUser,
         },
         { new: true, runValidators: true }
-      );
+      ).populate("userType");
       if (password) {
         updatedUser.password = password;
       }
