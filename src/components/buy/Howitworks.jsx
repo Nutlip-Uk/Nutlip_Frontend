@@ -14,7 +14,7 @@ const Howitworks = () => {
                     <div className={styles.TextContainer}>
                         <div className={styles.Header}>
                             <p>How it Works</p>
-                            <p>Discover the Steps to Finding Your Perfect Rental Home</p>
+                            <p>Your Path to Homeownership using Nutlip</p>
                         </div>
 
                         <div className={styles.TimelineContainer}>

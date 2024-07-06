@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 const Transactions = () => {
   const router = useRouter();
+
   return (
     <div className={styles.Section}>
       <div className={styles.container}>
@@ -41,6 +42,16 @@ const Transactions = () => {
             />
             <h3>Cancelled transactions</h3>
             <p>Transactions halted</p>
+          </div>
+          <div className={styles.ListBox}>
+            <Image
+              src="/images/mdi-bedroom-outline.svg"
+              width={30}
+              height={30}
+              alt=""
+            />
+            <h3>Offers Sent</h3>
+            <p>All Offers sent to a property</p>
           </div>
         </div>
       </div>

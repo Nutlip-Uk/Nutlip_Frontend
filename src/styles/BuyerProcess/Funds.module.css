@@ -33,8 +33,12 @@
     -moz-border-radius: 16px;
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
+    overflow: clip;
 }
-
+#file_upload label img{
+    height: 100%;
+    width: 100%;
+}
 #file_upload input {
     display: none;
 }
