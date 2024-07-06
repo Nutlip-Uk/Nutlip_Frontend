@@ -67,7 +67,7 @@ line-height: normal;
 
 .conveyancerButton{
     display: flex;
-padding: 4px 20px;
+padding: 8px 20px;
 justify-content: center;
 align-items: center;
     border-radius: 8px;
@@ -79,6 +79,22 @@ font-weight: 500;
 line-height: normal;
 border:none;
 cursor:pointer;
+}
+
+.disabled{
+    display: flex;
+    padding: 8px 20px;
+    justify-content: center;
+    align-items: center;
+        border-radius: 8px;
+    background: var(--Brand-red, gray);
+    color: var(--White, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border:none;
+    cursor:pointer; 
 }
 
 .conveyancerDetails{

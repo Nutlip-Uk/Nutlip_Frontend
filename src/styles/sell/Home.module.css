@@ -53,12 +53,13 @@ width:50%;
         width: 100%;
         background: url("../../../public/sell/home.png");
       background-repeat: no-repeat;
-      object-fit: fill;
-      background-size: fill;
+      background-position: center;
+      object-fit: cover;
+      background-size: cover;
       display: flex;
       align-items: center;
       justify-content:center;
-      overflow:clip;
+      overflow: hidden;
     }
 
     .containerText{
@@ -99,14 +100,14 @@ width:50%;
       width: 100%;
       background: url("../../../public/sell/home.png");
     background-repeat: no-repeat;
-    object-fit: fill;
-    background-size: fill;
+    background-position: center;
+    object-fit: cover;
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content:center;
-    overflow:clip;
+    overflow: hidden;
   }
-   
     .containerText{
       color:white;
       display:flex;
@@ -128,13 +129,13 @@ width:50%;
     .containerText h2{
     font-size: 28px;
     font-weight: 600;
-    width:100%;
+    width:85%;
     }
     
     .containerText p{
     font-size: 16px;
     font-weight: 500;
-    width:95%;
+    width:85%;
     }
    
   }
@@ -154,9 +155,9 @@ width:50%;
 }
 
 .containerText h2{
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 600;
-  width:70%;
+  width:60%;
   }
   
   .containerText p{

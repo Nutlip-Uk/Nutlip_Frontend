@@ -78,6 +78,7 @@ export default async function handler(req, res) {
       const updatedUser = await User.findByIdAndUpdate(
         userId,
         {
+          
           username,
           email,
           password: hashedPassword || undefined, //? Use the new hashed password or keep the existing one
