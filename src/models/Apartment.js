@@ -76,7 +76,7 @@ const ApartmentSchema = new mongoose.Schema({
   },
   LivingRoom: {
     type: Number,
-    required: true,
+    required: false,
   },
   size: {
     type: String,
