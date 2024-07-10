@@ -33,7 +33,7 @@ const PostProperty = () => {
     bedrooms: "",
     Toilets: "",
     size: "",
-    TenureOfProperty:"",
+    TenureOfProperty: "",
     location: "",
     address: "",
     Landmark: "",

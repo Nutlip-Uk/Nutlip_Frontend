@@ -16,7 +16,7 @@
     flex-direction: column;
     gap: 24px;
     padding: 30px 0;
-    width:95%;
+    width:90%;
 }
 
 .Header{
@@ -33,11 +33,10 @@ color:black;
     gap:16px;
     align-items:center;
     flex-wrap:wrap;
-    width: 100%;
 }
 
 .ListBox{
-    width: 320px;
+    width: 370px;
     height: 180px;
     border-radius: 16px;
     box-shadow: 0px 4px 20px 0px #CACACA40;
