@@ -110,8 +110,8 @@ const OfferModal = (props) => {
 };
 
 export const ConveyancerModal = (props) => {
+  // const { showModal, setShowModal } = useContext(ConveyancerModalContext)
 
-  
   return (
     <div className={conveyancer.container}>
       <div className={conveyancer.inner_container}>
@@ -128,8 +128,15 @@ export const ConveyancerModal = (props) => {
         </section>
 
         <section id={conveyancer.conveyancer}>
-          
-          <div className={conveyancer.inputField}>
+          {/* <div>
+                        <span>wegeweg</span>
+                    </div>
+                    <div>
+                        <hr/>
+                        <span>OR</span>
+                        <hr/>
+                    </div> */}
+          <div>
             <input type="text" placeholder="Add email address" />
             <Button
               bgcolor="#DA0025"
@@ -138,15 +145,12 @@ export const ConveyancerModal = (props) => {
               content="Send"
             />
           </div>
-
-          <div id={conveyancer.Or}>
+          <div>
             <hr />
             <span>OR</span>
             <hr />
           </div>
-
-
-          <div className={conveyancer.inputField}>
+          <div>
             <input type="text" placeholder="Add Conveyancer's Nutlip ID" />
             <Button
               bgcolor="#DA0025"
@@ -155,9 +159,6 @@ export const ConveyancerModal = (props) => {
               content="Send"
             />
           </div>
-
-
-
         </section>
       </div>
     </div>

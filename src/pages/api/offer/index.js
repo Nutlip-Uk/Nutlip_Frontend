@@ -8,7 +8,7 @@ import Offer from "../../../models/Offers";
  * Handles HTTP requests to the /api/offer endpoint.
  *
  * Supports the following HTTP methods:
- * - POST: Creates a new offer with the provided `apartmentId`, `userId`, and `offerPrice`.
+ * - POST: Creates a new offer with the provided apartmentId, userId, and offerPrice.
  * - GET: Retrieves all existing offers.
  *
  * @param {import('next').NextApiRequest} req - The incoming HTTP request.
@@ -47,9 +47,8 @@ export default async function handler(req, res) {
         PaymentType,
         cryptoType,
       });
+      newAddedData.offerId = newAddedData._id;
       await newAddedData.save();
-
-      await 
 
       res.status(200).json({ message: "Offer created sucessfully" });
     } catch (error) {

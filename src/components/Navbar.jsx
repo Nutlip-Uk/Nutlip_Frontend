@@ -29,6 +29,7 @@ const Navbar = () => {
             <MainNavbar
               userInformation={userInformation}
               handleLogout={handleLogout}
+              
             />
           )}
         </div>
