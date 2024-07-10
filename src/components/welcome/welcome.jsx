@@ -714,7 +714,7 @@ const ConveyancerForm = ({form, handleSubmit, handleChange}) => {
   <div className={styles.formFour}>
   <div>
     <label htmlFor="website">Website</label>
-    <Input addonBefore="http://" value={form.website} onChange={handleChange} name="website" />
+    <Input addonBefore="http://" value={form.website} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="CompanyNumber">Company Number</label>
@@ -936,7 +936,7 @@ const AgentForm = ({form, handleSubmit, handleChange}) => {
   <div className={styles.formFour}>
   <div>
     <label htmlFor="website">Website</label>
-    <Input addonBefore="http://" value={form.website} onChange={handleChange} name="website" />
+    <Input addonBefore="http://" value={form.website} onChange={handleChange} />
   </div>
   <div>
     <label htmlFor="CompanyNumber">Company Number</label>

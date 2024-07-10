@@ -2,6 +2,7 @@
 
 import dbConnect from "../../../libs/dbconnect";
 import Apartment from "../../../models/Apartment";
+import User from "../../../models/User";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
       bathrooms,
       Toilets,
       size,
-      LivingRoom,
+      livingRoom,
       PCW,
       PCM,
       stateOfProperty,
@@ -62,7 +63,7 @@ export default async function handler(req, res) {
         bathrooms,
         Toilets,
         size,
-        LivingRoom,
+        livingRoom,
         PCW,
         PCM,
         stateOfProperty,

@@ -21,9 +21,8 @@ const Sell = () => {
 
         <div className={styles.sellComponents}>
         <SellYourHome/>
-        {/*<SellTraditionally/>*/}
-        </div>
         
+        </div>
 
       </section>
     </>
