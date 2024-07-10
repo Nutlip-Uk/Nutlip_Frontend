@@ -450,14 +450,14 @@ const OffersAccepted = ({ handleChange, apartments, propertyOffers = [], handleV
 
 const ViewAcceptedOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount, selectedApartmentTitle, selectedApartmentAddress }) => {
 
-  const router = useRouter();
+
   return (
     <>
       <h3 onClick={() => handleChange("OffersAccepted")}>View Accepted Offers</h3>
       <div className={styles.viewOfferListing}>
         {Array.isArray(propertyOffers) && propertyOffers.filter(offer => offer.status === "accepted").length > 0 ? (
           propertyOffers.filter(offer => offer.status === "accepted").map((offer, index) => (
-            <div onClick={() => router.push(`/transactions/current/${offer.transaction_id}`)} key={offer._id} className={styles.viewOfferContainer}>
+            <div key={offer._id} className={styles.viewOfferContainer}>
               <div className={styles.Offer}>
                 <div className={styles.actualPrice}>
                   <span>{`£${selectedApartmentAmount}`}</span>
