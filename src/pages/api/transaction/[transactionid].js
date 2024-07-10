@@ -1,5 +1,6 @@
 import dbConnect from "../../../libs/dbconnect";
 import OfferTransaction from "../../../models/Transaction";
+import Apartment from "../../../models/Apartment";
 import { $where } from "../../../models/TransactionContent";
 
 export default async function handler(req, res) {
@@ -13,6 +14,8 @@ export default async function handler(req, res) {
         _id: transactionid,
       }).limit(1);
       console.log("Test Match Result:", testMatchResult);
+      const apartments = await Apartment.find();
+      console.log(apartments);
 
       const transaction = await OfferTransaction.aggregate([
         {
