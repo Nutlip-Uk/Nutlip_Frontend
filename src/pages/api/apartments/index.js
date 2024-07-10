@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     } = req.body;
 
     try {
-      const newApartment = await Apartment({
+      const newApartment = await Apartment.create({
         userId,
         Title,
         purpose,
@@ -87,8 +87,8 @@ export default async function handler(req, res) {
       //   $push: { Apartment: newApartment._id },
       // });
 
-      res.status(201).json(newApartment);
       await newApartment.save();
+      res.status(201).json(newApartment);
       console.log(newApartment);
     } catch (error) {
       console.error(error);
@@ -100,6 +100,7 @@ export default async function handler(req, res) {
     try {
       const apartments = await Apartment.find();
       res.status(200).json(apartments);
+      console.log(apartments);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error fetching apartments" });

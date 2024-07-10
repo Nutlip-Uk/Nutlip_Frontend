@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema(
           "Password must contain at least one uppercase, one lowercase, one number and minimum 6 characters",
       },
     },
+    // Apartment : {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Apartment", // Correct reference
+    //   required: false,
+    // },
     Title: {
       type: String,
       enum: ["Miss", "Mr", "Mrs"],
