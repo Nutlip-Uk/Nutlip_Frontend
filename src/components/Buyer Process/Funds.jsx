@@ -1,15 +1,17 @@
-import React, { useState, useContext } from 'react';
-import Image from 'next/image';
+import React, { useState, useContext, useEffect } from 'react';
 import { storage } from '../../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { ImageContext } from '../../context/ImageContext.context';
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
 
-export const Funds = ({ userType ,id}) => {
+export const Funds = ({ userType, id }) => {
   const [uploading, setUploading] = useState(false);
+  const [step, setStep] = useState('upload'); // Manage the current step
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -21,38 +23,81 @@ export const Funds = ({ userType ,id}) => {
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        // Progress function (optional)...
         setUploading(true);
       },
       (error) => {
-        // Error function ...
         console.error(error);
         setUploading(false);
       },
       () => {
-        // Complete function ...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFileUrl(downloadURL); // Set the file URL for displaying the image
-          setUrl(downloadURL);  // Update the context
-          console.log('File available at:', downloadURL);  // Log the URL
+          setFileUrl(downloadURL);
+          setUrl(downloadURL);
+          console.log('File available at:', downloadURL);
           setUploading(false);
         });
       }
     );
   };
 
-  const handleSubmit= async()=>{
+  const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/transaction/01_uploadProofOffunds/${id}`, {
+      const response = await fetch(`/api/transaction/01_uploadProofOfunds/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(url),
+        body: JSON.stringify({ url }),
       });
+
+      if (response.ok) {
+        setStep('verify'); // Switch to the verification step
+      }
     } catch (error) {
-      
+      console.error('Error submitting proof of funds:', error);
     }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch(`/api/transaction/02_confirmProofOfFunds/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ confirm_proof_of_funds: true }),
+      });
+
+      if (response.ok) {
+        setConfirmed(true); // Set the confirmation status to true
+      }
+    } catch (error) {
+      console.error('Error confirming proof of funds:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (userType === "agent") {
+      const fetchFile = async () => {
+        try {
+          const response = await fetch(`/api/transaction/01_uploadProofOfunds/${id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const data = await response.json();
+          setFileUrl(data.proof_of_funds);
+        } catch (error) {
+          console.error('Error fetching file:', error);
+        }
+      };
+      fetchFile();
+    }
+  }, [userType, id]);
+
+  if (step === 'verify') {
+    return <FundsVerify />;
   }
 
   return (
@@ -80,7 +125,7 @@ export const Funds = ({ userType ,id}) => {
             </label>
             {uploading && <p>Uploading...</p>}
           </section>
-          {fileUrl && <button className={styles.fileuploadButton}>Continue</button>}
+          {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>Continue</button>}
         </div>
       )}
 
@@ -91,23 +136,21 @@ export const Funds = ({ userType ,id}) => {
               {!fileUrl && `User has not uploaded Funds document yet`}
               {fileUrl && <img src={fileUrl} width={250} height={200} alt="Uploaded document" />}
             </label>
+
+            {fileUrl && (
+            <a href={fileUrl} download>
+              Download Document
+            </a>
+          )}
+
           </section>
-          {fileUrl && <button className={styles.fileuploadButton}>Funds Confirmed</button>}
+          {fileUrl && (
+            <button className={styles.fileuploadButton} onClick={handleConfirm}>
+              {confirmed ? 'Funds Confirmed' : 'Confirm Funds'}
+            </button>
+          )}
         </div>
       )}
-    </div>
-  );
-}
-
-export const FundsVerify = () => {
-  return (
-    <div className={styles.offer}>
-      <section>
-        <h2>Funds Verification</h2>
-        <p>The Seller has now received and confirmed your proof of funds for the purchase of the real estate property showing commitment to this transaction.</p>
-      </section>
-
-      <Button bgcolor="#16AA63" textcolor="#FFF" width="100" content="Funds Confirmed!" />
     </div>
   );
 }

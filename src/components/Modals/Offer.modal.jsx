@@ -109,7 +109,7 @@ const OfferModal = (props) => {
   );
 };
 
-export const ConveyancerModal = (props) => {
+export const ConveyancerModal = ({props, handleConveyancerInvite}) => {
 
   
   return (
@@ -132,6 +132,7 @@ export const ConveyancerModal = (props) => {
           <div className={conveyancer.inputField}>
             <input type="text" placeholder="Add email address" />
             <Button
+            onClick={()=>handleConveyancerInvite()}
               bgcolor="#DA0025"
               textcolor="#FFF"
               width="30"
@@ -149,6 +150,7 @@ export const ConveyancerModal = (props) => {
           <div className={conveyancer.inputField}>
             <input type="text" placeholder="Add Conveyancer's Nutlip ID" />
             <Button
+            onClick={()=>handleConveyancerInvite()}
               bgcolor="#DA0025"
               textcolor="#FFF"
               width="30"

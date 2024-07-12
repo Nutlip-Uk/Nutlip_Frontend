@@ -5,6 +5,7 @@ import transactionContents from "../../../models/TransactionContent";
 // uupload proof of funds
 
 export default async function handler(req, res) {
+  
   await dbConnect();
 
   const { transactionId } = req.body;

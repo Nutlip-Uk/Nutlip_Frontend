@@ -3,9 +3,10 @@ import Button from '../styled components/Button';
 import { useState } from "react";
 import { ConveyancerModal } from "../Modals/Offer.modal";
 
-export const AddConveyancer = ({ userType, transaction }) => {
+export const AddConveyancer = ({ userType, transaction,id }) => {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
+    const [conveyancer, setConveyancer] = useState(null);
 
     const handleBuyerButtonClick = () => {
         setShowModal(true);
@@ -15,10 +16,53 @@ export const AddConveyancer = ({ userType, transaction }) => {
         setShowModal2(true);
     };
 
+    const handleConveyancerInvite = async() => {
+
+        if (userType == "buyer") {
+            try {
+                const response = await fetch(`/api/transaction/03_buyeraddconvenyancer/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ convenyancer_seller }),
+                });
+    
+                if (response.ok) {
+                    console.log("Conveyancer invited successfully");
+                } else {
+                    console.error("Error inviting conveyancer");
+                }
+            } catch (error) {
+                console.error("Error inviting conveyancer:", error);
+            }
+        }
+
+        if (userType == "agent") {
+            try {
+                const response = await fetch(`/api/transaction/03_selleraddconvenyancer/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ convenyancer_seller }),
+                });
+    
+                if (response.ok) {
+                    console.log("Conveyancer invited successfully");
+                } else {
+                    console.error("Error inviting conveyancer");
+                }
+            } catch (error) {
+                console.error("Error inviting conveyancer:", error);
+            }
+        }
+    }
+
     return (
         <div className={styles.container}>
-            {showModal && <ConveyancerModal handler={() => setShowModal(false)} />}
-            {showModal2 && <ConveyancerModal handler={() => setShowModal2(false)} />}
+            {showModal && <ConveyancerModal handleConveyancerInvite={handleConveyancerInvite}   handler={() => setShowModal(false)} />}
+            {showModal2 && <ConveyancerModal handleConveyancerInvite={handleConveyancerInvite} handler={() => setShowModal2(false)} />}
             <div className={styles.Header}>
                 <h2>Add Conveyancer</h2>
                 <p>As your offer has been accepted, please invite a Conveyancer of your choice to become part of the transaction as your representative for a seamless process to completion.</p>
