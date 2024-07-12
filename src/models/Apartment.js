@@ -23,11 +23,6 @@ const ApartmentSchema = new mongoose.Schema({
     type: Number,
     // required: true,
   },
-  // rating: {
-  //   type: Number,
-  //   min: 0.0,
-  //   max: 5.0,
-  // },
   images: [String], // Still allows an empty array for no images
   address: {
     type: String,

@@ -128,8 +128,15 @@ export const ConveyancerModal = ({props, handleConveyancerInvite}) => {
         </section>
 
         <section id={conveyancer.conveyancer}>
-          
-          <div className={conveyancer.inputField}>
+          {/* <div>
+                        <span>wegeweg</span>
+                    </div>
+                    <div>
+                        <hr/>
+                        <span>OR</span>
+                        <hr/>
+                    </div> */}
+          <div>
             <input type="text" placeholder="Add email address" />
             <Button
             onClick={()=>handleConveyancerInvite()}
@@ -139,15 +146,12 @@ export const ConveyancerModal = ({props, handleConveyancerInvite}) => {
               content="Send"
             />
           </div>
-
-          <div id={conveyancer.Or}>
+          <div>
             <hr />
             <span>OR</span>
             <hr />
           </div>
-
-
-          <div className={conveyancer.inputField}>
+          <div>
             <input type="text" placeholder="Add Conveyancer's Nutlip ID" />
             <Button
             onClick={()=>handleConveyancerInvite()}
@@ -157,9 +161,6 @@ export const ConveyancerModal = ({props, handleConveyancerInvite}) => {
               content="Send"
             />
           </div>
-
-
-
         </section>
       </div>
     </div>

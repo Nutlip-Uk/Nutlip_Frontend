@@ -1,68 +1,24 @@
 import styles from "../../../styles/Transactions/inProgress.module.css"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react";
 
 const Current = () => {
-  const router = useRouter();
-  const [userId, setUserId] = useState(null);
-  const [offers, setOffers] = useState([]);
-
-useEffect(() => {
-   const fetchAcceptedOffer = async () => {
-      const userInformation = JSON.parse(localStorage.getItem("userInformation"));
-      const userId = userInformation.user.id;
-      setUserId(userId);
-
-      try {
-         const response = await fetch(`/api/offer/getofferssent/${userId}`);
-         const data = await response.json();
-         console.log('API response:', data);
-
-         if (Array.isArray(data.offers)) {
-            const acceptedOffers = data.offers.filter(offer => offer.status === "accepted");
-            console.log('Accepted offers:', acceptedOffers);
-
-            const fetchAdditionalData = acceptedOffers.map(async (offer) => {
-               const additionalResponse = await fetch(`/api/apartment/${offer.apartmentId}`);
-               const additionalData = await additionalResponse.json();
-               console.log('Additional data:', additionalData);
-               return {
-                  ...offer,
-                  apartmentDetails: additionalData,
-               };
-            });
-
-            const offersWithDetails = await Promise.all(fetchAdditionalData);
-            setOffers(offersWithDetails);
-         } else {
-            console.error('Expected an array but got:', data.offers);
-         }
-      } catch (error) {
-         console.log(error);
-      }
-   };
-
-   fetchAcceptedOffer();
-}, []);
-
-  return (
-    <div className={styles.Section}>
-      <div className={styles.container}>
-        <Link href="#" className={styles.Header}><h2>In-progress</h2></Link>
-        <div className={styles.ListContainer}>
-          {offers.map((offer, index) => (
-            <div key={index} className={styles.ListBox} onClick={() => router.push(`/transactions/current/${offer.transaction_id}`)}>
-              <span className={styles.ListingId}>Transaction ID: {offer.transaction_id.slice(0, 5)}</span>
-              <h4 className={styles.ListPrice}>£ {offer.apartmentDetails?.Amount}</h4>
-              <p className={styles.Desc}>{offer.apartmentDetails?.Title || "No description"}</p>
-              <p className={styles.Location}>{offer.apartmentDetails?.location || "No location"}</p>
+    const router = useRouter()
+    return (
+       <div className={styles.Section}>
+         <div className={styles.container}>
+            <Link href="#" className={styles.Header}><h2>In-progress</h2></Link>
+           <div className={styles.ListContainer}>
+           <div className={styles.ListBox} onClick={() => router.push('/transactions/current/1')}>
+                <span className={styles.ListingId}>Listing ID: 1SFB2436</span>
+                <h4 className={styles.ListPrice}>£706,000</h4>
+                <p className={styles.Desc}>3 bedroom flat for sale</p>
+                <p className={styles.Location}>Navina road, London E8</p>
             </div>
-          ))}
+           </div>
         </div>
-      </div>
-    </div>
-  )
+       </div>
+    )
 }
 
-export default Current;
+export default Current
