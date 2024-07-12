@@ -12,7 +12,6 @@ export const Funds = ({ userType, id }) => {
   const [fileUrl, setFileUrl] = useState('');
   const [confirmed, setConfirmed] = useState(false);
 
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -104,30 +103,23 @@ export const Funds = ({ userType, id }) => {
     <div className={styles.offer}>
       <section>
         <h2>Funds Verification</h2>
-        {userType === "buyer" && (
-          <p>Thank you for showing interest in this real estate property. Please upload proof of funds or a mortgage in principle document.</p>
-        )}
-        {userType === "agent" && (
-          <p>The buyer has provided Proof of Funds, or Mortgage in Principle document. Please view the attached document and confirm receipt.</p>
-        )}
+        <p>Thank you for showing interest in this real estate property. Please upload proof of funds or a mortgage in principle document.</p>
       </section>
 
-      {userType === "buyer" && (
-        <div className={styles.fileContainer}>
-          <section id={styles.file_upload}>
-            <label>
-              {fileUrl ? (
-                <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
-              ) : (
-                'Upload Document'
-              )}
-              <input type="file" onChange={handleImageChange} disabled={uploading} />
-            </label>
-            {uploading && <p>Uploading...</p>}
-          </section>
-          {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>Continue</button>}
-        </div>
-      )}
+      <div className={styles.fileContainer}>
+        <section id={styles.file_upload}>
+          <label>
+            {fileUrl ? (
+              <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
+            ) : (
+              'Upload Document'
+            )}
+            <input type="file" onChange={handleImageChange} disabled={uploading} />
+          </label>
+          {uploading && <p>Uploading...</p>}
+        </section>
+        {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>Continue</button>}
+      </div>
 
       {userType === "agent" && (
         <div className={styles.fileContainer}>
@@ -136,13 +128,7 @@ export const Funds = ({ userType, id }) => {
               {!fileUrl && `User has not uploaded Funds document yet`}
               {fileUrl && <img src={fileUrl} width={250} height={200} alt="Uploaded document" />}
             </label>
-
-            {fileUrl && (
-            <a href={fileUrl} download>
-              Download Document
-            </a>
-          )}
-
+            {fileUrl && <a href={fileUrl} download>Download Document</a>}
           </section>
           {fileUrl && (
             <button className={styles.fileuploadButton} onClick={handleConfirm}>
@@ -153,4 +139,4 @@ export const Funds = ({ userType, id }) => {
       )}
     </div>
   );
-}
+};
