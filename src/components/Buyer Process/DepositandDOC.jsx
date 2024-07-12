@@ -45,7 +45,7 @@ export const Deposit = () => {
   );
 };
 
-export const DOC = () => {
+export const DOC = ({transaction, id , userType}) => {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     "January",
@@ -72,9 +72,52 @@ export const DOC = () => {
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
   const handleYearChange = (e) => setSelectedYear(e.target.value);
 
-  const handleSubmit = () => {
-    alert(`Selected date: ${selectedDay} ${selectedMonth} ${selectedYear}`);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const date = `${selectedDay} ${selectedMonth} ${selectedYear}`;
+
+    try {
+      const response = await fetch(`/api/transaction/10_setDate/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ date }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      if(response.ok){
+        alert(`Date successfully sent: ${data.date}`);
+      }
+    } catch (error) {
+      alert(`Failed to send date: ${error.message}`);
+    }
   };
+
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch(`/api/transaction/11_confirmdate/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(agreeded_on_completion_date_buyer),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      if(response.ok){
+        alert(`Date successfully confirmed: ${data.message}`);
+      }
+    } catch (error) {
+      alert(`Failed to confirm date: ${error.message}`);
+    }
+  }
 
   return (
     <div className={styles.offer}>
@@ -87,7 +130,7 @@ export const DOC = () => {
         </p>
       </section>
 
-      <div className={styles.DateContainer}>
+      <form className={styles.DateContainer} onSubmit={handleSubmit}>
         <label>Select</label>
 
         <div className={styles.selectContainer}>
@@ -125,8 +168,8 @@ export const DOC = () => {
           </select>
         </div>
 
-        <button>Set Date</button>
-      </div>
+        <button type="submit">Set Date</button>
+      </form>
     </div>
   );
 };

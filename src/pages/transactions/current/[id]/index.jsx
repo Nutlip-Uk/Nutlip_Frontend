@@ -121,18 +121,17 @@ const Process = () => {
         {/* NOTE: Code to be refactored */}
         {count.current === 1 && <Offer id={id} userType={userType} transaction={transaction} apartment={apartment} sellerInfo={sellerInfo}/>}
         {count.current === 2 && <Funds id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 3 && <FundsVerify userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 4 && <AddConveyancer userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 5 && <ResearchSurvey userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 6 && <Contract userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 7 && <NutlipCommission userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 8 && <Deposit userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 9 && <DOC userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 10 && <FullPayment userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 11 && <TransferTitle userType={userType} transaction={transaction} apartment={apartment}/>}
-        {count.current === 12 && <Success userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 3 && <AddConveyancer id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 4 && <ResearchSurvey id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 5 && <Contract id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 6 && <NutlipCommission id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 7 && <Deposit id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 8 && <DOC id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 9 && <FullPayment id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 10 && <TransferTitle id={id} userType={userType} transaction={transaction} apartment={apartment}/>}
+        {count.current === 11 && <Success userType={userType} transaction={transaction} apartment={apartment}/>}
 
-        {count.current !== 12 && (
+        {count.current !== 11 && (
           <div id={styles.page_nav}>
             <button>
               Completed: <span>Offer Accepted</span>

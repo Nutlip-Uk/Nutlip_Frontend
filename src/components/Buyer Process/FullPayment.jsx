@@ -2,15 +2,11 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/FullPayment.module.css"
 import { useState } from 'react';
-import { Deposit } from './DepositandDOC';
+import { Deposit } from './DepositandDoc';
 
 
-export const FullPayment = () => {
-    const [file, setFile] = useState('');
-    const handleChange =(e) => {
-        let newFile = URL.createObjectURL(e.target.files[0])
-        setFile(newFile);
-    }
+export const FullPayment = ({id , userType, transaction}) => {
+   
 
     return (
         <div className={styles.offer}>
@@ -19,7 +15,7 @@ export const FullPayment = () => {
                 <p>The Seller has confirmed receipt of full payment for the purchase of the real estate property. The Seller's bank account details are stated below. Please download and view the attached document showing Proof of Full Payment to the Seller.</p>
             </section>
 
-         {/*    <section id={styles.list}>
+          <section id={styles.list}>
                 <ul>
                     <li>Seller’s Bank Account Details</li>
                     <li>Bank name: Bank of Scotland</li>
@@ -29,7 +25,7 @@ export const FullPayment = () => {
                     <li>IBAN: 26784326789012</li>
                     <li>Amount: £625,148</li>
                 </ul>
-            </section> */}
+            </section> 
 
             <section id={styles.file_upload}>
                 <label>

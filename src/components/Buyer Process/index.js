@@ -2,7 +2,7 @@ import { Offer } from "./Offer";
 import { Funds, FundsVerify } from "./Funds";
 import { AddConveyancer } from "./AddConveyancer";
 import { NutlipCommission } from "./Commission";
-import { Deposit, DOC } from "./DepositandDOC";
+import { Deposit, DOC } from "./DepositandDoc";
 import { Contract } from "./Contract";
 import { ResearchSurvey } from "./ResearchandSurvey";
 import { FullPayment } from "./FullPayment";
