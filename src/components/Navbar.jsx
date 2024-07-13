@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { RegistrationContext } from "../context/Register.context";
 import { LoginContext } from "../context/Login.context";
 // import { signOut, useSession } from 'next-auth/react'
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+// import { DownOutlined } from "@ant-design/icons";
+// import { Dropdown, Space } from "antd";
 
 const Navbar = () => {
   const router = useRouter();
@@ -113,14 +113,14 @@ const MainNavbar = ({ userInformation, handleLogout }) => {
             </Link>
           </li>
           <li>
-            <Dropdown menu={{ items }}>
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  Services
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
+            {/* <Dropdown menu={{ items }}> */}
+            <a onClick={(e) => e.preventDefault()}>
+              {/* <Space> */}
+              Services
+              {/* <DownOutlined /> */}
+              {/* </Space> */}
+            </a>
+            {/* </Dropdown> */}
           </li>
           <li>
             <a href={"https://blockchain.nutlip.co.uk"}>Blockchain</a>

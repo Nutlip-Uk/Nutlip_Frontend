@@ -1,17 +1,16 @@
-import dbConnect from "../../../libs/dbconnect";
-import User from "../../../models/User";
+import UserType from "../../../../models/UserType";
+import connectDB from "../../../../libs/dbconnect";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
-
-  await dbConnect();
+  await connectDB();
 
   try {
-    const users = await User.find();
+    const usetypes = await UserType.find();
 
-    res.status(200).json({ message: "success", users: users });
+    return res.status(200).json({ message: "success", usertypes: usetypes });
   } catch (error) {
     console.error("Error fetching users by type:", error);
     res.status(500).json({ message: "Error fetching users" });

@@ -1,5 +1,6 @@
 import connectToDb from "../../libs/dbconnect"; // Database connection
 import User from "../../models/User"; // User schema
+import UserType from "../../models/UserType";
 
 async function Handler(req, res) {
   await connectToDb(); // Connect to database before handling request
@@ -31,10 +32,24 @@ async function Handler(req, res) {
   console.log(existingUser);
 
   try {
-    const newUser = new User({ username, email, password, newUser: true });
+    const newUser = new User({
+      username,
+      email,
+      password,
+      userType: "",
+      newUser: true,
+    });
+
+    const newUsertype = new UserType({
+      userId: newUser._id,
+      type: req.body.type ? req.body.type : "property_buyer",
+    });
+
+    newUser.userType = newUsertype._id;
     await newUser.save();
-    console.log(newUser);
-    res.status(201).json({ message: "User created successfully" });
+    await newUsertype.save();
+
+    res.status(201).json({ message: "User created successfulaly" });
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Error creating user" });

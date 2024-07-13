@@ -1,4 +1,3 @@
-// models/UserType.js
 import mongoose from "mongoose";
 
 const userTypeSchema = new mongoose.Schema({
@@ -16,7 +15,7 @@ const userTypeSchema = new mongoose.Schema({
       "Mortgage_broker",
       "Conveyancer",
       "private_seller",
-      "guest",
+      "property_buyer",
     ],
     required: true,
   },

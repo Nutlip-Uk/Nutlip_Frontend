@@ -96,7 +96,7 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "GET") {
     // Fetch apartments logic
-
+    // add query data
     try {
       const apartments = await Apartment.find();
       res.status(200).json(apartments);
