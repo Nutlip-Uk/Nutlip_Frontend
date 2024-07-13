@@ -135,7 +135,7 @@ const ApartmentSchema = new mongoose.Schema({
   },
 });
 
-// // Set the justAddedExpiration field to 48 hours from the current time
+// Set the justAddedExpiration field to 48 hours from the current time
 // ApartmentSchema.pre("save", function (next) {
 //   if (this.isNew) {
 //     const expirationTime = new Date();
