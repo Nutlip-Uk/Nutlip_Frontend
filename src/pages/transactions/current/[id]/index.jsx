@@ -16,86 +16,81 @@ import Progress_bar from "../../../../components/ProgressBar";
 import Button from "../../../../components/styled components/Button";
 import styles from "../../../../styles/Transactions/OfferProcess.module.css";
 import Image from "next/image";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { LoginContext } from '../../../../context/Login.context';
 
 const Process = () => {
-  const [progress, setProgress] = useState(Math.floor(100 / 12));
-  const count = useRef(1);
+  const [progress, setProgress] = useState(0);
+  const [currentStage, setCurrentStage] = useState(1); // To handle rendering from stage 1
   const router = useRouter();
   const { id } = router.query;
 
   const [transaction, setTransaction] = useState(null);
   const [apartment, setApartment] = useState(null);
-  const [transactionStage, setTransactionStage] = useState(null);
+  const [transactionStage, setTransactionStage] = useState(1);
   const [sellerInfo, setSellerInfo] = useState([]);
   const [userType, setUserType] = useState(null);
-  const {userInformation}= useContext(LoginContext);
-  const [transactionContent, setTransactionContent]= useState()
+  const { userInformation } = useContext(LoginContext);
+  const [transactionContent, setTransactionContent] = useState();
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/transaction/gettxcontent/${id}`);
       const data = await response.json();
       setTransactionContent(data.transactioncontent);
-      console.log("TRANSACTION CONTENT",transactionContent);
+      console.log("TRANSACTION CONTENT", transactionContent);
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!id) return; // Ensure id is available before making the fetch call
-  
+      if (!id) return;
+
       try {
         const transactionResponse = await fetch(`/api/transaction/${id}`);
         const transactionData = await transactionResponse.json();
-        console.log("API response:", transactionData);
         setTransaction(transactionData.transaction);
-        setTransactionStage(transactionData.transaction.transactionCurrentStage); // Set the transaction stage
-  
+        setTransactionStage(transactionData.transaction.transactionCurrentStage);
+
         if (transactionResponse.ok) {
           const apartmentResponse = await fetch(`/api/apartment/${transactionData.transaction.ApartmentId}`);
           const apartmentData = await apartmentResponse.json();
-          console.log("Apartment API response:", apartmentData);
           setApartment(apartmentData);
-  
+
           const sellerResponse = await fetch(`/api/user/${userInformation.user.id}`);
           const sellerData = await sellerResponse.json();
-          console.log("USER INFO", sellerData);
           setSellerInfo(sellerData);
-          setUserType(sellerData.userType.type)
-
+          setUserType(sellerData.userType.type);
         } else {
           console.error("API error:", transactionData.message);
         }
-        
       } catch (error) {
         console.error("API error:", error);
       }
     };
-  
+
     fetchData();
-
-    console.log(userType)
-
   }, [id]);
 
-
-
-
   useEffect(() => {
-    if (transactionStage !== null) {
-      setProgress((transactionStage / 12) * 100);
+    setProgress((currentStage / 12) * 100);
+  }, [currentStage]);
+
+  const handleNextClick = () => {
+    if (currentStage < transactionStage) {
+      setCurrentStage(currentStage + 1);
+    } else {
+      console.log('Cannot progress to the next stage until the current Transaction stage is completed.');
     }
-  }, [transactionStage]);
+  };
 
   return (
     <div className={styles.Section}>
       <div className={styles.container}>
-        {transactionStage !== 11 && <Chat position="fixed" top="90%" right={20} />}
+        {currentStage !== 11 && <Chat position="fixed" top="90%" right={20} />}
 
         <div id={styles.top_bar}>
           <div className={styles.rightSide}>
@@ -126,25 +121,25 @@ const Process = () => {
 
         <Progress_bar bgcolor="#001F6D" progress={progress} height={30} />
 
-        {/* NOTE: Code to be refactored */}
-        {transactionStage === 1 && <Offer id={id} userType={userType} transaction={transaction} apartment={apartment} sellerInfo={sellerInfo}/>}
-        {transactionStage === 2 && <Funds id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-      {transactionStage === 3 && <AddConveyancer userType={userType} transaction={transaction} apartment={apartment} userInformation={userInformation}/>}
-        {transactionStage === 4 && <ResearchSurvey userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 5 && <Contract userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 6 && <NutlipCommission userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 7 && <Deposit userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 8 && <DOC userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 9 && <FullPayment userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 10 && <TransferTitle userType={userType} transaction={transaction} apartment={apartment}/>}
-        {transactionStage === 11 && <Success userType={userType} transaction={transaction} apartment={apartment}/>}
+        {/* Render components based on currentStage */}
+        {currentStage === 1 && <Offer id={id} userType={userType} transaction={transaction} apartment={apartment} sellerInfo={sellerInfo} />}
+        {currentStage === 2 && <Funds id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 3 && <AddConveyancer userType={userType} transaction={transaction} apartment={apartment} userInformation={userInformation} />}
+        {currentStage === 4 && <ResearchSurvey userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 5 && <Contract userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 6 && <NutlipCommission userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 7 && <Deposit userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 8 && <DOC userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 9 && <FullPayment userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 10 && <TransferTitle userType={userType} transaction={transaction} apartment={apartment} />}
+        {currentStage === 11 && <Success userType={userType} transaction={transaction} apartment={apartment} />}
 
-        {transactionStage !== 11 && (
+        {currentStage !== 11 && (
           <div id={styles.page_nav}>
             <button>
               Completed: <span>Offer Accepted</span>
             </button>
-            <button>
+            <button onClick={handleNextClick}>
               Next : <span>Funds Verification</span>
             </button>
           </div>

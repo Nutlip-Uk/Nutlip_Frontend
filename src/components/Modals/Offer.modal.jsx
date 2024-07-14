@@ -109,7 +109,7 @@ const OfferModal = (props) => {
   );
 };
 
-export const ConveyancerModal = ({props, handleConveyancerInvite}) => {
+export const ConveyancerModal = (props) => {
 
   
   return (
