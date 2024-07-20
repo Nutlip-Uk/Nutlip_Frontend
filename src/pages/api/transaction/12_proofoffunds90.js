@@ -15,12 +15,12 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      if (tx.transactionCurrentStage != 12) {
-        res.status(400).json({
-          message: "already uploaded proof of funds at 90%",
-        });
-        return;
-      }
+      // if (tx.transactionCurrentStage != 12) {
+      //   res.status(400).json({
+      //     message: "already uploaded proof of funds at 90%",
+      //   });
+      //   return;
+      // }
 
       Promise.all([
         await transactionContents.updateOne(

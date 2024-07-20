@@ -15,12 +15,12 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      if (tx.transactionCurrentStage != 11) {
-        res.status(400).json({
-          message: "already confirmed set date",
-        });
-        return;
-      }
+      // if (tx.transactionCurrentStage != 11) {
+      //   res.status(400).json({
+      //     message: "already confirmed set date",
+      //   });
+      //   return;
+      // }
 
       Promise.all([
         await transactionContents.updateOne(
