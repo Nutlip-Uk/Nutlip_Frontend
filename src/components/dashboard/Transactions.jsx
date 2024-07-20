@@ -412,7 +412,7 @@ const OffersAccepted = ({ handleChange, apartments, propertyOffers = [], handleV
     <>
       <h1 onClick={() => handleChange("offers")}>Offers Accepted</h1>
       <div className={styles.propertyList}>
-        {apartments.map((apartment) => (
+        {apartments?.map((apartment) => (
           <div key={apartment?._id} className={styles.propertyContainer}>
             <div className={styles.Property}>
               <div className={styles.PropertyImg}>

@@ -34,12 +34,7 @@ export default async function handler(req, res) {
         return;
       }
 
-      if (tx.transactionCurrentStage != 3) {
-        res.status(400).json({
-          message: "Seller convenyancer already added",
-        });
-        return;
-      }
+      
 
       Promise.all([
         await transactionContents.updateOne(

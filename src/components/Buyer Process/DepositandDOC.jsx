@@ -1,51 +1,288 @@
 import Image from "next/image";
 import styles from "../../styles/BuyerProcess/DepositandDoc.module.css";
-import Button from "../styled components/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ImageContext } from "../../context/ImageContext.context";
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../../firebase';
 
-export const Deposit = () => {
-  const [file, setFile] = useState("");
+
+export const Deposit = ({ userType, transaction, transactionContent, id }) => {
+  const [uploading, setUploading] = useState(false);
+  const { url, setUrl } = useContext(ImageContext);
+  const [fileUrl, setFileUrl] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
+  const [form, setForm] = useState({
+    AccountName: "",
+    AccountNumber: "",
+    BankName: "",
+    IBAN: "",
+    SortCode: ""
+  });
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isAccountInfoSent, setIsAccountInfoSent] = useState(false);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const storageRef = ref(storage, `images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        // Progress function (optional)...
+        setUploading(true);
+      },
+      (error) => {
+        // Error function ...
+        console.error(error);
+        setUploading(false);
+      },
+      () => {
+        // Complete function ...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setFileUrl(downloadURL); // Set the file URL for displaying the image
+          setUrl(downloadURL );  // Update the context
+          console.log('File available at:', downloadURL);  // Log the URL
+          setUploading(false);
+        });
+      }
+    );
+  };
+
+
+
   const handleChange = (e) => {
     let newFile = URL.createObjectURL(e.target.files[0]);
     setFile(newFile);
   };
 
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const content = userType === "property_seeker" ? "dummy proof of 10% deposit" : form;
+    console.log(content);
+
+    try {
+      const response = await fetch("/api/transaction/08_proofoffundsupload10", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transactionId: id,
+          content:"Dummy proof of fund"
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch("/api/transaction/09_confirmproofoffundsupload10", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transactionId: id,
+          offerid: transaction?.offerId
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setConfirmed(true);
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={styles.offer}>
       <section>
-        <h2>First Deposit</h2>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Document should be maximum of 2MB in these formats; png,
-          jpg, pdf or doc.
-        </p>
+        <h2>{"10% Deposit"}</h2>
+
+        {userType === "property_seeker" && (
+          <p>
+            Please deposit 10% (percent) of the total amount of money the Seller
+            is to receive into the designated bank account of the Seller. Then
+            upload evidence of payment to Seller. Bank Account details are
+            below:
+          </p>
+        )}
+
+        {userType === "Real_estate_agent" && (
+          <p>
+            Please provide the details of your designated bank account below,
+            for which the buyer can deposit 10 percent of the total amount
+            accepted for the purchase of the Real Estate property.
+          </p>
+        )}
+
+        <br />
+        {userType === "Real_estate_agent" && (
+          <strong>Amount : € {transaction.offer.PriceOffer * 0.1}</strong>
+        )}
       </section>
 
-      {/*  <section className={styles.list}>
-                <ul>
-                    <li>Seller’s Bank Account Details</li>
-                    <li>Bank name: Bank of Scotland</li>
-                    <li>Sort code: 22-12-46</li>
-                    <li>Account number: 01234567</li>
-                    <li>Account name: Johnson Alabija</li>
-                    <li>IBAN: 26784326789012</li>
-                    <li>Amount: £625,148</li>
-                </ul>
-            </section> */}
+      {userType === "property_seeker" && (
+        <section className={styles.list}>
+          <ul>
+            <li>Seller’s Bank Account Details</li>
+            <li>Bank name: Bank of Scotland</li>
+            <li>Sort code: 22-12-46</li>
+            <li>Account number: 01234567</li>
+            <li>Account name: Johnson Alabija</li>
+            <li>IBAN: 26784326789012</li>
+            <li>Amount : € {transaction.offer.PriceOffer * 0.1}</li>
+          </ul>
+        </section>
+      )}
 
-      <section id={styles.file_upload}>
-        <label>
-          {!file && `Upload Document`}
-          <input type="file" onChange={handleChange} />
-          {file && <Image src={file} width={250} height={200} alt={file} />}
-        </label>
-        <button className={styles.fileuploadButton}>Continue</button>
-      </section>
+      {userType === "property_seeker" && (
+        <div className={styles.fileContainer}>
+          <section id={styles.file_upload}>
+            <label>
+              {fileUrl ? (
+                <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
+              ) : (
+                'Upload Document'
+              )}
+              <input type="file" onChange={handleImageChange} disabled={uploading} />
+            </label>
+            {uploading && <p>Uploading...</p>}
+          </section>
+          {fileUrl && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
+        </div>
+      )}
+
+      {userType === "Real_estate_agent" && (
+        <>
+          {isFormSubmitted ? (
+            <section className={styles.formContainer}>
+              <p className={styles.formHeader}>{"Seller’s Bank Account Details"}</p>
+              <ul>
+                <li>Bank name: {form.BankName}</li>
+                <li>Sort code: {form.SortCode}</li>
+                <li>Account number: {form.AccountNumber}</li>
+                <li>Account name: {form.AccountName}</li>
+                <li>IBAN: {form.IBAN}</li>
+                <li>Amount: € {transaction.offer.PriceOffer * 0.1}</li>
+              </ul>
+             { isAccountInfoSent ? <button style={{background:"green"}} className={styles.confirm} >Sent</button> :  <button type="button" onClick={(e)=>{ e.preventDefault(); setIsAccountInfoSent(true)}} className={styles.confirm}>Send</button>}
+
+
+             <div className={styles.fileContainer}>
+          <section id={styles.file_upload}>
+            <label>
+              {transactionContent?.proof_of_funds_10 =="" && `User has not uploaded Funds document yet`}
+              {!transactionContent?.proof_of_funds_10 =="" && <img src={transactionContent.proof_of_funds_10} width={250} height={200} alt="Uploaded document" />}
+            </label>
+          </section>
+          {!transactionContent?.proof_of_funds_10 ==""  && <button className={styles.fileuploadButton} style={confirmed && {background:"green"}} onClick={handleConfirm}>Confirm Funds</button>}
+        </div>
+
+             
+            </section>
+          ) : (
+            <section className={styles.formContainer}>
+              <p className={styles.formHeader}>{"Seller’s Bank Account Details"}</p>
+              <form className={styles.form} >
+                <div className={styles.formInput}>
+                  <label>
+                    Account name
+                    <input
+                      type="text"
+                      required
+                      placeholder="Account name"
+                      value={form.AccountName}
+                      onChange={handleFormChange}
+                      name="AccountName"
+                    />
+                  </label>
+                </div>
+                <div className={styles.formInput}>
+                  <label>
+                    Bank name
+                    <input
+                      required
+                      type="text"
+                      placeholder="Bank name"
+                      value={form.BankName}
+                      onChange={handleFormChange}
+                      name="BankName"
+                    />
+                  </label>
+                </div>
+                <div className={styles.formInput}>
+                  <label>
+                    Sort code
+                    <input
+                      required
+                      type="text"
+                      placeholder="Sort code"
+                      value={form.SortCode}
+                      onChange={handleFormChange}
+                      name="SortCode"
+                    />
+                  </label>
+                </div>
+                <div className={styles.formInput}>
+                  <label>
+                    Account number
+                    <input
+                      required
+                      type="text"
+                      placeholder="Account number"
+                      value={form.AccountNumber}
+                      onChange={handleFormChange}
+                      name="AccountNumber"
+                    />
+                  </label>
+                </div>
+                <div className={styles.formInput}>
+                  <label>
+                    IBAN
+                    <input
+                      required
+                      type="text"
+                      placeholder="IBAN"
+                      value={form.IBAN}
+                      onChange={handleFormChange}
+                      name="IBAN"
+                    />
+                  </label>
+                </div>
+                <button type="submit" onClick={(e)=> {e.preventDefault(); setIsFormSubmitted(true)}} className={styles.confirm}>Confirm</button>
+              </form>
+            </section>
+          )}
+        </>
+      )}
     </div>
   );
 };
 
-export const DOC = () => {
+
+export const DOC = ({ transaction, id, userType , transactionContent}) => {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     "January",
@@ -72,9 +309,58 @@ export const DOC = () => {
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
   const handleYearChange = (e) => setSelectedYear(e.target.value);
 
-  const handleSubmit = () => {
-    alert(`Selected date: ${selectedDay} ${selectedMonth} ${selectedYear}`);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const date = `${selectedDay} ${selectedMonth} ${selectedYear}`;
+    console.log(date);
+    console.log(transaction.offerId);
+    console.log(id)
+    try {
+      const response = await fetch(`/api/transaction/10_setdate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          transactionId:id,
+          date: date,
+          offerId: transaction?.offerId
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`Date successfully sent: ${data}`);
+      }
+  
+    } catch (error) {
+      console.log(`Failed to send date: ${error.message}`);
+    }
   };
+  
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    console.log(id);
+    console.log(transaction.offerId);
+    try {
+      const response = await fetch(`/api/transaction/11_confirmdate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transactionId: id,
+          offerId: transaction?.offerId
+      }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("date successfully confirmed:", data);
+      }
+    } catch (error) {
+      console.log("Failed to confirm date:", error);
+    }
+  }
 
   return (
     <div className={styles.offer}>
@@ -87,7 +373,7 @@ export const DOC = () => {
         </p>
       </section>
 
-      <div className={styles.DateContainer}>
+      {userType == "property_seeker" &&<form className={styles.DateContainer} onSubmit={handleSubmit}>
         <label>Select</label>
 
         <div className={styles.selectContainer}>
@@ -125,8 +411,16 @@ export const DOC = () => {
           </select>
         </div>
 
-        <button>Set Date</button>
-      </div>
+        <button style={{background:"red", color:"white"}} type="submit">Set Date</button>
+      </form>}
+
+      {
+        userType == "Real_estate_agent" &&  
+        <form className={styles.DateContainer}>
+          <input disabled className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date =="" ? transactionContent.completion_date : "Date not yet set"} />
+          <button style={{background:"red", color:"white"}} onClick={handleConfirm}>Confirm</button>
+        </form>
+      }
     </div>
   );
 };

@@ -109,15 +109,29 @@ const OfferModal = (props) => {
   );
 };
 
+
 export const ConveyancerModal = (props) => {
 
+  const {handler, addSellerConveyancer, addBuyerConveyancer,userType}= props
+  
+  const [conveyancerID, setConveyancerID]= useState("");
+  const [conveyancerEmail, setConveyancerEmail]= useState("")
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "conveyancerID") {
+      setConveyancerID(value);
+    } else if (name === "conveyancerEmail") {
+      setConveyancerEmail(value);
+    }
+  };
   
   return (
     <div className={conveyancer.container}>
       <div className={conveyancer.inner_container}>
         <section className={styles.header}>
           <h2>Conveyancer Invite</h2>
-          <button onClick={props.handler}>
+          <button onClick={handler}>
             <Image
               src="/images/vector-close.svg"
               width={18}
@@ -129,15 +143,15 @@ export const ConveyancerModal = (props) => {
 
         <section id={conveyancer.conveyancer}>
           
-          <div className={conveyancer.inputField}>
-            <input type="text" placeholder="Add email address" />
+          <form className={conveyancer.inputField}>
+            <input type="text" placeholder="Add email address" name="conveyancerEmail" value={conveyancerEmail} onChange={handleChange} />
             <Button
               bgcolor="#DA0025"
               textcolor="#FFF"
               width="30"
               content="Send"
             />
-          </div>
+          </form>
 
           <div id={conveyancer.Or}>
             <hr />
@@ -145,16 +159,24 @@ export const ConveyancerModal = (props) => {
             <hr />
           </div>
 
-
-          <div className={conveyancer.inputField}>
-            <input type="text" placeholder="Add Conveyancer's Nutlip ID" />
+ 
+          <form onSubmit={(e) => {
+              e.preventDefault();
+              userType === "property_seeker"
+                ? addBuyerConveyancer(conveyancerID)
+                : addSellerConveyancer(conveyancerID);
+            }}
+            
+            className={conveyancer.inputField}>
+            <input type="text" placeholder="Add Conveyancer's Nutlip ID" name="conveyancerID" value={conveyancerID} onChange={handleChange} />
             <Button
               bgcolor="#DA0025"
               textcolor="#FFF"
               width="30"
               content="Send"
+              type="submit"
             />
-          </div>
+          </form>
 
 
 

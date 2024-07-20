@@ -15,12 +15,12 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      if (tx.transactionCurrentStage != 6) {
-        res.status(400).json({
-          message: "contract already uploaded",
-        });
-        return;
-      }
+      // if (tx.transactionCurrentStage != 6) {
+      //   res.status(400).json({
+      //     message: "contract already uploaded",
+      //   });
+      //   return;
+      // }
 
       Promise.all([
         await transactionContents.updateOne(

@@ -15,12 +15,12 @@ export default async function handler(req, res) {
         _id: transactionId,
       });
 
-      if (tx.transactionCurrentStage != 5) {
-        res.status(400).json({
-          message: "researched survery already done",
-        });
-        return;
-      }
+      // if (tx.transactionCurrentStage != 5) {
+      //   res.status(400).json({
+      //     message: "researched survery already done",
+      //   });
+      //   return;
+      // }
 
       Promise.all([
         await transactionContents.updateOne(
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
             $set: {
               researched: true,
               researched_date: Date.now(),
-            },
+           },
           }
         ),
         await OfferTransaction.updateOne(
