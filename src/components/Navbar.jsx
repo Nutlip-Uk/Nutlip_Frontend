@@ -12,8 +12,28 @@ import { Dropdown, Space } from "antd";
 const Navbar = () => {
   const router = useRouter();
 
-  const { userInformation, setUserInformation, handleLogout } =
-    useContext(LoginContext);
+  const [ userType , setUserType]= useState("")
+
+  const { userInformation, setUserInformation, handleLogout } = useContext(LoginContext);
+
+  useEffect(() => {
+    console.log("userInformation", userInformation?.user?.id);
+    async function fetchData() {
+      if (userInformation?.user?.id) {
+        try {
+          const response = await fetch(`/api/user/${userInformation.user.id}`);
+          const data = await response.json();
+          console.log("Data", data);
+          setUserType(data?.userType?.type);
+        } catch (error) {
+          console.error("Error fetching user type:", error);
+        }
+      }
+    }
+    fetchData();
+  }, [userInformation]);
+
+  
   return (
     <div className={sty.navigation}>
       <nav className={sty.nav}>
@@ -29,7 +49,7 @@ const Navbar = () => {
             <MainNavbar
               userInformation={userInformation}
               handleLogout={handleLogout}
-              
+              userType={userType}
             />
           )}
         </div>
@@ -40,7 +60,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MainNavbar = ({ userInformation, handleLogout }) => {
+const MainNavbar = ({ userInformation, handleLogout , userType}) => {
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
   const [popup, setPopup] = useState(false);
@@ -192,27 +212,36 @@ const MainNavbar = ({ userInformation, handleLogout }) => {
                 <p>Recent Search</p>
               </div>
               <hr />
-              <div className={sty.popUplink}>
+              <div onClick={()=>setPopup(false)} className={sty.popUplink}>
                 <img src="/navbar/heart.svg" />
                 <p>Saved properties</p>
               </div>
-              <hr />
-              <div className={sty.popUplink}>
+              {  userType === "property_seeker" && <hr />}
+              { userType === "property_seeker" && (<div className={sty.popUplink} onClick={()=>setPopup(false)}>
                 <img src="/navbar/transaction.svg" />
                 <Link href={"/transactions"}>Transactions</Link>
-              </div>
+              </div>)}
+              { userType === "Real_estate_agent" && <hr/>}
+              {userType === "Real_estate_agent" && (
+                <div onClick={()=>setPopup(false)} className={sty.popUplink}>
+                  <img src="/navbar/transaction.svg" />
+                  <Link href={"/dashboard?option=postProperty"}>
+                    Dashboard
+                  </Link>
+                </div>
+              )}
               <hr />
               <div className={sty.popUplink}>
                 <img src="/navbar/settings.svg" />
                 <p>Account settings</p>
               </div>
               <hr />
-              <div className={sty.popUplink}>
+              <div onClick={()=>setPopup(false)} className={sty.popUplink}>
                 <img src="/navbar/logout.svg" />
                 <p onClick={handleLogout}>Logout</p>
               </div>
 
-              <button>Book a demo</button>
+              {/* <button>Book a demo</button> */}
             </div>
           </div>
         </>

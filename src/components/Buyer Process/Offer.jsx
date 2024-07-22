@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
     const [viewProperty, setViewProperty] = useState(false);
     
-   
-
 
     const handleViewProperty = () => {
         setViewProperty(!viewProperty)
@@ -18,8 +16,8 @@ export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
         <div className={styles.offer}>
             <section className={styles.text}>
                 <h2>Offer Accepted</h2>
-                {userType === "buyer" ? <p><strong>Congratulations!</strong> Your offer has been accepted by the seller. You can now proceed to inviting a Conveyancer that will represent you in this transaction to its completion </p> : null}
-                {userType === "agent" ? <p><strong>Congratulations!</strong> You have successfully accepted an offer from a buyer for this real estate property. </p> : null}
+                {userType === "property_seeker" ? <p><strong>Congratulations!</strong> Your offer has been accepted by the seller. You can now proceed to inviting a Conveyancer that will represent you in this transaction to its completion </p> : null}
+                {userType === "Real_estate_agent" ? <p><strong>Congratulations!</strong> You have successfully accepted an offer from a buyer for this real estate property. </p> : null}
             </section>
 
             <section className={styles.transaction}>
@@ -69,15 +67,15 @@ export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
                         </div>
                         <hr />
                         <div className={styles.transactionDesc}>
-                            <p><strong>{apartment?.Title}</strong></p>
-                            <p>{apartment?.address}</p>
+                            <p><strong>{apartment?.Title.slice(0,10)}...</strong></p>
+                            <p>{apartment?.address.slice(0,10)}...</p>
                         </div>
                         <hr />
                     </>
                 )}
 
 
-                <button onClick={() => handleViewProperty()} className={styles.viewProperty}>View Property</button>
+                <button style={viewProperty  ? {backgroundColor :"green"} : null} onClick={() => handleViewProperty()} className={styles.viewProperty}>{viewProperty ? "Close property" : "View Property"}</button>
             </section>
 
             <hr className={styles.Line} />

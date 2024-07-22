@@ -43,7 +43,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
         // Complete function ...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFileUrl(downloadURL); // Set the file URL for displaying the image
-          setUrl(downloadURL );  // Update the context
+          setUrl(downloadURL);  // Update the context
           console.log('File available at:', downloadURL);  // Log the URL
           setUploading(false);
         });
@@ -76,14 +76,14 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
         },
         body: JSON.stringify({
           transactionId: id,
-          content:"Dummy proof of fund"
+          content: "Dummy proof of fund"
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        
+
       }
 
     } catch (error) {
@@ -117,7 +117,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
 
   return (
     <div className={styles.offer}>
-      <section>
+      <section className={styles.Header}>
         <h2>{"10% Deposit"}</h2>
 
         {userType === "property_seeker" && (
@@ -130,7 +130,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
         )}
 
         {userType === "Real_estate_agent" && (
-          <p>
+          <p style={{textWrap:"wrap"}}>
             Please provide the details of your designated bank account below,
             for which the buyer can deposit 10 percent of the total amount
             accepted for the purchase of the Real Estate property.
@@ -152,7 +152,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
             <li>Account number: 01234567</li>
             <li>Account name: Johnson Alabija</li>
             <li>IBAN: 26784326789012</li>
-            <li>Amount : € {transaction.offer.PriceOffer * 0.1}</li>
+            <li>Amount : € {transaction.offer.PriceOffer * 0.9}</li>
           </ul>
         </section>
       )}
@@ -162,7 +162,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
           <section id={styles.file_upload}>
             <label>
               {fileUrl ? (
-                <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
+                <img src={fileUrl} alt="Uploaded document" />
               ) : (
                 'Upload Document'
               )}
@@ -185,27 +185,33 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
                 <li>Account number: {form.AccountNumber}</li>
                 <li>Account name: {form.AccountName}</li>
                 <li>IBAN: {form.IBAN}</li>
-                <li>Amount: € {transaction.offer.PriceOffer * 0.1}</li>
+                <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
               </ul>
-             { isAccountInfoSent ? <button style={{background:"green"}} className={styles.confirm} >Sent</button> :  <button type="button" onClick={(e)=>{ e.preventDefault(); setIsAccountInfoSent(true)}} className={styles.confirm}>Send</button>}
+              {isAccountInfoSent ? (
+                <button style={{ background: "green" , maxWidth: "30%"}} className={styles.confirm} disabled>Sent</button>
+              ) : (
+                <button type="button" style={{ maxWidth: "30%" }} onClick={() => setIsAccountInfoSent(true)} className={styles.confirm}>Send</button>
+              )}
 
-
-             <div className={styles.fileContainer}>
-          <section id={styles.file_upload}>
-            <label>
-              {transactionContent?.proof_of_funds_10 =="" && `User has not uploaded Funds document yet`}
-              {!transactionContent?.proof_of_funds_10 =="" && <img src={transactionContent.proof_of_funds_10} width={250} height={200} alt="Uploaded document" />}
-            </label>
-          </section>
-          {!transactionContent?.proof_of_funds_10 ==""  && <button className={styles.fileuploadButton} style={confirmed && {background:"green"}} onClick={handleConfirm}>Confirm Funds</button>}
-        </div>
-
-             
+              <div className={styles.fileContainer}>
+                <section id={styles.file_upload}>
+                  <label>
+                    {transactionContent?.proof_of_funds_90 === "" ? (
+                      "User has not uploaded Funds document yet"
+                    ) : (
+                      <img src={transactionContent.proof_of_funds_90} alt="Uploaded document" />
+                    )}
+                  </label>
+                </section>
+                {transactionContent?.proof_of_funds_90 !== "" && (
+                  <button className={styles.fileuploadButton} style={!transaction?.confirm_proof_of_funds_90 ? { background: "green" } : { background: "red" }} onClick={!transaction?.confirm_proof_of_funds_90 ? handleConfirm :null}>{!transaction?.confirm_proof_of_funds_90  ? "Confirmed Funds" : "confirm funds"}</button>
+                )}
+              </div>
             </section>
           ) : (
             <section className={styles.formContainer}>
               <p className={styles.formHeader}>{"Seller’s Bank Account Details"}</p>
-              <form className={styles.form} >
+              <form className={styles.form} onSubmit={(e) => { e.preventDefault(); setIsFormSubmitted(true); }}>
                 <div className={styles.formInput}>
                   <label>
                     Account name
@@ -271,7 +277,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
                     />
                   </label>
                 </div>
-                <button type="submit" onClick={(e)=> {e.preventDefault(); setIsFormSubmitted(true)}} className={styles.confirm}>Confirm</button>
+                <button type="submit" className={styles.confirm}>Confirm</button>
               </form>
             </section>
           )}
@@ -282,7 +288,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
 };
 
 
-export const DOC = ({ transaction, id, userType , transactionContent}) => {
+export const DOC = ({ transaction, id, userType, transactionContent }) => {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     "January",
@@ -321,23 +327,23 @@ export const DOC = ({ transaction, id, userType , transactionContent}) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
-          transactionId:id,
+        body: JSON.stringify({
+          transactionId: id,
           date: date,
           offerId: transaction?.offerId
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log(`Date successfully sent: ${data}`);
       }
-  
+
     } catch (error) {
       console.log(`Failed to send date: ${error.message}`);
     }
   };
-  
+
   const handleConfirm = async (e) => {
     e.preventDefault();
     console.log(id);
@@ -351,7 +357,7 @@ export const DOC = ({ transaction, id, userType , transactionContent}) => {
         body: JSON.stringify({
           transactionId: id,
           offerId: transaction?.offerId
-      }),
+        }),
       });
       if (response.ok) {
         const data = await response.json();
@@ -373,7 +379,7 @@ export const DOC = ({ transaction, id, userType , transactionContent}) => {
         </p>
       </section>
 
-      {userType == "property_seeker" &&<form className={styles.DateContainer} onSubmit={handleSubmit}>
+      {userType == "property_seeker" && <form className={styles.DateContainer} onSubmit={handleSubmit}>
         <label>Select</label>
 
         <div className={styles.selectContainer}>
@@ -411,14 +417,14 @@ export const DOC = ({ transaction, id, userType , transactionContent}) => {
           </select>
         </div>
 
-        <button style={{background:"red", color:"white"}} type="submit">Set Date</button>
+        <button style={{ background: "red", color: "white" }} type="submit">Set Date</button>
       </form>}
 
       {
-        userType == "Real_estate_agent" &&  
+        userType == "Real_estate_agent" &&
         <form className={styles.DateContainer}>
-          <input disabled className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date =="" ? transactionContent.completion_date : "Date not yet set"} />
-          <button style={{background:"red", color:"white"}} onClick={handleConfirm}>Confirm</button>
+          <input disabled className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
+          <button style={{ background: "red", color: "white" }} onClick={handleConfirm}>Confirm</button>
         </form>
       }
     </div>
