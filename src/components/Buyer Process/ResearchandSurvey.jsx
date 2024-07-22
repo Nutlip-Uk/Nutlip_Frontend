@@ -62,7 +62,7 @@ export const ResearchSurvey = ({ userType, transaction ,id, transactionContent})
                     <section className={styles.ResearchInvite}>
                         <div className={styles.Research}>
                             <div className={styles.SubHeader}>
-                                {/* <h3>Agent Conveyancer</h3> */}
+                                <h3>Buyer Conveyancer</h3>
                                 {/* <p>Confirm your Research by sending them an invite</p> */}
                             </div>
 

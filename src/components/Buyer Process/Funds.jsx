@@ -42,8 +42,6 @@ export const Funds = ({ userType ,id,transactionContent}) => {
     );
   };
 
-
-
   const handleSubmit = async () => {
     
         try {
@@ -78,8 +76,7 @@ export const Funds = ({ userType ,id,transactionContent}) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          transactionId: id,  // Assuming `id` is defined in your component
-          confirm_proof_of_funds: true        // Assuming `url` is the proof of funds content
+          transactionId: id,  
         }),
       });
   
@@ -133,7 +130,7 @@ export const Funds = ({ userType ,id,transactionContent}) => {
               {!transactionContent?.proof_of_funds =="" && <img src={transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />}
             </label>
           </section>
-          {!transactionContent?.proof_of_funds ==""  && <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>}
+          {!transactionContent?.confirm_proof_of_funds ?  <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button> : <button className={styles.fileuploadButton} style={{backgroundColor: "green"}}>Funds Confirmed</button>}
         </div>
       )}
     </div>

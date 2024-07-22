@@ -12,6 +12,7 @@ import Script from "next/script";
 import LoginProvider from "../context/Login.context";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { MakeAnOfferProvider } from "../context/MakeAnOffer.context";
+import { UserTypeProvider } from "../context/UserType.context";
 
 const Layout = ({ children }) => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -25,7 +26,7 @@ const Layout = ({ children }) => {
             <Script
               defer
               src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initmap`}
-            ></Script>
+              ></Script>
             <PrivatePostPropertyContextProvider>
               <ImageProvider>
                 <LoginProvider>
@@ -34,6 +35,7 @@ const Layout = ({ children }) => {
                     <AgentOfferContextProvider>
                       {children}
                       <Analytics />
+          
                     </AgentOfferContextProvider>
                     <Footer />
                   </RegistrationContextProvider>

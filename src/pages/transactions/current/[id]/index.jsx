@@ -74,7 +74,7 @@ const Process = () => {
     };
   
     fetchData();
-  }, [id, userInformation?.user?.id]);
+  }, [id,userInformation?.user?.id]);
 
 
 

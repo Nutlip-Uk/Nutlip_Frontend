@@ -105,7 +105,7 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
 
                     <div className={styles.buttonContainer}>
                         <a href={transactionContent?.contract_upload} download className={styles.download}><em>Download Contract</em></a>
-                        <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
+                        <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
                     </div>
 
 
@@ -137,17 +137,17 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
                                 <img src={receiveFile} width={250} height={200} alt="Uploaded document" />
                             }
                         </label>
+                    <div className={styles.buttonContainer}>
+                        <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
+                        <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
+                    </div>
                     </section>
 
 
-                    <div className={styles.buttonContainer}>
-                        <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
-                        <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
-                    </div>
 
 
 
-                    {upload && <section id={styles.file_upload}>
+                    {upload && (<section id={styles.file_upload}>
                         <label>
                             {fileUrl ? (
                                 <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
@@ -157,11 +157,11 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
                             <input type="file" onChange={handleImageChange} disabled={uploading} />
                         </label>
                         {uploading && <p>Uploading...</p>}
-                    </section>
+                        {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>send</button>}
+                    </section>)
                     }
 
 
-                    {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>send</button>}
                 </div>
             )}
         </div>
