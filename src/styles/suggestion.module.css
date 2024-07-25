@@ -1,13 +1,14 @@
 .suggestionBox{
   background:white;
   position:absolute;
-  top:13.5%;
+  top:95%;
   display:flex;
   flex-direction:column;
   gap:8px;
   border:1px solid grey;
    padding:15px 25px;
    border-radius:8px;
+   z-index: 10;
 
 }
 
@@ -47,31 +48,23 @@
  @media ( width <=400px) {
    .suggestionBox{
        width: 80%;
-       top:6%;
-       z-index:2;
+       top:65%;
+     
       }
    
  }
  @media (400px <= width <=779px) {
    .suggestionBox{
      width: 75%;
-     top:6.8%;
-     z-index:2;
+     top:65%;
+   
     }
  }
  
  @media (780px <= width <= 1200px) {
    .suggestionBox{
        width: 70%;
-       top:8.5%;
-       z-index:2;
+       top:95%;
+     
       }
- }
-
- @media (1201px <= width <= 1400px) {
-   .suggestionBox{
-     width: 70%;
-     top:11.5%;
-     z-index:2;
-    }
  }

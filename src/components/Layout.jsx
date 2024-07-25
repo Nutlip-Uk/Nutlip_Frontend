@@ -8,14 +8,13 @@ import { ImageProvider } from "../context/ImageContext.context";
 import { PrivatePostPropertyContextProvider } from "../context/privatePostProperty.context";
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider, useSession } from "next-auth/react";
-import Script from "next/script";
 import LoginProvider from "../context/Login.context";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { MakeAnOfferProvider } from "../context/MakeAnOffer.context";
 import { UserTypeProvider } from "../context/UserType.context";
 
 const Layout = ({ children }) => {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
 
   //   const { data: session } = useSession();
   return (
@@ -23,10 +22,6 @@ const Layout = ({ children }) => {
       <div className="font-poppins">
         <AntdRegistry>
           <MakeAnOfferProvider>
-            <Script
-              defer
-              src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initmap`}
-              ></Script>
             <PrivatePostPropertyContextProvider>
               <ImageProvider>
                 <LoginProvider>
