@@ -142,9 +142,9 @@ const MainNavbar = ({ userInformation, handleLogout , userType}) => {
               </a>
             </Dropdown>
           </li>
-          <li>
+          {/* <li>
             <a href={"https://blockchain.nutlip.co.uk"}>Blockchain</a>
-          </li>
+          </li> */}
 
           {userInformation?.user ? (
             <>
@@ -162,13 +162,13 @@ const MainNavbar = ({ userInformation, handleLogout , userType}) => {
           ) : (
             <div className={sty.NavLogin}>
               <Link href={"/register?option=signup"}>Login</Link>
-              <Link
+              {/* <Link
                 href={{
                   pathname: "/register",
                 }}
               >
                 Book a demo
-              </Link>
+              </Link> */}
             </div>
           )}
         </div>
