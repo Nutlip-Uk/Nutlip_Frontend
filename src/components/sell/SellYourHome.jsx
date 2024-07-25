@@ -5,7 +5,7 @@ import { router } from "next/router";
 export default function SellYourHome() {
   const handleSubmit = (e) => {
     e.preventDefault();
-    router.push("/sell/postyourhome")
+    router.push("/comingsoon");
   };
 
   return (
