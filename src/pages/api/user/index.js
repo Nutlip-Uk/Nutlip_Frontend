@@ -2,7 +2,7 @@
 
 import dbConnect from "../../../libs/dbconnect";
 import User from "../../../models/User";
-import UserType from "../../../models/UserTypes";
+import UserType from "../../../models/UserType";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
