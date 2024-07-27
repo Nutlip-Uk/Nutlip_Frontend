@@ -5,7 +5,7 @@ import mort_con from "../../styles/Home/Mortgage_Conveyancer.module.css";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 import HeroImage from "../../../public/heroimageTablet.png"
 
 const Hero = () => {
@@ -18,9 +18,9 @@ const Hero = () => {
   return (
     <div className={styles.container}>
       <img className={styles.ContainerImage} src="https://framerusercontent.com/images/EyhrF1KO3bHuC8YXkOUpp50.png" alt="" />
-      <h1 className={styles.HeroText}>...Your Real Estate Marketplace</h1>
+      <h1 className={styles.HeroText}>Faster . Cheaper . Easier</h1>
       <div className={styles.compCon}>
-      <HeroComponent />
+        <HeroComponent />
       </div>
     </div>
   );
@@ -40,7 +40,7 @@ const Buy = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
       </div>
-      
+
       <div className={buy_rent.checkboxContainer}>
         <label>
           <input type="checkbox" />
@@ -87,12 +87,12 @@ const Rent = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
       </div>
-      
+
       <div className={buy_rent.checkboxContainer}>
         <label>
           <input
             type="checkbox"
-            //  {checked ? }
+          //  {checked ? }
           />
           Pictures
         </label>
@@ -236,18 +236,17 @@ const HeroComponent = () => {
   return (
     <>
       <div className={styles.content}>
-        <motion.div  initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-                variants={{
-                  visible: { opacity: 1, y: 0 },
-                  hidden: { opacity: 0,y: -30 },
-                }}  className={styles.search_type}>
+        <motion.div initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
+          variants={{
+            visible: { opacity: 1, y: 0 },
+            hidden: { opacity: 0, y: -30 },
+          }} className={styles.search_type}>
           <label
-            className={`${
-              searchType === "Buy" ? styles.selected : styles.unselected
-            }`}
+            className={`${searchType === "Buy" ? styles.selected : styles.unselected
+              }`}
           >
             Buy
             <input
@@ -260,9 +259,8 @@ const HeroComponent = () => {
             />
           </label>
           <label
-            className={`${
-              searchType === "Rent" ? styles.selected : styles.unselected
-            }`}
+            className={`${searchType === "Rent" ? styles.selected : styles.unselected
+              }`}
           >
             Rent
             <input
@@ -275,9 +273,8 @@ const HeroComponent = () => {
             />
           </label>
           <label
-            className={`${
-              searchType === "Mortgages" ? styles.selected : styles.unselected
-            }`}
+            className={`${searchType === "Mortgages" ? styles.selected : styles.unselected
+              }`}
           >
             Mortgages
             <input
@@ -290,9 +287,8 @@ const HeroComponent = () => {
             />
           </label>
           <label
-            className={`${
-              searchType === "Conveyancer" ? styles.selected : styles.unselected
-            }`}
+            className={`${searchType === "Conveyancer" ? styles.selected : styles.unselected
+              }`}
           >
             Conveyancer
             <input
@@ -306,14 +302,14 @@ const HeroComponent = () => {
           </label>
         </motion.div>
 
-        <motion.div  initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-                variants={{
-                  visible: { opacity: 1, y: 0 },
-                  hidden: { opacity: 0,y: 30 },
-                }}  className={styles.search_options}>
+        <motion.div initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
+          variants={{
+            visible: { opacity: 1, y: 0 },
+            hidden: { opacity: 0, y: 30 },
+          }} className={styles.search_options}>
           {searchType === "Buy" ? <Buy /> : null}
           {searchType === "Rent" ? <Rent /> : null}
           {searchType === "Mortgages" ? <Mortgages /> : null}

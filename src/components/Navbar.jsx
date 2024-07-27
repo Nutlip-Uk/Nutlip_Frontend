@@ -12,7 +12,7 @@ import { Dropdown, Space } from "antd";
 const Navbar = () => {
   const router = useRouter();
 
-  const [ userType , setUserType]= useState("")
+  const [userType, setUserType] = useState("")
 
   const { userInformation, setUserInformation, handleLogout } = useContext(LoginContext);
 
@@ -33,14 +33,13 @@ const Navbar = () => {
     fetchData();
   }, [userInformation]);
 
-  
+
   return (
     <div className={sty.navigation}>
       <nav className={sty.nav}>
         <div
-          className={`${
-            router.pathname === "/register" ? sty.reg : sty.NavMain
-          }`}
+          className={`${router.pathname === "/register" ? sty.reg : sty.NavMain
+            }`}
         >
           <Link href="/">
             <Image src="/nav_icon.svg" width={130} height={90} alt={""} />
@@ -60,7 +59,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MainNavbar = ({ userInformation, handleLogout , userType}) => {
+const MainNavbar = ({ userInformation, handleLogout, userType }) => {
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
   const [popup, setPopup] = useState(false);
@@ -212,18 +211,18 @@ const MainNavbar = ({ userInformation, handleLogout , userType}) => {
                 <p>Recent Search</p>
               </div>
               <hr />
-              <div onClick={()=>setPopup(false)} className={sty.popUplink}>
+              <div onClick={() => setPopup(false)} className={sty.popUplink}>
                 <img src="/navbar/heart.svg" />
                 <p>Saved properties</p>
               </div>
-              {  userType === "property_seeker" && <hr />}
-              { userType === "property_seeker" && (<div className={sty.popUplink} onClick={()=>setPopup(false)}>
+              {userType === "property_seeker" && <hr />}
+              {userType === "property_seeker" && (<div className={sty.popUplink} onClick={() => setPopup(false)}>
                 <img src="/navbar/transaction.svg" />
                 <Link href={"/transactions"}>Transactions</Link>
               </div>)}
-              { userType === "Real_estate_agent" && <hr/>}
+              {userType === "Real_estate_agent" && <hr />}
               {userType === "Real_estate_agent" && (
-                <div onClick={()=>setPopup(false)} className={sty.popUplink}>
+                <div onClick={() => setPopup(false)} className={sty.popUplink}>
                   <img src="/navbar/transaction.svg" />
                   <Link href={"/dashboard?option=postProperty"}>
                     Dashboard
@@ -236,7 +235,7 @@ const MainNavbar = ({ userInformation, handleLogout , userType}) => {
                 <p>Account settings</p>
               </div>
               <hr />
-              <div onClick={()=>setPopup(false)} className={sty.popUplink}>
+              <div onClick={() => setPopup(false)} className={sty.popUplink}>
                 <img src="/navbar/logout.svg" />
                 <p onClick={handleLogout}>Logout</p>
               </div>
