@@ -22,12 +22,12 @@ const Buy = (props) => {
           style={{ backgroundImage: `url(${BuyImage})` }}
         >
 
-         <div className={styles.Textcontainer}>
-          <div className={styles.Text}>
+          <div className={styles.Textcontainer}>
+            <div className={styles.Text}>
               <h2>Get the keys to your new home 60% faster </h2>
               <p>At Nutlip we know there is a better way to buy a home with ease and 60% faster than the traditional methods.</p>
             </div>
-         </div>
+          </div>
 
           <div className={styles.HeroCompContainer}>
             <HeroComponent placeholder="Where do you want to Buy? e.g. Liverpool or L11" />
