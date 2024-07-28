@@ -335,7 +335,7 @@ export const DetailsContent = (props) => {
               height={25}
               alt="livingroom-thumbnail"
             />
-            {data?.livingroom}
+            {data?.LivingRoom}
           </span>
           <span>
             <img

@@ -8,8 +8,11 @@ import { GridLoader, HashLoader } from "react-spinners";
 import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
 import { setCookie } from "nookies";
-import { LoginContext } from "../../context/Login.context";
+import { LoginContext } from '../../context/Login.context';
 import { RegistrationContext } from "../../context/Register.context";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
+
 
 const Registration = () => {
   const router = useRouter();
@@ -34,9 +37,8 @@ const Registration = () => {
     <main className={styles.main}>
       <div className={styles.mainImage}>
         <img
-          src={`${
-            type === "signup" ? "/images/form.png" : "/images/form2.png"
-          }`}
+          src={`${type === "signup" ? "/images/form.png" : "/images/form2.png"
+            }`}
           alt="form-background"
         />
       </div>
@@ -89,7 +91,7 @@ const Signup = (props) => {
     setIsUserFirstTime,
   } = useContext(RegistrationContext);
 
-  useEffect(() => {}, [formData.password]);
+  useEffect(() => { }, [formData.password]);
 
   useEffect(() => {
     if (home) {
@@ -117,23 +119,25 @@ const Signup = (props) => {
         },
       });
 
-      console.log(formData);
+      console.log(formData)
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData);
-        setError(
-          errorData || "Failed to register check your email or password "
-        );
+        console.log(errorData)
+        setError(errorData || "Failed to register check your email or password ");
         return;
+
       }
 
       //* If registration is successful, you might redirect the user to the login page
       if (response.status === 201) {
         router.push("/register?option=login");
+
       }
+
     } catch (error) {
-      console.log(error);
+      console.log(error)
+
     }
   };
 
@@ -209,32 +213,8 @@ const Signup = (props) => {
           />
           <p>{isError?.errors?.email}</p>
         </label>
-        {/* changed the label nd value of the different options */}
-        {/* <label>
-          What best describes you
-          <select
-            name="description"
-            id="description"
-            value={formData.description}
-            onChange={handleChange}
 
-            // className=" rounded-[8px] block text-[#505050] p-[16px] w-full text-[18px]"
-          >
-            <option
-              value=""
-              id="description"
-              className="disabled"
-              disabled
-              defaultValue={"What best describes you"}
-            >
-              What best describes you
-            </option>
-            <option value="property_seeker">property seeker</option>
-            <option value="Real_estate_agent">Real estate agent</option>
-            <option value="Mortgage_broker">Mortgage broker</option>
-            <option value="Conveyancer">Conveyancer</option>
-          </select>
-        </label> */}
+
 
         <label className={styles.passwordLabel}>
           Password
@@ -246,23 +226,21 @@ const Signup = (props) => {
               value={formData.password}
               onChange={handleChange}
               className={styles.passwordInput}
+              style={{ outline: "none", border: "none" }}
             />
-            <Image
+            {showPassword ? <FaRegEyeSlash
               className={styles.HidePassword}
-              src="/images/eye-slash.svg"
-              width={0}
-              height={0}
               alt="eye-slash_icon"
               onClick={() => setShowPassword(!showPassword)}
-            />
+            /> : <IoEyeOutline className={styles.HidePassword} onClick={() => setShowPassword(!showPassword)} />}
           </div>
+
           <p>{isError?.errors?.password}</p>
         </label>
 
         <p style={{ color: isError ? "red" : "black" }}>
           {isError
-            ? isError.message
-            : "Create a strong password with a minimum combination of 10 characters, including Uppercase letters & numbers"}
+            ? isError.message : "Create a strong password with a minimum combination of 10 characters, including Uppercase letters & numbers"}
         </p>
 
         <button
@@ -279,7 +257,7 @@ const Signup = (props) => {
           OR
           <hr />
         </div>
-      </form>
+      </form >
 
       <div className={styles.GoogleContainer}>
         <form className={styles.alternateLog}>
@@ -317,7 +295,7 @@ const Login = () => {
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [iserror, setError] = useState();
+  const [iserror, setError] = useState()
   let forgetPassword = "forgetPassword";
   const { handleLogin, setUserInformation } = useContext(LoginContext);
 
@@ -367,6 +345,10 @@ const Login = () => {
   //   }
   // };
 
+
+
+
+
   //? alternate api call with local storage
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -377,20 +359,23 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.token)
         localStorage.setItem("userInformation", JSON.stringify(data));
         setUserInformation(data);
 
         router.push("/");
       } else {
-        console.log(data);
+        console.log(data)
         setError(data || "Failed to register check your email or password ");
       }
     } catch (error) {
+
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
   };
+
+
 
   //? alternate api call with local storage
   // const handleSubmit = async (event) => {
@@ -433,99 +418,102 @@ const Login = () => {
 
   return (
     <>
+
       {loading ? (
+
         <div className={styles.loader}>
-          <GridLoader color="#3670d6" size={50} />
+          <GridLoader
+            color="#3670d6"
+            size={50}
+          />
         </div>
-      ) : (
-        <>
-          <form className={styles.login} onSubmit={handleSubmit}>
-            <label>
-              Email address
+
+      ) : (<>
+
+        <form className={styles.login} onSubmit={handleSubmit}>
+          <label>
+            Email address
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label className={styles.LoginpasswordLabel}>
+            Password
+            <div className={styles.LoginpasswordContainer}>
               <input
-                type="email"
-                name="email"
-                placeholder="Email address"
-                value={formData.email}
-                onChange={handleChange}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
                 required
+                value={formData.password}
+                onChange={handleChange}
+                className={styles.passwordInput}
+                style={{ outline: "none", border: "none" }}
               />
-            </label>
-            <label className={styles.LoginpasswordLabel}>
-              Password
-              <div className={styles.LoginpasswordContainer}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="Password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={styles.passwordInput}
-                />
-                <Image
-                  className={styles.LoginHidePassword}
-                  src="/images/eye-slash.svg"
-                  width={0}
-                  height={0}
-                  alt="eye-slash_icon"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              </div>
-            </label>
-            <div className={styles.RememberContainer}>
-              <div className={styles.Remember}>
-                <input type="checkbox" name="" id="" />
-                <p>Remember me</p>
-              </div>
-
-              <button
-                onClick={() =>
-                  router.push(`/register?option=${forgetPassword}`)
-                }
-                className={styles.forgetPassword}
-              >
-                Forget password ?
-              </button>
+              {showPassword ? <FaRegEyeSlash
+                className={styles.HidePassword}
+                alt="eye-slash_icon"
+                onClick={() => setShowPassword(!showPassword)}
+              /> : <IoEyeOutline className={styles.HidePassword} onClick={() => setShowPassword(!showPassword)} />}
+            </div>
+          </label>
+          <div className={styles.RememberContainer}>
+            <div className={styles.Remember}>
+              <input type="checkbox" name="" id="" />
+              <p>Remember me</p>
             </div>
 
-            <p style={{ color: iserror ? "red" : "black" }}>
-              {iserror?.message}
-            </p>
-
-            <button className={styles.LoginButton} type="submit">
-              Login
+            <button
+              onClick={() => router.push(`/register?option=${forgetPassword}`)}
+              className={styles.forgetPassword}
+            >
+              Forget password ?
             </button>
-            <div className={styles.OR}>
-              <hr />
-              OR
-              <hr />
-            </div>
-          </form>
-          <div className={styles.GoogleContainer}>
-            <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
-              <button
-                className={styles.Google}
-                style={{ backgroundColor: "white" }}
-              >
-                <img src="/google.svg" alt="" />
-                <p>Continue with Google</p>
-              </button>
-            </form>
-
-            <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
-              <button className={styles.Facebook}>
-                <img
-                  width="30"
-                  height="30"
-                  src="https://img.icons8.com/color/48/facebook.png"
-                  alt="facebook"
-                />
-                <p>Continue with Facebook</p>
-              </button>
-            </form>
           </div>
-        </>
+
+          <p style={{ color: iserror ? "red" : "black" }}>
+            {iserror?.message}
+          </p>
+
+          <button className={styles.LoginButton} type="submit">
+            Login
+          </button>
+          <div className={styles.OR}>
+            <hr />
+            OR
+            <hr />
+          </div>
+        </form>
+        <div className={styles.GoogleContainer}>
+          <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
+            <button
+              className={styles.Google}
+              style={{ backgroundColor: "white" }}
+            >
+              <img src="/google.svg" alt="" />
+              <p>Continue with Google</p>
+            </button>
+          </form>
+
+          <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
+            <button className={styles.Facebook}>
+              <img
+                width="30"
+                height="30"
+                src="https://img.icons8.com/color/48/facebook.png"
+                alt="facebook"
+              />
+              <p>Continue with Facebook</p>
+            </button>
+          </form>
+        </div>
+      </>
+
       )}
     </>
   );

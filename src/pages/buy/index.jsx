@@ -24,7 +24,7 @@ const Buy = (props) => {
 
           <div className={styles.Textcontainer}>
             <div className={styles.Text}>
-              <h2>Get the keys to your new home 60% faster </h2>
+              <h2>Get the keys to your new home 3x faster </h2>
               <p>At Nutlip we know there is a better way to buy a home with ease and 60% faster than the traditional methods.</p>
             </div>
           </div>

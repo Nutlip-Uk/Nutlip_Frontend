@@ -475,3 +475,115 @@ border-radius: 10px;
 }
 
 }
+
+@media (width > 1200px) {
+
+.container{
+  height: 55vh;
+  width: 100%;
+  background: linear-gradient(rgba(17, 17, 17, 0.274), rgba(7, 6, 6, 0.267)),
+  url("https://framerusercontent.com/images/JqIOTdbBsZxZ7nrSsTydwl3rjs.png");
+background-repeat: no-repeat;
+object-fit: cover;
+background-size: cover;
+background-size: 100% 80%;
+display: flex;
+flex-direction: column;
+justify-content: end;
+align-items:center;
+gap:16px;
+position: relative;
+}
+
+.Textcontainer{
+
+  width: 90%;
+  position: absolute;
+  top:15%;
+  }
+  
+  .Text{
+  width: 38%;
+  }
+  
+  .Text h2{
+  font-size: 36px;
+  font-weight: 600; 
+  color:white;
+  }
+  
+  .Text p{
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  }
+  
+.HeroCompContainer{
+  width: 90%;
+  height: 121.96px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-radius:10px ;
+  -webkit-border-radius:10px ;
+  -moz-border-radius:10px ;
+  -ms-border-radius:10px ;
+  -o-border-radius:10px ;
+  box-shadow:10px 0px 30px 10px rgba(124, 122, 122, 0.219);
+}
+
+.Herocontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  gap: 15px;
+  width: 100%;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  width: 45%;
+  height: 50px;
+  padding: 0px 10px;
+  color: #2c3a61;
+  text-decoration: none;
+  border: solid 1px transparent;
+  background: #F4F7FF;
+  border-radius: 8px;
+}
+
+.inputContainer input{
+  background: #F4F7FF;
+}
+
+
+.SelectContainer {
+border: solid 1px #D0D5DD;
+border-radius: 8px;
+width: 25%;
+height: 50px;
+display: flex;
+justify-content: center;
+}
+
+.searchButton {
+height: 50px;
+width: 15%;
+background-color: #da0025;
+border: none;
+color: white;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: center;
+border-radius: 10px;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+-ms-border-radius: 10px;
+-o-border-radius: 10px;
+}
+
+}
