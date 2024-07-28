@@ -2,7 +2,7 @@ import styles from "../../styles/Rent/OfferModal.module.css";
 import conveyancer from "../../styles/Modals/ConveyancerModal.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Button from "../styled components/Button";
 import { NutlipCommission } from "./../Buyer Process/Commission";
 import { MakeAnOffer } from "../../context/MakeAnOffer.context";
@@ -32,47 +32,46 @@ const OfferModal = (props) => {
       }
     }
   }, []);
-    const [form, setForm] = useState({
-      apartmentId:props?.data._id,
-      sellerId:props?.data.userId,
-      userId: "",
-        FullName:"",
-        Address:"",
-        Interested:"",
-        offerPrice:"",
-        NutlipCommission:"",
-        receivedPayment:"",
-        PaymentType:"",
-        cryptoType:"",
-        PriceOffer:""
-      });
+  const [form, setForm] = useState({
+    apartmentId: props?.data._id,
+    sellerId: props?.data.userId,
+    userId: "",
+    FullName: "",
+    Address: "",
+    Interested: "",
+    offerPrice: "",
+    NutlipCommission: "",
+    receivedPayment: "",
+    PaymentType: "",
+    PriceOffer: ""
+  });
 
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-      
-        if (name === "offerPrice") {
-          const nutlipCommission = value * 0.005;
-          const receivedPayment = value - nutlipCommission;
-          const priceOffer = value;
-          setForm({
-            ...form,
-            [name]: value,
-            NutlipCommission: nutlipCommission.toFixed(2),
-            receivedPayment: receivedPayment.toFixed(2),
-            PriceOffer: priceOffer
-          });
-        } else if (name === "Interested") {
-          setForm({
-            ...form,
-            [name]: value === "Yes" ? true : false,
-          });
-        } else {
-          setForm({
-            ...form,
-            [name]: value,
-          });
-        }
-      };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "offerPrice") {
+      const nutlipCommission = value * 0.005;
+      const receivedPayment = value - nutlipCommission;
+      const priceOffer = value;
+      setForm({
+        ...form,
+        [name]: value,
+        NutlipCommission: nutlipCommission.toFixed(2),
+        receivedPayment: receivedPayment.toFixed(2),
+        PriceOffer: priceOffer
+      });
+    } else if (name === "Interested") {
+      setForm({
+        ...form,
+        [name]: value === "Yes" ? true : false,
+      });
+    } else {
+      setForm({
+        ...form,
+        [name]: value,
+      });
+    }
+  };
 
 
 
@@ -112,10 +111,10 @@ const OfferModal = (props) => {
 
 export const ConveyancerModal = (props) => {
 
-  const {handler, addSellerConveyancer, addBuyerConveyancer,userType}= props
-  
-  const [conveyancerID, setConveyancerID]= useState("");
-  const [conveyancerEmail, setConveyancerEmail]= useState("")
+  const { handler, addSellerConveyancer, addBuyerConveyancer, userType } = props
+
+  const [conveyancerID, setConveyancerID] = useState("");
+  const [conveyancerEmail, setConveyancerEmail] = useState("")
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -125,7 +124,7 @@ export const ConveyancerModal = (props) => {
       setConveyancerEmail(value);
     }
   };
-  
+
   return (
     <div className={conveyancer.container}>
       <div className={conveyancer.inner_container}>
@@ -142,7 +141,7 @@ export const ConveyancerModal = (props) => {
         </section>
 
         <section id={conveyancer.conveyancer}>
-          
+
           <form className={conveyancer.inputField}>
             <input type="text" placeholder="Add email address" name="conveyancerEmail" value={conveyancerEmail} onChange={handleChange} />
             <Button
@@ -159,14 +158,14 @@ export const ConveyancerModal = (props) => {
             <hr />
           </div>
 
- 
+
           <form onSubmit={(e) => {
-              e.preventDefault();
-              userType === "property_seeker"
-                ? addBuyerConveyancer(conveyancerID)
-                : addSellerConveyancer(conveyancerID);
-            }}
-            
+            e.preventDefault();
+            userType === "property_seeker"
+              ? addBuyerConveyancer(conveyancerID)
+              : addSellerConveyancer(conveyancerID);
+          }}
+
             className={conveyancer.inputField}>
             <input type="text" placeholder="Add Conveyancer's Nutlip ID" name="conveyancerID" value={conveyancerID} onChange={handleChange} />
             <Button
@@ -188,30 +187,30 @@ export const ConveyancerModal = (props) => {
 
 const Offer = ({ change, form, handleChange, data }) => {
 
-  const handleSubmit = async(event) => {
-   
+  const handleSubmit = async (event) => {
+
     event.preventDefault();
     console.log(form)
-    try{
+    try {
       const response = await fetch('/api/offer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-  
+
       if (response.ok) {
-        const responseData = await response.json(); 
+        const responseData = await response.json();
         console.log("Response from API:", responseData);
         change();
       } else {
         console.error("API response was not ok", response);
         console.log(response.json());
       }
-  
-    }catch(error){
+
+    } catch (error) {
       console.error("Error occurred:", error);
-    } 
-    
+    }
+
   };
 
 
@@ -318,7 +317,7 @@ const Offer = ({ change, form, handleChange, data }) => {
               </option>
               <option name="cash" value="cash">Pay with cash</option>
               <option name="mortgage" value="mortgage">Mortgage</option>
-              <option name="crypto" value="crypto">Crypto</option>
+              {/* <option name="crypto" value="crypto">Crypto</option> */}
             </select>
           </div>
         </div>
@@ -339,11 +338,11 @@ const Offer = ({ change, form, handleChange, data }) => {
             <label htmlFor="receives">Agent/Seller receives</label>
             <div className={styles.euroContainer}>
               <p>£</p>
-              <input type="number" id="receivedPayment" name="receivedPayment" value={form.receivedPayment} onChange={handleChange} disabled/>
+              <input type="number" id="receivedPayment" name="receivedPayment" value={form.receivedPayment} onChange={handleChange} disabled />
             </div>
           </div>
 
-          <div className={styles.formInfo}>
+          {/* <div className={styles.formInfo}>
             <label htmlFor="interested">What cryptocurrency</label>
 
             <div className={styles.radioContainer}>
@@ -359,7 +358,7 @@ const Offer = ({ change, form, handleChange, data }) => {
                 <input type="radio" id="USDC" name="cryptoType" value="USDC" onChange={handleChange} checked={form.cryptoType === "USDC"} />                <label htmlFor="USDC">USDC</label>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

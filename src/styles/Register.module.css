@@ -126,6 +126,7 @@
 }
 .passwordContainer{
     display: flex;
+    align-items: center;
     width: 100%;
     padding: 0px;
     border-radius: 8px;
@@ -135,8 +136,25 @@
    
 }
 
+
+
+.passwordInput{
+    border: none;
+    outline: none;
+}
+
+.HidePassword{
+    width: 24px ;
+    height: 24px;
+    cursor: pointer;
+}
+
 .passwordContainer:focus-within{
-    outline:2px solid #001f6d77 ;
+    outline:1px solid #001f6d77 ;
+}
+
+.passwordInput:focus-within{
+    outline: none;
 }
 
 .LoginpasswordLabel{
@@ -146,14 +164,13 @@
 }
 .LoginpasswordContainer{
     display: flex;
+    align-items: center;
     width: 100%;
-    height: auto;
-    padding: 0px;
+    padding: 0px 5px;
     border-radius: 8px;
     border: 1px solid var(--gray-300, #D0D5DD);
     background: var(--white, #FFF);
     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-    position: relative;
    
 }
 

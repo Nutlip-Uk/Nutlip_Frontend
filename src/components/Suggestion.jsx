@@ -31,18 +31,18 @@ export const PlacesAutocomplete = () => {
 
   const handleSelect =
     ({ description }) =>
-    () => {
-      // When the user selects a place, we can replace the keyword without request data from API
-      // by setting the second parameter to "false"
-      setValue(description, false);
-      clearSuggestions();
+      () => {
+        // When the user selects a place, we can replace the keyword without request data from API
+        // by setting the second parameter to "false"
+        setValue(description, false);
+        clearSuggestions();
 
-      // Get latitude and longitude via utility functions
-      getGeocode({ address: description }).then((results) => {
-        const { lat, lng } = getLatLng(results[0]);
-        console.log("📍 Coordinates: ", { lat, lng });
-      });
-    };
+        // Get latitude and longitude via utility functions
+        getGeocode({ address: description }).then((results) => {
+          const { lat, lng } = getLatLng(results[0]);
+          console.log("📍 Coordinates: ", { lat, lng });
+        });
+      };
 
   const renderSuggestions = () =>
     data.map((suggestion) => {
@@ -54,7 +54,7 @@ export const PlacesAutocomplete = () => {
       return (
         <>
           <li
-          key={place_id}
+            key={place_id}
             className={styles.suggestionList}
             onClick={handleSelect(suggestion)}
           >
