@@ -85,7 +85,7 @@ function Property({ property }) {
             </li>
             <li>
               <img src="/chair.svg" alt="" />
-              <p>{property?.livingRoom}</p>
+              <p>{property?.LivingRoom}</p>
             </li>
             <li>
               <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
