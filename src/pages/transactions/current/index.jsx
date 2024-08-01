@@ -8,43 +8,43 @@ const Current = () => {
   const [userId, setUserId] = useState(null);
   const [offers, setOffers] = useState([]);
 
-useEffect(() => {
-   const fetchAcceptedOffer = async () => {
+  useEffect(() => {
+    const fetchAcceptedOffer = async () => {
       const userInformation = JSON.parse(localStorage.getItem("userInformation"));
       const userId = userInformation.user.id;
       setUserId(userId);
 
       try {
-         const response = await fetch(`/api/offer/getofferssent/${userId}`);
-         const data = await response.json();
-         console.log('API response:', data);
+        const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getofferssent/${userId}`);
+        const data = await response.json();
+        console.log('API response:', data);
 
-         if (Array.isArray(data.offers)) {
-            const acceptedOffers = data.offers.filter(offer => offer.status === "accepted");
-            console.log('Accepted offers:', acceptedOffers);
+        if (Array.isArray(data.offers)) {
+          const acceptedOffers = data.offers.filter(offer => offer.status === "accepted");
+          console.log('Accepted offers:', acceptedOffers);
 
-            const fetchAdditionalData = acceptedOffers.map(async (offer) => {
-               const additionalResponse = await fetch(`/api/apartment/${offer.apartmentId}`);
-               const additionalData = await additionalResponse.json();
-               console.log('Additional data:', additionalData);
-               return {
-                  ...offer,
-                  apartmentDetails: additionalData,
-               };
-            });
+          const fetchAdditionalData = acceptedOffers.map(async (offer) => {
+            const additionalResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartment/${offer.apartmentId}`);
+            const additionalData = await additionalResponse.json();
+            console.log('Additional data:', additionalData);
+            return {
+              ...offer,
+              apartmentDetails: additionalData,
+            };
+          });
 
-            const offersWithDetails = await Promise.all(fetchAdditionalData);
-            setOffers(offersWithDetails);
-         } else {
-            console.error('Expected an array but got:', data.offers);
-         }
+          const offersWithDetails = await Promise.all(fetchAdditionalData);
+          setOffers(offersWithDetails);
+        } else {
+          console.error('Expected an array but got:', data.offers);
+        }
       } catch (error) {
-         console.log(error);
+        console.log(error);
       }
-   };
+    };
 
-   fetchAcceptedOffer();
-}, []);
+    fetchAcceptedOffer();
+  }, []);
 
   return (
     <div className={styles.Section}>

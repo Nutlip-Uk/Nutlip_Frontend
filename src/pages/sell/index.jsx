@@ -7,23 +7,23 @@ const Sell = () => {
   return (
     <>
       <section className={styles.Section}>
-        
+
         <div
           className={styles.container}
         >
           <div className={styles.containerText}>
             <h2>Sell faster & stress less from listing to closing.</h2>
-            <p>We at Nutlip know there is a better way to sell your home and close on the transaction 60% faster.</p>
+            <p>We at Nutlip know there is a better way to sell your home and close on the transaction 3x faster.</p>
           </div>
 
         </div>
 
 
         <div className={styles.sellComponents}>
-        <SellYourHome/>
-        {/*<SellTraditionally/>*/}
+          <SellYourHome />
+          {/*<SellTraditionally/>*/}
         </div>
-        
+
 
       </section>
     </>

@@ -6,10 +6,10 @@ export const RegistrationContextProvider = ({ children }) => {
   const [regType, setRegType] = useState("signup");
   const [formData, setFormData] = useState({
     username: "",
-    email: "",   
+    email: "",
   });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isUserFirstTime , setIsUserFirstTime]= useState(false);
+  const [isUserFirstTime, setIsUserFirstTime] = useState(false);
 
   const updateFormData = (name, value) => {
     setFormData((prevData) => ({
@@ -36,7 +36,7 @@ export const RegistrationContextProvider = ({ children }) => {
         validatePassword,
         setIsPasswordValid,
         setFormData,
-        isUserFirstTime , 
+        isUserFirstTime,
         setIsUserFirstTime
       }}
     >

@@ -4,7 +4,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import styles from "../styles/suggestion.module.css"
-export const PlacesAutocomplete = () => {
+export const PlacesAutocomplete = ({ placeholder }) => {
   const {
     ready,
     value,
@@ -70,7 +70,7 @@ export const PlacesAutocomplete = () => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where do you want to Buy ? e.g. Liverpool or L11"
+        placeHolder={placeholder}
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul className={styles.suggestionBox}>{renderSuggestions()}</ul>}

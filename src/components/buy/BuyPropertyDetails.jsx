@@ -360,11 +360,9 @@ export const DetailsContent = (props) => {
           <div className={styles.feature}>
             <p className={styles.keyFeatures}>Key features</p>
             <ul>
-              {/* {features.map((item, index) => (
+              {data?.Add_features.map((item, index) => (
                 <li key={index}>{item}</li>
-              ))} */}
-
-              {data?.Add_features}
+              ))}
             </ul>
           </div>
         </div>

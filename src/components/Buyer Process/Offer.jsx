@@ -3,9 +3,9 @@ import styles from "../../styles/BuyerProcess/offerAccepted.module.css"
 import Button from '../styled components/Button'
 import { useEffect, useState } from 'react';
 
-export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
+export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
     const [viewProperty, setViewProperty] = useState(false);
-    
+
 
     const handleViewProperty = () => {
         setViewProperty(!viewProperty)
@@ -35,12 +35,12 @@ export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
                         </div>
                         <hr />
                         <div className={styles.facilities} >
-                            
-                                {apartment?.bedrooms &&(<span>
-                                    <Image src="/images/mdi-bedroom-outline.svg" width={20} height={20} alt="bedroom-thumbnail" />
-                                    {apartment?.bedrooms}
-                                </span>)}
-                          
+
+                            {apartment?.bedrooms && (<span>
+                                <Image src="/images/mdi-bedroom-outline.svg" width={20} height={20} alt="bedroom-thumbnail" />
+                                {apartment?.bedrooms}
+                            </span>)}
+
                             {apartment?.bathrooms && (
                                 <span>
                                     <Image src="/images/mdi-shower.svg" width={20} height={20} alt="bathroom-thumbnail" />
@@ -67,15 +67,15 @@ export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
                         </div>
                         <hr />
                         <div className={styles.transactionDesc}>
-                            <p><strong>{apartment?.Title.slice(0,10)}...</strong></p>
-                            <p>{apartment?.address.slice(0,10)}...</p>
+                            <p><strong>{apartment?.Title.slice(0, 10)}...</strong></p>
+                            <p>{apartment?.address.slice(0, 10)}...</p>
                         </div>
                         <hr />
                     </>
                 )}
 
 
-                <button style={viewProperty  ? {backgroundColor :"green"} : null} onClick={() => handleViewProperty()} className={styles.viewProperty}>{viewProperty ? "Close property" : "View Property"}</button>
+                <button style={viewProperty ? { backgroundColor: "green" } : null} onClick={() => handleViewProperty()} className={styles.viewProperty}>{viewProperty ? "Close property" : "View Property"}</button>
             </section>
 
             <hr className={styles.Line} />
@@ -155,7 +155,7 @@ export const Offer = ({ userType, transaction, apartment, id ,sellerInfo}) => {
                     <h4>Agent details</h4>
                     <div className={styles.detailsDesc}>
                         <p style={{ textTransform: "capitalize" }}>Name: {sellerInfo.username}</p>
-                        <p>Agent ID: {sellerInfo?.id?.slice(0,6)}</p>
+                        <p>Agent ID: {sellerInfo?.id?.slice(0, 6)}</p>
                     </div>
                 </div>
 

@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 export const LoginContext = createContext();
 
 const LoginProvider = ({ children }) => {
-const [userInformation, setUserInformation] = useState(null);
-const router = useRouter();
+  const [userInformation, setUserInformation] = useState(null);
+  const router = useRouter();
 
   const handleLogin = async (formData) => {
     // Login logic using fetch (replace with your API call)
-    const response = await fetch('/api/login', {
+    const response = await fetch('https://nutlip-backend.onrender.com/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -19,15 +19,16 @@ const router = useRouter();
   const GetUser = async () => {
     const response = await fetch(`/api/user/${userInformation.user.id}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },})
+      headers: { 'Content-Type': 'application/json' },
+    })
     const data = await response.json();
     console.log("handleWelcome data:", data);
-  
-    if(response.ok){
+
+    if (response.ok) {
       console.log(data.newUser);
       console.log(data)
     }
-    return response; 
+    return response;
   };
 
 
@@ -41,17 +42,17 @@ const router = useRouter();
     });
     const data = await response.json();
     console.log("handleWelcome data:", data);
-  
-    if(response.ok){
+
+    if (response.ok) {
       console.log(data);
     }
-    return response; 
+    return response;
   };
 
-useEffect(() => {
+  useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUserInfo = localStorage.getItem('userInformation');
-  
+
     if (storedToken) {
       // Check if user information is also stored locally
       if (storedUserInfo) {
@@ -67,12 +68,12 @@ useEffect(() => {
   const handleLogout = async () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userInformation');
-  
+
     try {
       const response = await fetch('/api/logout', {
         method: 'POST',
       });
-  
+
       if (!response.ok) {
         console.error('Error logging out on server');
       }
@@ -84,7 +85,7 @@ useEffect(() => {
 
 
   return (
-    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation , handleLogout,handleWelcome}}>
+    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation, handleLogout, handleWelcome }}>
       {children}
     </LoginContext.Provider>
   );

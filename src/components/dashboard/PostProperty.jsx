@@ -12,7 +12,12 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { Cascader, Input, Select, Space } from 'antd';
-
+import { PlacesAutocomplete } from "../Suggestion";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 const PostProperty = () => {
   const count = useRef(1);
@@ -33,7 +38,7 @@ const PostProperty = () => {
     bedrooms: "",
     Toilets: "",
     size: "",
-    TenureOfProperty:"",
+    TenureOfProperty: "",
     location: "",
     address: "",
     Landmark: "",
@@ -42,12 +47,12 @@ const PostProperty = () => {
     Minimum_offer: "",
     Currency: "",
     description: "",
-    Add_features:[],
+    Add_features: [],
     video_link: "",
     virtual_tour_link: "",
     images: [],
-    LivingRoom:"",
-    FloorPlan:[],
+    LivingRoom: "",
+    FloorPlan: [],
     //rating: "",
   });
 
@@ -216,7 +221,7 @@ const PostProperty = () => {
     console.log("userId:", form.userId); // Log the userId value
     console.log("Form data:", form);
     try {
-      const response = await fetch("api/apartments", {
+      const response = await fetch("https://nutlip-backend.onrender.com/api/apartments/create-apartment", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
@@ -437,7 +442,7 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
 
         <div className={styles.threeColumn}>
 
-        <label>
+          <label>
             Living room
             <select
               name="LivingRoom"
@@ -474,9 +479,9 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
           <label>
             Size
             <input name="size"
-            placeholder="size in square feet"
+              placeholder="size in square feet"
               value={form.size}
-              onChange={handleChange}/>
+              onChange={handleChange} />
           </label>
         </div>
       </div>
@@ -505,14 +510,14 @@ const PostPropertyDetailTwo = ({ next, back, form, handleChange }) => {
         <div className={styles.twoColumn}>
           <label>
             Location
-            <input
+            <Autocomplete
               name="location"
               value={form.location}
               onChange={handleChange}
-              type="text"
               placeholder="Location"
             />
           </label>
+
 
           <label>
             Address
@@ -644,33 +649,33 @@ const PostPropertyDescription = ({
 
         <label className={styles.title}>
           Add Features
-          <MultiInput form={form} setForm={setForm}/>
+          <MultiInput form={form} setForm={setForm} />
         </label>
 
         <div className={styles.twoColumn}>
           <label>
             Video Link
-          <Input 
-               name="video_link"
+            <Input
+              name="video_link"
               value={form.video_link}
-              onChange={handleChange} 
-              addonBefore="http://" 
-              placeholder="Link" 
+              onChange={handleChange}
+              addonBefore="http://"
+              placeholder="Link"
             />
           </label>
           <label>
             Virtual tour link
-            <Input 
-               name="virtual_tour_link"
-               value={form.virtual_tour_link}
-               onChange={handleChange} 
-              addonBefore="http://" 
-              placeholder="Link" 
+            <Input
+              name="virtual_tour_link"
+              value={form.virtual_tour_link}
+              onChange={handleChange}
+              addonBefore="http://"
+              placeholder="Link"
             />
           </label>
         </div>
 
-          {/* <div className={styles.inputFieldContainer}>
+        {/* <div className={styles.inputFieldContainer}>
             <p>Floor plan</p>
             <div className={styles.uploadContainer}>
               {fileInputs.map((input, index) => (
@@ -727,63 +732,63 @@ const PostPropertyDescription = ({
               </button>
             </div>
           </div> */}
-          <div className={styles.inputFieldContainer}>
-            <p>Upload pictures</p>
-            <div className={styles.uploadContainer}>
-              {fileInputs.map((input, index) => (
-                <div key={index} id={styles.file_upload}>
-                  <label>
-                    {input.status === "Upload" &&
-                      !input.file &&
-                      "Upload Document"}
-                    <input
-                      type="file"
-                      onChange={(e) => handleImageChange(e, index)}
+        <div className={styles.inputFieldContainer}>
+          <p>Upload pictures</p>
+          <div className={styles.uploadContainer}>
+            {fileInputs.map((input, index) => (
+              <div key={index} id={styles.file_upload}>
+                <label>
+                  {input.status === "Upload" &&
+                    !input.file &&
+                    "Upload Document"}
+                  <input
+                    type="file"
+                    onChange={(e) => handleImageChange(e, index)}
+                  />
+                  {input.status === "Upload" && input.preview && (
+                    <img
+                      height={200}
+                      width={200}
+                      src={input.preview}
+                      alt={`Preview ${index}`}
                     />
-                    {input.status === "Upload" && input.preview && (
-                      <img
-                        height={200}
-                        width={200}
-                        src={input.preview}
-                        alt={`Preview ${index}`}
-                      />
-                    )}
-                    {url[index] && (
-                      <img
-                        height={200}
-                        width={200}
-                        src={url[index]}
-                        alt={`Uploaded ${index}`}
-                      />
-                    )}
-                  </label>
-                  {input.status === "Upload" && (
-                    <button
-                      className={styles.upload}
-                      type="button"
-                      onClick={() => handleUpload(index)}
-                    >
-                      {input.status === "Upload" ? (
-                        <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
-                      ) : null}
-                    </button>
                   )}
-                  {showUploadMessage[index] && (
-                    <FaCheck color={"#40A578"} size={"1em"} />
+                  {url[index] && (
+                    <img
+                      height={200}
+                      width={200}
+                      src={url[index]}
+                      alt={`Uploaded ${index}`}
+                    />
                   )}
-                  <br />
-                </div>
-              ))}
+                </label>
+                {input.status === "Upload" && (
+                  <button
+                    className={styles.upload}
+                    type="button"
+                    onClick={() => handleUpload(index)}
+                  >
+                    {input.status === "Upload" ? (
+                      <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
+                    ) : null}
+                  </button>
+                )}
+                {showUploadMessage[index] && (
+                  <FaCheck color={"#40A578"} size={"1em"} />
+                )}
+                <br />
+              </div>
+            ))}
 
-              <button
-                type="button"
-                className={styles.addMore}
-                onClick={addImageInput}
-              >
-                <FaPlus size={"2em"} color={"#686D76"} />
-              </button>
-            </div>
+            <button
+              type="button"
+              className={styles.addMore}
+              onClick={addImageInput}
+            >
+              <FaPlus size={"2em"} color={"#686D76"} />
+            </button>
           </div>
+        </div>
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={next}>Cancel</button>
@@ -877,7 +882,7 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
       </div>
 
       <div className={styles.DetailImgContainer}>
-        {form.images.map((image)=>{
+        {form.images.map((image) => {
           <img src={image} width={210} height={200} />
         })}
       </div>
@@ -889,11 +894,11 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
     </>
   );
 };
-const Congratulations = ({back}) => {
+const Congratulations = ({ back }) => {
   return (
     <div className={styles.congratulationsSection}>
       <div className={styles.congratulationsContainer}>
-        <img src="/congratulations.svg"/>
+        <img src="/congratulations.svg" />
         <p className={styles.congrats}>{"Congratulations !"}</p>
         <p className={styles.congratsText}>You have successfully listed your property</p>
       </div>
@@ -902,7 +907,7 @@ const Congratulations = ({back}) => {
 };
 
 
-const MultiInput =({form,setForm})=>{
+const MultiInput = ({ form, setForm }) => {
   const [inputValue, setInputValue] = useState('');
   const [todos, setTodos] = useState([]);
 
@@ -918,7 +923,7 @@ const MultiInput =({form,setForm})=>{
     setInputValue(event.target.value);
   };
 
- const handleAddTodo = (e) => {
+  const handleAddTodo = (e) => {
     e.preventDefault();
     if (inputValue.trim()) {
       setTodos((prevTodos) => [...prevTodos, inputValue]);
@@ -938,26 +943,105 @@ const MultiInput =({form,setForm})=>{
         {todos.map((todo, index) => (
           <li key={index} className={styles.TodoItem}>
             {todo}
-            <button onClick={(e) => handleRemoveTodo(index,e)} className={styles.RemoveButton}>
+            <button onClick={(e) => handleRemoveTodo(index, e)} className={styles.RemoveButton}>
               X
             </button>
           </li>
         ))}
       </ul>
       <div className={styles.TodoMultiInput}>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleAddTodo(e);
-          }
-        }}
-        placeholder="Type the features of your property and press Enter"
-      />
-      <button onClick={handleAddTodo}><FiPlus size={"1.5em"}/></button>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleAddTodo(e);
+            }
+          }}
+          placeholder="Type the features of your property and press Enter"
+        />
+        <button onClick={handleAddTodo}><FiPlus size={"1.5em"} /></button>
       </div>
     </div>
   );
 }
+
+
+
+export const Autocomplete = ({ value: inputValue, onChange, placeholder, ...props }) => {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    callbackName: `intimap`,
+    requestOptions: {
+      /* Define search scope here */
+    },
+    debounce: 300,
+  });
+  const ref = useOnclickOutside(() => {
+    // When the user clicks outside of the component, we can dismiss
+    // the searched suggestions by calling this method
+    clearSuggestions();
+  });
+
+  const handleInput = (e) => {
+    // Update the keyword of the input element
+    setValue(e.target.value);
+  };
+
+  const handleSelect =
+    ({ description }) =>
+      () => {
+        // When the user selects a place, we can replace the keyword without request data from API
+        // by setting the second parameter to "false"
+        setValue(description, false);
+        clearSuggestions();
+
+        // Get latitude and longitude via utility functions
+        getGeocode({ address: description }).then((results) => {
+          const { lat, lng } = getLatLng(results[0]);
+          console.log("📍 Coordinates: ", { lat, lng });
+        });
+      };
+
+  const renderSuggestions = () =>
+    data.map((suggestion) => {
+      const {
+        place_id,
+        structured_formatting: { main_text, secondary_text },
+      } = suggestion;
+
+      return (
+        <>
+          <li
+            key={place_id}
+            className={styles.suggestionList}
+            onClick={handleSelect(suggestion)}
+          >
+            <strong>{main_text}</strong> <small>{secondary_text}</small>
+          </li>
+        </>
+      );
+    });
+
+  return (
+    <div ref={ref} className={styles.inputContainer}>
+      <input
+        value={inputValue}
+        onChange={(e) => {
+          handleInput(e);
+          onChange(e);
+        }}
+        disabled={!ready}
+        placeholder={placeholder}
+        {...props}
+      />
+      {status === "OK" && <ul className={styles.suggestionBox}>{renderSuggestions()}</ul>}
+    </div>
+  );
+};

@@ -2,20 +2,20 @@ import { useState } from "react"
 import styles from "../../styles/BuyerProcess/ResearchAndSurvey.module.css"
 import Button from "../styled components/Button"
 
-export const ResearchSurvey = ({ userType, transaction ,id, transactionContent}) => {
+export const ResearchSurvey = ({ userType, transaction, id, transactionContent }) => {
     const [confirm, setConfirmed] = useState(false)
 
 
     const handleConfirm = async () => {
         try {
-            const response = await fetch(`/api/transaction/05_researchandsurvey`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ 
-                    transactionId:id,
-                 }),
+                body: JSON.stringify({
+                    transactionId: id,
+                }),
             });
 
             if (response.ok) {
@@ -46,9 +46,9 @@ export const ResearchSurvey = ({ userType, transaction ,id, transactionContent})
                             </div>
 
                             <hr />
-                            {!transactionContent?.researched  ? <button className={styles.ResearchButton}
-                            onClick={()=>handleConfirm()}
-                            >Confirm Research</button> : <button style={{background: "green"}} className={styles.ResearchButton}>Research Confirmed</button>}
+                            {!transactionContent?.researched ? <button className={styles.ResearchButton}
+                                onClick={() => handleConfirm()}
+                            >Confirm Research</button> : <button style={{ background: "green" }} className={styles.ResearchButton}>Research Confirmed</button>}
                         </div>
                     </section>
                 </div>}
@@ -56,7 +56,7 @@ export const ResearchSurvey = ({ userType, transaction ,id, transactionContent})
                 <div className={styles.container}>
                     <section className={styles.text}>
                         <h2>Research and Survey</h2>
-                         <p>The research and survey for the chosen real estate property has now been confirmed by the buyer and his representative</p>
+                        <p>The research and survey for the chosen real estate property has now been confirmed by the buyer and his representative</p>
                     </section>
 
                     <section className={styles.ResearchInvite}>
@@ -67,7 +67,7 @@ export const ResearchSurvey = ({ userType, transaction ,id, transactionContent})
                             </div>
 
                             <hr />
-                            {transactionContent?.researched ? <button style={{background: "green"}} className={styles.ResearchButton}
+                            {transactionContent?.researched ? <button style={{ background: "green" }} className={styles.ResearchButton}
                             >Research Confirmed</button> : <button className={styles.ResearchButton}>Pending..</button>}
                         </div>
                     </section>
@@ -78,13 +78,13 @@ export const ResearchSurvey = ({ userType, transaction ,id, transactionContent})
     )
 }
 
-const CouldntCommentOUT=()=>{
-    return(
+const CouldntCommentOUT = () => {
+    return (
         <>
 
-{
-                    userType === "buyer" &&
-                    <div className={styles.container}>
+            {
+                userType === "buyer" &&
+                <div className={styles.container}>
                     <section className={styles.text}>
                         <h2>Research and Survey</h2>
                         {confirm == true ? <p>The research and survey for your chosen real estate property have now been completed by your Conveyancer. </p> : <p>The research and survey for the chosen real estate property has now been confirmed by the buyer and his representative</p>}
@@ -103,13 +103,13 @@ const CouldntCommentOUT=()=>{
                         </div>
                     </section>
                 </div>
-                }
-                {
-                    userType === "agent" &&
-                    <div className={styles.container}>
+            }
+            {
+                userType === "agent" &&
+                <div className={styles.container}>
                     <section className={styles.text}>
                         <h2>Research and Survey</h2>
-                         <p>The research and survey of this real estate property is on-going by the Buyer’s Representative.</p>
+                        <p>The research and survey of this real estate property is on-going by the Buyer’s Representative.</p>
                     </section>
 
                     <section className={styles.ResearchInvite}>
@@ -125,7 +125,7 @@ const CouldntCommentOUT=()=>{
                         </div>
                     </section>
                 </div>
-                }
+            }
         </>
     )
 }

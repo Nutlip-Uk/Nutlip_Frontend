@@ -96,7 +96,7 @@ const Welcome = () => {
     const userId = userInformation.user.id;
     console.log("Form data:", form);
     try {
-      const response = await fetch(`/api/user/${userId}`, {
+      const response = await fetch(`https://nutlip-backend.onrender.com/api/user/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

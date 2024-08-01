@@ -9,6 +9,7 @@
   align-items: start;
   width: 90%;
   height: 100%;
+  position: relative;
 }
 
 .Header {
@@ -153,6 +154,7 @@
 
 .twoColumn label {
   width: 100%;
+  position: relative;
 }
 
 .twoColumn select {
@@ -454,6 +456,38 @@
   width: 50px;
   cursor: pointer;
 }
+
+/* Suggestion box for location */
+
+.suggestionBox{
+  background:white;
+  position:absolute;
+  top:100%;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  border:1px solid grey;
+   padding:15px 25px;
+   border-radius:8px;
+   z-index: 10;
+
+}
+
+
+.suggestionList{
+  list-style:none;
+  cursor:pointer;
+  font-size:16px;
+  color:black;
+  border-bottom:1px solid #F6F5F2;
+  padding:5px 0;
+}
+
+.suggestionList:hover{
+  background:#F6F5F2;
+}
+
+
 @media (width <=400px) {
   .threeColumn {
     width: 100%;

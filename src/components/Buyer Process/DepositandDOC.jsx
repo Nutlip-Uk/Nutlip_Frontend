@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { ImageContext } from "../../context/ImageContext.context";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
+import { LoginContext } from "../../context/Login.context";
 
 
 export const Deposit = ({ userType, transaction, transactionContent, id }) => {
@@ -12,14 +13,16 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   const [fileUrl, setFileUrl] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [form, setForm] = useState({
-    AccountName: "",
-    AccountNumber: "",
-    BankName: "",
+    accountName: "",
+    accountNo: "",
+    bankName: "",
     IBAN: "",
-    SortCode: ""
+    sortCode: ""
   });
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isAccountInfoSent, setIsAccountInfoSent] = useState(false);
+  const { userInformation } = useContext(LoginContext);
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -52,11 +55,11 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   };
 
 
-
   const handleChange = (e) => {
     let newFile = URL.createObjectURL(e.target.files[0]);
     setFile(newFile);
   };
+
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -69,21 +72,21 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
     console.log(content);
 
     try {
-      const response = await fetch("/api/transaction/08_proofoffundsupload10", {
+      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           transactionId: id,
-          content: "Dummy proof of fund"
+          userId: userInformation.user.id,
+          form
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-
       }
 
     } catch (error) {
@@ -91,16 +94,38 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
     }
   };
 
-  const handleConfirm = async () => {
+  const HandleUploadProofOfFunds = async () => {
     try {
-      const response = await fetch("/api/transaction/09_confirmproofoffundsupload10", {
+      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           transactionId: id,
-          offerid: transaction?.offerId
+          content: fileUrl
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds_09", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transactionId: id,
         }),
       });
 
@@ -130,7 +155,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
         )}
 
         {userType === "Real_estate_agent" && (
-          <p style={{textWrap:"wrap"}}>
+          <p style={{ textWrap: "wrap" }}>
             Please provide the details of your designated bank account below,
             for which the buyer can deposit 10 percent of the total amount
             accepted for the purchase of the Real Estate property.
@@ -188,7 +213,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
                 <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
               </ul>
               {isAccountInfoSent ? (
-                <button style={{ background: "green" , maxWidth: "30%"}} className={styles.confirm} disabled>Sent</button>
+                <button style={{ background: "green", maxWidth: "30%" }} className={styles.confirm} disabled>Sent</button>
               ) : (
                 <button type="button" style={{ maxWidth: "30%" }} onClick={() => setIsAccountInfoSent(true)} className={styles.confirm}>Send</button>
               )}
@@ -204,7 +229,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
                   </label>
                 </section>
                 {transactionContent?.proof_of_funds_90 !== "" && (
-                  <button className={styles.fileuploadButton} style={!transaction?.confirm_proof_of_funds_90 ? { background: "green" } : { background: "red" }} onClick={!transaction?.confirm_proof_of_funds_90 ? handleConfirm :null}>{!transaction?.confirm_proof_of_funds_90  ? "Confirmed Funds" : "confirm funds"}</button>
+                  <button className={styles.fileuploadButton} style={!transaction?.confirm_proof_of_funds_90 ? { background: "green" } : { background: "red" }} onClick={!transaction?.confirm_proof_of_funds_90 ? handleConfirm : null}>{!transaction?.confirm_proof_of_funds_90 ? "Confirmed Funds" : "confirm funds"}</button>
                 )}
               </div>
             </section>
@@ -322,7 +347,7 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
     console.log(transaction.offerId);
     console.log(id)
     try {
-      const response = await fetch(`/api/transaction/10_setdate`, {
+      const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_setdate_010`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -330,7 +355,6 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
         body: JSON.stringify({
           transactionId: id,
           date: date,
-          offerId: transaction?.offerId
         }),
       });
 
@@ -349,14 +373,14 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
     console.log(id);
     console.log(transaction.offerId);
     try {
-      const response = await fetch(`/api/transaction/11_confirmdate`, {
+      const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_confirmdate_011`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           transactionId: id,
-          offerId: transaction?.offerId
+          content: ""
         }),
       });
       if (response.ok) {

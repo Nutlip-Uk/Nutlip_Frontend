@@ -13,10 +13,13 @@ export default function Buy() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch('/api/apartments');
+        const response = await fetch('https://nutlip-backend.onrender.com/api/apartments/getallapartments');
+        if (!response.ok) {
+          throw new Error('Failed to fetch properties');
+        }
         const data = await response.json();
-        setProperties(data);
-        console.log(data)
+        setProperties(data.data);
+        console.log(data.data);
       } catch (error) {
         console.error('Error fetching properties:', error);
       }
@@ -36,12 +39,14 @@ export default function Buy() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
+      const currentScrollPos = window.scrollY;
 
-      if (prevScrollPos > currentScrollPos) {
-        navbarRef.current.style.top = "0";
-      } else {
-        navbarRef.current.style.top = "-1000px";
+      if (navbarRef.current) {
+        if (prevScrollPos > currentScrollPos) {
+          navbarRef.current.style.top = "0";
+        } else {
+          navbarRef.current.style.top = "-1000px";
+        }
       }
 
       setPrevScrollPos(currentScrollPos);
@@ -53,7 +58,7 @@ export default function Buy() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [prevScrollPos]);
+  }, [prevScrollPos, navbarRef]);
 
 
   return (
