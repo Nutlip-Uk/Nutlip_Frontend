@@ -111,7 +111,7 @@ const Signup = (props) => {
     setLoading(false);
     setError(null);
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("https://nutlip-backend.onrender.com/api/register", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {

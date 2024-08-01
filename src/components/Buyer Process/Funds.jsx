@@ -1,4 +1,4 @@
-import React, { useState, useContext , useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image';
 import { storage } from '../../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -6,7 +6,7 @@ import { ImageContext } from '../../context/ImageContext.context';
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
 
-export const Funds = ({ userType ,id,transactionContent}) => {
+export const Funds = ({ userType, id, transactionContent }) => {
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
@@ -34,7 +34,7 @@ export const Funds = ({ userType ,id,transactionContent}) => {
         // Complete function ...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFileUrl(downloadURL); // Set the file URL for displaying the image
-          setUrl(downloadURL );  // Update the context
+          setUrl(downloadURL);  // Update the context
           console.log('File available at:', downloadURL);  // Log the URL
           setUploading(false);
         });
@@ -43,9 +43,9 @@ export const Funds = ({ userType ,id,transactionContent}) => {
   };
 
   const handleSubmit = async () => {
-    
-        try {
-      const response = await fetch('/api/transaction/01_uploadProofOfunds', {
+
+    try {
+      const response = await fetch('https://nutlip-backend.onrender.com//api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -55,9 +55,9 @@ export const Funds = ({ userType ,id,transactionContent}) => {
           content: url,       // Assuming `url` is the proof of funds content
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         console.log(data.message); // Handle success
       } else {
@@ -68,20 +68,20 @@ export const Funds = ({ userType ,id,transactionContent}) => {
     }
   };
 
-  const handleConfirm =async()=>{
+  const handleConfirm = async () => {
     try {
-      const response = await fetch('/api/transaction/02_confirmProofOfFunds', {
+      const response = await fetch('https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          transactionId: id,  
+          transactionId: id,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         console.log(data.message); // Handle success
       } else {
@@ -89,9 +89,9 @@ export const Funds = ({ userType ,id,transactionContent}) => {
       }
     } catch (error) {
       console.error('Error uploading proof of funds', error); // Handle network or other errors
-    } 
+    }
   }
-  
+
 
   return (
     <div className={styles.offer}>
@@ -126,11 +126,11 @@ export const Funds = ({ userType ,id,transactionContent}) => {
         <div className={styles.fileContainer}>
           <section id={styles.file_upload}>
             <label>
-              {transactionContent?.proof_of_funds =="" && `User has not uploaded Funds document yet`}
-              {!transactionContent?.proof_of_funds =="" && <img src={transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />}
+              {transactionContent?.proof_of_funds == "" && `User has not uploaded Funds document yet`}
+              {!transactionContent?.proof_of_funds == "" && <img src={transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />}
             </label>
           </section>
-          {!transactionContent?.confirm_proof_of_funds ?  <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button> : <button className={styles.fileuploadButton} style={{backgroundColor: "green"}}>Funds Confirmed</button>}
+          {!transactionContent?.confirm_proof_of_funds ? <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button> : <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>}
         </div>
       )}
     </div>

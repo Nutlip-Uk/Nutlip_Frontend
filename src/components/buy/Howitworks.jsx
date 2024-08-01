@@ -32,7 +32,7 @@ const Howitworks = () => {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
                                         children: 'Once accepted, provide proof of funds through Nutlip.',
                                     },
-                                    
+
                                     {
                                         dot: <div className="" style={{ height: "16px", width: "16px", backgroundColor: "red" }} />,
                                         children: 'Add your Conveyancer and any other parties to the transaction online.',

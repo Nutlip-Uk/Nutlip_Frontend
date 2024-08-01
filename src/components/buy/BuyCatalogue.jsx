@@ -17,7 +17,7 @@ export const BuyCatalogue = ({ properties }) => {
       <div className={styles.container}>
         <div className={styles.gridContainer}>
           {
-            properties.map((property) => (
+            properties?.map((property) => (
               <Property key={property._id} property={property} />
             ))
           }

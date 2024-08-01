@@ -7,12 +7,12 @@ import { storage } from '../../../firebase';
 
 
 
-export const Contract = ({userType, transaction, id,transactionContent}) => {
+export const Contract = ({ userType, transaction, id, transactionContent }) => {
     const [uploading, setUploading] = useState(false);
     const { url, setUrl } = useContext(ImageContext);
     const [fileUrl, setFileUrl] = useState('');
     const [upload, setupload] = useState(false);
-    const [receiveFile, setReceiveFile] = useState(''); 
+    const [receiveFile, setReceiveFile] = useState('');
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -41,14 +41,14 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
         );
     };
 
-    const handleSubmit = async () => {
+    const HandleSubmitSeller = async () => {
         try {
-            const response = await fetch(`/api/transaction/06_contractupload`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_contractupload_06_seller`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     transactionId: id,
                     content: fileUrl, // Use the fileUrl instead of url
                 }),
@@ -64,7 +64,51 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
             console.error('Error submitting contract upload:', error);
         }
     };
-   
+    const HandleSubmitBuyer = async () => {
+        try {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_contractupload_06_buyer`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    transactionId: id,
+                    content: fileUrl, // Use the fileUrl instead of url
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message); // Successfully uploaded message
+            } else {
+                throw new Error('Something went wrong!');
+            }
+        } catch (error) {
+            console.error('Error submitting contract upload:', error);
+        }
+    };
+
+
+    const HandleConfirm = async () => {
+        try {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_contractupload_06_seller_confirms`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    transactionId: id,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message); // Successfully Confirmed message
+            }
+        } catch (error) {
+            console.error('Error Confirming contract upload:', error);
+        }
+    }
 
     return (
         <div className={styles.offer}>
@@ -124,7 +168,7 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
                     }
 
 
-                    {fileUrl && <button onClick={handleSubmit} style={transactionContent?.contract_upload? {background: "green"}: null} className={styles.fileuploadButton}>{transactionContent?.contract_upload ? <p>Sent!</p> : <p>Send</p>}</button>}
+                    {fileUrl && <button onClick={HandleSubmitSeller} style={transactionContent?.contract_upload ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload ? <p>Sent!</p> : <p>Send</p>}</button>}
                 </div>
             )}
 
@@ -137,10 +181,10 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
                                 <img src={receiveFile} width={250} height={200} alt="Uploaded document" />
                             }
                         </label>
-                    <div className={styles.buttonContainer}>
-                        <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
-                        <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
-                    </div>
+                        <div className={styles.buttonContainer}>
+                            <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
+                            <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
+                        </div>
                     </section>
 
 
@@ -157,7 +201,7 @@ export const Contract = ({userType, transaction, id,transactionContent}) => {
                             <input type="file" onChange={handleImageChange} disabled={uploading} />
                         </label>
                         {uploading && <p>Uploading...</p>}
-                        {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>send</button>}
+                        {fileUrl && <button onClick={HandleSubmitSeller} className={styles.fileuploadButton}>send</button>}
                     </section>)
                     }
 

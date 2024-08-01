@@ -39,11 +39,13 @@ const OfferModal = (props) => {
     FullName: "",
     Address: "",
     Interested: "",
-    offerPrice: "",
+    PriceOffer: "",
     NutlipCommission: "",
     receivedPayment: "",
     PaymentType: "",
-    PriceOffer: ""
+    PriceOffer: "",
+    cryptoType: "Bitcoin",
+
   });
 
   const handleChange = (e) => {
@@ -192,7 +194,7 @@ const Offer = ({ change, form, handleChange, data }) => {
     event.preventDefault();
     console.log(form)
     try {
-      const response = await fetch('/api/offer', {
+      const response = await fetch('https://nutlip-backend.onrender.com/api/offer/createoffer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -202,11 +204,7 @@ const Offer = ({ change, form, handleChange, data }) => {
         const responseData = await response.json();
         console.log("Response from API:", responseData);
         change();
-      } else {
-        console.error("API response was not ok", response);
-        console.log(response.json());
       }
-
     } catch (error) {
       console.error("Error occurred:", error);
     }
@@ -315,7 +313,7 @@ const Offer = ({ change, form, handleChange, data }) => {
               <option value="" disabled selected>
                 Select (Pay with cash, Mortgage, Crypto)
               </option>
-              <option name="cash" value="cash">Pay with cash</option>
+              <option name="CreditCard" value="CreditCard">Credit Card</option>
               <option name="mortgage" value="mortgage">Mortgage</option>
               {/* <option name="crypto" value="crypto">Crypto</option> */}
             </select>

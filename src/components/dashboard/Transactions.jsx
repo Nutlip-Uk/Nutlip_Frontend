@@ -45,15 +45,15 @@ const Transactions = () => {
 
       const fetchData = async () => {
         try {
-          const apartmentsResponse = await fetch(`/api/apartments/${userId}`);
+          const apartmentsResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getuserapartments/${userId}`);
           const apartmentsData = await apartmentsResponse.json();
-          setApartments(apartmentsData);
+          setApartments(apartmentsData.data);
 
-          const offersReceivedResponse = await fetch(`/api/offer/getoffersreceived/${userId}`);
+          const offersReceivedResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getoffersreceived/${userId}`);
           const offersReceivedData = await offersReceivedResponse.json();
           setOffersReceived(offersReceivedData);
 
-          const offersSentResponse = await fetch(`/api/offer/getofferssent/${userId}`);
+          const offersSentResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getofferssent/${userId}`);
           const offersSentData = await offersSentResponse.json();
           setSentOffers(offersSentData);
         } catch (error) {
@@ -69,7 +69,7 @@ const Transactions = () => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
         try {
-          const response = await fetch(`/api/offer/getpropertyoffers/${selectedApartmentId}`);
+          const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getpropertyoffers/${selectedApartmentId}`);
           const data = await response.json();
           setPropertyOffers(data.offers);
           console.log("propertyOffers:", data.offers);
@@ -242,7 +242,7 @@ const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, sel
       </div>
 
       <div className={styles.propertyList}>
-        {apartments.map((apartment) => (
+        {apartments?.map((apartment) => (
           <div key={apartment?._id} className={styles.propertyContainer}>
             <div className={styles.Property}>
               <div className={styles.PropertyImg}>
@@ -318,7 +318,7 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
   const handleOffer = async (apartmentId, offerId, userId, status) => {
     console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
     try {
-      const response = await fetch(`/api/offer/change_status/${apartmentId}/${offerId}/${userId}`, {
+      const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/change_status/${apartmentId}/${offerId}/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

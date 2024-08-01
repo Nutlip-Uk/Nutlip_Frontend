@@ -39,32 +39,32 @@ const Process = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
-  
+
       try {
-        const transactionResponse = await fetch(`/api/transaction/${id}`);
+        const transactionResponse = await fetch(`https://nutlip-backend.onrender.com/api/transaction/gettransaction/${id}`);
         const transactionData = await transactionResponse.json();
         setTransaction(transactionData.transaction);
         setTransactionStage(transactionData.transaction.transactionCurrentStage);
         console.log("transactionData:", transactionData);
-  
+
         if (transactionResponse.ok) {
-          const txcontent = await fetch(`/api/transaction/gettxcontent/${id}`);
+          const txcontent = await fetch(`https://nutlip-backend.onrender.com/api/transaction/gettransactioncontent/${id}`);
           const data = await txcontent.json();
           setTransactionContent(data.transactioncontent);
           console.log("TRANSACTION CONTENT", transactionContent);
 
-          const apartmentResponse = await fetch(`/api/apartment/${transactionData.transaction.ApartmentId}`);
+          const apartmentResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
           const apartmentData = await apartmentResponse.json();
           setApartment(apartmentData);
           console.log("apartmentData:", apartmentData);
-  
-          const sellerResponse = await fetch(`/api/user/${userInformation.user.id}`);
+
+          const sellerResponse = await fetch(`https://nutlip-backend.onrender.com/api/user/${userInformation.user.id}`);
           const sellerData = await sellerResponse.json();
           setSellerInfo(sellerData);
           setUserType(sellerData?.userType.type);
           console.log("userData:", sellerData);
-  
-  
+
+
         } else {
           console.error("API error:", transactionData.message);
         }
@@ -72,9 +72,9 @@ const Process = () => {
         console.error("API error:", error);
       }
     };
-  
+
     fetchData();
-  }, [id,userInformation?.user?.id]);
+  }, [id, userInformation?.user?.id]);
 
 
 
@@ -127,15 +127,15 @@ const Process = () => {
         {/* Render components based on currentStage */}
         {currentStage === 0 && <Offer id={id} userType={userType} transaction={transaction} apartment={apartment} sellerInfo={sellerInfo} />}
         {currentStage === 1 && <Funds id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
-        {currentStage === 2 && <AddConveyancer id={id} userType={userType} transaction={transaction} apartment={apartment} userInformation={userInformation} transactionContent={transactionContent}/>}
-        {currentStage === 3 && <ResearchSurvey  userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} id={id}/>}
-        {currentStage === 4 && <Contract id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-        {currentStage === 5 && <NutlipCommission id={id}   userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-        {currentStage === 6 && <Deposit id={id}  userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-        {currentStage === 7 && <DOC id={id}   userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-        {currentStage === 8 && <FullPayment id={id}  userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-        {currentStage === 9 && <TransferTitle id={id}  userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
-        {currentStage === 10 && <Success userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent}/>}
+        {currentStage === 2 && <AddConveyancer id={id} userType={userType} transaction={transaction} apartment={apartment} userInformation={userInformation} transactionContent={transactionContent} />}
+        {currentStage === 3 && <ResearchSurvey userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} id={id} />}
+        {currentStage === 4 && <Contract id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 5 && <NutlipCommission id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 6 && <Deposit id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 7 && <DOC id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 8 && <FullPayment id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 9 && <TransferTitle id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 10 && <Success userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
 
         {currentStage !== 10 && (
           <div id={styles.page_nav}>

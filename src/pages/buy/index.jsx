@@ -56,7 +56,7 @@ const HeroComponent = () => {
             placeholder="Where do you want to Buy? e.g. Liverpool or L11"
           /> */}
 
-          <PlacesAutocomplete />
+          <PlacesAutocomplete placeholder={"Where are you buying from ?"} />
         </div>
 
         <div className={styles.SelectContainer}>

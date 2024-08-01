@@ -44,7 +44,7 @@ const Listing = () => {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        const response = await fetch(`/api/apartments/${userId}`);
+        const response = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getuserapartments/${userId}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -144,57 +144,57 @@ const ListProperty = ({ next, handleChange, type, userId, apartments, setSelecte
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
       <div className={styles.propertyListing}>
-      {apartments.map((apartment) => (
-        <div key={apartment?._id} className={styles.propertyContainer}>
-          <input type="checkbox" />
+        {apartments.map((apartment) => (
+          <div key={apartment?._id} className={styles.propertyContainer}>
+            <input type="checkbox" />
 
-          <div className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
-            <div className={styles.PropertyImg}>
-              <img src={apartment?.images[0]} />
+            <div className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
+              <div className={styles.PropertyImg}>
+                <img src={apartment?.images[0]} />
 
-              <div className={styles.propertyText}>
-                <p>{apartment?.Title}</p>
-                <p>{apartment?.location}</p>
+                <div className={styles.propertyText}>
+                  <p>{apartment?.Title}</p>
+                  <p>{apartment?.location}</p>
 
-                <div className={styles.propertySize}>
-                  <li>
-                    <img src="/bedroom.svg" alt="" />
-                    <p>{apartment?.bedrooms}</p>
-                  </li>
-                  <li>
-                    <img src="/bathtub.svg" alt="" />
-                    <p>{apartment?.bathrooms}</p>
-                  </li>
-                  <li>
-                    <img src="/chair.svg" alt="" />
-                    <p>{apartment?.LivingRoom}</p>
-                  </li>
-                  <li>
-                    <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
-                    <p>{apartment?.Toilets}</p>
-                  </li>
+                  <div className={styles.propertySize}>
+                    <li>
+                      <img src="/bedroom.svg" alt="" />
+                      <p>{apartment?.bedrooms}</p>
+                    </li>
+                    <li>
+                      <img src="/bathtub.svg" alt="" />
+                      <p>{apartment?.bathrooms}</p>
+                    </li>
+                    <li>
+                      <img src="/chair.svg" alt="" />
+                      <p>{apartment?.LivingRoom}</p>
+                    </li>
+                    <li>
+                      <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
+                      <p>{apartment?.Toilets}</p>
+                    </li>
+                  </div>
+
+                  {apartment.date_created && (
+                    <p>
+                      Last Updated:{" "}
+                      {new Date(apartment.date_created).toLocaleString()}
+                    </p>
+                  )}
                 </div>
+              </div>
 
-                {apartment.date_created && (
-                  <p>
-                    Last Updated:{" "}
-                    {new Date(apartment.date_created).toLocaleString()}
-                  </p>
-                )}
+              <hr />
+
+              <div className={styles.PropertyInfo}>
+                <p>Listing ID: {apartment._id.slice(0, 5)}</p>
+                <p>£ {apartment.Amount}</p>
+                <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
+                <p>View property</p>
               </div>
             </div>
-
-            <hr />
-
-            <div className={styles.PropertyInfo}>
-              <p>Listing ID: {apartment._id.slice(0, 5)}</p>
-              <p>£ {apartment.Amount}</p>
-              <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
-              <p>View property</p>
-            </div>
           </div>
-        </div>
-      ))}
+        ))}
       </div>
     </>
   );

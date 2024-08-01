@@ -57,22 +57,21 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
         e.preventDefault();
 
         try {
-            const response = await fetch("/api/transaction/12_proofoffunds90", {
+            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds90_012", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     transactionId: id,
-                    offerId: transaction.offerId,
                     content: url
                 }),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("Data posted successfully",data);
-            } 
+                console.log("Data posted successfully", data);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -80,14 +79,13 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
 
     const handleConfirm = async () => {
         try {
-            const response = await fetch("/api/transaction/13_confirmproofoffundsupload90", {
+            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds90_013", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     transactionId: id,
-                    offerId: transaction.offerId
                 }),
             });
 
@@ -187,7 +185,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                                     </label>
                                 </section>
                                 {transactionContent?.proof_of_funds_90 !== "" && (
-                                    <button className={styles.fileuploadButton} style={confirmed ? { background: "green" } : {background: "red"}} onClick={handleConfirm}>{ transaction?.proof_of_funds_90 !=="" ? "Confirmed Funds" : "confirm funds"}</button>
+                                    <button className={styles.fileuploadButton} style={confirmed ? { background: "green" } : { background: "red" }} onClick={handleConfirm}>{transaction?.proof_of_funds_90 !== "" ? "Confirmed Funds" : "confirm funds"}</button>
                                 )}
                             </div>
                         </section>

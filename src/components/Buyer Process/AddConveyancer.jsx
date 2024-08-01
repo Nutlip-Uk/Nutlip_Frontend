@@ -28,7 +28,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     const fetchConveyancerDetails = async (conveyancerID, type) => {
         console.log("Fetching conveyancer details for ID:", conveyancerID);
         try {
-            const response = await fetch(`/api/user/${conveyancerID}`);
+            const response = await fetch(`https://nutlip-backend.onrender.com//api/user/${conveyancerID}`);
             console.log("Fetch response:", response);
             if (response.ok) {
                 const data = await response.json();
@@ -40,17 +40,15 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                 console.log("Fetched conveyancer details:", data);
                 console.log("seller conveyancer", sellerConveyancer)
                 console.log("buyer conveynacer", buyerConveyancer)
-            } else {
-                throw new Error('Failed to fetch conveyancer details');
             }
         } catch (error) {
-            console.error('Network error:', error);
+            console.error(error);
         }
     };
 
     const addSellerConveyancer = async (conveyancerID) => {
         try {
-            const response = await fetch("/api/transaction/03_selleraddconvenyancer", {
+            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_selleraddconveyancer_03", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -74,7 +72,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
 
     const addBuyerConveyancer = async (conveyancerID) => {
         try {
-            const response = await fetch("/api/transaction/04_buyeraddconvenyancer", {
+            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_buyerconveyancer_04", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

@@ -50,13 +50,13 @@ const Details = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`/api/apartment/${id}`);
+        const res = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch");
         }
         const data = await res.json();
-        setProperty(data);
-        console.log(data)
+        setProperty(data.data);
+        console.log(data.data)
       } catch (error) {
         console.error("API Error:", error);
       }
