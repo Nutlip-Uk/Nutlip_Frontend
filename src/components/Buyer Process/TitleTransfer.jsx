@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/TitleTransfer.module.css"
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ImageContext } from "../../context/ImageContext.context";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
@@ -39,16 +39,38 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
         );
     };
 
-    const handleSubmit = async () => {
+    const handleSubmitSeller = async () => {
         try {
             const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_legalTitle_014`, {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     transactionId: id,
-                    offerId: transaction.offerId,
+                    content: fileUrl,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                console.log(data.message); // Successfully uploaded message
+            }
+        } catch (error) {
+            console.error('Error submitting contract upload:', error);
+        }
+    };
+    const handleSubmitBuyer = async () => {
+
+        try {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_legalTitle_015`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    transactionId: id,
                     content: fileUrl,
                 }),
             });
@@ -61,6 +83,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
             console.error('Error submitting contract upload:', error);
         }
     };
+
+
+    useEffect(() => {
+        console.log("Legal document", transactionContent.legal_title_document)
+    }, [transactionContent.legal_title_document])
 
 
     return (
@@ -77,14 +104,14 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                         <div className={styles.fileContainer}>
                             <section id={styles.file_upload}>
                                 <label>
-                                    {transactionContent?.legal_title_document &&
-                                        <img src={transactionContent?.legal_title_document} width={250} height={200} alt="Uploaded document" />
+                                    {transactionContent?.legal_title_document_unsigned !== null &&
+                                        <img src={transactionContent?.legal_title_document_unsigned} width={250} height={200} alt="Uploaded document" />
                                     }
                                 </label>
                             </section>
 
                             <div className={styles.buttonContainer}>
-                                <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
+                                <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
                             </div>
                         </div>
                     )}
@@ -93,21 +120,24 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                         <div className={styles.fileContainer}>
                             <section id={styles.file_upload}>
                                 <label>
-                                    {transactionContent?.legal_title_document &&
-                                        <img src={transactionContent?.legal_title_document || receiveFile} width={250} height={200} alt="Uploaded document" />
+                                    {transactionContent.legal_title_document_unsigned &&
+                                        <img src={transactionContent.legal_title_document_unsigned} width={250} height={200} alt="Uploaded document" />
                                     }
                                 </label>
                             </section>
 
 
+                            {transactionContent.legal_title_document_unsigned && <button style={{ background: "green" }} className={styles.fileuploadButton}>Received</button>}
+
+
                             <div className={styles.buttonContainer}>
-                                <a href={transactionContent?.legal_title_document} download className={styles.download}><em>Download Contract</em></a>
+                                <a href={transactionContent.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
                                 <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
                             </div>
 
 
 
-                            {upload && <section id={styles.file_upload}>
+                            {!transactionContent?.legal_title_document_signed && <section id={styles.file_upload}>
                                 <label>
                                     {fileUrl ? (
                                         <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
@@ -121,7 +151,17 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                             }
 
 
-                            {fileUrl && <button onClick={handleSubmit} style={transactionContent?.legal_title_document ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document ? <p>Sent!</p> : <p>Send</p>}</button>}
+                            {transactionContent?.legal_title_document_signed && <section id={styles.file_upload}>
+                                <label>
+
+                                    <img src={transactionContent?.legal_title_document_signed} width={250} height={200} alt="Uploaded document" />
+
+                                </label>
+                            </section>
+                            }
+
+                            {/* {transactionContent?.legal_title_document_signed && <button style={{ background: "green" }} className={styles.fileuploadButton}>Sent</button>} */}
+                            {fileUrl && <button onClick={handleSubmitBuyer} style={transactionContent?.legal_title_document_signed ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document_signed ? <p>Sent!</p> : <p>Send</p>}</button>}
                         </div>
                     )}
 
@@ -130,21 +170,21 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                         <div className={styles.fileContainer}>
                             <section id={styles.file_upload}>
                                 <label>
-                                    {receiveFile &&
-                                        <img src={receiveFile} width={250} height={200} alt="Uploaded document" />
+                                    {transactionContent?.legal_title_document_signed &&
+                                        <img src={transactionContent?.legal_title_document_signed} width={250} height={200} alt="Uploaded document" />
                                     }
                                 </label>
                             </section>
 
 
                             <div className={styles.buttonContainer}>
-                                <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
+                                <a href={transactionContent.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
                                 <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
                             </div>
 
 
 
-                            {upload && <section id={styles.file_upload}>
+                            {!transactionContent?.legal_title_document_unsigned && <section id={styles.file_upload}>
                                 <label>
                                     {fileUrl ? (
                                         <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
@@ -157,8 +197,18 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                             </section>
                             }
 
+                            {transactionContent?.contract_upload_unsigned_seller && <section id={styles.file_upload}>
+                                <label>
 
-                            {fileUrl && <button onClick={handleSubmit} className={styles.fileuploadButton}>send</button>}
+                                    <img src={transactionContent?.legal_title_document_unsigned} width={250} height={200} alt="Uploaded document" />
+
+                                </label>
+                            </section>}
+
+
+                            {!transactionContent?.legal_title_document_unsigned ? <button onClick={handleSubmitSeller} className={styles.fileuploadButton}>send</button> : <button className={styles.fileuploadButton} style={{
+                                background: "green"
+                            }}>Sent</button>}
                         </div>
                     )}
 

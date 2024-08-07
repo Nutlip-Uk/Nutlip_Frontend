@@ -16,6 +16,7 @@ export const UserTypeProvider = ({ children }) => {
           const data = await response.json();
           console.log("Data", data);
           setUserType(data?.userType?.type);
+          console.log("User Type", data.userType);
         } catch (error) {
           console.error("Error fetching user type:", error);
         }

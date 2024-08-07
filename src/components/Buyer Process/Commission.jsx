@@ -2,7 +2,7 @@ import Button from "../styled components/Button"
 import styles from "../../styles/BuyerProcess/commission.module.css"
 
 
-export const NutlipCommission = () => {
+export const NutlipCommission = ({ id, transactionContent, userType }) => {
 
     const HandleConfirm = async () => {
         try {
@@ -33,9 +33,15 @@ export const NutlipCommission = () => {
             </div>
 
             <div className={styles.paymentContainer}>
+
                 <div className={styles.debitCard}>
-                    <img src="/buyerprocess/debitcards.png" alt="debit cards" />
-                    <button><em>Payment via debit card</em></button>
+                    {!transactionContent?.payment_of_nutlip_commision && (
+                        <>
+                            {userType == "Real_estate_agent" ? <img onClick={HandleConfirm} src="/buyerprocess/debitcards.png" alt="debit cards" /> : <p style={{ color: "red" }}>{"Waiting for Agent to make Commission payment..."}</p>}
+                            <button><em>Payment via debit card</em></button>
+                        </>
+                    )}
+                    {transactionContent?.payment_of_nutlip_commision == true && <button style={{ color: "green" }} className={styles.confirm} ><em> Payment Confirmed</em></button>}
                 </div>
 
                 <button className={styles.blockChain}><em>Payment via Blockchain</em></button>

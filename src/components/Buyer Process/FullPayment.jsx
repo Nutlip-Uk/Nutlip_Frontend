@@ -5,18 +5,22 @@ import { useContext, useState } from 'react';
 import { ImageContext } from "../../context/ImageContext.context";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
+import { LoginContext } from '../../context/Login.context';
 
 export const FullPayment = ({ userType, transaction, transactionContent, id }) => {
+    const { userInformation } = useContext(LoginContext);
     const [uploading, setUploading] = useState(false);
     const { url, setUrl } = useContext(ImageContext);
     const [fileUrl, setFileUrl] = useState('');
     const [confirmed, setConfirmed] = useState(false);
     const [form, setForm] = useState({
-        AccountName: "",
-        AccountNumber: "",
-        BankName: "",
+        transactionId: id,
+        userId: userInformation.user.id,
+        accountName: "",
+        accountNo: "",
+        bankName: "",
         IBAN: "",
-        SortCode: ""
+        sortcode: ""
     });
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [isAccountInfoSent, setIsAccountInfoSent] = useState(false);
@@ -53,34 +57,62 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
         setForm({ ...form, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
 
+    const HandleBankDetails = async () => {
+        e.preventDefault();
+        console.log("BANK DETAILS", form);
         try {
-            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds90_012", {
-                method: "POST",
+            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    transactionId: id,
-                    content: url
+                    form
                 }),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("Data posted successfully", data);
+                console.log("RESPONSE FOR BANK DETAILS SENT", data);
+            }
+
+        } catch (error) {
+            console.error("Error submitting bank details:", error);
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log("File URL:", fileUrl);
+            console.log("url", url);
+
+            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds90_012", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    transactionId: id,
+                    content: fileUrl
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Data posted successfully", data.message);
             }
         } catch (error) {
-            console.error(error);
+            console.error(error && error.message);
         }
     };
 
     const handleConfirm = async () => {
         try {
             const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds90_013", {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -93,8 +125,6 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                 const data = await response.json();
                 console.log(data);
                 setConfirmed(true);
-            } else {
-                throw new Error("Failed to confirm proof of funds");
             }
         } catch (error) {
             console.log(error);
@@ -108,7 +138,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
 
                 {userType === "property_seeker" && (
                     <p>
-                        Please deposit in full, monies remaining for the purchase of the Real Estate property into the designated Bank Account of the Seller and then upload an evidence of payment to the Seller. The Seller's Bank Account details are stated below:
+                        Please deposit in full money remaining for the purchase of the Real Estate property into the designated Bank Account of the Seller and then upload an evidence of payment to the Seller. The Seller's Bank Account details are stated below:
                     </p>
                 )}
 
@@ -126,21 +156,21 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
 
             {userType === "property_seeker" && (
                 <section className={styles.list}>
+                    <p>SELLER BANK DETAILS</p>
                     <ul>
-                        <li>Seller’s Bank Account Details</li>
-                        <li>Bank name: Bank of Scotland</li>
-                        <li>Sort code: 22-12-46</li>
-                        <li>Account number: 01234567</li>
-                        <li>Account name: Johnson Alabija</li>
-                        <li>IBAN: 26784326789012</li>
-                        <li>Amount : € {transaction.offer.PriceOffer * 0.9}</li>
+                        <li>Bank name: {transactionContent.bankdetails[0].bankName}</li>
+                        <li>Sort code: {transactionContent.bankdetails[0].sortcode}</li>
+                        <li>Account number: {transactionContent.bankdetails[0].accountNo}</li>
+                        <li>Account name: {transactionContent.bankdetails[0].accountName}</li>
+                        <li>IBAN: {transactionContent.bankdetails[0].IBAN}</li>
+                        <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
                     </ul>
                 </section>
             )}
 
             {userType === "property_seeker" && (
                 <div className={styles.fileContainer}>
-                    <section id={styles.file_upload}>
+                    {!transactionContent.proof_of_funds_90 && <section id={styles.file_upload}>
                         <label>
                             {fileUrl ? (
                                 <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
@@ -150,28 +180,51 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                             <input type="file" onChange={handleImageChange} disabled={uploading} />
                         </label>
                         {uploading && <p>Uploading...</p>}
-                    </section>
-                    {fileUrl && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
+                    </section>}
+
+                    {transactionContent.proof_of_funds_90 && <section id={styles.file_upload}>
+                        <label>
+
+                            <img src={transactionContent.proof_of_funds_90} width={250} height={200} alt="Uploaded document" />
+
+                        </label>
+                    </section>}
+
+                    {transactionContent.proof_of_funds_90 && <button style={{ background: "green" }} className={styles.fileuploadButton}>Sent</button>}
+                    {!transactionContent.proof_of_funds_90 && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
                 </div>
             )}
-
             {userType === "Real_estate_agent" && (
                 <>
-                    {isFormSubmitted ? (
+                    {transactionContent.bankdetails.length > 0 ? (
                         <section className={styles.formContainer}>
                             <p className={styles.formHeader}>{"Seller’s Bank Account Details"}</p>
-                            <ul>
-                                <li>Bank name: {form.BankName}</li>
-                                <li>Sort code: {form.SortCode}</li>
-                                <li>Account number: {form.AccountNumber}</li>
-                                <li>Account name: {form.AccountName}</li>
+                            {transactionContent.bankdetails.length < 0 && <ul>
+                                <li>Bank name: {form.bankName}</li>
+                                <li>Sort code: {form.sortcode}</li>
+                                <li>Account number: {form.accountNo}</li>
+                                <li>Account name: {form.accountName}</li>
                                 <li>IBAN: {form.IBAN}</li>
                                 <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
-                            </ul>
-                            {isAccountInfoSent ? (
-                                <button style={{ background: "green" }} className={styles.confirm} disabled>Sent</button>
+                            </ul>}
+
+                            {
+                                transactionContent.bankdetails.length > 0 && transactionContent.bankdetails[0] &&
+                                <ul>
+                                    <li>Bank name: {transactionContent.bankdetails[0].bankName}</li>
+                                    <li>Sort code: {transactionContent.bankdetails[0].sortcode}</li>
+                                    <li>Account number: {transactionContent.bankdetails[0].accountNo}</li>
+                                    <li>Account name: {transactionContent.bankdetails[0].accountName}</li>
+                                    <li>IBAN: {transactionContent.bankdetails[0].IBAN}</li>
+                                    <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
+                                </ul>
+                            }
+
+
+                            {transactionContent.bankdetails.length > 0 ? (
+                                <button style={{ background: "green", maxWidth: "30%", display: "none" }} className={styles.confirm} >Sent</button>
                             ) : (
-                                <button type="button" onClick={() => setIsAccountInfoSent(true)} className={styles.confirm}>Send</button>
+                                <button type="button" style={{ maxWidth: "30%" }} onClick={handleSubmit} className={styles.confirm}>Send</button>
                             )}
 
                             <div className={styles.fileContainer}>
@@ -180,19 +233,19 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                                         {transactionContent?.proof_of_funds_90 === "" ? (
                                             "User has not uploaded Funds document yet"
                                         ) : (
-                                            <img src={transactionContent.proof_of_funds_90} width={250} height={200} alt="Uploaded document" />
+                                            <img src={transactionContent.proof_of_funds_90} alt="Uploaded document" />
                                         )}
                                     </label>
                                 </section>
                                 {transactionContent?.proof_of_funds_90 !== "" && (
-                                    <button className={styles.fileuploadButton} style={confirmed ? { background: "green" } : { background: "red" }} onClick={handleConfirm}>{transaction?.proof_of_funds_90 !== "" ? "Confirmed Funds" : "confirm funds"}</button>
+                                    <button className={styles.fileuploadButton} style={!transactionContent?.confirm_proof_of_funds_90 ? { background: "red" } : { background: "green" }} onClick={handleConfirm}>{transactionContent?.confirm_proof_of_funds_90 !== true ? "Confirm Fund" : "confirmed funds"}</button>
                                 )}
                             </div>
                         </section>
                     ) : (
                         <section className={styles.formContainer}>
                             <p className={styles.formHeader}>{"Seller’s Bank Account Details"}</p>
-                            <form className={styles.form} onSubmit={(e) => { e.preventDefault(); setIsFormSubmitted(true); }}>
+                            <form className={styles.form} onSubmit={handleConfirm}>
                                 <div className={styles.formInput}>
                                     <label>
                                         Account name
@@ -200,9 +253,9 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                                             type="text"
                                             required
                                             placeholder="Account name"
-                                            value={form.AccountName}
+                                            value={transactionContent.bankdetails[0].accountName}
                                             onChange={handleFormChange}
-                                            name="AccountName"
+                                            name="accountName"
                                         />
                                     </label>
                                 </div>
@@ -213,9 +266,9 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                                             required
                                             type="text"
                                             placeholder="Bank name"
-                                            value={form.BankName}
+                                            value={form.bankName}
                                             onChange={handleFormChange}
-                                            name="BankName"
+                                            name="bankName"
                                         />
                                     </label>
                                 </div>
@@ -226,9 +279,9 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                                             required
                                             type="text"
                                             placeholder="Sort code"
-                                            value={form.SortCode}
+                                            value={form.sortcode}
                                             onChange={handleFormChange}
-                                            name="SortCode"
+                                            name="sortcode"
                                         />
                                     </label>
                                 </div>
@@ -239,9 +292,9 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                                             required
                                             type="text"
                                             placeholder="Account number"
-                                            value={form.AccountNumber}
+                                            value={form.accountNo}
                                             onChange={handleFormChange}
-                                            name="AccountNumber"
+                                            name="accountNo"
                                         />
                                     </label>
                                 </div>
@@ -263,7 +316,8 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
                         </section>
                     )}
                 </>
-            )}
+            )
+            }
         </div>
     );
 };

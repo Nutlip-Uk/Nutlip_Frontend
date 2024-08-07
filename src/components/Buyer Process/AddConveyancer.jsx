@@ -9,11 +9,11 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     const [sellerConveyancer, setSellerConveyancer] = useState(null);
 
     useEffect(() => {
-        console.log("Transaction Content:", transactionContent);
-        if (transactionContent?.conveyancer_buyer !== "") {
+        console.log("Transaction Content:", transactionContent[0]);
+        if (transactionContent[0]?.conveyancer_buyer !== "") {
             fetchConveyancerDetails(transactionContent.convenyancer_buyer, "property_seeker");
         }
-        if (transactionContent?.conveyancer_seller !== "") {
+        if (transactionContent[0]?.conveyancer_seller !== "") {
             fetchConveyancerDetails(transactionContent.convenyancer_seller, "Real_estate_agent");
         }
     }, [transactionContent]);
@@ -28,16 +28,16 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     const fetchConveyancerDetails = async (conveyancerID, type) => {
         console.log("Fetching conveyancer details for ID:", conveyancerID);
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com//api/user/${conveyancerID}`);
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/users/${conveyancerID}`);
             console.log("Fetch response:", response);
             if (response.ok) {
                 const data = await response.json();
                 if (type === "property_seeker") {
-                    setBuyerConveyancer(data);
+                    setBuyerConveyancer(data.data[0]);
                 } else {
-                    setSellerConveyancer(data);
+                    setSellerConveyancer(data.data[0]);
                 }
-                console.log("Fetched conveyancer details:", data);
+                console.log("Fetched conveyancer details:", data.data[0]);
                 console.log("seller conveyancer", sellerConveyancer)
                 console.log("buyer conveynacer", buyerConveyancer)
             }
@@ -49,7 +49,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     const addSellerConveyancer = async (conveyancerID) => {
         try {
             const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_selleraddconveyancer_03", {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -146,7 +146,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                         <span className={styles.conveyancerDetails}>
                             <h4>Conveyancer details</h4>
                             <p>Name: {sellerConveyancer.username || 'N/A'}</p>
-                            <p>Agent ID: {sellerConveyancer.id ? sellerConveyancer.id.slice(0, 5) : 'N/A'}</p>
+                            <p>Agent ID: {sellerConveyancer._id ? sellerConveyancer._id.slice(0, 5) : 'N/A'}</p>
                         </span>
                     )}
                 </div>

@@ -48,10 +48,8 @@ const Listing = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setApartments(data);
+          setApartments(data.data);
           console.log(data);
-        } else {
-          setError(data.message);
         }
       } catch (error) {
         console.log(error);
@@ -144,7 +142,7 @@ const ListProperty = ({ next, handleChange, type, userId, apartments, setSelecte
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
       <div className={styles.propertyListing}>
-        {apartments.map((apartment) => (
+        {Array.isArray(apartments) && apartments.map((apartment) => (
           <div key={apartment?._id} className={styles.propertyContainer}>
             <input type="checkbox" />
 
@@ -224,7 +222,7 @@ const ListingDetail = ({ next, back, handleChange, apartment }) => {
               <div id={styles.options}>
                 <label>
                   <img
-                    src={""}
+                    src={"/picture.svg"}
                     width={25}
                     height={25}
                     alt="image-Thumbnail"
@@ -344,7 +342,11 @@ const ListingDetail = ({ next, back, handleChange, apartment }) => {
                 <div className={styles.keyFeatures}>
                   <p>Key features</p>
 
-                  <li>{apartment.Add_features}</li>
+                  <ul>
+                    {apartment?.Add_features.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
 
                 </div>
 

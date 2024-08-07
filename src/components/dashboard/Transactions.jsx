@@ -41,6 +41,7 @@ const Transactions = () => {
     const userInformation = JSON.parse(localStorage.getItem("userInformation"));
     if (userInformation && userInformation.user) {
       const userId = userInformation.user.id;
+      console.log("userId:", userId);
       setUserId(userId);
 
       const fetchData = async () => {
@@ -49,13 +50,17 @@ const Transactions = () => {
           const apartmentsData = await apartmentsResponse.json();
           setApartments(apartmentsData.data);
 
+
           const offersReceivedResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getoffersreceived/${userId}`);
           const offersReceivedData = await offersReceivedResponse.json();
           setOffersReceived(offersReceivedData);
+          console.log("offersReceivedData:", offersReceivedData);
 
           const offersSentResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getofferssent/${userId}`);
           const offersSentData = await offersSentResponse.json();
           setSentOffers(offersSentData);
+          console.log("offersSentData:", offersSentData);
+
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -69,7 +74,7 @@ const Transactions = () => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
         try {
-          const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getpropertyoffers/${selectedApartmentId}`);
+          const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
           const data = await response.json();
           setPropertyOffers(data.offers);
           console.log("propertyOffers:", data.offers);
@@ -318,12 +323,13 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
   const handleOffer = async (apartmentId, offerId, userId, status) => {
     console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/change_status/${apartmentId}/${offerId}/${userId}`, {
+      const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status: status }),
+
       });
       const data = await response.json();
       console.log("data:", data);

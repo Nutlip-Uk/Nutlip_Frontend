@@ -96,7 +96,7 @@ function Property({ property }) {
           <div className={styles.propertyInfo}>
             <p className={styles.name}>{property?.Title}</p>
             <p className={styles.location}>{property?.location}</p>
-            <p className={styles.desp}>{property?.description}</p>
+            <p className={styles.desp}>{property?.description.slice(0, 30)}</p>
             <p className={styles.listed}>{formattedDate}</p>
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import { storage } from '../../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -11,7 +11,6 @@ export const Funds = ({ userType, id, transactionContent }) => {
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
 
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -19,23 +18,21 @@ export const Funds = ({ userType, id, transactionContent }) => {
     const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
+
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        // Progress function (optional)...
         setUploading(true);
       },
       (error) => {
-        // Error function ...
         console.error(error);
         setUploading(false);
       },
       () => {
-        // Complete function ...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFileUrl(downloadURL); // Set the file URL for displaying the image
-          setUrl(downloadURL);  // Update the context
-          console.log('File available at:', downloadURL);  // Log the URL
+          setFileUrl(downloadURL);
+          setUrl(downloadURL);
+          console.log('File available at:', downloadURL);
           setUploading(false);
         });
       }
@@ -43,28 +40,27 @@ export const Funds = ({ userType, id, transactionContent }) => {
   };
 
   const handleSubmit = async () => {
-
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com//api/transaction/transaction_uploadproofoffunds_01', {
+      const response = await fetch('https://nutlip-backend.onrender.com/api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          transactionId: id,  // Assuming `id` is defined in your component
-          content: url,       // Assuming `url` is the proof of funds content
+          transactionId: id,
+          content: url,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.message); // Handle success
+        console.log(data.message);
       } else {
-        console.error(data.message); // Handle error from server
+        console.error(data.message);
       }
     } catch (error) {
-      console.error('Error uploading proof of funds', error); // Handle network or other errors
+      console.error('Error uploading proof of funds', error);
     }
   };
 
@@ -83,15 +79,14 @@ export const Funds = ({ userType, id, transactionContent }) => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.message); // Handle success
+        console.log(data.message);
       } else {
-        console.error(data.message); // Handle error from server
+        console.error(data.message);
       }
     } catch (error) {
-      console.error('Error uploading proof of funds', error); // Handle network or other errors
+      console.error('Error confirming proof of funds', error);
     }
-  }
-
+  };
 
   return (
     <div className={styles.offer}>
@@ -109,8 +104,8 @@ export const Funds = ({ userType, id, transactionContent }) => {
         <div className={styles.fileContainer}>
           <section id={styles.file_upload}>
             <label>
-              {fileUrl ? (
-                <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
+              {fileUrl || transactionContent.proof_of_funds ? (
+                <img src={fileUrl || transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />
               ) : (
                 'Upload Document'
               )}
@@ -118,7 +113,8 @@ export const Funds = ({ userType, id, transactionContent }) => {
             </label>
             {uploading && <p>Uploading...</p>}
           </section>
-          {fileUrl && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
+          {!transactionContent?.proof_of_funds && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
+          {transactionContent?.proof_of_funds && <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Uploaded</button>}
         </div>
       )}
 
@@ -126,16 +122,22 @@ export const Funds = ({ userType, id, transactionContent }) => {
         <div className={styles.fileContainer}>
           <section id={styles.file_upload}>
             <label>
-              {transactionContent?.proof_of_funds == "" && `User has not uploaded Funds document yet`}
-              {!transactionContent?.proof_of_funds == "" && <img src={transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />}
+              {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
+              {transactionContent?.proof_of_funds && (
+                <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
+              )}
             </label>
           </section>
-          {!transactionContent?.confirm_proof_of_funds ? <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button> : <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>}
+          {!transactionContent?.confirm_proof_of_funds ? (
+            <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>
+          ) : (
+            <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+          )}
         </div>
       )}
     </div>
   );
-}
+};
 
 export const FundsVerify = () => {
   return (
@@ -148,4 +150,4 @@ export const FundsVerify = () => {
       <Button bgcolor="#16AA63" textcolor="#FFF" width="100" content="Funds Confirmed!" />
     </div>
   );
-}
+};

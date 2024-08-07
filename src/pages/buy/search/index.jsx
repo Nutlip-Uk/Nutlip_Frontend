@@ -1,38 +1,38 @@
 import Catalogue from "../../../components/Rent/Catalogue";
-import FilterModal from "../../../components/Rent/FilterModal";
-import Search from "../../../components/Rent/Search";
-import SearchResult from "../../../components/Rent/SearchResult";
+import FilterModal from "../../../components/buy/FilterModal";
+import Search from "../../../components/buy/Search";
+import SearchResult from "../../../components/buy/SearchResult";
 import { useEffect, useState, useRef } from 'react';
 import styles from "../../../styles/Rent/SearchResult.module.css"
 import { BuyCatalogue } from "../../../components/buy/BuyCatalogue";
-
+import { useBuyContext } from '../../../context/Buy.context'
 
 export default function Buy() {
-  const [properties, setProperties] = useState([]);
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await fetch('https://nutlip-backend.onrender.com/api/apartments/getallapartments');
-        if (!response.ok) {
-          throw new Error('Failed to fetch properties');
-        }
-        const data = await response.json();
-        setProperties(data.data);
-        console.log(data.data);
-      } catch (error) {
-        console.error('Error fetching properties:', error);
-      }
-    };
+  const { properties, setProperties } = useBuyContext();
 
-    fetchProperties();
-  }, []);
+  // const [properties, setProperties] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchProperties = async () => {
+  //     try {
+  //       const response = await fetch('https://nutlip-backend.onrender.com/api/apartments/getallapartments');
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setProperties(data.data);
+  //         console.log(data.data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching properties:', error);
+  //     }
+  //   };
+
+  //   fetchProperties();
+  // }, []);
 
 
   const [showModal, setShowModal] = useState(false)
-  const closeModal = () => {
-    setShowModal(!showModal)
-  }
+  const closeModal = () => setShowModal(!showModal)
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const navbarRef = useRef(null);
