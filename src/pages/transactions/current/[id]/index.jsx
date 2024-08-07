@@ -39,34 +39,32 @@ const Process = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
+      console.log(" user ID:", userInformation?.user?.id);
 
       try {
         const transactionResponse = await fetch(`https://nutlip-backend.onrender.com/api/transaction/gettransaction/${id}`);
         const transactionData = await transactionResponse.json();
         setTransaction(transactionData.transaction);
         setTransactionStage(transactionData.transaction.transactionCurrentStage);
-        console.log("transactionData:", transactionData);
+        console.log("transactionData:", transactionData.transaction);
 
         if (transactionResponse.ok) {
           const txcontent = await fetch(`https://nutlip-backend.onrender.com/api/transaction/gettransactioncontent/${id}`);
           const data = await txcontent.json();
-          setTransactionContent(data.transactioncontent);
+          setTransactionContent(data.transactioncontent[0]);
           console.log("TRANSACTION CONTENT", transactionContent);
+
 
           const apartmentResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
           const apartmentData = await apartmentResponse.json();
-          setApartment(apartmentData);
-          console.log("apartmentData:", apartmentData);
+          setApartment(apartmentData.data);
+          console.log("apartmentData:", apartmentData.data);
 
-          const sellerResponse = await fetch(`https://nutlip-backend.onrender.com/api/user/${userInformation.user.id}`);
+          const sellerResponse = await fetch(`/api/user/${userInformation?.user?.id}`);
           const sellerData = await sellerResponse.json();
           setSellerInfo(sellerData);
-          setUserType(sellerData?.userType.type);
+          setUserType(sellerData.userType?.type);
           console.log("userData:", sellerData);
-
-
-        } else {
-          console.error("API error:", transactionData.message);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -74,13 +72,13 @@ const Process = () => {
     };
 
     fetchData();
-  }, [id, userInformation?.user?.id]);
+  }, [id, userInformation?.user?.id, transactionContent, transactionStage]);
 
 
 
   useEffect(() => {
     setProgress(Math.floor((currentStage / 12) * 100));
-  }, [currentStage]);
+  }, [currentStage,]);
 
   const handleNextClick = () => {
     if (currentStage < transactionStage) {

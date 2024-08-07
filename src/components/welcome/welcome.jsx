@@ -95,20 +95,22 @@ const Welcome = () => {
     event.preventDefault();
     const userId = userInformation.user.id;
     console.log("Form data:", form);
+    console.log("User information:", userId);
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/user/${userId}`, {
+      const response = await fetch(`https://nutlip-backend.onrender.com/api/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
+
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log("Form successfully updated", data);
         console.log(data);
-        await handleWelcome()
+        await handleWelcome();
         next();
       } else {
         console.log("Form update failed");

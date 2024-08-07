@@ -210,8 +210,7 @@ const PostProperty = () => {
       const userId = userInformation.user.id;
       console.log("userId:", userId);
       if (userId) {
-        const objectId = new mongoose.Types.ObjectId(userId); // Declare and assign objectId
-        setForm((prevForm) => ({ ...prevForm, userId: objectId }));
+        setForm((prevForm) => ({ ...prevForm, userId }));
       }
     }
   }, []);
@@ -869,10 +868,9 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
         <div className={styles.feature}>
           <p>Key features</p>
           <ul>
-            <li>Sold in March 2023</li>
-            <li>17ft garage and off street parking</li>
-            <li>41ft secluded rear garden</li>
-            <li>South facing terrace to the front with fantastic views</li>
+            {form?.Add_features.map((item, index) => (
+              <li style={{ textTransform: "capitalize" }} key={index}>{item}</li>
+            ))}
           </ul>
         </div>
       </div>
@@ -881,11 +879,10 @@ const PostPropertyDetailsReview = ({ next, back, form }) => {
         <p className={styles.readMore}>Read more</p>
       </div>
 
-      <div className={styles.DetailImgContainer}>
-        {form.images.map((image) => {
-          <img src={image} width={210} height={200} />
-        })}
-      </div>
+      <div style={{ gap: 25, flexWrap: "wrap" }} className={styles.DetailImgContainer}>
+        {form.images.map((image, index) => (
+          <img key={index} src={image} width={210} height={200} alt={`Property image ${index + 1}`} />
+        ))}      </div>
 
       <div className={styles.buttonContainer}>
         <button onClick={next}>Cancel</button>

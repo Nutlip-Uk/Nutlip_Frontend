@@ -215,8 +215,8 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
                 <img src="/navbar/heart.svg" />
                 <p>Saved properties</p>
               </div>
-              {userType === "property_seeker" && <hr />}
-              {userType === "property_seeker" && (<div className={sty.popUplink} onClick={() => setPopup(false)}>
+              {userType !== "Real_estate_agent" && <hr />}
+              {userType !== "Real_estate_agent" && (<div className={sty.popUplink} onClick={() => setPopup(false)}>
                 <img src="/navbar/transaction.svg" />
                 <Link href={"/transactions"}>Transactions</Link>
               </div>)}

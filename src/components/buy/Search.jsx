@@ -1,8 +1,18 @@
 import styles from "../../styles/Rent/Search.module.css";
 import Image from "next/image";
 import { PropsWithChildren, useState } from "react";
+import { useBuyContext } from "../../context/Buy.context";
 
 const Search = (props) => {
+  const { filters, setFilters } = useBuyContext();
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
 
   return (
     <section className={styles.Section}>

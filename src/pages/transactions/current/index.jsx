@@ -24,17 +24,19 @@ const Current = () => {
           console.log('Accepted offers:', acceptedOffers);
 
           const fetchAdditionalData = acceptedOffers.map(async (offer) => {
-            const additionalResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartment/${offer.apartmentId}`);
+            const additionalResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${offer.apartmentId}`);
             const additionalData = await additionalResponse.json();
             console.log('Additional data:', additionalData);
             return {
               ...offer,
-              apartmentDetails: additionalData,
+              apartmentDetails: additionalData.data,
             };
           });
 
           const offersWithDetails = await Promise.all(fetchAdditionalData);
+          console.log('Offers with details:', offersWithDetails);
           setOffers(offersWithDetails);
+          console.log('Offers:', offers);
         } else {
           console.error('Expected an array but got:', data.offers);
         }

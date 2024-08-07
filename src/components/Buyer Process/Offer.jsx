@@ -67,8 +67,8 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
                         </div>
                         <hr />
                         <div className={styles.transactionDesc}>
-                            <p><strong>{apartment?.Title.slice(0, 10)}...</strong></p>
-                            <p>{apartment?.address.slice(0, 10)}...</p>
+                            <p><strong>{apartment?.Title && apartment?.Title.slice(0, 10)}...</strong></p>
+                            <p>{apartment?.address && apartment?.address.slice(0, 10)}...</p>
                         </div>
                         <hr />
                     </>
