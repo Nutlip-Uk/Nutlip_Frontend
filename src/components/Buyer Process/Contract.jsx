@@ -124,7 +124,7 @@ export const Contract = ({ userType, transaction, id, transactionContent }) => {
                             {transactionContent?.contract_upload_unsigned_seller
                                 &&
                                 <img src={transactionContent?.contract_upload_unsigned_seller
-                                } width={250} height={200} alt="Uploaded document" />
+                                } alt="Uploaded document" />
                             }
                         </label>
                     </section>
@@ -138,17 +138,21 @@ export const Contract = ({ userType, transaction, id, transactionContent }) => {
             {userType === "property_seeker" && (
                 <div className={styles.fileContainer}>
                     <section id={styles.file_upload}>
-                        <label>
-                            {transactionContent?.contract_upload_unsigned_seller
-                                &&
-                                <img src={transactionContent?.contract_upload_unsigned_seller || receiveFile} width={250} height={200} alt="Uploaded document" />
-                            }
-                        </label>
+                        <div className={styles.contractContainer}>
+                            <label>
+                                {transactionContent?.contract_upload_unsigned_seller
+                                    &&
+                                    <img src={transactionContent?.contract_upload_unsigned_seller || receiveFile} alt="Uploaded document" />
+                                }
+                            </label>
+
+                            {transactionContent.contract_upload_unsigned_seller && <button style={{
+                                background: "green"
+                            }} className={styles.fileuploadButton}>Received</button>}
+                        </div>
                     </section>
 
-                    {transactionContent.contract_upload_unsigned_seller && <button style={{
-                        background: "green"
-                    }} className={styles.fileuploadButton}>Received</button>}
+
 
 
                     <div className={styles.buttonContainer}>
@@ -160,83 +164,93 @@ export const Contract = ({ userType, transaction, id, transactionContent }) => {
 
 
                     {!transactionContent.contract_upload_signed_buyer && <section id={styles.file_upload}>
-                        <label>
-                            {fileUrl ? (
-                                <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
-                            ) : (
-                                <p>Upload Document</p>
-                            )}
-                            <input type="file" onChange={handleImageChange} disabled={uploading} />
-                        </label>
-                        {uploading && <p>Uploading...</p>}
+                        <div className={styles.contractContainer}>
+                            <label>
+                                {fileUrl ? (
+                                    <img src={fileUrl} alt="Uploaded document" />
+                                ) : (
+                                    <p>Upload Document</p>
+                                )}
+                                <input type="file" onChange={handleImageChange} disabled={uploading} />
+                            </label>
+                            {uploading && <p>Uploading...</p>}
+                        </div>
                     </section>
                     }
 
                     {
                         transactionContent.contract_upload_signed_buyer && <section id={styles.file_upload}>
-                            <label>
-                                {transactionContent?.contract_upload_signed_buyer &&
-                                    <img src={transactionContent?.contract_upload_signed_buyer} width={250} height={200} alt="Uploaded document" />
-                                }
-                            </label>
+                            <div className={styles.contractContainer}>
+                                <label>
+                                    {transactionContent?.contract_upload_signed_buyer &&
+                                        <img src={transactionContent?.contract_upload_signed_buyer} alt="Uploaded document" />
+                                    }
+                                </label>
+                                {transactionContent.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
+                                {fileUrl && <button onClick={HandleSubmitBuyer} style={transactionContent?.contract_upload_signed_buyer ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload_signed_buyer ? <p>Sent!</p> : <p>Send</p>}</button>}
+                            </div>
                         </section>
                     }
-
-                    {transactionContent.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
-
-
-                    {fileUrl && <button onClick={HandleSubmitBuyer} style={transactionContent?.contract_upload_signed_buyer ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload_signed_buyer ? <p>Sent!</p> : <p>Send</p>}</button>}
                 </div>
             )}
 
 
             {userType === "Real_estate_agent" && (
                 <div className={styles.fileContainer}>
-                    <section id={styles.file_upload}>
-                        <label>
-                            {transactionContent?.contract_upload_signed_buyer &&
-                                <img src={transactionContent?.contract_upload_signed_buyer} width={250} height={200} alt="Uploaded document" />
-                            }
-                        </label>
+                    {transactionContent?.contract_upload_signed_buyer && <section id={styles.file_upload}>
+                        <div className={styles.contractContainer}>
+                            <label>
+                                {transactionContent?.contract_upload_signed_buyer &&
+                                    <img src={transactionContent?.contract_upload_signed_buyer} alt="Uploaded document" />
+                                }
+                            </label>
 
-                        {transactionContent?.contract_upload_signed_buyer && <button onClick={HandleConfirm} style={transactionContent.contract_upload_signed_seller_confirmed_date ? { display: "none" } : null} className={styles.fileuploadButton}> <p>Confirm</p></button>}
-                        {transactionContent.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
+                            {transactionContent?.contract_upload_signed_buyer && <button onClick={HandleConfirm} style={transactionContent.contract_upload_signed_seller_confirmed_date ? { display: "none" } : null} className={styles.fileuploadButton}> <p>Confirm</p></button>}
+
+                            {transactionContent.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
+                        </div>
+
 
 
                         <div className={styles.buttonContainer}>
                             <a href={receiveFile} download className={styles.download}><em>Download Contract</em></a>
                             <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
                         </div>
-                    </section>
+                    </section>}
 
 
 
 
 
                     {!transactionContent.contract_upload_unsigned_seller && (<section id={styles.file_upload}>
-                        <label>
-                            {fileUrl ? (
-                                <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
-                            ) : (
-                                <p>Upload Document</p>
-                            )}
-                            <input type="file" onChange={handleImageChange} disabled={uploading} />
-                        </label>
-                        {uploading && <p>Uploading...</p>}
-                        {fileUrl && <button onClick={HandleSubmitSeller} className={styles.fileuploadButton}>send</button>}
+                        <div className={styles.contractContainer}>
+                            <label>
+                                {fileUrl ? (
+                                    <img src={fileUrl} alt="Uploaded document" />
+                                ) : (
+                                    <p>Upload Document</p>
+                                )}
+                                <input type="file" onChange={handleImageChange} disabled={uploading} />
+                            </label>
+
+                            {uploading && <p>Uploading...</p>}
+                            {fileUrl && <button onClick={HandleSubmitSeller} className={styles.fileuploadButton}>send</button>}
+                        </div>
                     </section>)
                     }
 
                     {
                         transactionContent.contract_upload_unsigned_seller && <section id={styles.file_upload}>
-                            <label>
-                                {transactionContent?.contract_upload_unsigned_seller &&
-                                    <img src={transactionContent?.contract_upload_unsigned_seller} width={250} height={200} alt="Uploaded document" />
-                                }
-                            </label>
+                            <div className={styles.contractContainer}>
+                                <label>
+                                    {transactionContent?.contract_upload_unsigned_seller &&
+                                        <img src={transactionContent?.contract_upload_unsigned_seller} alt="Uploaded document" />
+                                    }
+                                </label>
 
+                                <button style={{ background: "green" }} className={styles.fileuploadButton}> Sent </button>
+                            </div>
 
-                            <button style={{ background: "green" }} className={styles.fileuploadButton}> Sent </button>
                         </section>
                     }
 

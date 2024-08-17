@@ -51,7 +51,7 @@ const Current = () => {
   return (
     <div className={styles.Section}>
       <div className={styles.container}>
-        <Link href="#" className={styles.Header}><h2>In-progress</h2></Link>
+        <Link href="/transactions" className={styles.Header}><h2>In-progress</h2></Link>
         <div className={styles.ListContainer}>
           {offers.map((offer, index) => (
             <div key={index} className={styles.ListBox} onClick={() => router.push(`/transactions/current/${offer.transaction_id}`)}>

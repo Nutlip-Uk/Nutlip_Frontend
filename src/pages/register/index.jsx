@@ -6,18 +6,24 @@ import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { GridLoader, HashLoader } from "react-spinners";
 import { useSession, signIn, signOut } from "next-auth/react";
-import axios from "axios";
-import { setCookie } from "nookies";
+
 import { LoginContext } from '../../context/Login.context';
 import { RegistrationContext } from "../../context/Register.context";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
-
+import { auth, facebookProvider, provider } from "../../../firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Registration = () => {
   const router = useRouter();
   const data = router.query;
   const [type, setType] = useState(data.option);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [iserror, setError] = useState()
+  const { setUserInformation } = useContext(LoginContext);
+
+
   let sign = "signup";
   let login = "login";
   let verify = "verify";
@@ -32,6 +38,160 @@ const Registration = () => {
   useEffect(() => {
     setType(data.option);
   });
+
+  const handleGoogleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const { uid, displayName, email, photoURL } = result.user;
+      setUser(result.user);
+
+      console.log("Google Login Info:", { uid, displayName, email, photoURL });
+
+      const response = await fetch("https://nutlip-backend.onrender.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: displayName,
+          email: email,
+          password: uid
+        }),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+      }
+
+      router.push("/register?option=login");
+    } catch (error) {
+      console.error("Error during sign-Up:", error);
+    }
+  };
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const { uid, displayName, email, photoURL } = result.user;
+
+      console.log("Google Login Info:", { uid, displayName, email, photoURL });
+
+      // Attempt to log in to your backend with the Google user info
+      const response = await fetch("https://nutlip-backend.onrender.com/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: uid, // Using Firebase UID as the password or a unique identifier
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userInformation", JSON.stringify(data));
+        setUserInformation(data);
+
+        router.push("/"); // Redirect to a protected route after sign-in
+      } else {
+        console.log(data);
+        setError(data || "Failed to log in with Google.");
+      }
+    } catch (error) {
+      console.error("Error during Google sign-in:", error);
+      setError("An error occurred during Google sign-in.");
+    } finally {
+      setLoading(false); // Reset loading state after request is completed
+    }
+  };
+
+  const handleFacebookSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await signInWithPopup(auth, facebookProvider);
+      const { uid, displayName, email, photoURL } = result.user;
+      setUser(result.user);
+
+      console.log("Facebook Signup Info:", { uid, displayName, email, photoURL });
+
+      const response = await fetch("https://nutlip-backend.onrender.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: displayName,
+          email: email,
+          password: uid,
+        }),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+      }
+
+      router.push("/register?option=login");
+
+    } catch (error) {
+      console.error("Error during Facebook sign-up:", error);
+      setError("An error occurred during Facebook sign-up.");
+    }
+  };
+
+
+  const handleFacebookSignIn = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Show loading indicator during Facebook sign-in
+
+    try {
+      const result = await signInWithPopup(auth, facebookProvider);
+      const { uid, displayName, email, photoURL } = result.user;
+
+      console.log("Facebook Login Info:", { uid, displayName, email, photoURL });
+
+      // Attempt to log in to your backend with the Facebook user info
+      const response = await fetch("https://nutlip-backend.onrender.com/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: uid, // Using Firebase UID as the password or a unique identifier
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userInformation", JSON.stringify(data));
+        setUserInformation(data);
+
+        router.push("/"); // Redirect to a protected route after sign-in
+      } else {
+        console.log(data);
+        setError(data || "Failed to log in with Facebook.");
+      }
+    } catch (error) {
+      console.error("Error during Facebook sign-in:", error);
+      setError("An error occurred during Facebook sign-in.");
+    } finally {
+      setLoading(false); // Reset loading state after request is completed
+    }
+  };
+
+
+
+
+
 
   return (
     <main className={styles.main}>
@@ -65,8 +225,8 @@ const Registration = () => {
               Login
             </p>
           </div>
-          {type === "signup" && <Signup userCreated={handleChange} />}
-          {type === "login" && <Login />}
+          {type === "signup" && <Signup userCreated={handleChange} handleGoogleSignUp={handleGoogleSignUp} handleFacebookSignUp={handleFacebookSignUp} />}
+          {type === "login" && <Login handleGoogleSignIn={handleGoogleSignIn} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookSignIn={handleFacebookSignIn} />}
           {type === "verify" && <Verify />}
           {type === "forgetPassword" && <ForgetPassword />}
         </div>
@@ -75,13 +235,14 @@ const Registration = () => {
   );
 };
 
-const Signup = (props) => {
+const Signup = ({ handleGoogleSignUp, handleFacebookSignUp }, props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const [isError, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+
 
   const {
     regType,
@@ -139,47 +300,6 @@ const Signup = (props) => {
       console.log(error)
 
     }
-  };
-
-  const handleGoogleSubmit = async (event) => {
-    event.preventDefault();
-
-    setLoading(true);
-
-    try {
-      // Initiate sign in request
-      await signIn("google");
-
-      // Redirect on success
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const FacebookSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    //todo Call API to login with facebook
-    //    try {
-    //     const response = await fetch("http://localhost:3000/api/auth/callback/google", {
-    //       method: "POST",
-    //       body: JSON.stringify(formData),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     });
-    //     const data = await response.json();
-    //     router.push("/register?option=signup");
-    //     console.log(data);
-    //   } catch (error) {
-    //     console.error("An error occurred during form submission:", error);
-    //   }
-    // };
-
-    setLoading(false);
   };
 
   let verify = "verify";
@@ -264,16 +384,16 @@ const Signup = (props) => {
           <button
             className={styles.Google}
             style={{ backgroundColor: "white" }}
-            onClick={handleGoogleSubmit}
+            onClick={handleGoogleSignUp}
           >
             <img src="/google.svg" alt="" />
             <p>Continue with Google</p>
           </button>
         </form>
-        <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
+        <form className={styles.alternateLog} >
           <button
             className={styles.Facebook}
-            onClick={() => signIn("facebook")}
+            onClick={handleFacebookSignUp}
           >
             <img
               width="30"
@@ -289,13 +409,13 @@ const Signup = (props) => {
   );
 };
 
-const Login = () => {
+const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserror, handleFacebookSignIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const router = useRouter();
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [iserror, setError] = useState()
+
+
   let forgetPassword = "forgetPassword";
   const { handleLogin, setUserInformation } = useContext(LoginContext);
 
@@ -308,7 +428,6 @@ const Login = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  // Redirect home
   useEffect(() => {
     if (home) {
       setTimeout(() => {
@@ -316,40 +435,6 @@ const Login = () => {
       }, 1000);
     }
   });
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await fetch("api/login", {
-  //       method: "POST",
-  //       body: JSON.stringify(formData),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Invalid credentials");
-  //     }
-
-  //     const data = await response.json();
-  //     console.log(data);
-
-  //     const token = data.token;
-  //     console.log(token);
-
-  //     setCookie(null, "token", token, { path: "/" });
-  //     router.push("/");
-  //   } catch (error) {
-  //     console.error("An error occurred during form submission:", error);
-  //   }
-  // };
-
-
-
-
-
-  //? alternate api call with local storage
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -374,48 +459,6 @@ const Login = () => {
       setLoading(false); // Reset loading state after request is completed
     }
   };
-
-
-
-  //? alternate api call with local storage
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     const response = await fetch("/api/login", {
-  //       method: "POST",
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.status === 201) {
-  //       // Store token from response
-  //       const { token } = await response.json();
-  //       localStorage.setItem("token", token);
-
-  //       // Redirect to home page
-  //       router.push("/");
-  //     } else {
-  //       throw new Error("Invalid login");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error logging in", error);
-  //     console.log(error);
-  //   }
-  // };
-
-  const GoogleSubmit = async (event) => {
-    event.preventDefault();
-    // setLoading(true);
-    // Call API to login with Google
-    setLoading(false);
-  };
-  const FacebookSubmit = async (event) => {
-    event.preventDefault();
-    // setLoading(true);
-    // Call API to login with Google
-    setLoading(false);
-  };
-
   return (
     <>
 
@@ -490,7 +533,7 @@ const Login = () => {
           </div>
         </form>
         <div className={styles.GoogleContainer}>
-          <form className={styles.alternateLog} onSubmit={GoogleSubmit}>
+          <form className={styles.alternateLog} onSubmit={handleGoogleSignIn}>
             <button
               className={styles.Google}
               style={{ backgroundColor: "white" }}
@@ -500,8 +543,8 @@ const Login = () => {
             </button>
           </form>
 
-          <form className={styles.alternateLog} onSubmit={FacebookSubmit}>
-            <button className={styles.Facebook}>
+          <form className={styles.alternateLog} >
+            <button className={styles.Facebook} onClick={handleFacebookSignIn}>
               <img
                 width="30"
                 height="30"

@@ -31,7 +31,7 @@ const Navbar = () => {
       }
     }
     fetchData();
-  }, [userInformation]);
+  }, [userInformation, userType]);
 
 
   return (
@@ -149,10 +149,10 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
             <>
               <div className={sty.UserLogContainer}>
                 <div className={sty.userInfo} onClick={Popped}>
-                  {userInformation.user?.name ? (
+                  {userInformation.user?.username ? (
                     <img src="/navbar/userimg.png" alt="" />
                   ) : null}
-                  <p>{userInformation?.user?.name}</p>
+                  <p>{userInformation?.user?.username}</p>
                 </div>
 
                 <img src="/navbar/notification.png" alt="" />
