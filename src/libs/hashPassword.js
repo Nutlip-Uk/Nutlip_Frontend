@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-export const hashPassword = async (password) => {
+const hashPassword = async (password) => {
   try {
     const saltRounds = 10; // Number of salt rounds for bcrypt
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -10,3 +10,5 @@ export const hashPassword = async (password) => {
     throw error;
   }
 };
+
+export default hashPassword;
