@@ -19,6 +19,7 @@
     align-self: stretch;
     gap: 26px;
     align-items:center;
+    
 }
 
 #file_upload label {
@@ -35,6 +36,12 @@
     -moz-border-radius: 16px;
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
+    overflow: clip;
+}
+
+#file_upload label img{
+    height: 100%;
+    width: 100%;
 }
 
 #file_upload input {
@@ -75,6 +82,12 @@ line-height: normal;
    -ms-border-radius:8px;
    -o-border-radius:8px;
    cursor:pointer;
+}
+
+.contractContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 

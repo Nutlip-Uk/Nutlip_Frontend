@@ -46,7 +46,7 @@ function Property({ property }) {
           <div className={styles.propertyFeatures}>
             <li>
               <img src="/picture.svg" alt="" />
-              <p>1/{property?.options?.pictures}</p>
+              <p>1/{property?.images.length}</p>
             </li>
             <li>
               <img src="/video.svg" alt="" />

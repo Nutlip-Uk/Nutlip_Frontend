@@ -6,10 +6,11 @@ import { useEffect, useState, useRef } from 'react';
 import styles from "../../../styles/Rent/SearchResult.module.css"
 import { BuyCatalogue } from "../../../components/buy/BuyCatalogue";
 import { useBuyContext } from '../../../context/Buy.context'
+import { Pagination } from "@mui/material";
 
 export default function Buy() {
 
-  const { properties, setProperties } = useBuyContext();
+  const { filters, setFilters, properties, setProperties } = useBuyContext();
 
   // const [properties, setProperties] = useState([]);
 
@@ -60,6 +61,15 @@ export default function Buy() {
     };
   }, [prevScrollPos, navbarRef]);
 
+  const nextPage = () => {
+    setFilters(prev => ({ ...prev, page: prev.page + 1 }));
+  };
+
+  const prevPage = () => {
+    setFilters(prev => ({ ...prev, page: Math.max(prev.page - 1, 1) }));
+  };
+
+
 
   return (
     <main className={styles.main}>
@@ -72,8 +82,18 @@ export default function Buy() {
         <SearchResult />
 
         <BuyCatalogue properties={properties} />
+
+
+
+        <div className={styles.pagination}>
+          <Pagination count={10} defaultPage={1} variant="outlined" color="primary" />
+        </div>
+
+
       </div>
     </main>
   )
 }
+
+
 

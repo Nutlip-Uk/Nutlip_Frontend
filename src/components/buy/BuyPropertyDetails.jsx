@@ -32,7 +32,7 @@ export const DetailsImages = ({ data }) => {
             <Carousel className={styles.caro} arrows dotPosition="left" infinite={true} autoplay>
 
               {
-                data.images.map((image, index) => {
+                data?.images.map((image, index) => {
                   return (
                     <>
                       <img

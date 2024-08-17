@@ -77,7 +77,7 @@ const Process = () => {
 
 
   useEffect(() => {
-    setProgress(Math.floor((currentStage / 12) * 100));
+    setProgress(Math.floor((currentStage / 10) * 100));
   }, [currentStage,]);
 
   const handleNextClick = () => {

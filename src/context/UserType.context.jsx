@@ -12,7 +12,7 @@ export const UserTypeProvider = ({ children }) => {
     async function fetchData() {
       if (userInformation?.user?.id) {
         try {
-          const response = await fetch(`https://nutlip-backend.onrender.com/api/user/${userInformation.user.id}`);
+          const response = await fetch(`https://nutlip-backend.onrender.com/api/users/${userInformation.user.id}`);
           const data = await response.json();
           console.log("Data", data);
           setUserType(data?.userType?.type);
@@ -23,7 +23,7 @@ export const UserTypeProvider = ({ children }) => {
       }
     }
     fetchData();
-  }, [userInformation]);
+  }, [userInformation, userType]);
 
   const contextValues = {
     userType,

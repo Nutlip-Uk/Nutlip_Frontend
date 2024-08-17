@@ -23,7 +23,11 @@ const Transactions = () => {
             <h3>In-progress</h3>
             <p>Transactions currently ongoing</p>
           </div>
-          <div className={styles.ListBox}>
+
+          <div
+            className={styles.ListBox}
+            onClick={() => router.push("/transactions/completed")}
+          >
             <Image
               src="/images/mdi-bedroom-outline.svg"
               width={30}
@@ -33,7 +37,11 @@ const Transactions = () => {
             <h3>Completed transactions</h3>
             <p>Transactions completed in full</p>
           </div>
-          <div className={styles.ListBox}>
+
+          <div
+            className={styles.ListBox}
+            onClick={() => router.push("/transactions/cancelled")}
+          >
             <Image
               src="/images/mdi-bedroom-outline.svg"
               width={30}
@@ -43,7 +51,11 @@ const Transactions = () => {
             <h3>Cancelled transactions</h3>
             <p>Transactions halted</p>
           </div>
-          <div className={styles.ListBox}>
+
+          <div
+            className={styles.ListBox}
+            onClick={() => router.push("/transactions/offerssent")}
+          >
             <Image
               src="/images/mdi-bedroom-outline.svg"
               width={30}
