@@ -10,28 +10,7 @@ import { Pagination } from "@mui/material";
 
 export default function Buy() {
 
-  const { filters, setFilters, properties, setProperties } = useBuyContext();
-
-  // const [properties, setProperties] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchProperties = async () => {
-  //     try {
-  //       const response = await fetch('https://nutlip-backend.onrender.com/api/apartments/getallapartments');
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setProperties(data.data);
-  //         console.log(data.data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching properties:', error);
-  //     }
-  //   };
-
-  //   fetchProperties();
-  // }, []);
-
-
+  const { filters, setFilters, properties, totalPages, totalCount } = useBuyContext();
   const [showModal, setShowModal] = useState(false)
   const closeModal = () => setShowModal(!showModal)
 
@@ -61,14 +40,9 @@ export default function Buy() {
     };
   }, [prevScrollPos, navbarRef]);
 
-  const nextPage = () => {
-    setFilters(prev => ({ ...prev, page: prev.page + 1 }));
+  const handlePageChange = (event, value) => {
+    setFilters(prev => ({ ...prev, page: value }));
   };
-
-  const prevPage = () => {
-    setFilters(prev => ({ ...prev, page: Math.max(prev.page - 1, 1) }));
-  };
-
 
 
   return (
@@ -79,14 +53,20 @@ export default function Buy() {
         <div ref={navbarRef} className={styles.floating}>
           <Search handleShow={closeModal} />
         </div>
-        <SearchResult />
+        <SearchResult totalCount={totalCount} />
 
         <BuyCatalogue properties={properties} />
 
 
 
         <div className={styles.pagination}>
-          <Pagination count={10} defaultPage={1} variant="outlined" color="primary" />
+          <Pagination
+            count={totalPages}
+            page={filters.page}
+            variant="outlined"
+            color="primary"
+            onChange={handlePageChange}
+          />
         </div>
 
 
