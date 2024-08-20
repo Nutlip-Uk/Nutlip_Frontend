@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styles from "../../styles/dashboard/messages.module.css";
+import { AiOutlineSend } from "react-icons/ai";
+import { FaPlus } from "react-icons/fa6";
 
 const Messages = () => {
   const [users, setUsers] = useState([
@@ -13,57 +15,93 @@ const Messages = () => {
 
   const onSelectUser = (user) => {
     setSelectedUser(user);
-    setMessages([]); // Clear messages when a new user is selected
+    setMessages([]);
+    // Reset messages when a new user is selected
   };
+
+  // const sendMessage = () => {
+  //   if (messageInput.trim() !== "") {
+  //     const newMessage = {
+  //       id: Date.now(),
+  //       text: messageInput,
+  //       userId: selectedUser.id,
+  //     };
+  //     setMessages((prevMessages) => [...prevMessages, newMessage]);
+  //     setMessageInput("");
+  //     console.log(messages)
+  //   }
+  // };
+
 
   const sendMessage = () => {
     if (messageInput.trim() !== "") {
-      // Add logic to send message to the selected user
-      // You may want to update the messages state or make an API call to your backend
-      console.log(`Message sent to ${selectedUser.name}: ${messageInput}`);
+      // User's message
+      const userMessage = { text: messageInput, sender: "user", date: new Date().toLocaleTimeString() };
+      setMessages([...messages, userMessage]);
+
+      // Clear input field
       setMessageInput("");
+
+      // Simulate a delay and then receive a response message
+      setTimeout(() => {
+        const receiverMessage = {
+          text: "This is a simulated reply!",
+          sender: "receiver", // 'receiver' indicates the other user sent the message
+        };
+        setMessages((prevMessages) => [...prevMessages, receiverMessage]);
+      }, 1000); // Simulates a 1 second delay for the receiver's message
     }
   };
 
+
   return (
-    <>
-      <div className={styles.Section}>
-        <div className={styles.NavContainer}>
-          <h1 className={styles.Header}>Messages</h1>
+    <div className={styles.Section}>
+      <div className={styles.NavContainer}>
+        <h1 className={styles.Header}>Messages</h1>
 
-          <div className={styles.searchContainer}>
-            <div className={styles.search}>
-              <img src="/navbar/search.svg" />
-              <input type="text" placeHolder="Search chat" />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.messageContainer}>
-          <div className={styles.chatList}>
-            <UserList users={users} onSelectUser={onSelectUser} selectedUser={selectedUser}/>
-          </div>
-          <div className={styles.chatBox}>
-            <ChatMessages
-              selectedUser={selectedUser}
-              messages={messages}
-              sendMessage={sendMessage}
-            />
+        <div className={styles.searchContainer}>
+          <div className={styles.search}>
+            <img src="/navbar/search.svg" />
+            <input type="text" placeholder="Search chat" />
           </div>
         </div>
       </div>
-    </>
+
+      <div className={styles.messageContainer}>
+        <div className={styles.chatList}>
+          <UserList
+            users={users}
+            onSelectUser={onSelectUser}
+            selectedUser={selectedUser}
+          />
+        </div>
+        <div className={styles.chatBox}>
+          <ChatMessages
+            selectedUser={selectedUser}
+            messages={messages}
+            messageInput={messageInput}
+            setMessageInput={setMessageInput}
+            sendMessage={sendMessage}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default Messages;
 
-const UserList = ({ users, onSelectUser ,selectedUser}) => {
+const UserList = ({ users, onSelectUser, selectedUser }) => {
   return (
     <div className={styles.UsersContainer}>
       <ul className={styles.UsersList}>
         {users.map((user) => (
-          <div id={styles.User} className={selectedUser && selectedUser.id === user.id ? styles.Selected : ""} key={user.id} onClick={() => onSelectUser(user)}>
+          <div
+            id={styles.User}
+            className={selectedUser && selectedUser.id === user.id ? styles.Selected : ""}
+            key={user.id}
+            onClick={() => onSelectUser(user)}
+          >
             <div className={styles.UserImg}>
               <img src="/dashboard/user.png" alt="" />
             </div>
@@ -83,33 +121,58 @@ const UserList = ({ users, onSelectUser ,selectedUser}) => {
   );
 };
 
-const ChatMessages = ({ selectedUser, messages, sendMessage }) => {
+const ChatMessages = ({ selectedUser, messages, messageInput, setMessageInput, sendMessage }) => {
+  if (selectedUser == null) {
+    return (
+      <div className={styles.noChat}>
+        <p>Select a user to start a conversation</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={styles.chatBoxHeader}>
         <div className={styles.ChatBoxName}>
-          <img src="/dashboard/user.png" height={50} width={50}/>
-          <p>{selectedUser && <p>{selectedUser.name}</p>}</p>
+          <img src="/dashboard/user.png" height={50} width={50} />
+          <p>{selectedUser.name}</p>
         </div>
 
         <button className={styles.call}>
-              <img src="/dashboard/call.svg" alt="" />
-            </button>
+          <img src="/dashboard/call.svg" alt="" />
+        </button>
       </div>
 
-      <div>
-        
-        <div>
+      <div className={styles.chatBoxBody}>
+        <div className={styles.Messages}>
           {messages.map((msg, index) => (
-            <div key={index}>{msg}</div>
+            <div
+              key={index}
+              className={
+                msg.sender === "user"
+                  ? styles.userMessage
+                  : styles.receiverMessage
+              }
+            >
+              <p>{msg.text}</p>
+              <p className={styles.messageDate}>{msg.date}</p>
+            </div>
           ))}
         </div>
-        {selectedUser && (
-          <div>
-            <input type="text" />
-            <button onClick={sendMessage}>Send</button>
-          </div>
-        )}
+        <div className={styles.chatInput}>
+          <button>
+            <FaPlus size={24} />
+          </button>
+          <input
+            type="text"
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            placeholder="Type a message..."
+          />
+          <button onClick={sendMessage}>
+            <AiOutlineSend color="black" size={25} />
+          </button>
+        </div>
       </div>
     </>
   );

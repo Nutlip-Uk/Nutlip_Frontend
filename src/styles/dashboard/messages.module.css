@@ -112,9 +112,10 @@
     -moz-transition:0.3s ease;
     -ms-transition:0.3s ease;
     -o-transition:0.3s ease;
+    background-color: #e0e0e0;
 }
 .Selected{
-    background: #F9F9F9;
+    background: #e0e0e0;
     transition:0.2s ease;
     -webkit-transition:0.2s ease;
     -moz-transition:0.2s ease;
@@ -140,7 +141,6 @@ height: 56px;
     flex-direction: column;
     gap:8px;
 }
-
 
 .UserNameTime{
     display:flex;
@@ -202,6 +202,111 @@ cursor:pointer;
     width:100%;
     border-radius:50%;
 }
+
+.chatBoxBody{
+    height: 100%;
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    gap:0px;
+}
+
+.Messages{
+    display:flex;
+    flex-direction: column;
+    gap:16px;
+    padding:16px;
+    height: 73%;
+    overflow-y: scroll;
+}
+
+.userMessage {
+    background: #D0D0D0;
+    max-width:70%;
+    color: black;
+    align-self: flex-end; 
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  
+  .receiverMessage {
+   
+    background: #F0F0F0;
+    color: black;
+    align-self: flex-start; 
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  
+  .messageDate{
+    font-size: 10px;
+    color: #626161;
+    text-align: center;
+  }
+
+.chatInput{
+    width:100%;
+    height:auto;
+    display: flex;
+    align-items:center;
+    padding: 10px 10px;
+    gap:15px;
+}
+
+.chatInput input{
+    width:90%;
+    height: 45px;
+    border:none;
+    outline:none;
+    padding:16px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #626161;
+    border: 1px solid #e3ebff43;
+    background-color: #e3ebff82;
+    border-radius: 20px;
+}
+
+.chatInput button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    padding: 5px 5px;
+    border-radius: 50%;
+    background: #e3ebff82;
+    transition: 0.7s ease;
+    scale: 1;
+    border: none;
+    cursor: pointer;
+}
+
+.chatInput button:hover{
+    scale: 0.8;
+    transition: 0.7s ease;
+}
+
+.noChat{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+    width: 100%;
+}
+
+.noChat p{
+    color: rgba(128, 128, 128, 0.787);
+}
+
 
 @media ( width <=400px) {
     .search {

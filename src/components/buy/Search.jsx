@@ -14,14 +14,19 @@ const Search = (props) => {
     }));
   };
 
+
   return (
     <section className={styles.Section}>
       <div className={styles.container}>
         <section className={styles.criteria_one}>
-
-
           <div className={styles.criteriaOneInputCon}>
-            <input type="text" placeholder="e.g. London or SW19" />
+            <input
+              type="text"
+              name="location"
+              placeholder="e.g. London or SW19"
+              value={filters.location}
+              onChange={handleOnChange}
+            />
             <Image
               src="/images/vuesax-linear-close-circle.svg"
               width={20}
@@ -29,7 +34,6 @@ const Search = (props) => {
               alt="icon"
             />
           </div>
-
 
           <div className={styles.buttonContainer}>
             <button className={styles.search}>Search</button>
@@ -55,60 +59,57 @@ const Search = (props) => {
                 <input
                   className={styles.Areainput}
                   type="text"
+                  name="location" 
                   placeholder="Location"
+                  value={filters.location}
+                  onChange={handleOnChange} 
                 />
               </div>
             </label>
 
             <label>
               View Type
-              <select name="" className={styles.viewType}>
-                <option
-                  value=""
-                  className="disabled"
-                  defaultValue={"pictures,etc"}
-                  disabled
-                  selected
-                >
-                  pictures,etc
-                </option>
-                <option value="" className="disabled">
-                  pictures,etc
-                </option>
+              <select
+                name="viewType" 
+                className={styles.viewType}
+                value={filters.viewType} 
+                onChange={handleOnChange}
+              >
+                <option value="images">Images</option>
+                <option value="videos">Videos</option>
+                <option value="virtual tour">Virtual Tour</option>
               </select>
             </label>
 
             <label>
               Bedroom
               <div className={styles.Bed}>
-                <select name="" className={styles.BedMinMax}>
-                  <option
-                    value=""
-                    className="disabled"
-                    defaultValue={"This area only"}
-                    disabled
-                    selected
-                  >
-                    Min
-                  </option>
-                  <option value="" className="disabled">
-                    This area only
-                  </option>
+                <select
+                  name="minBedRoom" // Added name attribute
+                  className={styles.BedMinMax}
+                  value={filters.minBedRoom} // Controlled select
+                  onChange={handleOnChange} // Update filters on change
+                >
+                  <option value={0}>Min</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
                 </select>
 
-                <select name="" className={styles.BedMinMax}>
-                  <option
-                    value=""
-                    className="disabled"
-                    defaultValue={"This area only"}
-                    disabled
-                    selected
-                  >
-                    Max
-                  </option>
-                  <option value="" className="disabled">
-                    This area only
-                  </option>
+                <select
+                  name="maxBedRoom" 
+                  className={styles.BedMinMax}
+                  value={filters.maxBedRoom} 
+                  onChange={handleOnChange} 
+                >
+                  <option value={0}>Max</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
                 </select>
               </div>
             </label>
@@ -116,34 +117,30 @@ const Search = (props) => {
             <label>
               Price range
               <div className={styles.priceRange}>
-                <select name="" className={styles.priceMinMax}>
-                  <option
-                    value=""
-                    className="disabled"
-                    defaultValue={"This area only"}
-                    disabled
-                    selected
-                  >
-                    Min
-                  </option>
-                  <option value="" className="disabled">
-                    This area only
-                  </option>
+                <select
+                  name="minPrice" // Added name attribute
+                  className={styles.priceMinMax}
+                  value={filters.minPrice} // Controlled select
+                  onChange={handleOnChange} // Update filters on change
+                >
+                  <option value={0}>Min</option>
+                  <option value={10000}>$10,000</option>
+                  <option value={50000}>$50,000</option>
+                  <option value={100000}>$100,000</option>
+                  <option value={500000}>$500,000</option>
                 </select>
 
-                <select name="" className={styles.priceMinMax}>
-                  <option
-                    value=""
-                    className="disabled"
-                    defaultValue={"This area only"}
-                    disabled
-                    selected
-                  >
-                    Max
-                  </option>
-                  <option value="" className="disabled">
-                    This area only
-                  </option>
+                <select
+                  name="maxPrice" // Added name attribute
+                  className={styles.priceMinMax}
+                  value={filters.maxPrice} // Controlled select
+                  onChange={handleOnChange} // Update filters on change
+                >
+                  <option value={0}>Max</option>
+                  <option value={100000}>$100,000</option>
+                  <option value={500000}>$500,000</option>
+                  <option value={1000000}>$1,000,000</option>
+                  <option value={5000000}>$5,000,000</option>
                 </select>
               </div>
             </label>
