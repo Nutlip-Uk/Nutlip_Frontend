@@ -19,7 +19,7 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { LoginContext } from '../../../../context/Login.context';
-import Skeleton from '@mui/joy/Skeleton';
+
 
 
 
@@ -94,16 +94,16 @@ const Process = () => {
       } catch (error) {
         console.error("API error:", error);
       } finally {
-        setIsLoading(false); // End loading
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [id, userInformation?.user?.id, transactionStage, transactionContent]);
+  }, [id, userInformation?.user?.id, transactionStage, transactionContent, sellerInfo]);
 
   useEffect(() => {
     setProgress(Math.floor((currentStage / 10) * 100));
-  }, [currentStage,]);
+  }, [currentStage]);
 
   const handleNextClick = () => {
     if (currentStage < transactionStage) {
