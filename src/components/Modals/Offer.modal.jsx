@@ -6,6 +6,14 @@ import React, { useContext, useState, useEffect } from "react";
 import Button from "../styled components/Button";
 import { NutlipCommission } from "./../Buyer Process/Commission";
 import { MakeAnOffer } from "../../context/MakeAnOffer.context";
+import Registration, { Login } from "../../pages/register/index"
+import Link from "next/link";
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import Typography from '@mui/joy/Typography';
+import Sheet from '@mui/joy/Sheet';
+import { ModalDialog } from "@mui/joy";
+
 
 // NOTE: THIS MODAL IS TO BE RE FACTORED
 
@@ -18,9 +26,10 @@ const OfferModal = (props) => {
     setOffer("success");
   };
 
+  const userInformation = JSON.parse(localStorage.getItem("userInformation"));
+
   useEffect(() => {
-    // Retrieve the userInformation from the local storage
-    const userInformation = JSON.parse(localStorage.getItem("userInformation"));
+
     console.log("userInformation:", userInformation);
 
     if (userInformation && userInformation.user) {
@@ -32,6 +41,8 @@ const OfferModal = (props) => {
       }
     }
   }, []);
+
+  console.log("Props data", props.data.Minimum_offer);
   const [form, setForm] = useState({
     apartmentId: props?.data._id,
     sellerId: props?.data.userId,
@@ -80,11 +91,13 @@ const OfferModal = (props) => {
   return (
     <section className={styles.Section}>
       <div className={styles.container}>
-        <div className={styles.inner_container}>
+        <div className={`${styles.inner_container} py-5`} >
           <section
             className={offer === "offer" ? styles.header : styles.header_two}
+
+
           >
-            <h2>Make an Offer</h2>
+            {userInformation?.user ? <h2 className="text-2xl font-bold">Make an Offer</h2> : (<p className="text-2xl font-bold opacity-0">.</p>)}
             <button onClick={() => props.handleShow()}>
               <Image
                 src="/images/vector-close.svg"
@@ -94,15 +107,28 @@ const OfferModal = (props) => {
               />
             </button>
           </section>
+          {
 
-          {offer === "offer" && (
-            <Offer
-              form={form}
-              handleChange={handleChange}
-              change={success}
-              data={props.data}
-            />
-          )}
+            userInformation?.user && offer === "offer" ? (
+              <Offer
+                form={form}
+                handleChange={handleChange}
+                change={success}
+                data={props.data}
+                handleShow={props.handleShow}
+                userInformation={userInformation}
+              />
+            ) : (
+              <div className="py-5 w-full flex items-center flex-col h-80 bg-slate-50">
+                <div className="w-11/12  flex items-center h-full flex-col justify-center gap-y-8">
+                  <p className="text-4xl capitalize font-normal">Please Login to make an Offer</p>
+                  <Link className="text-blue-500 text-xl" href={"/register?option=signup"}>{"Login"}</Link>
+                </div>
+              </div>
+
+
+            )
+          }
           {offer === "success" && <Success />}
         </div>
       </div>
@@ -187,14 +213,22 @@ export const ConveyancerModal = (props) => {
   );
 };
 
-const Offer = ({ change, form, handleChange, data }) => {
+const Offer = ({ change, form, handleChange, data, userInformation, handleShow }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
-    console.log(form)
+    console.log(form);
+
+    // Check if the offered price is less than the minimum offer
+    if (form.PriceOffer < data.Minimum_offer) {
+      setIsModalOpen(true);
+      return;// Stop the submission if the offer is too low
+    }
+
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/offer/createoffer', {
+      const response = await fetch('https://nutlip-backend-yhfz.onrender.com/api/offer/createoffer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -203,144 +237,146 @@ const Offer = ({ change, form, handleChange, data }) => {
       if (response.ok) {
         const responseData = await response.json();
         console.log("Response from API:", responseData);
-        change();
+        change(); // Call the change function after successful submission
+      } else {
+        console.error("Failed to submit the offer:", response.statusText);
       }
     } catch (error) {
       console.error("Error occurred:", error);
     }
-
   };
 
 
   return (
-    <form className={styles.offer} onSubmit={handleSubmit}>
-      <div className={styles.offerContainer}>
-        <h1 className={styles.price}>£{data.Amount}</h1>
+    <>
+      <form className={styles.offer} onSubmit={handleSubmit}>
+        <div className={styles.offerContainer}>
+          <h1 className={styles.price}>£{data.Amount}</h1>
+
+          <hr />
+
+          <div className={styles.facilities}>
+            <span>
+              <Image
+                src="/images/mdi-bedroom-outline.svg"
+                width={24}
+                height={24}
+                alt="bedroom-thumbnail"
+              />
+              {data?.bedrooms}
+            </span>
+            <span>
+              <Image
+                src="/images/mdi-shower.svg"
+                width={24}
+                height={24}
+                alt="bathroom-thumbnail"
+              />
+              {data?.bathrooms}
+            </span>
+            <span>
+              <Image
+                src="/images/material-symbols-chair-outline.svg"
+                width={24}
+                height={24}
+                alt="livingroom-thumbnail"
+              />
+              {data?.LivingRoom}
+            </span>
+
+            <span>
+              <img
+                src="https://img.icons8.com/ios/50/toilet-bowl.png"
+                width={25}
+                height={25}
+                alt="toilet-bowl"
+              />
+              {data.Toilets}
+            </span>
+          </div>
+
+          <hr />
+
+          <div className={styles.desc}>
+            <h4>{data.Title}</h4>
+            <p>{data.location}</p>
+          </div>
+        </div>
 
         <hr />
 
-        <div className={styles.facilities}>
-          <span>
-            <Image
-              src="/images/mdi-bedroom-outline.svg"
-              width={24}
-              height={24}
-              alt="bedroom-thumbnail"
-            />
-            {data?.bedrooms}
-          </span>
-          <span>
-            <Image
-              src="/images/mdi-shower.svg"
-              width={24}
-              height={24}
-              alt="bathroom-thumbnail"
-            />
-            {data?.bathrooms}
-          </span>
-          <span>
-            <Image
-              src="/images/material-symbols-chair-outline.svg"
-              width={24}
-              height={24}
-              alt="livingroom-thumbnail"
-            />
-            {data?.LivingRoom}
-          </span>
+        <div className={styles.formInfoContainer}>
+          <div className={styles.formOne}>
+            <div className={styles.formInfo}>
+              <label htmlFor="FullName">Full Name</label>
+              <input type="text" id="FullName" name="FullName" placeholder="Fullname" value={form.FullName} onChange={handleChange} />
+            </div>
 
-          <span>
-            <img
-              src="https://img.icons8.com/ios/50/toilet-bowl.png"
-              width={25}
-              height={25}
-              alt="toilet-bowl"
-            />
-            {data.Toilets}
-          </span>
-        </div>
+            <div className={styles.formInfo}>
+              <label htmlFor="interested">
+                Are you really interested in this property?
+              </label>
 
-        <hr />
+              <div className={styles.radioContainer}>
+                <div
+                  className={styles.radio}
 
-        <div className={styles.desc}>
-          <h4>{data.Title}</h4>
-          <p>{data.location}</p>
-        </div>
-      </div>
+                >
+                  <input type="radio" id="Yes" name="Interested" value="Yes" onChange={handleChange} checked={form.Interested === true} />                 <label htmlFor="Yes">Yes</label>
+                </div>
 
-      <hr />
+                <div
+                  className={styles.radio}
 
-      <div className={styles.formInfoContainer}>
-        <div className={styles.formOne}>
-          <div className={styles.formInfo}>
-            <label htmlFor="FullName">Full Name</label>
-            <input type="text" id="FullName" name="FullName" placeholder="Fullname" value={form.FullName} onChange={handleChange} />
-          </div>
-
-          <div className={styles.formInfo}>
-            <label htmlFor="interested">
-              Are you really interested in this property?
-            </label>
-
-            <div className={styles.radioContainer}>
-              <div
-                className={styles.radio}
-
-              >
-                <input type="radio" id="Yes" name="Interested" value="Yes" onChange={handleChange} checked={form.Interested === true} />                 <label htmlFor="Yes">Yes</label>
-              </div>
-
-              <div
-                className={styles.radio}
-
-              >
-                <input type="radio" id="No" name="Interested" value="No" onChange={handleChange} checked={form.Interested === false} />
-                <label htmlFor="No">No</label>
+                >
+                  <input type="radio" id="No" name="Interested" value="No" onChange={handleChange} checked={form.Interested === false} />
+                  <label htmlFor="No">No</label>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className={styles.formInfo}>
-            <label htmlFor="offer">{"Nutlip Commission (0.5%)"}</label>
-            <div className={styles.euroContainer}>
-              <p>£</p>
-              <input type="number" id="offer" name="NutlipCommission" disabled value={form.NutlipCommission} onChange={handleChange} />
+            <div className={styles.formInfo}>
+              <label htmlFor="offer">{"Nutlip Commission (0.5%)"}</label>
+              <div className={styles.euroContainer}>
+                <p>£</p>
+                <input type="number" id="offer" name="NutlipCommission" disabled value={form.NutlipCommission} onChange={handleChange} />
+              </div>
+            </div>
+
+            <div className={styles.formInfo}>
+              <label htmlFor="PaymentType">What’s your payment method?</label>
+              <select id="PaymentType" name="PaymentType" value={form.PaymentType} onChange={handleChange}>
+                <option value="" disabled selected>
+                  Select (Pay with cash, Mortgage, Crypto)
+                </option>
+                <option name="CreditCard" value="CreditCard">Credit Card</option>
+                <option name="mortgage" value="mortgage">Mortgage</option>
+                {/* <option name="crypto" value="crypto">Crypto</option> */}
+              </select>
             </div>
           </div>
-
-          <div className={styles.formInfo}>
-            <label htmlFor="PaymentType">What’s your payment method?</label>
-            <select id="PaymentType" name="PaymentType" value={form.PaymentType} onChange={handleChange}>
-              <option value="" disabled selected>
-                Select (Pay with cash, Mortgage, Crypto)
-              </option>
-              <option name="CreditCard" value="CreditCard">Credit Card</option>
-              <option name="mortgage" value="mortgage">Mortgage</option>
-              {/* <option name="crypto" value="crypto">Crypto</option> */}
-            </select>
-          </div>
-        </div>
-        <div className={styles.formTwo}>
-          <div className={styles.formInfo}>
-            <label htmlFor="name">Address</label>
-            <input type="text" id="address" name="Address" placeholder="Address" value={form.Address} onChange={handleChange} />
-          </div>
-
-          <div className={styles.formInfo}>
-            <label htmlFor="offerPrice">Price offer</label>
-            <div className={styles.euroContainer}>
-              <p>£</p>
-              <input type="number" name="offerPrice" id="offerPrice" value={form.offerPrice} onChange={handleChange} />
+          <div className={styles.formTwo}>
+            <div className={styles.formInfo}>
+              <label htmlFor="name">Address</label>
+              <input type="text" id="address" name="Address" placeholder="Address" value={form.Address} onChange={handleChange} />
             </div>
-          </div>
-          <div className={styles.formInfo}>
-            <label htmlFor="receives">Agent/Seller receives</label>
-            <div className={styles.euroContainer}>
-              <p>£</p>
-              <input type="number" id="receivedPayment" name="receivedPayment" value={form.receivedPayment} onChange={handleChange} disabled />
-            </div>
-          </div>
 
-          {/* <div className={styles.formInfo}>
+            <div className={styles.formInfo}>
+              <label htmlFor="offerPrice">Price offer</label>
+              <div className={styles.euroContainer}>
+                <p>£</p>
+                <input type="number" name="offerPrice" id="offerPrice" value={form.offerPrice} onChange={handleChange} />
+              </div>
+            </div>
+            <div className={styles.formInfo}>
+              <label htmlFor="receives">Agent/Seller receives</label>
+              <div className={styles.euroContainer}>
+                <p>£</p>
+                <input type="number" id="receivedPayment" name="receivedPayment" value={form.receivedPayment} onChange={handleChange} disabled />
+              </div>
+            </div>
+
+            {/* <div className={styles.formInfo}>
             <label htmlFor="interested">What cryptocurrency</label>
 
             <div className={styles.radioContainer}>
@@ -357,14 +393,45 @@ const Offer = ({ change, form, handleChange, data }) => {
               </div>
             </div>
           </div> */}
+          </div>
         </div>
-      </div>
 
-      <section className={styles.btns}>
-        <button>Cancel</button>
-        <button type="submit">Continue</button>
-      </section>
-    </form>
+        <section className={styles.btns}>
+          <button onClick={() => handleShow()}>Cancel</button>
+          <button type="submit">Continue</button>
+        </section>
+      </form>
+
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+
+      >
+        <ModalDialog
+          color="danger"
+          variant="outlined"
+        >
+
+          <ModalClose variant="plain" sx={{ m: 1 }} onClick={() => setIsModalOpen(false)} />
+          <Typography
+            component="h2"
+            id="modal-title"
+            level="h4"
+            textColor="#C7253E"
+            sx={{ fontWeight: 'lg', mb: 1 }}
+          >
+            Offer too low
+          </Typography>
+          <Typography id="modal-desc" textColor="text.tertiary">
+            Your offered price is lower than the minimum price placed by the seller. Please increase your offer.
+          </Typography>
+
+        </ModalDialog>
+      </Modal>
+    </>
   );
 };
 

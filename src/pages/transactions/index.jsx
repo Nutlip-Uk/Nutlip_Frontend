@@ -1,9 +1,15 @@
 import styles from "../../styles/Transactions/Home.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { UserTypeContext } from "../../context/UserType.context";
 
 const Transactions = () => {
   const router = useRouter();
+
+  const userType = useContext(UserTypeContext)
+
+  console.log('USER TYPE', userType.userType)
 
   return (
     <div className={styles.Section}>
@@ -12,7 +18,7 @@ const Transactions = () => {
         <div className={styles.ListContainer}>
           <div
             className={styles.ListBox}
-            onClick={() => router.push("/transactions/current")}
+            style={userType.userType !== "Conveyancer" ? {} : { display: "none" }} onClick={() => router.push("/transactions/current")}
           >
             <Image
               src="/images/mdi-bedroom-outline.svg"
@@ -54,6 +60,7 @@ const Transactions = () => {
 
           <div
             className={styles.ListBox}
+            style={userType.userType !== "Conveyancer" ? {} : { display: "none" }}
             onClick={() => router.push("/transactions/offerssent")}
           >
             <Image
@@ -65,6 +72,19 @@ const Transactions = () => {
             <h3>Offers Sent</h3>
             <p>All Offers sent to a property</p>
           </div>
+          {userType.userType == "Conveyancer" && <div
+            className={styles.ListBox}
+            onClick={() => router.push("/transactions/incomplete")}
+          >
+            <Image
+              src="/images/mdi-bedroom-outline.svg"
+              width={30}
+              height={30}
+              alt=""
+            />
+            <h3>Incomplete Transactions</h3>
+            <p>All Incomplete Transactions</p>
+          </div>}
         </div>
       </div>
     </div>

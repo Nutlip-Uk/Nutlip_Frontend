@@ -8,30 +8,18 @@ import { LoginContext } from "../context/Login.context";
 // import { signOut, useSession } from 'next-auth/react'
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
+import { UserTypeContext } from "../context/UserType.context";
+import Avatar from '@mui/joy/Avatar';
+import CopyButton from "./CopyButton";
+
 
 const Navbar = () => {
   const router = useRouter();
 
-  const [userType, setUserType] = useState("")
+  const { userType } = useContext(UserTypeContext)
 
   const { userInformation, setUserInformation, handleLogout } = useContext(LoginContext);
 
-  useEffect(() => {
-    console.log("userInformation", userInformation?.user?.id);
-    async function fetchData() {
-      if (userInformation?.user?.id) {
-        try {
-          const response = await fetch(`/api/user/${userInformation.user.id}`);
-          const data = await response.json();
-          console.log("Data", data);
-          setUserType(data?.userType?.type);
-        } catch (error) {
-          console.error("Error fetching user type:", error);
-        }
-      }
-    }
-    fetchData();
-  }, [userInformation, userType]);
 
 
   return (
@@ -150,7 +138,7 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
               <div className={sty.UserLogContainer}>
                 <div className={sty.userInfo} onClick={Popped}>
                   {userInformation.user?.username ? (
-                    <img src="/navbar/userimg.png" alt="" />
+                    <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
                   ) : null}
                   <p>{userInformation?.user?.username}</p>
                 </div>
@@ -176,11 +164,11 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
       <div className={sty.MenuBtn}>
         {userInformation?.user ? (
           <>
-            {" "}
+
             <img src="/navbar/notification.png" alt="" />
             <div className={sty.MobileuserInfo} onClick={Popped}>
-              <img src="/navbar/userimg.png" alt="" />
-            </div>{" "}
+              <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
+            </div>
           </>
         ) : null}
 
@@ -202,8 +190,9 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
         <>
           <div className={sty.userPopUpContainer}>
             <div className={sty.popUpHeader}>
-              <img src="/navbar/userimg.png/" alt="" />
-              <p>{userInformation?.user?.email}</p>
+              <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
+              <p>{userInformation?.user?.email} <span><CopyButton textToCopy={userInformation?.user?.id} /></span> </p>
+
             </div>
             <div className={sty.popUpList}>
               <div className={sty.popUplink}>
@@ -216,17 +205,17 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
                 <p>Saved properties</p>
               </div>
               {userType !== "Real_estate_agent" && <hr />}
-              {userType !== "Real_estate_agent" && (<div className={sty.popUplink} onClick={() => setPopup(false)}>
-                <img src="/navbar/transaction.svg" />
-                <Link href={"/transactions"}>Transactions</Link>
-              </div>)}
+              {userType !== "Real_estate_agent" && (
+                <div className={sty.popUplink} onClick={() => setPopup(false)}>
+                  <img src="/navbar/transaction.svg" />
+                  <Link href={"/transactions"}>Transactions</Link>
+                </div>
+              )}
               {userType === "Real_estate_agent" && <hr />}
               {userType === "Real_estate_agent" && (
-                <div onClick={() => setPopup(false)} className={sty.popUplink}>
+                <div className={sty.popUplink} onClick={() => setPopup(false)}>
                   <img src="/navbar/transaction.svg" />
-                  <Link href={"/dashboard?option=postProperty"}>
-                    Dashboard
-                  </Link>
+                  <Link href={"/dashboard?option=postProperty"}>Dashboard</Link>
                 </div>
               )}
               <hr />

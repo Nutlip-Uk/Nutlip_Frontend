@@ -7,9 +7,10 @@ import { buy } from './../../utils/buyproperties';
 import { useRouter } from "next/router"
 import Link from 'next/link';
 import { useState, useEffect } from "react";
+import Skeleton from '@mui/joy/Skeleton';
 
 
-export const BuyCatalogue = ({ properties }) => {
+export const BuyCatalogue = ({ properties, isLoading }) => {
 
 
   return (
@@ -18,7 +19,7 @@ export const BuyCatalogue = ({ properties }) => {
         <div className={styles.gridContainer}>
           {
             properties?.map((property) => (
-              <Property key={property._id} property={property} />
+              <Property key={property._id} property={property} isLoading={isLoading} />
             ))
           }
         </div>
@@ -28,7 +29,7 @@ export const BuyCatalogue = ({ properties }) => {
 }
 
 
-function Property({ property }) {
+function Property({ property, isLoading }) {
   const router = useRouter()
   const date = new Date(property?.date_created);
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -36,85 +37,144 @@ function Property({ property }) {
     <div className={styles.propertyContainer}>
       <div className={styles.property}>
         <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
-          <div className={styles.indications}>
-            <p style={property.justAddedExpiration === false ? { display: "none" } : null}>{property.justAddedExpiration ? "Just added " : null}</p>
-            <FaRegHeart className={styles.heart} />
-          </div>
+          <Skeleton loading={isLoading} variant="overlay">
+            <div className={styles.indications}>
+              <p style={property.justAddedExpiration === false ? { display: "none" } : null}>{property.justAddedExpiration ? "Just added " : null}</p>
+              <FaRegHeart className={styles.heart} />
+            </div>
+          </Skeleton>
 
-          <img className={styles.image} src={property.images[0]} alt="" />
+          <Skeleton loading={isLoading} variant="overlay">
+            <img className={styles.image} src={property.images[0]} alt="" />
+          </Skeleton>
 
           <div className={styles.propertyFeatures}>
-            <li>
-              <img src="/picture.svg" alt="" />
-              <p>1/{property?.images.length}</p>
-            </li>
-            <li>
-              <img src="/video.svg" alt="" />
-              <p>{property?.options?.videos}</p>
-            </li>
-            <li>
-              <img src="/vr.svg" alt="" />
-              <p>{property?.options?.vr}</p>
-            </li>
-            <li>
-              <img src="/floorplan.svg" alt="" />
-              <p>{property?.options?.floor_plan}</p>
-            </li>
-            <li>
-              <img src="/360tour.svg" alt="" />
-              <p>{property?.options?.virtual_tour}</p>
-            </li>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+
+              <li>
+                <img src="/picture.svg" alt="" />
+                <p>1/{property?.images.length}</p>
+              </li>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+
+              <li>
+                <img src="/video.svg" alt="" />
+                <p>{property?.options?.videos}</p>
+              </li>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+
+              <li>
+                <img src="/vr.svg" alt="" />
+                <p>{property?.options?.vr}</p>
+              </li>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <li>
+                <img src="/floorplan.svg" alt="" />
+                <p>{property?.options?.floor_plan}</p>
+              </li>
+            </Skeleton>
+
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+
+              <li>
+                <img src="/360tour.svg" alt="" />
+                <p>{property?.options?.virtual_tour}</p>
+              </li>
+
+            </Skeleton>
+
           </div>
         </Link>
 
         <div className={styles.propertyDetails}>
           <div className={styles.propertyOffer}>
-            <p>£{property?.Amount}</p>
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <p>£{property?.Amount}</p>
+            </Skeleton>
 
-            <button>Make an offer</button>
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <button>Make an offer</button>
+            </Skeleton>
           </div>
 
           <div className={styles.propertySize}>
-            <li>
-              <img src="/bedroom.svg" alt="" />
-              <p>{property?.bedrooms}</p>
-            </li>
-            <li>
-              <img src="/bathtub.svg" alt="" />
-              <p>{property?.bathrooms}</p>
-            </li>
-            <li>
-              <img src="/chair.svg" alt="" />
-              <p>{property?.LivingRoom}</p>
-            </li>
-            <li>
-              <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
-              <p>{property?.Toilets}</p>
-            </li>
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <li>
+                <img src="/bedroom.svg" alt="" />
+                <p>{property?.bedrooms}</p>
+              </li>
+
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <li>
+                <img src="/bathtub.svg" alt="" />
+                <p>{property?.bathrooms}</p>
+              </li>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <li>
+                <img src="/chair.svg" alt="" />
+                <p>{property?.LivingRoom}</p>
+              </li>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <li>
+                <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
+                <p>{property?.Toilets}</p>
+              </li>
+            </Skeleton>
+
           </div>
 
           <div className={styles.propertyInfo}>
-            <p className={styles.name}>{property?.Title}</p>
-            <p className={styles.location}>{property?.location}</p>
-            <p className={styles.desp}>{property?.description.slice(0, 30)}</p>
-            <p className={styles.listed}>{formattedDate}</p>
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <p className={styles.name}>{property?.Title}</p>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+
+              <p className={styles.location}>{property?.location}</p>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <p className={styles.desp}>{property?.description.slice(0, 30)}</p>
+            </Skeleton>
+
+            <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+              <p className={styles.listed}>{formattedDate}</p>
+            </Skeleton>
+
+
           </div>
 
-          <div className={styles.ContactInfo}>
-            <img src={property?.company} alt="" />
-            <div className={styles.contact}>
-              <FiPhone />
-              <p></p>
+          <Skeleton className="relative w-1/2" loading={isLoading} height={"100%"}>
+            <div className={styles.ContactInfo}>
+              <img src={property?.company} alt="" />
+              <div className={styles.contact}>
+                <FiPhone />
+                <p></p>
+              </div>
+              <div className={styles.contact}>
+                <TfiEmail />
+                <p>Email</p>
+              </div>
+              <div className={styles.contact}>
+                <CiShare2 className={styles.contactIcon} />
+                <p></p>
+              </div>
             </div>
-            <div className={styles.contact}>
-              <TfiEmail />
-              <p>Email</p>
-            </div>
-            <div className={styles.contact}>
-              <CiShare2 className={styles.contactIcon} />
-              <p></p>
-            </div>
-          </div>
+          </Skeleton>
         </div>
 
 

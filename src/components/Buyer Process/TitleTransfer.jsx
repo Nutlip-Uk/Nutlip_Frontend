@@ -41,7 +41,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
 
     const handleSubmitSeller = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_legalTitle_014`, {
+            const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_legalTitle_014`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
     const handleSubmitBuyer = async () => {
 
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_legalTitle_015`, {
+            const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_legalTitle_015`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,30 +93,30 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
     return (
         <div className={styles.offer}>
             <section className={styles.text}>
-                <h2>Transfer of title</h2>
-                {userType === "buyer" && <p>Congratulations! You have now successfully purchased this real estate property. Please download and view the Title of Deed for the property.</p>}
-                {userType === "agent" && <p>Congratulations! You have now successfully sold this real estate property. Please download and view the Title of Deed for the property.</p>}
-                {userType === "property_seeker" && <p>The Seller and their Representative has sent over a Legal Title document. download and go through the document with the buyer, and if it is satisfactory, sign and upload a copy to the Seller.</p>}
-                {userType === "Real_estate_agent" && <p>{"Please upload and send over the Legal Title document for the Real Estate property to the Buyer who has purchased the property."}</p>}
+                <h2 className='text-xl font-semibold'>Transfer of title</h2>
+                {userType === "property_seeker" && <p>Congratulations! You have now successfully purchased this real estate property. Please download and view the Title of Deed for the property.</p>}
+                {userType === "Real_estate_agent" && <p>Congratulations! You have now successfully sold this real estate property. Please download and view the Title of Deed for the property.</p>}
+                {userType === "conveyancer_buyer" && <p>The Seller and their Representative has sent over a Legal Title document. download and go through the document with the buyer, and if it is satisfactory, sign and upload a copy to the Seller.</p>}
+                {userType === "conveyancer_seller" && <p>{"Please upload and send over the Legal Title document for the Real Estate property to the Buyer who has purchased the property."}</p>}
 
                 <div className={styles.container}>
-                    {userType === "buyer" || userType == "agent" && (
+                    {(userType === "property_seeker" || userType == "Real_estate_agent") && (
                         <div className={styles.fileContainer}>
                             <section id={styles.file_upload}>
                                 <label>
-                                    {transactionContent?.legal_title_document_unsigned !== null &&
-                                        <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
+                                    {transactionContent?.legal_title_document_signed !== null &&
+                                        <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
                                     }
                                 </label>
                             </section>
 
                             <div className={styles.buttonContainer}>
-                                <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
+                                <a href={transactionContent?.legal_title_document_signed} download className={styles.download}><em>Download Contract</em></a>
                             </div>
                         </div>
                     )}
 
-                    {userType === "property_seeker" && (
+                    {userType === "conveyancer_buyer" && (
                         <div className={styles.fileContainer}>
                             <section id={styles.file_upload}>
                                 <div className={styles.contractContainer}>
@@ -151,6 +151,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                                         <input type="file" onChange={handleImageChange} disabled={uploading} />
                                     </label>
                                     {uploading && <p>Uploading...</p>}
+                                    <button onClick={handleSubmitBuyer} style={transactionContent?.legal_title_document_signed ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document_signed ? <p>Sent!</p> : <p>Send</p>}</button>
                                 </div>
                             </section>
                             }
@@ -166,7 +167,6 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                                     </label>
 
                                     {transactionContent?.legal_title_document_signed && <button style={{ background: "green" }} className={styles.fileuploadButton}>Sent</button>}
-                                    {fileUrl && <button onClick={handleSubmitBuyer} style={transactionContent?.legal_title_document_signed ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document_signed ? <p>Sent!</p> : <p>Send</p>}</button>}
                                 </div>
                             </section>
                             }
@@ -176,7 +176,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                     )}
 
 
-                    {userType === "Real_estate_agent" && (
+                    {userType === "conveyancer_seller" && (
                         <div className={styles.fileContainer}>
                             <section id={styles.file_upload}>
                                 <div className={styles.contractContainer}>
@@ -218,11 +218,12 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
                             {transactionContent?.contract_upload_unsigned_seller && <section id={styles.file_upload}>
                                 <div className={styles.contractContainer}>
 
-                                    <label>
-
-                                        <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
-
-                                    </label>
+                                    {transactionContent?.legal_title_document_unsigned && (
+                                        <label>
+                                            <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
+                                        </label>
+                                    )
+                                    }
                                     {!transactionContent?.legal_title_document_unsigned ? <button onClick={handleSubmitSeller} className={styles.fileuploadButton}>send</button> : <button className={styles.fileuploadButton} style={{
                                         background: "green"
                                     }}>Sent</button>}

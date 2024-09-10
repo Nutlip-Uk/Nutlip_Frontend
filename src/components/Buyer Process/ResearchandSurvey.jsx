@@ -1,14 +1,18 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import styles from "../../styles/BuyerProcess/ResearchAndSurvey.module.css"
 import Button from "../styled components/Button"
+import { LoginContext } from "../../context/Login.context"
 
 export const ResearchSurvey = ({ userType, transaction, id, transactionContent }) => {
     const [confirm, setConfirmed] = useState(false)
 
 
+    const { userInformation } = useContext(LoginContext);
+
+
     const handleConfirm = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
+            const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -29,12 +33,64 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
         }
     }
 
+
+
+
     return (
         <>
-            {userType === "property_seeker" &&
+            {
+                userType === "property_seeker" &&
                 <div className={styles.container}>
                     <section className={styles.text}>
-                        <h2>Research and Survey</h2>
+                        <h2 className="text-2xl font-bold">Research and Survey</h2>
+                        {transactionContent?.researched ? <p>The research and survey for your chosen real estate property have now been completed by your Conveyancer. </p> : <p>The research and survey for the chosen real estate property has now been confirmed by the buyer and his representative</p>}
+                    </section>
+
+                    <section className={styles.ResearchInvite}>
+                        <div className={styles.Research}>
+                            <div className={styles.SubHeader}>
+                                {/* <h3>Agent Conveyancer</h3> */}
+                                {/* <p>Confirm your Research by sending them an invite</p> */}
+                            </div>
+
+                            <hr />
+                            {transactionContent?.researched ? <button className={`${styles.ResearchButton} `} style={{ backgroundColor: "#18A030" }}
+                            >Completed</button> : <button className={styles.ResearchButton}>Pending..</button>}
+                        </div>
+                    </section>
+                </div>
+            }
+
+
+            {
+                userType === "Real_estate_agent" &&
+                <div className={styles.container}>
+                    <section className={styles.text}>
+                        <h2 className="text-2xl font-bold">Research and Survey</h2>
+                        <p>The research and survey of this real estate property is on-going by the Buyer’s Representative.</p>
+                    </section>
+
+                    <section className={styles.ResearchInvite}>
+                        <div className={styles.Research}>
+                            <div className={styles.SubHeader}>
+                                {/* <h3>Agent Conveyancer</h3> */}
+                                {/* <p>Confirm your Research by sending them an invite</p> */}
+                            </div>
+
+                            <hr />
+                            {transactionContent?.researched ? <button className={styles.ResearchButton} style={{ backgroundColor: "#18A030" }}
+                            >Completed</button> : <button className={styles.ResearchButton}>Pending..</button>}
+                        </div>
+                    </section>
+                </div>
+            }
+
+
+
+            {userType === "conveyancer_buyer" &&
+                <div className={styles.container}>
+                    <section className={styles.text}>
+                        <h2 className="text-2xl font-bold">Research and Survey</h2>
                         <p>Now is the time to carry out a thorough Research and Survey of the property</p>
                     </section>
 
@@ -52,7 +108,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
                         </div>
                     </section>
                 </div>}
-            {userType === "Real_estate_agent" &&
+            {userType === "conveyancer_seller" &&
                 <div className={styles.container}>
                     <section className={styles.text}>
                         <h2>Research and Survey</h2>
@@ -62,7 +118,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
                     <section className={styles.ResearchInvite}>
                         <div className={styles.Research}>
                             <div className={styles.SubHeader}>
-                                <h3>Buyer Conveyancer</h3>
+                                <h3>Seller Conveyancer</h3>
                                 {/* <p>Confirm your Research by sending them an invite</p> */}
                             </div>
 
@@ -71,7 +127,12 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
                             >Research Confirmed</button> : <button className={styles.ResearchButton}>Pending..</button>}
                         </div>
                     </section>
-                </div>}
+                </div>
+
+            }
+
+
+
 
 
         </>

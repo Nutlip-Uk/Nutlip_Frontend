@@ -1,23 +1,27 @@
 import Image from "next/image"
 import styles from "../../styles/Rent/SearchResult.module.css"
+import Skeleton from '@mui/joy/Skeleton';
 
 
 
-const SearchResult = ({ totalCount }) => {
+const SearchResult = ({ totalCount, isLoading }) => {
     return (
         <div className={styles.container}>
-            <ResultHeader totalCount={totalCount} />
+            <ResultHeader totalCount={totalCount} isLoading={isLoading} />
         </div>
     )
 }
 
 
-const ResultHeader = ({ totalCount }) => {
+const ResultHeader = ({ totalCount, isLoading }) => {
     return (
         <div className={styles.container}>
             <div className={styles.infoCon}>
                 <div className={styles.resultNum}>
-                    <p>{totalCount} results</p>
+                    <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
+                        <p>{totalCount} results</p>
+                    </Skeleton>
+
                 </div>
                 <div className={styles.mapView}>
                     <Image src="/images/vuesax-linear-location.svg" width={20} height={20} alt="map-icon" />

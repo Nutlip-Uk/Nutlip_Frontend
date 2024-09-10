@@ -25,10 +25,12 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     const handleAgentButtonClick = () => {
         setShowModal2(true);
     };
+
+
     const fetchConveyancerDetails = async (conveyancerID, type) => {
         console.log("Fetching conveyancer details for ID:", conveyancerID);
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com/api/users/${conveyancerID}`);
+            const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/users/${conveyancerID}`);
             console.log("Fetch response:", response);
             if (response.ok) {
                 const data = await response.json();
@@ -48,7 +50,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
 
     const addSellerConveyancer = async (conveyancerID) => {
         try {
-            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_selleraddconveyancer_03", {
+            const response = await fetch("https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_selleraddconveyancer_03", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,7 +64,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
             if (response.ok) {
                 const data = await response.json();
                 console.log("Seller conveyancer added successfully", data);
-                setShowModal2(false); // Close the modal
+                setShowModal2(false);
                 await fetchConveyancerDetails(conveyancerID, "Real_estate_agent");
             }
         } catch (error) {
@@ -72,7 +74,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
 
     const addBuyerConveyancer = async (conveyancerID) => {
         try {
-            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_buyerconveyancer_04", {
+            const response = await fetch("https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_buyerconveyancer_04", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -86,7 +88,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                setShowModal(false); // Close the modal
+                setShowModal(false);
                 await fetchConveyancerDetails(conveyancerID, "property_seeker");
             }
         } catch (error) {
