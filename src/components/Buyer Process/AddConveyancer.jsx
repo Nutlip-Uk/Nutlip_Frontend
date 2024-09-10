@@ -1,7 +1,7 @@
 import styles from "../../styles/BuyerProcess/AddConveyancer.module.css";
 import { useState, useEffect } from "react";
 import { ConveyancerModal } from "../Modals/Offer.modal";
-
+import CopyButton from "../../components/CopyButton.jsx";
 export const AddConveyancer = ({ userType, transaction, id, userInformation, transactionContent }) => {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
@@ -10,10 +10,10 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
 
     useEffect(() => {
         console.log("Transaction Content:", transactionContent[0]);
-        if (transactionContent[0]?.conveyancer_buyer !== "") {
+        if (transactionContent?.conveyancer_buyer !== "") {
             fetchConveyancerDetails(transactionContent.convenyancer_buyer, "property_seeker");
         }
-        if (transactionContent[0]?.conveyancer_seller !== "") {
+        if (transactionContent?.conveyancer_seller !== "") {
             fetchConveyancerDetails(transactionContent.convenyancer_seller, "Real_estate_agent");
         }
     }, [transactionContent]);
@@ -35,9 +35,9 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
             if (response.ok) {
                 const data = await response.json();
                 if (type === "property_seeker") {
-                    setBuyerConveyancer(data.data[0]);
+                    setBuyerConveyancer(data.data);
                 } else {
-                    setSellerConveyancer(data.data[0]);
+                    setSellerConveyancer(data.data);
                 }
                 console.log("Fetched conveyancer details:", data.data[0]);
                 console.log("seller conveyancer", sellerConveyancer)
@@ -125,7 +125,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                         <span className={styles.conveyancerDetails}>
                             <h4>Conveyancer details</h4>
                             <p>Name: {buyerConveyancer.username || 'N/A'}</p>
-                            <p>Agent ID: {buyerConveyancer.id ? buyerConveyancer.id.slice(0, 5) : 'N/A'}</p>
+                            <p>Conveyancer ID: {buyerConveyancer.id ? buyerConveyancer.id.slice(0, 5) : 'N/A'} <CopyButton textToCopy={buyerConveyancer?._id} />  </p>
                         </span>
                     )}
                 </div>
@@ -148,7 +148,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                         <span className={styles.conveyancerDetails}>
                             <h4>Conveyancer details</h4>
                             <p>Name: {sellerConveyancer.username || 'N/A'}</p>
-                            <p>Agent ID: {sellerConveyancer._id ? sellerConveyancer._id.slice(0, 5) : 'N/A'}</p>
+                            <p>Conveyancer ID: {sellerConveyancer._id ? sellerConveyancer._id.slice(0, 5) : 'N/A'} <CopyButton textToCopy={sellerConveyancer?._id} /> </p>
                         </span>
                     )}
                 </div>
