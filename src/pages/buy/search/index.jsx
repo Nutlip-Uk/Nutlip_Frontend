@@ -8,9 +8,10 @@ import { BuyCatalogue } from "../../../components/buy/BuyCatalogue";
 import { useBuyContext } from '../../../context/Buy.context'
 import { Pagination } from "@mui/material";
 
+
 export default function Buy() {
 
-  const { filters, setFilters, properties, totalPages, totalCount } = useBuyContext();
+  const { filters, setFilters, properties, totalPages, totalCount, isLoading } = useBuyContext();
   const [showModal, setShowModal] = useState(false)
   const closeModal = () => setShowModal(!showModal)
 
@@ -53,9 +54,9 @@ export default function Buy() {
         <div ref={navbarRef} className={styles.floating}>
           <Search handleShow={closeModal} />
         </div>
-        <SearchResult totalCount={totalCount} />
+        <SearchResult totalCount={totalCount} isLoading={isLoading} />
 
-        <BuyCatalogue properties={properties} />
+        <BuyCatalogue properties={properties} isLoading={isLoading} />
 
 
 

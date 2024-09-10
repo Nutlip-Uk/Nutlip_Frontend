@@ -219,8 +219,10 @@ const PostProperty = () => {
     e.preventDefault();
     console.log("userId:", form.userId); // Log the userId value
     console.log("Form data:", form);
+
+    // handleUpload();
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/apartments/create-apartment", {
+      const response = await fetch("https://nutlip-backend-yhfz.onrender.com/api/apartments/create-apartment", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
@@ -293,7 +295,6 @@ const PostProperty = () => {
 
 export default PostProperty;
 
-// PostPropertyDetailOne component
 const PostPropertyDetailOne = ({ next, form, handleChange }) => {
   return (
     <>

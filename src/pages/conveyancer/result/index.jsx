@@ -1,8 +1,30 @@
 import styles from "../../../styles/Mortgage/Result.module.css";
 import Option from "@mui/joy/Option";
 import Select from "@mui/joy/Select";
-
+import { useEffect, useState } from "react";
+import CopyButton from "../../../components/CopyButton";
 export default function Result() {
+
+  const [conveyancer, setConveyancer] = useState([])
+
+  useEffect(() => {
+
+    const handleGetConveyancer = async () => {
+
+      const response = await fetch('https://nutlip-backend-yhfz.onrender.com/api/conveyancer/getallconveyancer', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      const data = await response.json()
+      console.log(data.data)
+      setConveyancer(data.data)
+    }
+
+    handleGetConveyancer();
+  }, [])
+
   return (
     <div className={styles.Section}>
       <div className={styles.Container}>
@@ -10,10 +32,13 @@ export default function Result() {
           <FormComponent />
         </div>
         <section className={styles.section}>
-          <ResultInfo />
-          <ResultInfo />
-          <ResultInfo />
-          <ResultInfo />
+          {
+            conveyancer.map((item, index) => {
+              return (
+                <ResultInfo key={item?._id} item={item} />
+              )
+            })
+          }
         </section>
       </div>
     </div>
@@ -60,14 +85,20 @@ const FormComponent = () => {
   );
 };
 
-const ResultInfo = () => {
+const ResultInfo = ({ item }) => {
   return (
     <div className={styles.mainDiv}>
       <div className={styles.infoDiv}>
-        <img
+        {/* <img
           className={styles.image}
           src="https://via.placeholder.com/188x73"
-        />
+        /> */}
+
+
+        <div className="flex items-center gap-2 py-3 w-54">
+          <p className="text-xl font-semibold ">{item?.username}</p>
+          <CopyButton textToCopy={item?._id} />
+        </div>
         <div className={styles.moreInfoDiv}>
           <div className={styles.moreInfoText}>More info</div>
         </div>
@@ -85,7 +116,7 @@ const ResultInfo = () => {
       <div className={styles.locationDiv}>
         <div className={styles.locationInfo}>
           <img src="/mortgages/location.svg" alt="" />
-          <p className={styles.locationText}>London</p>
+          <p className={styles.locationText}>{item?.Address1}</p>
         </div>
 
         <p className={styles.priceDetailsText}>Price details</p>
@@ -95,13 +126,17 @@ const ResultInfo = () => {
 
       <div className={styles.actionsDiv}>
         <div className={styles.actionButton}>
-          <img src="/mortgages/phone.svg" alt="" />
+          <a href={`tel:${item?.PhoneNumber}`}>
+            <img src="/mortgages/phone.svg" alt="Call us" />
+          </a>
         </div>
         <div className={styles.actionButton}>
           <img src="/mortgages/whatsapp.svg" alt="" />
         </div>
         <div className={styles.actionButton}>
-          <img src="/mortgages/sms.svg" alt="" />
+          <a href={`mailto:${item?.email}`}>
+            <img src="/mortgages/sms.svg" alt="" />
+          </a>
         </div>
       </div>
     </div>

@@ -13,6 +13,8 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { MakeAnOfferProvider } from "../context/MakeAnOffer.context";
 import { UserTypeProvider } from "../context/UserType.context";
 import { BuyProvider } from "../context/Buy.context";
+import { ChakraProvider } from '@chakra-ui/react'
+
 
 const Layout = ({ children }) => {
 
@@ -21,6 +23,8 @@ const Layout = ({ children }) => {
   return (
     <SessionProvider>
       <div className="font-poppins">
+
+
         <BuyProvider>
           <AntdRegistry>
             <MakeAnOfferProvider>
@@ -28,13 +32,14 @@ const Layout = ({ children }) => {
                 <ImageProvider>
                   <LoginProvider>
                     <RegistrationContextProvider>
-                      <Navbar />
-                      <AgentOfferContextProvider>
-                        {children}
-                        <Analytics />
-
-                      </AgentOfferContextProvider>
-                      <Footer />
+                      <UserTypeProvider>
+                        <Navbar />
+                        <AgentOfferContextProvider>
+                          {children}
+                          <Analytics />
+                        </AgentOfferContextProvider>
+                        <Footer />
+                      </UserTypeProvider>
                     </RegistrationContextProvider>
                   </LoginProvider>
                 </ImageProvider>
@@ -42,6 +47,8 @@ const Layout = ({ children }) => {
             </MakeAnOfferProvider>
           </AntdRegistry>
         </BuyProvider>
+
+
       </div>
     </SessionProvider>
   );

@@ -5,11 +5,15 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { ImageContext } from '../../context/ImageContext.context';
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
+import Skeleton from '@mui/joy/Skeleton';
 
-export const Funds = ({ userType, id, transactionContent }) => {
+
+export const Funds = ({ userType, id, transactionContent, isLoading }) => {
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
+
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -41,7 +45,7 @@ export const Funds = ({ userType, id, transactionContent }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/transaction/transaction_uploadproofoffunds_01', {
+      const response = await fetch('https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +70,7 @@ export const Funds = ({ userType, id, transactionContent }) => {
 
   const handleConfirm = async () => {
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds_02', {
+      const response = await fetch('https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +95,7 @@ export const Funds = ({ userType, id, transactionContent }) => {
   return (
     <div className={styles.offer}>
       <section>
-        <h2>Funds Verification</h2>
+        <h2 className='text-2xl font-bold'>Funds Verification</h2>
         {userType === "property_seeker" && (
           <p>Thank you for showing interest in this real estate property. Please upload proof of funds or a mortgage in principle document.</p>
         )}
@@ -120,11 +124,13 @@ export const Funds = ({ userType, id, transactionContent }) => {
 
       {userType === "Real_estate_agent" && (
         <div className={styles.fileContainer}>
-          <section id={styles.file_upload}>
+          <section id={styles.file_upload} className='relative rounded-e-lg'>
             <label>
               {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
               {transactionContent?.proof_of_funds && (
-                <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
+                <Skeleton className="relative w-auto rounded-lg" loading={isLoading} height={"100%"}>
+                  <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
+                </Skeleton>
               )}
             </label>
           </section>
@@ -135,6 +141,26 @@ export const Funds = ({ userType, id, transactionContent }) => {
           )}
         </div>
       )}
+
+
+      {
+        userType === "conveyancer_seller" && (
+          <div>
+            Conveyancer Seller
+
+            <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+          </div>
+        )
+      }
+      {
+        userType === "conveyancer_buyer" && (
+          <div>
+            Conveyancer Buyer
+
+            <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+          </div>
+        )
+      }
     </div>
   );
 };

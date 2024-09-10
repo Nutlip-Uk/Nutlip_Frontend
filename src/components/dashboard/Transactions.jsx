@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import styles from "../../styles/dashboard/transaction.module.css";
+import { LoginContext } from "../../context/Login.context";
 
 const Transactions = () => {
   const router = useRouter();
@@ -46,17 +47,17 @@ const Transactions = () => {
 
       const fetchData = async () => {
         try {
-          const apartmentsResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getuserapartments/${userId}`);
+          const apartmentsResponse = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/apartments/getuserapartments/${userId}`);
           const apartmentsData = await apartmentsResponse.json();
           setApartments(apartmentsData.data);
 
 
-          const offersReceivedResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getoffersreceived/${userId}`);
+          const offersReceivedResponse = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/offer/getoffersreceived/${userId}`);
           const offersReceivedData = await offersReceivedResponse.json();
           setOffersReceived(offersReceivedData);
           console.log("offersReceivedData:", offersReceivedData);
 
-          const offersSentResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getofferssent/${userId}`);
+          const offersSentResponse = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/offer/getofferssent/${userId}`);
           const offersSentData = await offersSentResponse.json();
           setSentOffers(offersSentData);
           console.log("offersSentData:", offersSentData);
@@ -74,7 +75,7 @@ const Transactions = () => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
         try {
-          const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
+          const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
           const data = await response.json();
           setPropertyOffers(data.offers);
           console.log("propertyOffers:", data.offers);
@@ -323,7 +324,7 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
   const handleOffer = async (apartmentId, offerId, userId, status) => {
     console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
+      const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -525,18 +526,79 @@ const OffersDeclined = ({ handleChange }) => {
 }
 
 const CompletedTransactions = ({ handleChange }) => {
+
+  const { userInformation } = useContext(LoginContext);
+  const userId = userInformation?.user?.id;
+
+  const [completedData, setCompletedData] = useState([])
+
+  useEffect(() => {
+    const fetchCompletedTransactions = async () => {
+      if (userId) {
+        const res = await fetch(
+          `https://nutlip-backend-yhfz.onrender.com/api/transaction/getCompletedTransactionForAUser/${userId}`
+        );
+        const data = await res.json();
+        console.log("Completed Transaction", data);
+        setCompletedData(data.data);
+      }
+    };
+
+    fetchCompletedTransactions();
+  }, [userId]);
+
+
+
   return (
-    <>
-      <h1 onClick={() => handleChange("transaction")}>Completed Transactions</h1>
-    </>
+    <div className={styles.Section}>
+      <div className={styles.Header}>
+        <h1 onClick={() => handleChange("transaction")}>Completed Transactions</h1>
+      </div>
+
+      {
+        completedData.length == 0 && (
+          <p>No completed transactions found.</p>
+        )
+      }
+    </div>
   );
 }
 
 const CancelledTransactions = ({ handleChange }) => {
+  const { userInformation } = useContext(LoginContext);
+
+  const userId = userInformation?.user?.id;
+
+
+  const [cancelledData, setCancelledData] = useState([])
+
+  useEffect(() => {
+    const fetchCancelledtransactions = async () => {
+      if (userId) {
+        const res = await fetch(
+          `https://nutlip-backend-yhfz.onrender.com/api/transaction/getCanceledTransactionForAUser/${userId}`
+        );
+        const data = await res.json();
+        console.log("Cancelled Transaction", data);
+      }
+    };
+
+    fetchCancelledtransactions();
+  }, [userId]);
+
   return (
-    <>
-      <h1 onClick={() => handleChange("transaction")}>Cancelled Transactions</h1>
-    </>
+    <div className={styles.Section}>
+      <div className={styles.Header}>
+        <h1 onClick={() => handleChange("transaction")}>Cancelled Transactions</h1>
+      </div>
+
+      {
+        cancelledData.length == 0 && (
+          <p>No Cancelled transactions found.</p>
+        )
+      }
+
+    </div>
   );
 }
 
