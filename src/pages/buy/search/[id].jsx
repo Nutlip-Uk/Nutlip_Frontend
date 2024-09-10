@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../../styles/buy/Details.module.css";
 import RelatedProperties from "../../../components/buy/BuyRelatedProperties";
-import axios from "axios";
 
 import {
   DetailsContent,

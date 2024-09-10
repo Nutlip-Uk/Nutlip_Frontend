@@ -4,14 +4,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useState, useEffect } from "react";
 import Button from "../styled components/Button";
-import { NutlipCommission } from "./../Buyer Process/Commission";
-import { MakeAnOffer } from "../../context/MakeAnOffer.context";
-import Registration, { Login } from "../../pages/register/index"
 import Link from "next/link";
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
 import { ModalDialog } from "@mui/joy";
 
 
