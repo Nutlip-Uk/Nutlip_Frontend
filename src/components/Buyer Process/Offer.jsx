@@ -81,7 +81,7 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo, isLoad
 
 
                         <hr />
-                        <div className={styles.transactionDesc} className="flex flex-col gap-y-2">
+                        <div className={styles.transactionDesc}>
 
                             <p><strong>{apartment?.Title && apartment?.Title.slice(0, 10)}...</strong></p>
 
