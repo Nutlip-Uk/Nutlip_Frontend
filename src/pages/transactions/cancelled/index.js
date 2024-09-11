@@ -17,7 +17,7 @@ const CancelledTransactions = () => {
       const fetchCancelledtransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-yhfz.onrender.com/api/transaction/getCanceledTransactionForAUser/${userId}`
+            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/getCanceledTransactionForAUser/${userId}`
           );
           const data = await res.json();
           console.log("Cancelled Transaction", data);
@@ -29,7 +29,7 @@ const CancelledTransactions = () => {
       const fetchConveyancersCancelledtransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-yhfz.onrender.com/api/conveyancer/getCanceledTransaction/${userId}`
+            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/conveyancer/getCanceledTransaction/${userId}`
           );
           const data = await res.json();
           console.log("Conveyancer Cancelled Transaction", data);

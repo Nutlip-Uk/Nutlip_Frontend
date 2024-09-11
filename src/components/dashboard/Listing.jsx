@@ -44,7 +44,7 @@ const Listing = () => {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/apartments/getuserapartments/${userId}`);
+        const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getuserapartments/${userId}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -152,7 +152,7 @@ const ListProperty = ({ next, handleChange, type, userId, apartments, setSelecte
 
                 <div className={styles.propertyText}>
                   <p>{apartment?.Title}</p>
-                  <p>{apartment?.location}</p>
+                  <p className="line-clamp-1">{apartment?.location}</p>
 
                   <div className={styles.propertySize}>
                     <li>

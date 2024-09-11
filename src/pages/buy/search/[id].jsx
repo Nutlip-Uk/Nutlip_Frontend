@@ -49,7 +49,7 @@ const Details = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/apartments/getapartment/${id}`);
+        const res = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getapartment/${id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch");
         }

@@ -140,7 +140,7 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
                   {userInformation.user?.username ? (
                     <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
                   ) : null}
-                  <p>{userInformation?.user?.username}</p>
+                  <p>{userInformation?.user?.username.split(" ")[0]}</p>
                 </div>
 
                 <img src="/navbar/notification.png" alt="" />

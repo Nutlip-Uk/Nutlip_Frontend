@@ -27,7 +27,7 @@ export const BuyProvider = ({ children }) => {
             try {
                 setIsloading(true); // Set isLoading to true before fetching data
                 const queryParams = new URLSearchParams(filters).toString();
-                const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/apartments/getallapartments?${queryParams}`);
+                const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getallapartments?${queryParams}`);
                 const data = await response.json();
                 if (response.ok) {
                     setTotalCount(data.total_record_count); // Set total record count from API

@@ -97,7 +97,7 @@ const Welcome = () => {
     console.log("Form data:", form);
     console.log("User information:", userId);
     try {
-      const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/users/${userId}`, {
+      const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

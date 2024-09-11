@@ -1,34 +1,31 @@
-.textdoc{
+.textdoc {
   text-decoration: none;
 }
-
 
 .nav {
   display: flex;
   width: 100%;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   height: auto;
   justify-content: center;
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background: #FFFFFF;
+  background: #ffffff;
   align-items: center;
-  position:relative;
+  position: relative;
   padding: 15px 0;
-  
 }
 
-.Hide{
-  gap:50px;
+.Hide {
+  gap: 50px;
   display: flex;
   align-items: center;
-
 }
 
-.Hide li{
+.Hide li {
   list-style: none;
 }
 
-.Hide a{
+.Hide a {
   color: black;
   text-decoration: none;
   font-size: 16px;
@@ -40,7 +37,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #FFFFFF;
+  background: #ffffff;
   height: 54px;
   position: sticky;
   top: 0;
@@ -56,13 +53,10 @@
   justify-content: center;
 }
 
-
 .reg > img:first-of-type {
   width: 50%;
   height: 53px;
 }
-
-
 
 .NavMain {
   display: flex;
@@ -70,8 +64,6 @@
   width: 95%;
   justify-content: space-between;
   align-items: center;
-  
-  
 }
 
 .navContainer {
@@ -151,195 +143,190 @@
   display: none;
 }
 
-.UserLogContainer{
+.UserLogContainer {
   display: flex;
-  align-items:center;
+  align-items: center;
   flex-wrap: wrap;
-  gap:16px;
-  width:300px;
-  
+  gap: 16px;
+  width: 300px;
 }
 
-.userInfo{
+.userInfo {
   display: flex;
   padding: 8px 16px;
   justify-content: center;
   align-items: center;
   gap: 12px;
   border-radius: 12px;
-  background: var(--Background-1, #F4F7FF);
-  cursor:pointer;
-  transition:0.4s;
-  -webkit-transition:0.4s;
-  -moz-transition:0.4s;
-  -ms-transition:0.4s;
-  -o-transition:0.4s;
+  background: var(--Background-1, #f4f7ff);
+  cursor: pointer;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
 }
 
-.userInfo:hover{
-  scale:0.95;
-  transition:0.4s;
-  -webkit-transition:0.4s;
-  -moz-transition:0.4s;
-  -ms-transition:0.4s;
-  -o-transition:0.4s;
+.userInfo:hover {
+  scale: 0.95;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
 }
 
-.userinfo img{
+.userinfo img {
   width: 40px;
-height: 40px;
-border-radius:50%;
-background: var(--Light-blue-5, #2B4485);
-border:1px solid #2b4485;
-
+  height: 40px;
+  border-radius: 50%;
+  background: var(--Light-blue-5, #2b4485);
+  border: 1px solid #2b4485;
 }
-.userInfo p{
+.userInfo p {
   color: var(--Black, #141212);
-font-size: 16px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
-.userPopUpContainer{
-  width:25%;
-  height:auto;
-  position:absolute;
-  background:white;
-  top:110%;
-  right:2%;
-  border-radius:24px;
-  z-index:30;
+.userPopUpContainer {
+  width: 25%;
+  height: auto;
+  position: absolute;
+  background: white;
+  top: 110%;
+  right: 2%;
+  border-radius: 24px;
+  z-index: 30;
   box-shadow: 0px 4px 15px 0px #50505040;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:10px 0;
-  gap:10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  gap: 10px;
 }
 
-.popUpHeader{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
+.popUpHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.popUpHeader img{
+.popUpHeader img {
   width: 60px;
-height: 60px;
+  height: 60px;
 }
 
-.popUpHeader p{
-font-size: 16px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: 0em;
-text-align: left;
-color:black;
+.popUpHeader p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
 }
 
-.popUpList{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:14px;
+.popUpList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
-.popUpList hr{
-  width:100%;
+.popUpList hr {
+  width: 100%;
 }
 
-.popUpList button{
-  width:85%;
-  height:50px;
-  border-radius:10px;
-  border:none;
-  background: #F30029;
+.popUpList button {
+  width: 85%;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background: #f30029;
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: center;
-  color:white;
-  cursor:pointer;
-  margin-top:10px;
-  transition:0.4s;
-  -webkit-border-radius:10px;
-  -moz-border-radius:10px;
-  -ms-border-radius:10px;
-  -o-border-radius:10px;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.4s;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
-.popUplink{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  width:50%;
-  transition:0.4s;
+.popUplink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 50%;
+  min-width: fit-content;
+  transition: 0.4s;
 }
 
-.popUplink img{
+.popUplink img {
   width: 20px;
-height: 20px;
+  height: 20px;
 }
 
-.popUplink p{
-font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-letter-spacing: 0em;
-text-align: left;
-cursor:pointer;
-
+.popUplink p {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  cursor: pointer;
 }
-.popUplink a{
-font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-letter-spacing: 0em;
-text-align: left;
-cursor:pointer;
-color:black;
-text-decoration:none;
-}
-
-.popUplink:hover{
-  scale:0.95;
-  transition:0.4s;
-}
-.popUpList button:hover{
-  scale:0.95;
-  transition:0.4s;
+.popUplink a {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
 
-@media ( width <= 400px) {
-  .navigation{
+.popUplink:hover {
+  scale: 0.95;
+  transition: 0.4s;
+}
+.popUpList button:hover {
+  scale: 0.95;
+  transition: 0.4s;
+}
+
+@media (width <= 400px) {
+  .navigation {
     padding-bottom: 70px;
     height: auto;
-    position:relative;
+    position: relative;
     z-index: 20;
-
   }
   .nav {
     display: flex;
     width: 100%;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     height: 60px;
     justify-content: center;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-    background: #FFFFFF;
+    background: #ffffff;
     align-items: center;
-    position:fixed;
-   
+    position: fixed;
   }
   .NavMain {
     display: flex;
     height: auto;
     width: 95%;
     justify-content: space-between;
-  
   }
 
   .navContainer {
@@ -363,10 +350,8 @@ text-decoration:none;
 
   .Hide {
     display: none;
-    
   }
 
-  
   .navLinks {
     display: flex;
     flex-direction: column;
@@ -413,76 +398,73 @@ text-decoration:none;
   .MenuBtn {
     display: flex;
     align-items: center;
-    gap:10px;
+    gap: 10px;
   }
 
-  .MobileuserInfo{
+  .MobileuserInfo {
     display: flex;
     gap: 12px;
     border-radius: 12px;
-    background: var(--Background-1, #F4F7FF);
+    background: var(--Background-1, #f4f7ff);
   }
 
-  .userPopUpContainer{
-    width:80%;
-    height:auto;
-    position:absolute;
-    background:white;
-    top:120%;
-    right:1%;
-    border-radius:24px;
-    z-index:30;
+  .userPopUpContainer {
+    width: 80%;
+    height: auto;
+    position: absolute;
+    background: white;
+    top: 120%;
+    right: 1%;
+    border-radius: 24px;
+    z-index: 30;
     box-shadow: 0px 4px 15px 0px #50505040;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:10px 0;
-    gap:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    gap: 10px;
   }
 
-  .popUplink{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    width:65%;
-    transition:0.4s;
+  .popUplink {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 65%;
+    transition: 0.4s;
   }
 
-  
-  .UserLogContainer{
+  .UserLogContainer {
     display: none;
   }
 }
 
 @media (400px <= width <=779px) {
- 
-  .navigation{
+  .navigation {
     padding-bottom: 70px;
     height: auto;
-    position:relative;
+    position: relative;
     z-index: 20;
   }
   .nav {
     display: flex;
     width: 100%;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     height: 70px;
     justify-content: center;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-    background: #FFFFFF;
+    background: #ffffff;
     align-items: center;
-    position:fixed;
-    
-    z-index:2;
+    position: fixed;
+
+    z-index: 2;
   }
-  
+
   .NavMain {
     display: flex;
     height: auto;
     width: 95%;
     justify-content: space-between;
     position: relative;
-   
   }
 
   .navContainer {
@@ -506,10 +488,8 @@ text-decoration:none;
 
   .Hide {
     display: none;
-    
   }
 
-  
   .navLinks {
     display: flex;
     flex-direction: column;
@@ -556,52 +536,50 @@ text-decoration:none;
   .MenuBtn {
     display: flex;
     align-items: center;
-    gap:10px;
+    gap: 10px;
   }
 
-  .MobileuserInfo{
+  .MobileuserInfo {
     display: flex;
     gap: 12px;
     border-radius: 12px;
-    background: var(--Background-1, #F4F7FF);
+    background: var(--Background-1, #f4f7ff);
   }
 
-  .userPopUpContainer{
-    width:80%;
-    height:auto;
-    position:absolute;
-    background:white;
-    top:110%;
-    right:0%;
-    border-radius:24px;
-    z-index:30;
+  .userPopUpContainer {
+    width: 80%;
+    height: auto;
+    position: absolute;
+    background: white;
+    top: 110%;
+    right: 0%;
+    border-radius: 24px;
+    z-index: 30;
     box-shadow: 0px 4px 15px 0px #50505040;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:10px 0;
-    gap:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    gap: 10px;
   }
 
-  .popUplink{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    width:65%;
-    transition:0.4s;
+  .popUplink {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 65%;
+    transition: 0.4s;
   }
 
-  .UserLogContainer{
+  .UserLogContainer {
     display: none;
   }
-  
 }
 @media (780px <= width <= 1200px) {
-  .navigation{
+  .navigation {
     padding-bottom: 70px;
     height: auto;
-    position:relative;
-   
+    position: relative;
   }
   .nav {
     display: flex;
@@ -609,13 +587,12 @@ text-decoration:none;
     height: 70px;
     justify-content: center;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-    background: #FFFFFF;
+    background: #ffffff;
     align-items: center;
-    position:fixed;
-    z-index:20;
-    
+    position: fixed;
+    z-index: 20;
   }
-  
+
   .NavMain {
     display: flex;
     height: auto;
@@ -641,22 +618,18 @@ text-decoration:none;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
     box-shadow: 0px 0px 80px 10px rgba(66, 64, 64, 0.158);
-    
   }
 
   .Hide {
     display: none;
-    
   }
 
-  
   .navLinks {
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     text-decoration: none;
-    
   }
   .navLinks li {
     list-style: none;
@@ -697,34 +670,34 @@ text-decoration:none;
   .MenuBtn {
     display: flex;
     align-items: center;
-    gap:16px;
+    gap: 16px;
   }
 
-  .MobileuserInfo{
+  .MobileuserInfo {
     display: flex;
     gap: 12px;
     border-radius: 12px;
-    background: var(--Background-1, #F4F7FF);
+    background: var(--Background-1, #f4f7ff);
   }
 
-  .userPopUpContainer{
-    width:100%;
-    height:auto;
-    position:absolute;
-    background:white;
-    top:110%;
-    right:2%;
-    border-radius:24px;
-    z-index:30;
+  .userPopUpContainer {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    background: white;
+    top: 110%;
+    right: 2%;
+    border-radius: 24px;
+    z-index: 30;
     box-shadow: 0px 4px 15px 0px #50505040;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:10px 0;
-    gap:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    gap: 10px;
   }
-  
-  .UserLogContainer{
+
+  .UserLogContainer {
     display: none;
   }
 }
