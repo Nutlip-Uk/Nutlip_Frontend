@@ -41,7 +41,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
 
     const handleSubmitSeller = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.comapi/transaction/transaction_legalTitle_014`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_legalTitle_014`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id })
     const handleSubmitBuyer = async () => {
 
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.comapi/transaction/transaction_legalTitle_015`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_legalTitle_015`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

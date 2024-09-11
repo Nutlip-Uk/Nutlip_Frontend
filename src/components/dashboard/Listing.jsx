@@ -44,7 +44,7 @@ const Listing = () => {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        const response = await fetch(`https://nutlip-backend.onrender.comapi/apartments/getuserapartments/${userId}`);
+        const response = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getuserapartments/${userId}`);
         const data = await response.json();
 
         if (response.ok) {
