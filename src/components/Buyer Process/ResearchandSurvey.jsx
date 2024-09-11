@@ -12,7 +12,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
 
     const handleConfirm = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend-yhfz.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
+            const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

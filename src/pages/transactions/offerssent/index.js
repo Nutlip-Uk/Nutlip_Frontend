@@ -16,7 +16,7 @@ const OffersSent = () => {
 
       try {
         const response = await fetch(
-          `https://nutlip-backend-yhfz.onrender.com/api/offer/getofferssent/${userId}`
+          `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/offer/getofferssent/${userId}`
         );
 
         if (response.ok) {
@@ -36,7 +36,7 @@ const OffersSent = () => {
       const updatedOffers = await Promise.all(
         offersData.map(async (offer) => {
           const response = await fetch(
-            `https://nutlip-backend-yhfz.onrender.com/api/apartments/getapartment/${offer.apartmentId}`
+            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getapartment/${offer.apartmentId}`
           );
           if (response.ok) {
             const apartmentData = await response.json();

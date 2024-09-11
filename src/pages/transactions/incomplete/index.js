@@ -17,7 +17,7 @@ const InCompletedTransactions = () => {
       const fetchIncompletedTransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-yhfz.onrender.com/api/transaction/getUnCompletedTransactionForAUser/${userId}`
+            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/getUnCompletedTransactionForAUser/${userId}`
           );
           const data = await res.json();
           console.log("Incompleted Transaction", data.data);
@@ -29,7 +29,7 @@ const InCompletedTransactions = () => {
       const fetchConveyancersIncompletedTransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-yhfz.onrender.com/api/conveyancer/getuncompletedtransaction/${userId}`
+            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/conveyancer/getuncompletedtransaction/${userId}`
           );
           const data = await res.json();
           console.log("Conveyancer Incomplete Transaction", data?.data);
