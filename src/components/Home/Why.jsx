@@ -54,7 +54,7 @@ const Why = () => {
         <div className={styles.GridContainer}>
           {Datas.map((data, index) => (
             <>
-              <div key={index} className={styles.BoxContainer}>
+              <div key={data?.id} className={styles.BoxContainer}>
                 <div className={styles.Box}>
                   <div className={styles.IconContainer}>{data.icon}</div>
 
