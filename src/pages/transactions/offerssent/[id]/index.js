@@ -8,7 +8,7 @@ const OffersSentPage = () => {
   //   const fetchApartment = async () => {
   //     try {
   //       const response = await fetch(
-  //         `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getapartment/${id}`
+  //         `https://nutlip-backend.onrender.comapi/apartments/getapartment/${id}`
   //       );
   //       if (response.ok) {
   //         const data = await response.json();

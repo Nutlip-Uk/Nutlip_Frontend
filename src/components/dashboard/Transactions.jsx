@@ -47,17 +47,17 @@ const Transactions = () => {
 
       const fetchData = async () => {
         try {
-          const apartmentsResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getuserapartments/${userId}`);
+          const apartmentsResponse = await fetch(`https://nutlip-backend.onrender.comapi/apartments/getuserapartments/${userId}`);
           const apartmentsData = await apartmentsResponse.json();
           setApartments(apartmentsData.data);
 
 
-          const offersReceivedResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/offer/getoffersreceived/${userId}`);
+          const offersReceivedResponse = await fetch(`https://nutlip-backend.onrender.comapi/offer/getoffersreceived/${userId}`);
           const offersReceivedData = await offersReceivedResponse.json();
           setOffersReceived(offersReceivedData);
           console.log("offersReceivedData:", offersReceivedData);
 
-          const offersSentResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/offer/getofferssent/${userId}`);
+          const offersSentResponse = await fetch(`https://nutlip-backend.onrender.comapi/offer/getofferssent/${userId}`);
           const offersSentData = await offersSentResponse.json();
           setSentOffers(offersSentData);
           console.log("offersSentData:", offersSentData);
@@ -75,7 +75,7 @@ const Transactions = () => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
         try {
-          const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/offer/getapartmentoffer/${selectedApartmentId}`);
+          const response = await fetch(`https://nutlip-backend.onrender.comapi/offer/getapartmentoffer/${selectedApartmentId}`);
           const data = await response.json();
           setPropertyOffers(data.offers);
           console.log("propertyOffers:", data.offers);
@@ -324,7 +324,7 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
   const handleOffer = async (apartmentId, offerId, userId, status) => {
     console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
     try {
-      const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
+      const response = await fetch(`https://nutlip-backend.onrender.comapi/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -536,7 +536,7 @@ const CompletedTransactions = ({ handleChange }) => {
     const fetchCompletedTransactions = async () => {
       if (userId) {
         const res = await fetch(
-          `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/getCompletedTransactionForAUser/${userId}`
+          `https://nutlip-backend.onrender.comapi/transaction/getCompletedTransactionForAUser/${userId}`
         );
         const data = await res.json();
         console.log("Completed Transaction", data);
@@ -576,7 +576,7 @@ const CancelledTransactions = ({ handleChange }) => {
     const fetchCancelledtransactions = async () => {
       if (userId) {
         const res = await fetch(
-          `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/getCanceledTransactionForAUser/${userId}`
+          `https://nutlip-backend.onrender.comapi/transaction/getCanceledTransactionForAUser/${userId}`
         );
         const data = await res.json();
         console.log("Cancelled Transaction", data);

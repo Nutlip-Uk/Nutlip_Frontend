@@ -222,7 +222,7 @@ const PostProperty = () => {
 
     // handleUpload();
     try {
-      const response = await fetch("aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/create-apartment", {
+      const response = await fetch("https://nutlip-backend.onrender.comapi/apartments/create-apartment", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {

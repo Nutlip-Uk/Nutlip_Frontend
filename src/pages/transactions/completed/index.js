@@ -16,7 +16,7 @@ const CompletedTransactions = () => {
       const fetchCompletedTransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/getCompletedTransactionForAUser/${userId}`
+            `https://nutlip-backend.onrender.comapi/transaction/getCompletedTransactionForAUser/${userId}`
           );
           const data = await res.json();
           console.log("Completed Transaction", data.data);
@@ -28,7 +28,7 @@ const CompletedTransactions = () => {
       const fetchConveyancersCompletedTransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/conveyancer/getcompletedtransaction/${userId}`
+            `https://nutlip-backend.onrender.comapi/conveyancer/getcompletedtransaction/${userId}`
           );
           const data = await res.json();
           console.log("Conveyancer Completed Transaction", data.data);
