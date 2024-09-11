@@ -43,7 +43,7 @@ export const Contract = ({ userType, transaction, id, transactionContent }) => {
 
     const HandleSubmitSeller = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.comapi/transaction/transaction_contractupload_06_seller`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_contractupload_06_seller`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const Contract = ({ userType, transaction, id, transactionContent }) => {
     };
     const HandleSubmitBuyer = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.comapi/transaction/transaction_contractupload_06_buyer`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_contractupload_06_buyer`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export const Contract = ({ userType, transaction, id, transactionContent }) => {
 
     const HandleConfirm = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.comapi/transaction/transaction_contractupload_06_seller_confirms`, {
+            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_contractupload_06_seller_confirms`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

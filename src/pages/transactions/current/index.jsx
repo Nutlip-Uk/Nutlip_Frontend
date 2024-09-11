@@ -15,7 +15,7 @@ const Current = () => {
       setUserId(userId);
 
       try {
-        const response = await fetch(`https://nutlip-backend.onrender.comapi/offer/getofferssent/${userId}`);
+        const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getofferssent/${userId}`);
         const data = await response.json();
         console.log('API response:', data);
 
@@ -24,7 +24,7 @@ const Current = () => {
           console.log('Accepted offers:', acceptedOffers);
 
           const fetchAdditionalData = acceptedOffers.map(async (offer) => {
-            const additionalResponse = await fetch(`https://nutlip-backend.onrender.comapi/apartments/getapartment/${offer.apartmentId}`);
+            const additionalResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${offer.apartmentId}`);
             const additionalData = await additionalResponse.json();
             console.log('Additional data:', additionalData);
             return {
