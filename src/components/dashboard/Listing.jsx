@@ -44,7 +44,7 @@ const Listing = () => {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getuserapartments/${userId}`);
+        const response = await fetch(`https://nutlip-backend.onrender.comapi/apartments/getuserapartments/${userId}`);
         const data = await response.json();
 
         if (response.ok) {

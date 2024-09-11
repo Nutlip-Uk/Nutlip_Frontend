@@ -45,7 +45,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/transaction_uploadproofoffunds_01', {
+      const response = await fetch('https://nutlip-backend.onrender.comapi/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading }) => {
 
   const handleConfirm = async () => {
     try {
-      const response = await fetch('aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/transaction_confirmproofoffunds_02', {
+      const response = await fetch('https://nutlip-backend.onrender.comapi/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

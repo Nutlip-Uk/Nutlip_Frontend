@@ -12,7 +12,7 @@ export const UserTypeProvider = ({ children }) => {
     async function fetchData() {
       try {
         if (userInformation?.user?.id) {
-          const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/users/${userInformation?.user?.id}`);
+          const response = await fetch(`https://nutlip-backend.onrender.comapi/users/${userInformation?.user?.id}`);
           const data = await response.json();
           const userdata = data.data.userType.type;
           setUserInfo(data.data)

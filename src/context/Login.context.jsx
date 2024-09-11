@@ -8,7 +8,7 @@ const LoginProvider = ({ children }) => {
 
   const handleLogin = async (formData) => {
     // Login logic using fetch (replace with your API call)
-    const response = await fetch('aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/login', {
+    const response = await fetch('https://nutlip-backend.onrender.comapi/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -17,7 +17,7 @@ const LoginProvider = ({ children }) => {
     GetUser();
   };
   const GetUser = async () => {
-    const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/users/${userInformation.user.id}`, {
+    const response = await fetch(`https://nutlip-backend.onrender.comapi/users/${userInformation.user.id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -33,7 +33,7 @@ const LoginProvider = ({ children }) => {
 
 
   const handleWelcome = async () => {
-    const response = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/users/${userInformation.user.id}`, {
+    const response = await fetch(`https://nutlip-backend.onrender.comapi/users/${userInformation.user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

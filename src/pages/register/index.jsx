@@ -48,7 +48,7 @@ const Registration = () => {
 
       console.log("Google Login Info:", { uid, displayName, email, photoURL });
 
-      const response = await fetch("aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/register", {
+      const response = await fetch("https://nutlip-backend.onrender.comapi/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Registration = () => {
       console.log("Google Login Info:", { uid, displayName, email, photoURL });
 
       // Attempt to log in to your backend with the Google user info
-      const response = await fetch("aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/login", {
+      const response = await fetch("https://nutlip-backend.onrender.comapi/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ const Registration = () => {
       console.log("Facebook Auth Info:", { uid, displayName, email, photoURL });
 
       // Check if the user is already registered by attempting to log in
-      const loginResponse = await fetch("aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/login", {
+      const loginResponse = await fetch("https://nutlip-backend.onrender.comapi/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ const Registration = () => {
         setUserInformation(loginData);
       } else {
         // If the login fails, try to register the user
-        const registerResponse = await fetch("aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/register", {
+        const registerResponse = await fetch("https://nutlip-backend.onrender.comapi/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -254,7 +254,7 @@ const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
     setLoading(false);
     setError(null);
     try {
-      const response = await fetch("aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/register", {
+      const response = await fetch("https://nutlip-backend.onrender.comapi/register", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {

@@ -48,7 +48,7 @@ const Process = () => {
 
       try {
         // Fetch transaction data
-        const transactionResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/gettransaction/${id}`);
+        const transactionResponse = await fetch(`https://nutlip-backend.onrender.comapi/transaction/gettransaction/${id}`);
         const transactionData = await transactionResponse.json();
         setTransaction(transactionData.transaction);
         setTransactionStage(transactionData.transaction.transactionCurrentStage);
@@ -56,26 +56,26 @@ const Process = () => {
 
         if (transactionResponse.ok) {
           // Fetch transaction content data
-          const txcontent = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/transaction/gettransactioncontent/${id}`);
+          const txcontent = await fetch(`https://nutlip-backend.onrender.comapi/transaction/gettransactioncontent/${id}`);
           const data = await txcontent.json();
           const transactionContentData = data.transactioncontent[0];
           setTransactionContent(transactionContentData);
           console.log("TRANSACTION CONTENT", transactionContentData);
 
           // Fetch apartment data using transactionData
-          const apartmentResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
+          const apartmentResponse = await fetch(`https://nutlip-backend.onrender.comapi/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
           const apartmentData = await apartmentResponse.json();
           setApartment(apartmentData.data);
           console.log("apartmentData:", apartmentData.data);
 
           // Fetch seller data using userInformation
-          const sellerResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/users/${userInformation?.user?.id}`);
+          const sellerResponse = await fetch(`https://nutlip-backend.onrender.comapi/users/${userInformation?.user?.id}`);
           const sellerData = await sellerResponse.json();
           setSellerInfo(sellerData.data);
           console.log("seller data", sellerInfo);
 
           // Fetch agent data using apartment data
-          const agentResponse = await fetch(`aws url for now, http://ec2-13-60-41-27.eu-north-1.compute.amazonaws.comapi/users/${apartmentData.data.userId}`);
+          const agentResponse = await fetch(`https://nutlip-backend.onrender.comapi/users/${apartmentData.data.userId}`);
           const agentData = await agentResponse.json();
           setAgent(agentData.data);
           console.log("agent data", agentData.data);
