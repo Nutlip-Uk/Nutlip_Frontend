@@ -224,7 +224,7 @@ const Offer = ({ change, form, handleChange, data, userInformation, handleShow }
     }
 
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/offer/createoffer', {
+      const response = await fetch('https://nutlip-backend-wdsi.onrender.com/api/offer/createoffer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
