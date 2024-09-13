@@ -20,24 +20,52 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { LoginContext } from '../../../../context/Login.context';
 
-
-
-
-
 const Process = () => {
+  const transactionNames = [
+    "Funds Verification",
+    "Add Conveyancer",
+    "Research Survey",
+    "Contract",
+    "Nutlip Commission",
+    "Deposit",
+    "DOC",
+    "Full Payment",
+    "Transfer Title",
+    "Success"
+  ];
+
   const [progress, setProgress] = useState(0);
-  const [currentStage, setCurrentStage] = useState(0); // To handle rendering from stage 1
+  const [currentStage, setCurrentStage] = useState(0); // To handle rendering from stage 0
   const router = useRouter();
   const { id } = router.query;
   const [transaction, setTransaction] = useState(null);
   const [apartment, setApartment] = useState(null);
-  const [transactionStage, setTransactionStage] = useState(1);
+  const [transactionStage, setTransactionStage] = useState(0); // Initialize to 0
   const [sellerInfo, setSellerInfo] = useState([]);
   const [agent, setAgent] = useState([]);
   const [userType, setUserType] = useState(null);
   const { userInformation } = useContext(LoginContext);
   const [transactionContent, setTransactionContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const savedStage = localStorage.getItem(`currentStage-${id}`);
+    if (savedStage) {
+      setCurrentStage(Number(savedStage));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (transactionStage > 0 && transactionStage > currentStage) {
+      setCurrentStage(transactionStage);
+    }
+  }, [transactionStage]);
+
+  useEffect(() => {
+    if (id && currentStage) {
+      localStorage.setItem(`currentStage-${id}`, currentStage);
+    }
+  }, [currentStage, id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,34 +76,38 @@ const Process = () => {
 
       try {
         // Fetch transaction data
-        const transactionResponse = await fetch(`https://nutlip-backend.onrender.com/api/transaction/gettransaction/${id}`);
+        const transactionResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/gettransaction/${id}`);
         const transactionData = await transactionResponse.json();
         setTransaction(transactionData.transaction);
-        setTransactionStage(transactionData.transaction.transactionCurrentStage);
+
+        const adjustedStage = transactionData.transaction.transactionCurrentStage - 1;
+        setTransactionStage(adjustedStage);
+        setCurrentStage(Math.max(0, adjustedStage)); // Ensure currentStage starts from 0
+
         console.log("transactionData:", transactionData.transaction);
 
         if (transactionResponse.ok) {
           // Fetch transaction content data
-          const txcontent = await fetch(`https://nutlip-backend.onrender.com/api/transaction/gettransactioncontent/${id}`);
+          const txcontent = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/gettransactioncontent/${id}`);
           const data = await txcontent.json();
           const transactionContentData = data.transactioncontent[0];
           setTransactionContent(transactionContentData);
           console.log("TRANSACTION CONTENT", transactionContentData);
 
           // Fetch apartment data using transactionData
-          const apartmentResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
+          const apartmentResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
           const apartmentData = await apartmentResponse.json();
           setApartment(apartmentData.data);
           console.log("apartmentData:", apartmentData.data);
 
           // Fetch seller data using userInformation
-          const sellerResponse = await fetch(`https://nutlip-backend.onrender.com/api/users/${userInformation?.user?.id}`);
+          const sellerResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/users/${userInformation?.user?.id}`);
           const sellerData = await sellerResponse.json();
           setSellerInfo(sellerData.data);
           console.log("seller data", sellerInfo);
 
           // Fetch agent data using apartment data
-          const agentResponse = await fetch(`https://nutlip-backend.onrender.com/api/users/${apartmentData.data.userId}`);
+          const agentResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/users/${apartmentData.data.userId}`);
           const agentData = await agentResponse.json();
           setAgent(agentData.data);
           console.log("agent data", agentData.data);
@@ -99,20 +131,26 @@ const Process = () => {
     };
 
     fetchData();
-  }, [id, userInformation?.user?.id, transactionStage, transactionContent, sellerInfo]);
+  }, [id, userInformation?.user?.id, transactionStage, sellerInfo]);
 
   useEffect(() => {
     setProgress(Math.floor((currentStage / 10) * 100));
   }, [currentStage]);
 
   const handleNextClick = () => {
-    if (currentStage < transactionStage) {
+    // Allow moving forward if the currentStage is less than the last stage
+    if (currentStage < transactionNames.length - 1 && currentStage < transactionStage) {
       setCurrentStage(currentStage + 1);
     } else {
-      console.log('Cannot progress to the next stage until the current Transaction stage is completed.');
+      console.log("Cannot progress to the next stage until the current Transaction stage is completed.");
     }
   };
 
+  const handleBackClick = () => {
+    if (currentStage > 0) { // Allow going back to 0
+      setCurrentStage((prev) => prev - 1);
+    }
+  };
 
   console.log('WHAT USERTYPE', userType)
 
@@ -168,14 +206,34 @@ const Process = () => {
             <button>
               Completed: <span>Offer Accepted</span>
             </button>
-            <button onClick={handleNextClick}>
-              Next : <span>Funds Verification</span>
+
+            <button onClick={handleNextClick} disabled={currentStage >= transactionNames.length - 1}>
+              Next : <span>{getNextStageName(currentStage)}</span>
             </button>
+
           </div>
         )}
       </div>
     </div>
   );
+};
+
+
+const getNextStageName = (currentStage) => {
+  const stages = [
+    "Funds Verification",
+    "Add Conveyancer",
+    "Research Survey",
+    "Contract",
+    "Nutlip Commission",
+    "Deposit",
+    "DOC",
+    "Full Payment",
+    "Transfer Title",
+    "Success"
+  ];
+
+  return stages[currentStage] || "Unknown";
 };
 
 const Success = () => {

@@ -62,7 +62,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
         e.preventDefault();
         console.log("BANK DETAILS", form);
         try {
-            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
+            const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
             console.log("File URL:", fileUrl);
             console.log("url", url);
 
-            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds90_012", {
+            const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_proofoffunds90_012", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id }) =
 
     const handleConfirm = async () => {
         try {
-            const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds90_013", {
+            const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_confirmproofoffunds90_013", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

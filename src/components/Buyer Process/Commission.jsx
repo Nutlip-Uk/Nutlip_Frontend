@@ -6,7 +6,7 @@ export const NutlipCommission = ({ id, transactionContent, userType }) => {
 
     const HandleConfirm = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_nutlippayment_07`, {
+            const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_nutlippayment_07`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

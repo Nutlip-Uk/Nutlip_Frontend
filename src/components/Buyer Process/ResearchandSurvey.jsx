@@ -12,7 +12,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
 
     const handleConfirm = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
+            const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

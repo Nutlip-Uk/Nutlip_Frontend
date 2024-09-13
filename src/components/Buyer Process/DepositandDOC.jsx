@@ -74,7 +74,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
     e.preventDefault();
     try {
       console.log("BANK DETAILS", form);
-      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
+      const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   const HandleUploadProofOfFunds = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08", {
+      const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_proofoffunds10_08", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   const handleConfirm = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds_09", {
+      const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_confirmproofoffunds_09", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -426,7 +426,7 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
     console.log(date);
 
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_setdate_010`, {
+      const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_setdate_010`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -453,7 +453,7 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
     console.log(id);
     console.log(transaction.offerId);
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_confirmdate_011`, {
+      const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_confirmdate_011`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

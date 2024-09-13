@@ -47,17 +47,17 @@ const Transactions = () => {
 
       const fetchData = async () => {
         try {
-          const apartmentsResponse = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getuserapartments/${userId}`);
+          const apartmentsResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/apartments/getuserapartments/${userId}`);
           const apartmentsData = await apartmentsResponse.json();
           setApartments(apartmentsData.data);
 
 
-          const offersReceivedResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getoffersreceived/${userId}`);
+          const offersReceivedResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/offer/getoffersreceived/${userId}`);
           const offersReceivedData = await offersReceivedResponse.json();
           setOffersReceived(offersReceivedData);
           console.log("offersReceivedData:", offersReceivedData);
 
-          const offersSentResponse = await fetch(`https://nutlip-backend.onrender.com/api/offer/getofferssent/${userId}`);
+          const offersSentResponse = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/offer/getofferssent/${userId}`);
           const offersSentData = await offersSentResponse.json();
           setSentOffers(offersSentData);
           console.log("offersSentData:", offersSentData);
@@ -75,7 +75,7 @@ const Transactions = () => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
         try {
-          const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
+          const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
           const data = await response.json();
           setPropertyOffers(data.offers);
           console.log("propertyOffers:", data.offers);
@@ -296,6 +296,8 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
     handleOffer(apartmentId, offerId, userId, status);
   };
 
+
+
   useEffect(() => {
     let timer;
     if (offerAlreadyAccepted) {
@@ -323,26 +325,35 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
 
   const handleOffer = async (apartmentId, offerId, userId, status) => {
     console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
+
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
+      const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: status }),
+        body: JSON.stringify({ status }),
 
       });
       const data = await response.json();
       console.log("data:", data);
 
       if (data.message === 'Property already has an accepted offer') {
-        setOfferAlreadyAccepted(data.message)
+        setOfferAlreadyAccepted(data.message);
+
+        // Revert the status change if there's an error or conflict
+        updatedOffers[index].status = 'pending'; // or revert to the previous status
+        setPropertyOffers(updatedOffers);
       }
     } catch (error) {
       console.error("Error updating offer status:", error);
+      // Revert the status if an error occurs
+      updatedOffers[index].status = 'pending'; // or revert to the previous status
+      setPropertyOffers(updatedOffers);
     }
-  };
 
+
+  }
   return (
     <>
       <div className={styles.NavContainer}>
@@ -536,7 +547,7 @@ const CompletedTransactions = ({ handleChange }) => {
     const fetchCompletedTransactions = async () => {
       if (userId) {
         const res = await fetch(
-          `https://nutlip-backend.onrender.com/api/transaction/getCompletedTransactionForAUser/${userId}`
+          `https://nutlip-backend-wdsi.onrender.com/api/transaction/getCompletedTransactionForAUser/${userId}`
         );
         const data = await res.json();
         console.log("Completed Transaction", data);
@@ -576,7 +587,7 @@ const CancelledTransactions = ({ handleChange }) => {
     const fetchCancelledtransactions = async () => {
       if (userId) {
         const res = await fetch(
-          `https://nutlip-backend.onrender.com/api/transaction/getCanceledTransactionForAUser/${userId}`
+          `https://nutlip-backend-wdsi.onrender.com/api/transaction/getCanceledTransactionForAUser/${userId}`
         );
         const data = await res.json();
         console.log("Cancelled Transaction", data);
