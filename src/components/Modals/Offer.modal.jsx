@@ -25,18 +25,14 @@ const OfferModal = (props) => {
   const userInformation = JSON.parse(localStorage.getItem("userInformation"));
 
   useEffect(() => {
-
-    console.log("userInformation:", userInformation);
-
-    if (userInformation && userInformation.user) {
-      // Extract the userId from the userInformation object
+    if (!userInformation || !userInformation.user) {
+      console.log("userInformation is not available or invalid:", userInformation);
+    } else {
+      console.log("userInformation is available:", userInformation);
       const userId = userInformation.user.id;
-      console.log("userId:", userId);
-      if (userId) {
-        setForm((prevForm) => ({ ...prevForm, userId }));
-      }
+      setForm((prevForm) => ({ ...prevForm, userId }));
     }
-  }, []);
+  }, [userInformation]);
 
   console.log("Props data", props.data.Minimum_offer);
   const [form, setForm] = useState({
@@ -83,17 +79,14 @@ const OfferModal = (props) => {
   };
 
 
+  const isLoggedIn = userInformation && userInformation.user;
 
   return (
     <section className={styles.Section}>
       <div className={styles.container}>
         <div className={`${styles.inner_container} py-5`} >
-          <section
-            className={offer === "offer" ? styles.header : styles.header_two}
-
-
-          >
-            {userInformation?.user ? <h2 className="text-2xl font-bold">Make an Offer</h2> : (<p className="text-2xl font-bold opacity-0">.</p>)}
+          <section className={offer === "offer" ? styles.header : styles.header_two}>
+            {isLoggedIn ? <h2 className="text-2xl font-bold">Make an Offer</h2> : (<p className="text-2xl font-bold opacity-0">.</p>)}
             <button onClick={() => props.handleShow()}>
               <Image
                 src="/images/vector-close.svg"
@@ -104,8 +97,7 @@ const OfferModal = (props) => {
             </button>
           </section>
           {
-
-            userInformation?.user && offer === "offer" ? (
+            isLoggedIn && offer === "offer" ? (
               <Offer
                 form={form}
                 handleChange={handleChange}
@@ -115,14 +107,14 @@ const OfferModal = (props) => {
                 userInformation={userInformation}
               />
             ) : (
-              <div className="py-5 w-full flex items-center flex-col h-80 bg-slate-50">
-                <div className="w-11/12  flex items-center h-full flex-col justify-center gap-y-8">
-                  <p className="text-4xl capitalize font-normal">Please Login to make an Offer</p>
-                  <Link className="text-blue-500 text-xl" href={"/register?option=signup"}>{"Login"}</Link>
-                </div>
-              </div>
-
-
+              <>
+              </>
+              // <div className="py-5 w-full flex items-center flex-col h-80 bg-slate-50">
+              //   <div className="w-11/12  flex items-center h-full flex-col justify-center gap-y-8">
+              //     <p className="text-4xl capitalize font-normal">Please Login to make an Offer</p>
+              //     <Link className="text-blue-500 text-xl" href={"/register?option=signup"}>{"Login"}</Link>
+              //   </div>
+              // </div>
             )
           }
           {offer === "success" && <Success />}
@@ -224,7 +216,7 @@ const Offer = ({ change, form, handleChange, data, userInformation, handleShow }
     }
 
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/offer/createoffer', {
+      const response = await fetch('https://nutlip-backend-wdsi.onrender.com/api/offer/createoffer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -345,7 +337,7 @@ const Offer = ({ change, form, handleChange, data, userInformation, handleShow }
                 <option value="" disabled selected>
                   Select (Pay with cash, Mortgage, Crypto)
                 </option>
-                <option name="CreditCard" value="CreditCard">Credit Card</option>
+                <option name="Cash" value="Cash">Cash</option>
                 <option name="mortgage" value="mortgage">Mortgage</option>
                 {/* <option name="crypto" value="crypto">Crypto</option> */}
               </select>
@@ -445,8 +437,8 @@ export const Success = (props) => {
       </p>
 
       <div className={styles.SuccessButtonContainer}>
-        <button>Need Conveyancer?</button>
-        <button onClick={() => props.change()}>Go Back</button>
+        <Link href="/conveyancer">Need Conveyancer?</Link>
+        <Link href={"/buy/search"}>Go Back</Link>
       </div>
     </div>
   );
