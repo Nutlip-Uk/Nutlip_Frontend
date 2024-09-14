@@ -222,7 +222,7 @@ const PostProperty = () => {
 
     // handleUpload();
     try {
-      const response = await fetch("https://nutlip-backend-wdsi.onrender.com/api/apartments/create-apartment", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/apartments/create-apartment", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
