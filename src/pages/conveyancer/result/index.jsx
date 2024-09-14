@@ -11,7 +11,7 @@ export default function Result() {
 
     const handleGetConveyancer = async () => {
 
-      const response = await fetch('https://nutlip-backend-wdsi.onrender.com/api/conveyancer/getallconveyancer', {
+      const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/conveyancer/getallconveyancer', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
