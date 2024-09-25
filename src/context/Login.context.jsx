@@ -5,6 +5,7 @@ export const LoginContext = createContext();
 const LoginProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
   const router = useRouter();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const handleLogin = async (formData) => {
     // Login logic using fetch (replace with your API call)
@@ -15,7 +16,11 @@ const LoginProvider = ({ children }) => {
     });
     return response; // Return the response object for further processing (optional)
     GetUser();
+
   };
+
+
+
   const GetUser = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'GET',
@@ -27,6 +32,8 @@ const LoginProvider = ({ children }) => {
     if (response.ok) {
       console.log(data.newUser);
       console.log(data)
+      const loggedin = localStorage.setItem("Loggedin", true);
+      setIsUserLoggedIn(loggedin);
     }
     return response;
   };
@@ -85,7 +92,7 @@ const LoginProvider = ({ children }) => {
 
 
   return (
-    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation, handleLogout, handleWelcome }}>
+    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation, handleLogout, handleWelcome, isUserLoggedIn }}>
       {children}
     </LoginContext.Provider>
   );
