@@ -344,11 +344,16 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               onChange={handleChange}
               defaultValue="select"
             >
-              <option value="co-working_space">Co-working space</option>
-              <option value="flat/apartment">flat/apartment</option>
-              <option value="House">House</option>
-              <option value="land">Land</option>
-              <option value="all">all</option>
+              <option value="select">Select</option>
+              <option value="Flat">Flat</option>
+              <option value="Detached">Detached</option>
+              <option value="MidTerrace">Mid-Terrace</option>
+              <option value="EndofTerrace">End-of-Terrace</option>
+              <option value="Terrace">Terrace</option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Cottage">Cottage</option>
+              <option value="Townhouse">Town house</option>
+              <option value="Mansion">Mansion</option>
 
             </select>
           </label>
