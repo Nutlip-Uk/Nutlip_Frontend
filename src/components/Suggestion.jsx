@@ -1,10 +1,12 @@
+import React from 'react';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-import styles from "../styles/suggestion.module.css"
-export const PlacesAutocomplete = ({ placeholder }) => {
+import styles from "../styles/suggestion.module.css";
+
+export const Autocomplete = ({ value: inputValue, onChange, name, placeholder, ...props }) => {
   const {
     ready,
     value,
@@ -14,35 +16,41 @@ export const PlacesAutocomplete = ({ placeholder }) => {
   } = usePlacesAutocomplete({
     callbackName: `intimap`,
     requestOptions: {
-      /* Define search scope here */
+      // Define search scope here if needed
     },
     debounce: 300,
   });
+
   const ref = useOnclickOutside(() => {
-    // When the user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     clearSuggestions();
   });
 
   const handleInput = (e) => {
-    // Update the keyword of the input element
-    setValue(e.target.value);
+    const inputVal = e.target.value;
+    setValue(inputVal);  // Update internal state
+    if (onChange) {
+      onChange(e);  // Notify parent about the input change
+    }
   };
 
-  const handleSelect =
-    ({ description }) =>
-      () => {
-        // When the user selects a place, we can replace the keyword without request data from API
-        // by setting the second parameter to "false"
-        setValue(description, false);
-        clearSuggestions();
+  const handleSelect = (suggestion) => {
+    const selectedValue = suggestion.description;
 
-        // Get latitude and longitude via utility functions
-        getGeocode({ address: description }).then((results) => {
-          const { lat, lng } = getLatLng(results[0]);
-          console.log("📍 Coordinates: ", { lat, lng });
-        });
-      };
+    // Set the selected value in the internal state and notify parent
+    setValue(selectedValue, false);  // Prevent further autocomplete requests
+    clearSuggestions();  // Close the suggestions dropdown
+
+    // Geocode to get lat and lng (optional step)
+    getGeocode({ address: selectedValue }).then((results) => {
+      const { lat, lng } = getLatLng(results[0]);
+      console.log("📍 Coordinates: ", { lat, lng });
+    });
+
+    // Notify the parent to update the form
+    if (onChange) {
+      onChange({ target: { name, value: selectedValue } });  // Include name and value for form updates
+    }
+  };
 
   const renderSuggestions = () =>
     data.map((suggestion) => {
@@ -52,28 +60,31 @@ export const PlacesAutocomplete = ({ placeholder }) => {
       } = suggestion;
 
       return (
-        <>
-          <li
-            key={place_id}
-            className={styles.suggestionList}
-            onClick={handleSelect(suggestion)}
-          >
-            <strong>{main_text}</strong> <small>{secondary_text}</small>
-          </li>
-        </>
+        <li
+          key={place_id}
+          className={`text-lg text-neutral-700`}
+          onClick={() => handleSelect(suggestion)}
+        >
+          <strong className="font-medium">{main_text}</strong> <small className="italic text-neutral-500 text-xs">{secondary_text}</small>
+        </li>
       );
     });
 
   return (
     <div ref={ref} className={styles.inputContainer}>
       <input
-        value={value}
-        onChange={handleInput}
+        name={name}  // Ensure the name is passed to the input field
+        value={inputValue}  // Controlled input
+        onChange={handleInput}  // Handle input and pass changes to parent
         disabled={!ready}
-        placeHolder={placeholder}
+        placeholder={placeholder}
+        {...props}  // Spread other props if any
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {status === "OK" && <ul className={styles.suggestionBox}>{renderSuggestions()}</ul>}
+      {status === "OK" && (
+        <ul className={`absolute bg-white w-full z-10 shadow-xl p-4 rounded-lg  border border-neutral-200 flex flex-col gap-2`}>
+          {renderSuggestions()}
+        </ul>
+      )}
     </div>
   );
 };

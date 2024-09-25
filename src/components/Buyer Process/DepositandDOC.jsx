@@ -508,7 +508,7 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
     <>
       <div className={styles.offer}>
         <section id={styles.text}>
-          <h2 className="text-xl font-semibold">Date for Conclusion</h2>
+          <h2 className="text-xl font-semibold">Date for Completion</h2>
           <p>
             The date for completion agreed upon by all participants in this
             transaction for the sale/purchase of the real estate property is shown
