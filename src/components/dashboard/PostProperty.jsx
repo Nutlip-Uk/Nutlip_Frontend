@@ -188,7 +188,7 @@ const PostProperty = () => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: value,
+      [name]: value,  // Update the form field with the correct name
     }));
     console.log(`Form field changed: ${name} = ${value}`);
   };
@@ -344,16 +344,11 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               onChange={handleChange}
               defaultValue="select"
             >
-              <option value="select">Select</option>
-              <option value="Flat">Flat</option>
-              <option value="Detached">Detached</option>
-              <option value="MidTerrace">Mid-Terrace</option>
-              <option value="EndofTerrace">End-of-Terrace</option>
-              <option value="Terrace">Terrace</option>
-              <option value="Bungalow">Bungalow</option>
-              <option value="Cottage">Cottage</option>
-              <option value="Townhouse">Town house</option>
-              <option value="Mansion">Mansion</option>
+              <option value="co-working_space">Co-working space</option>
+              <option value="flat/apartment">flat/apartment</option>
+              <option value="House">House</option>
+              <option value="land">Land</option>
+              <option value="all">all</option>
 
             </select>
           </label>
@@ -976,7 +971,7 @@ const MultiInput = ({ form, setForm }) => {
 
 
 
-export const Autocomplete = ({ value: inputValue, onChange, placeholder, ...props }) => {
+export const Autocomplete = ({ value: inputValue, onChange, name, placeholder, ...props }) => {
   const {
     ready,
     value,
@@ -986,35 +981,41 @@ export const Autocomplete = ({ value: inputValue, onChange, placeholder, ...prop
   } = usePlacesAutocomplete({
     callbackName: `intimap`,
     requestOptions: {
-      /* Define search scope here */
+      // Define search scope here if needed
     },
     debounce: 300,
   });
+
   const ref = useOnclickOutside(() => {
-    // When the user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     clearSuggestions();
   });
 
   const handleInput = (e) => {
-    // Update the keyword of the input element
-    setValue(e.target.value);
+    const inputVal = e.target.value;
+    setValue(inputVal);  // Update internal state
+    if (onChange) {
+      onChange(e);  // Notify parent about the input change
+    }
   };
 
-  const handleSelect =
-    ({ description }) =>
-      () => {
-        // When the user selects a place, we can replace the keyword without request data from API
-        // by setting the second parameter to "false"
-        setValue(description, false);
-        clearSuggestions();
+  const handleSelect = (suggestion) => {
+    const selectedValue = suggestion.description;
 
-        // Get latitude and longitude via utility functions
-        getGeocode({ address: description }).then((results) => {
-          const { lat, lng } = getLatLng(results[0]);
-          console.log("📍 Coordinates: ", { lat, lng });
-        });
-      };
+    // Set the selected value in the internal state and notify parent
+    setValue(selectedValue, false);  // Prevent further autocomplete requests
+    clearSuggestions();  // Close the suggestions dropdown
+
+    // Geocode to get lat and lng (optional step)
+    getGeocode({ address: selectedValue }).then((results) => {
+      const { lat, lng } = getLatLng(results[0]);
+      console.log("📍 Coordinates: ", { lat, lng });
+    });
+
+    // Notify the parent to update the form
+    if (onChange) {
+      onChange({ target: { name, value: selectedValue } });  // Include name and value for form updates
+    }
+  };
 
   const renderSuggestions = () =>
     data.map((suggestion) => {
@@ -1024,31 +1025,31 @@ export const Autocomplete = ({ value: inputValue, onChange, placeholder, ...prop
       } = suggestion;
 
       return (
-        <>
-          <li
-            key={place_id}
-            className={styles.suggestionList}
-            onClick={handleSelect(suggestion)}
-          >
-            <strong>{main_text}</strong> <small>{secondary_text}</small>
-          </li>
-        </>
+        <li
+          key={place_id}
+          className={styles.suggestionList}
+          onClick={() => handleSelect(suggestion)}
+        >
+          <strong>{main_text}</strong> <small>{secondary_text}</small>
+        </li>
       );
     });
 
   return (
     <div ref={ref} className={styles.inputContainer}>
       <input
-        value={inputValue}
-        onChange={(e) => {
-          handleInput(e);
-          onChange(e);
-        }}
+        name={name}  // Ensure the name is passed to the input field
+        value={inputValue}  // Controlled input
+        onChange={handleInput}  // Handle input and pass changes to parent
         disabled={!ready}
         placeholder={placeholder}
-        {...props}
+        {...props}  // Spread other props if any
       />
-      {status === "OK" && <ul className={styles.suggestionBox}>{renderSuggestions()}</ul>}
+      {status === "OK" && (
+        <ul className={styles.suggestionBox}>
+          {renderSuggestions()}
+        </ul>
+      )}
     </div>
   );
 };
