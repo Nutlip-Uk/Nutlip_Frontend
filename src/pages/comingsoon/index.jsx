@@ -1,5 +1,5 @@
-import styles  from "../../styles/coming.module.css"
-import Link  from 'next/link';
+import styles from "../../styles/coming.module.css"
+import Link from 'next/link';
 export default function ComingSoon() {
   return (
     <div className={styles.Container}>

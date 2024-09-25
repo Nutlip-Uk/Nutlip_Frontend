@@ -6,10 +6,13 @@ import { ImageContext } from '../../context/ImageContext.context';
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
 
-export const Funds = ({ userType, id, transactionContent }) => {
+
+export const Funds = ({ userType, id, transactionContent, isLoading, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
+
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -41,7 +44,7 @@ export const Funds = ({ userType, id, transactionContent }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/transaction/transaction_uploadproofoffunds_01', {
+      const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +69,7 @@ export const Funds = ({ userType, id, transactionContent }) => {
 
   const handleConfirm = async () => {
     try {
-      const response = await fetch('https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds_02', {
+      const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -88,54 +91,102 @@ export const Funds = ({ userType, id, transactionContent }) => {
     }
   };
 
+
+  const handleCheck = () => {
+
+  }
   return (
-    <div className={styles.offer}>
-      <section>
-        <h2>Funds Verification</h2>
-        {userType === "property_seeker" && (
-          <p>Thank you for showing interest in this real estate property. Please upload proof of funds or a mortgage in principle document.</p>
-        )}
-        {userType === "Real_estate_agent" && (
-          <p>The buyer has provided Proof of Funds, or Mortgage in Principle document. Please view the attached document and confirm receipt.</p>
-        )}
-      </section>
-
-      {userType === "property_seeker" && (
-        <div className={styles.fileContainer}>
-          <section id={styles.file_upload}>
-            <label>
-              {fileUrl || transactionContent.proof_of_funds ? (
-                <img src={fileUrl || transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />
-              ) : (
-                'Upload Document'
-              )}
-              <input required type="file" onChange={handleImageChange} disabled={uploading} />
-            </label>
-            {uploading && <p>Uploading...</p>}
-          </section>
-          {!transactionContent?.proof_of_funds && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
-          {transactionContent?.proof_of_funds && <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Uploaded</button>}
-        </div>
-      )}
-
-      {userType === "Real_estate_agent" && (
-        <div className={styles.fileContainer}>
-          <section id={styles.file_upload}>
-            <label>
-              {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
-              {transactionContent?.proof_of_funds && (
-                <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
-              )}
-            </label>
-          </section>
-          {!transactionContent?.confirm_proof_of_funds ? (
-            <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>
-          ) : (
-            <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+    <>
+      <div className={styles.offer}>
+        <section>
+          <h2 className='text-2xl font-bold'>Funds Verification</h2>
+          {userType === "property_seeker" && (
+            <p>Thank you for showing interest in this real estate property. Please upload proof of funds or a mortgage in principle document.</p>
           )}
-        </div>
-      )}
-    </div>
+          {userType === "Real_estate_agent" && (
+            <p>The buyer has provided Proof of Funds, or Mortgage in Principle document. Please view the attached document and confirm receipt.</p>
+          )}
+        </section>
+
+        {userType === "property_seeker" && (
+          <div className={styles.fileContainer}>
+            <section id={styles.file_upload}>
+              <label>
+                {fileUrl || transactionContent.proof_of_funds ? (
+                  <img src={fileUrl || transactionContent.proof_of_funds} width={250} height={200} alt="Uploaded document" />
+                ) : (
+                  'Upload Document'
+                )}
+                <input required type="file" onChange={handleImageChange} disabled={uploading} />
+              </label>
+              {uploading && <p>Uploading...</p>}
+            </section>
+            {!transactionContent?.proof_of_funds && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
+            {transactionContent?.proof_of_funds && <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Uploaded</button>}
+          </div>
+        )}
+
+        {userType === "Real_estate_agent" && (
+          <div className={styles.fileContainer}>
+            <section id={styles.file_upload} className='relative rounded-e-lg'>
+              <label>
+                {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
+                {transactionContent?.proof_of_funds && (
+
+                  <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
+
+                )}
+              </label>
+            </section>
+            {!transactionContent?.confirm_proof_of_funds ? (
+              <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>
+            ) : (
+              <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+            )}
+          </div>
+        )}
+
+
+        {
+          userType === "conveyancer_seller" && (
+            <div>
+              Conveyancer Seller
+
+              <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+            </div>
+          )
+        }
+        {
+          userType === "conveyancer_buyer" && (
+            <div>
+              Conveyancer Buyer
+
+              <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+            </div>
+          )
+        }
+      </div>
+
+      <div className="flex gap-4 justify-between w-full" id="page_nav">
+        <button
+          onClick={handleBackClick}
+          disabled={currentStage === 0}
+          className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }`}
+        >
+          Back
+        </button>
+
+        <button
+          onClick={handleNextClick}
+          disabled={!transactionContent?.confirm_proof_of_funds}
+          className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }  ${transactionContent?.confirm_proof_of_funds ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
+        >
+          Next : <span>{"Add Conveyancer"}</span>
+        </button>
+      </div>
+    </>
   );
 };
 

@@ -3,33 +3,44 @@ import { useState, useEffect } from "react";
 import Layout from '../components/Layout'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { SessionProvider } from "next-auth/react"
 import { useRouter } from 'next/router'
+
 export default function App({ Component, pageProps }) {
   const { session, ...otherPageProps } = pageProps;
-
-  const [dotco, setDotco]=useState(true);
-
-  const router = useRouter()
+  const router = useRouter();
+  const [userInformation, setUserInformation] = useState(null);
+  const [userType, setUserType] = useState(null);
 
   useEffect(() => {
-    // Check if we're on the /transaction page and dotco is true
-    if (dotco && router.pathname ==="/mortgages/result" || router.pathname==="/conveyancer/result" ) {
-      // Redirect to the root URL
-      router.replace('/comingsoon');
+    // Access localStorage here to avoid SSR issues
+    setUserInformation(localStorage.getItem('userInformation'));
+    setUserType(localStorage.getItem('userType'));
+  }, []);
+
+  useEffect(() => {
+    if (!router.isReady || userInformation === null || userType === null) return;
+
+    const protectedRoutes = {
+      '/dashboard': () => userType === 'Real_estate_agent',
+      '/mortgages/result': () => false, // Always redirect
+    };
+
+    const currentRoute = router.pathname;
+    const isProtected = protectedRoutes[currentRoute];
+
+    if (isProtected) {
+      const hasAccess = isProtected();
+      if (!hasAccess || userType === null || userInformation === null) {
+        console.log(`Redirecting from ${currentRoute} to /accessdenied`);
+        router.replace('/accessdenied');
+      }
     }
-  }, [dotco, router.pathname]);
- 
+  }, [router.isReady, userInformation, userType, router.pathname, router]);
 
   return (
-    // <SessionProvider session={session}>
-    
-      <Layout>
-       
-        <Component {...otherPageProps} />
-        
-
-        <ToastContainer
+    <Layout>
+      <Component {...otherPageProps} />
+      <ToastContainer
         position='top-right'
         autoClose={5000}
         hideProgressBar={false}
@@ -40,9 +51,7 @@ export default function App({ Component, pageProps }) {
         draggable
         pauseOnHover
         theme='light'
-        />
-      </Layout>
-    
-   
+      />
+    </Layout>
   )
 }

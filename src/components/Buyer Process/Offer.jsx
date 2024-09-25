@@ -3,7 +3,10 @@ import styles from "../../styles/BuyerProcess/offerAccepted.module.css"
 import Button from '../styled components/Button'
 import { useEffect, useState } from 'react';
 
-export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
+import CopyButton from '../CopyButton';
+
+
+export const Offer = ({ userType, transaction, transactionContent, apartment, id, sellerInfo, isLoading, agent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [viewProperty, setViewProperty] = useState(false);
 
 
@@ -12,7 +15,16 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
     }
 
 
-    return (
+    function formatUserId(userId) {
+        const firstPart = userId?.slice(0, 4);
+        const lastPart = userId?.slice(-4);
+        return `${firstPart}....${lastPart}`;
+    }
+
+
+
+    return (<>
+
         <div className={styles.offer}>
             <section className={styles.text}>
                 <h2>Offer Accepted</h2>
@@ -21,9 +33,12 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
             </section>
 
             <section className={styles.transaction}>
-                <div className={styles.transactionId}>
+                <div className={styles.transactionId} >
                     <p>Transaction ID</p>
-                    <strong style={{ textTransform: "uppercase" }}>{id && id.slice(0, 8)}</strong>
+
+                    <strong style={{ textTransform: "uppercase" }}>{id && id?.slice(0, 8)}</strong>
+
+
                 </div>
 
                 {viewProperty ? null : (
@@ -31,15 +46,23 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
                         <hr />
                         <div className={styles.transactionPrice}>
                             <p>Actual Price</p>
+
                             <strong>£ {apartment?.Amount}</strong>
+
+
                         </div>
                         <hr />
+
+
                         <div className={styles.facilities} >
 
-                            {apartment?.bedrooms && (<span>
-                                <Image src="/images/mdi-bedroom-outline.svg" width={20} height={20} alt="bedroom-thumbnail" />
-                                {apartment?.bedrooms}
-                            </span>)}
+                            {apartment?.bedrooms && (
+                                <span>
+                                    <Image src="/images/mdi-bedroom-outline.svg" width={20} height={20} alt="bedroom-thumbnail" />
+                                    {apartment?.bedrooms}
+                                </span>
+
+                            )}
 
                             {apartment?.bathrooms && (
                                 <span>
@@ -65,10 +88,17 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
                                 </span>
                             )}
                         </div>
+
+
                         <hr />
                         <div className={styles.transactionDesc}>
+
                             <p><strong>{apartment?.Title && apartment?.Title.slice(0, 10)}...</strong></p>
+
+
+
                             <p>{apartment?.address && apartment?.address.slice(0, 10)}...</p>
+
                         </div>
                         <hr />
                     </>
@@ -87,6 +117,9 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
 
 
                             <img className={styles.image} src={apartment.images[0]} alt="" />
+
+
+
 
                             <div className={styles.propertyFeatures}>
                                 {apartment?.images && apartment.images.length > 0 && (
@@ -120,18 +153,25 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
                                     </li>
                                 )}
                             </div>
+
+
                         </div>
 
                         <div className={styles.propertyInfo}>
                             <div className={styles.propertyDescription}>
+
                                 <p>{apartment?.description}</p>
+
+
                             </div>
 
                             <div className={styles.keyFeatures}>
                                 <p><strong>Key Features</strong></p>
 
                                 <ul>
+
                                     <li>{apartment?.Add_features}</li>
+
                                 </ul>
 
                                 <p className={styles.readMore}>Read More</p>
@@ -147,34 +187,73 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo }) => {
                 <div>
                     <h4>Buyer details</h4>
                     <div className={styles.detailsDesc}>
+
                         <p style={{ textTransform: "capitalize" }}>{`Name : ${transaction?.offer?.FullName}`}</p>
+
+
+
                         <p>{`Location: ${transaction?.offer?.Address}`}</p>
+
+
                     </div>
                 </div>
                 <div>
                     <h4>Agent details</h4>
                     <div className={styles.detailsDesc}>
-                        <p style={{ textTransform: "capitalize" }}>Name: {sellerInfo.username}</p>
-                        <p>Agent ID: {sellerInfo?.id?.slice(0, 6)}</p>
+
+                        <p style={{ textTransform: "capitalize" }}>Name: {agent.username}</p>
+
+
+
+                        <p>Agent ID: {formatUserId(agent?._id)} <CopyButton textToCopy={agent?._id} /> </p>
+
+
+
                     </div>
                 </div>
 
                 <div>
                     <h4>Accepted Offer</h4>
+
                     <p className={styles.DetailsPrice}><strong>£ {transaction?.offer?.PriceOffer}</strong></p>
+
+
                 </div>
 
                 <div>
                     <h4>Nutlip commission</h4>
+
                     <p className={styles.DetailsPrice}><strong>£ {transaction?.offer?.NutlipCommission}</strong></p>
+
+
                 </div>
 
                 <div>
-                    <h4>Seller recieves</h4>
+                    <h4>Seller receives</h4>
+
                     <p className={styles.DetailsPrice}><strong>£ {transaction?.offer?.receivedPayment}</strong></p>
+
+
                 </div>
 
             </section>
         </div>
+
+
+
+
+        <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <button
+                onClick={handleNextClick}
+
+                disabled={userType === "Real_estate_agent" ? !transactionContent?.proof_of_funds : currentStage >= transactionNames?.length - 1}
+                className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                    } ${!transactionContent?.proof_of_funds && userType === "Real_estate_agent" ? 'cursor-not-allowed opacity-50 text-gray-500 border-gray-500' : 'cursor-pointer'}`}
+            >
+                Next : <span>{"Fund's Verification"}</span>
+            </button>
+        </div >
+
+    </>
     )
 }

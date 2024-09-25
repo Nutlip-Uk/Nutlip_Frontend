@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion"
 import HeroImage from "../../../public/heroimageTablet.png"
-
+import Router, { useRouter } from "next/router";
 const Hero = () => {
   const [searchType, setSearchType] = useState("Buy");
 
@@ -174,6 +174,9 @@ const Mortgages = () => {
 };
 
 const Conveyancer = () => {
+
+  const router = useRouter();
+
   return (
     <div className={mort_con.container}>
       <div className={mort_con.inputContainer}>

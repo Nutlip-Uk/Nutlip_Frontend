@@ -1,6 +1,7 @@
 import styles from "../../styles/dashboard/account.module.css";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useContext, useRef } from "react";
+import { UserTypeContext } from "../../context/UserType.context";
 
 const Account = () => {
   const router = useRouter();
@@ -101,6 +102,7 @@ const Profile = ({ handleChange, next, back, count }) => {
 };
 
 const ProfileFormOne = ({ handleChange, next }) => {
+  const { userInfo } = useContext(UserTypeContext)
   return (
     <>
       <div className={styles.NavContainer}>
@@ -155,7 +157,7 @@ const ProfileFormOne = ({ handleChange, next }) => {
           <div className={styles.inputContainer}>
             <label>
               Name
-              <input type="text" placeholder="Pamela Keane" />
+              <input type="text" placeholder="Pamela Keane" value={userInfo.username} />
             </label>
             <label>
               Company name
