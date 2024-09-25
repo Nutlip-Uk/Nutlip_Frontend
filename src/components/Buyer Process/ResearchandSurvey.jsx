@@ -107,7 +107,10 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent, 
                             >Confirm Research</button> : <button style={{ background: "green" }} className={styles.ResearchButton}>Research Confirmed</button>}
                         </div>
                     </section>
-                </div>}
+                </div>
+            }
+
+
             {userType === "conveyancer_seller" &&
                 <div className={styles.container}>
                     <section className={styles.text}>
