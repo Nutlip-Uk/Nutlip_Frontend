@@ -11,7 +11,7 @@ import Browse from "../../components/buy/Browse";
 import Roadmap from "../../components/buy/Roadmap";
 import Road from "../../components/buy/Road";
 import Howitworks from "../../components/buy/Howitworks";
-import { PlacesAutocomplete } from "../../components/Suggestion";
+import { Autocomplete } from "../../components/Suggestion";
 
 const Buy = (props) => {
   return (
@@ -56,7 +56,7 @@ const HeroComponent = () => {
             placeholder="Where do you want to Buy? e.g. Liverpool or L11"
           /> */}
 
-          <PlacesAutocomplete placeholder={"Where are you buying from ?"} />
+          <Autocomplete placeholder={"Where are you buying from ?"} />
         </div>
 
         <div className={styles.SelectContainer}>
