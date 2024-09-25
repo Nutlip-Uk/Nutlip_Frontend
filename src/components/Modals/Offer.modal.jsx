@@ -9,6 +9,8 @@ import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
 import { ModalDialog } from "@mui/joy";
+import { LoginContext } from "../../context/Login.context";
+import { UserTypeContext } from "../../context/UserType.context";
 
 
 // NOTE: THIS MODAL IS TO BE RE FACTORED
@@ -34,7 +36,6 @@ const OfferModal = (props) => {
     }
   }, [userInformation]);
 
-  console.log("Props data", props.data.Minimum_offer);
   const [form, setForm] = useState({
     apartmentId: props?.data._id,
     sellerId: props?.data.userId,
@@ -78,6 +79,8 @@ const OfferModal = (props) => {
     }
   };
 
+  const { isUserLoggedIn } = useContext(LoginContext)
+  const { userType } = useContext(UserTypeContext)
 
   const isLoggedIn = userInformation && userInformation.user;
 
@@ -86,7 +89,7 @@ const OfferModal = (props) => {
       <div className={styles.container}>
         <div className={`${styles.inner_container} py-5`} >
           <section className={offer === "offer" ? styles.header : styles.header_two}>
-            {isLoggedIn ? <h2 className="text-2xl font-bold">Make an Offer</h2> : (<p className="text-2xl font-bold opacity-0">.</p>)}
+            {userType == "property_seeker" ? <h2 className="text-2xl font-bold">Make an Offer</h2> : (<p className="text-2xl font-bold opacity-0">.</p>)}
             <button onClick={() => props.handleShow()}>
               <Image
                 src="/images/vector-close.svg"
@@ -97,24 +100,23 @@ const OfferModal = (props) => {
             </button>
           </section>
           {
-            isLoggedIn && offer === "offer" ? (
-              <Offer
-                form={form}
-                handleChange={handleChange}
-                change={success}
-                data={props.data}
-                handleShow={props.handleShow}
-                userInformation={userInformation}
-              />
-            ) : (
-              <>
-              </>
-              // <div className="py-5 w-full flex items-center flex-col h-80 bg-slate-50">
-              //   <div className="w-11/12  flex items-center h-full flex-col justify-center gap-y-8">
-              //     <p className="text-4xl capitalize font-normal">Please Login to make an Offer</p>
-              //     <Link className="text-blue-500 text-xl" href={"/register?option=signup"}>{"Login"}</Link>
-              //   </div>
-              // </div>
+            offer === "offer" && (
+              userType == "property_seeker" ? (
+                <Offer
+                  form={form}
+                  handleChange={handleChange}
+                  change={success}
+                  data={props.data}
+                  handleShow={props.handleShow}
+                  userInformation={userInformation}
+                />
+              ) : (
+                <>
+                  <div className="h-[500px] flex items-center justify-center">
+                    <p className="text-xl italic text-neutral-600">Login as a property seeker to make an offer...</p>
+                  </div>
+                </>
+              )
             )
           }
           {offer === "success" && <Success />}

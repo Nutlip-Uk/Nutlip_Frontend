@@ -313,7 +313,7 @@ export const DetailsContent = (props) => {
 
         <div className={styles.price}>
           <h1>£{data?.Amount}</h1>
-          {userType == "property_seeker" && < button onClick={props.handleShow}>Make an offer</button>}
+          < button onClick={props.handleShow}>Make an offer</button>
         </div>
         <div className={styles.facilities}>
           <span>
