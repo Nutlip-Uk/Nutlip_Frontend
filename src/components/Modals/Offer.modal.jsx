@@ -355,8 +355,8 @@ const Offer = ({ change, form, handleChange, data, userInformation, handleShow }
                 Address
               </label>
               <Autocomplete
-                name="address"
-                value={form.address}
+                name="Address"
+                value={form.Address}
                 onChange={handleChange}
                 type="text"
                 placeholder="Address"
