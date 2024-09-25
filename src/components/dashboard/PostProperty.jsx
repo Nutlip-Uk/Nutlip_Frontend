@@ -18,15 +18,18 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
+import { useRouter } from "next/router";
 
 const PostProperty = () => {
   const count = useRef(1);
+  const router = useRouter();
   const [update, setUpdate] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileInputs, setFileInputs] = useState([
     { file: null, preview: null, status: "Upload" },
   ]);
   const [showUploadMessage, setShowUploadMessage] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     userId: "",
@@ -133,6 +136,7 @@ const PostProperty = () => {
       });
     }, 3000);
   };
+
   const handleUpload = async (index) => {
     const selectedFile = fileInputs[index].file;
     if (!selectedFile) return;
@@ -142,47 +146,36 @@ const PostProperty = () => {
     const storageRef = ref(storage, `images/${selectedFile.name}`);
     const uploadTask = uploadBytesResumable(storageRef, selectedFile);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Progress function ...
-        console.log(`Upload progress for input ${index}:`, snapshot);
-      },
-      (error) => {
-        // Error function ...
-        console.error(error);
-      },
-      async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        setUrl((prevUrls) => [...prevUrls, downloadURL]);
-        setForm((prevForm) => ({
-          ...prevForm,
-          images: [...prevForm.images, downloadURL],
-        }));
-        setFileInputs((prevFileInputs) => {
-          const newFileInputs = [...prevFileInputs];
-          newFileInputs[index].status = "Upload Successful";
-          return newFileInputs;
-        });
-        console.log(`Upload successful for input ${index}:`, downloadURL);
-      }
-    );
-
-    setShowUploadMessage((prevMessages) => {
-      const newMessages = [...prevMessages];
-      newMessages[index] = true;
-      return newMessages;
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Progress function ...
+          console.log(`Upload progress for input ${index}:`, snapshot);
+        },
+        (error) => {
+          // Error function ...
+          console.error(error);
+          reject(error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setUrl((prevUrls) => [...prevUrls, downloadURL]);
+          setForm((prevForm) => ({
+            ...prevForm,
+            images: [...prevForm.images, downloadURL],
+          }));
+          setFileInputs((prevFileInputs) => {
+            const newFileInputs = [...prevFileInputs];
+            newFileInputs[index].status = "Upload Successful";
+            return newFileInputs;
+          });
+          console.log(`Upload successful for input ${index}:`, downloadURL);
+          resolve();
+        }
+      );
     });
-
-    setTimeout(() => {
-      setShowUploadMessage((prevMessages) => {
-        const newMessages = [...prevMessages];
-        newMessages[index] = false;
-        return newMessages;
-      });
-    }, 3000);
   };
-
   const addImageInput = () => {
     setFileInputs((prevFileInputs) => [
       ...prevFileInputs,
@@ -219,8 +212,16 @@ const PostProperty = () => {
     e.preventDefault();
     console.log("userId:", form.userId); // Log the userId value
     console.log("Form data:", form);
+
+    // Call the handleUpload function for each file input
+    await Promise.all(
+      fileInputs.map((input, index) => {
+        return handleUpload(index);
+      })
+    );
+
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/apartments/create-apartment", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/apartments/create-apartment", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
@@ -231,19 +232,18 @@ const PostProperty = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Form submitted successfully:", data);
-        //todo redirect to a different page
-        //router.push("/dashboard?option=listing");
+        // todo redirect to a different page
+        router.push("/dashboard?option=listing");
         next();
       } else {
-        // Handle HTTP errors
-        console.error("Server responded with an error:", response.status);
-        console.log(error);
+        const errorData = await response.json();
+        console.log("Error:", errorData);
       }
     } catch (error) {
-      // Handle network errors or exceptions
-      console.error("Error:", error);
+      console.log("Error:", error);
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className={styles.Section}>
       {count.current === 1 && (
@@ -293,7 +293,6 @@ const PostProperty = () => {
 
 export default PostProperty;
 
-// PostPropertyDetailOne component
 const PostPropertyDetailOne = ({ next, form, handleChange }) => {
   return (
     <>
@@ -345,17 +344,16 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               onChange={handleChange}
               defaultValue="select"
             >
-              <option value="select">Select</option>
-              <option value="flat/apartment">Flat/Apartment</option>
               <option value="co-working_space">Co-working space</option>
+              <option value="flat/apartment">flat/apartment</option>
               <option value="House">House</option>
               <option value="land">Land</option>
-              <option value="commercial_property">Commercial property</option>
+              <option value="all">all</option>
+
             </select>
           </label>
-
-          <label>
-            Sub type of property
+          {/* <label>
+            Sub-type of Property
             <select
               name="subTypeOfProperty"
               value={form.subTypeOfProperty}
@@ -363,12 +361,19 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               defaultValue="select"
             >
               <option value="select">Select</option>
-              <option value="new_property">New Property</option>
-              <option value="retirement_home">Retirement Home</option>
-              <option value="auction">Auction</option>
-              <option value="shared_ownership">Shared Ownership</option>
+              <option value="Flat">Flat</option>
+              <option value="Detached">Detached</option>
+              <option value="MidTerrace">Mid-Terrace</option>
+              <option value="EndofTerrace">End-of-Terrace</option>
+              <option value="Terrace">Terrace</option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Cottage">Cottage</option>
+              <option value="Townhouse">Town house</option>
+              <option value="Mansion">Mansion</option>
             </select>
-          </label>
+          </label> */}
+
+
         </div>
 
         <div className={styles.threeColumn}>
@@ -520,7 +525,7 @@ const PostPropertyDetailTwo = ({ next, back, form, handleChange }) => {
 
           <label>
             Address
-            <input
+            <Autocomplete
               name="address"
               value={form.address}
               onChange={handleChange}
@@ -761,7 +766,7 @@ const PostPropertyDescription = ({
                     />
                   )}
                 </label>
-                {input.status === "Upload" && (
+                {/* {input.status === "Upload" && (
                   <button
                     className={styles.upload}
                     type="button"
@@ -771,10 +776,10 @@ const PostPropertyDescription = ({
                       <FaCloudUploadAlt color={"#3572EF"} size={"2.5em"} />
                     ) : null}
                   </button>
-                )}
-                {showUploadMessage[index] && (
+                )} */}
+                {/* {showUploadMessage[index] && (
                   <FaCheck color={"#40A578"} size={"1em"} />
-                )}
+                )} */}
                 <br />
               </div>
             ))}

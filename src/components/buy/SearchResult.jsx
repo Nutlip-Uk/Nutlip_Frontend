@@ -3,21 +3,25 @@ import styles from "../../styles/Rent/SearchResult.module.css"
 
 
 
-const SearchResult = ({ totalCount }) => {
+
+const SearchResult = ({ totalCount, isLoading }) => {
     return (
         <div className={styles.container}>
-            <ResultHeader totalCount={totalCount} />
+            <ResultHeader totalCount={totalCount} isLoading={isLoading} />
         </div>
     )
 }
 
 
-const ResultHeader = ({ totalCount }) => {
+const ResultHeader = ({ totalCount, isLoading }) => {
     return (
         <div className={styles.container}>
             <div className={styles.infoCon}>
                 <div className={styles.resultNum}>
+
                     <p>{totalCount} results</p>
+
+
                 </div>
                 <div className={styles.mapView}>
                     <Image src="/images/vuesax-linear-location.svg" width={20} height={20} alt="map-icon" />

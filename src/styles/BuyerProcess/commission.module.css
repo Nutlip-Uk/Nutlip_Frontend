@@ -1,107 +1,108 @@
-.offer{
-    display:flex;
-    gap:16px;
-    flex-direction:column;
-    height:50dvh;
+.offer {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  height: 50dvh;
 }
 
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-.text h3{
+.text h3 {
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.text p {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.paymentContainer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.debitCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: start;
+}
+
+.debitCard img {
+  width: 100%;
+}
+
+.debitCard button {
+  border: none;
+  background-color: transparent;
+  color: var(--brand-blue, #001f6d);
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.blockChain {
+  border: none;
+  padding: 5px 0;
+  border-bottom: 2px solid #001f6d;
+  background-color: transparent;
+  color: var(--brand-blue, #001f6d);
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+}
+
+@media (width <=400px) {
+  .offer {
+    height: auto;
+  }
+
+  .text h3 {
     color: #000;
-font-size: 24px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-}
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
 
-.text p{
+  .text p {
     color: #000;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
-
-.paymentContainer{
-    display:flex;
-    gap:16px;
-    align-items:center;
-}
-
-.debitCard{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    align-items:start;
-} 
-
-.debitCard img{
-    width: 100%;
-}
-
-.debitCard button{
-    border:none;
-    background-color: transparent;
-    color: var(--brand-blue, #001F6D);
-font-size: 16px;
-font-style: italic;
-font-weight: 600;
-line-height: normal;
-cursor:pointer;
-}
-
-.blockChain{
-    border:none;
-    padding:5px 0;
-    border-bottom:2px solid #001f6d;
-    background-color: transparent;
-    color: var(--brand-blue, #001F6D);
-font-size: 16px;
-font-style: italic;
-font-weight: 600;
-line-height: normal;
-cursor:pointer; 
-}
-
-
-
-@media ( width <=400px) {
-
-    .offer{
-        height:auto;
-    }
-
-    
-.text h3{
-    color: #000;
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-}
-
-.text p{
-    color: #000;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
-    .blockChain{
-        display:none;
-    }
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .blockChain {
+    display: none;
+  }
 }
 @media (400px <= width <=779px) {
-    .offer{
-        height:auto;
-    }
-    .blockChain{
-        display:none;
-    }
+  .offer {
+    height: auto;
+  }
+  .blockChain {
+    display: none;
+  }
 }
 
 @media (780px <= width <= 960px) {
-    .blockChain{
-        display:none;
-    }
+  .blockChain {
+    display: none;
+  }
 }

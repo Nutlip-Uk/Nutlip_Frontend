@@ -4,6 +4,7 @@ import styles from "../../styles/buy/Details.module.css";
 import { useState, useContext } from "react";
 import { ImageContext } from "../../context/ImageContext.context";
 import { Carousel } from 'antd';
+import { UserTypeContext } from "../../context/UserType.context";
 
 
 export const DetailsImages = ({ data }) => {
@@ -171,7 +172,12 @@ export const DetailsContent = (props) => {
   const data = props.data;
 
   const { viewOptions, setViewOptions } = useContext(ImageContext);
+  const { userType } = useContext(UserTypeContext);
+  const [showMore, setShowMore] = useState(false);
 
+  const toggleReadMore = () => {
+    setShowMore(!showMore);
+  };
 
   return (
     <div className={styles.content}>
@@ -307,7 +313,7 @@ export const DetailsContent = (props) => {
 
         <div className={styles.price}>
           <h1>£{data?.Amount}</h1>
-          <button onClick={props.handleShow}>Make an offer</button>
+          < button onClick={props.handleShow}>Make an offer</button>
         </div>
         <div className={styles.facilities}>
           <span>
@@ -352,8 +358,8 @@ export const DetailsContent = (props) => {
 
         <div className={styles.infoContainer}>
           <div className={styles.info}>
-            <p>{data?.Title}</p>
-            <p>{data?.location}</p>
+            <p className="capitalize">{data?.Title}</p>
+            <p className="capitalize">{data?.location[1]}</p>
             <p>{data?.description}</p>
           </div>
 
@@ -361,15 +367,23 @@ export const DetailsContent = (props) => {
             <p className={styles.keyFeatures}>Key features</p>
             <ul>
               {data?.Add_features.map((item, index) => (
-                <li key={index}>{item}</li>
+                <li style={{ listStyle: "circle" }} key={index}>{item}</li>
               ))}
             </ul>
           </div>
         </div>
 
         <div className={styles.extraInfo}>
-          <a className={styles.readMore}>Read more</a>
-
+          {
+            showMore ? (
+              <div >
+                <p className="text-xs text-neutral-500 font-extrabold">More data ...</p>
+              </div>
+            ) : null
+          }
+          <p className={styles.readMore} onClick={toggleReadMore}>
+            {showMore ? "Read less" : "Read more"}
+          </p>
           <p className={styles.listed}>{data?.date_created}</p>
 
           <img
@@ -381,6 +395,6 @@ export const DetailsContent = (props) => {
           />
         </div>
       </div>
-    </div>
+    </div >
   );
 };

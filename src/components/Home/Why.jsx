@@ -53,21 +53,21 @@ const Why = () => {
 
         <div className={styles.GridContainer}>
           {Datas.map((data, index) => (
-            <>
-              <div key={index} className={styles.BoxContainer}>
-                <div className={styles.Box}>
-                  <div className={styles.IconContainer}>{data.icon}</div>
 
-                  <div className={styles.title}>
-                    <p> {data.title}</p>
-                  </div>
+            <div key={index} className={styles.BoxContainer}>
+              <div className={styles.Box}>
+                <div className={styles.IconContainer}>{data.icon}</div>
 
-                  <div className={styles.text}>
-                    <p>{data.text}</p>
-                  </div>
+                <div className={styles.title}>
+                  <p> {data.title}</p>
+                </div>
+
+                <div className={styles.text}>
+                  <p>{data.text}</p>
                 </div>
               </div>
-            </>
+            </div>
+
           ))}
         </div>
       </div>

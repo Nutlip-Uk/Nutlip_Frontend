@@ -8,7 +8,7 @@ const OffersSentPage = () => {
   //   const fetchApartment = async () => {
   //     try {
   //       const response = await fetch(
-  //         `https://nutlip-backend.onrender.com/api/apartments/getapartment/${id}`
+  //         `https://nutlip-server.uc.r.appspot.com/api/apartments/getapartment/${id}`
   //       );
   //       if (response.ok) {
   //         const data = await response.json();

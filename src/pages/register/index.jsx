@@ -48,7 +48,7 @@ const Registration = () => {
 
       console.log("Google Login Info:", { uid, displayName, email, photoURL });
 
-      const response = await fetch("https://nutlip-backend.onrender.com/api/register", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Registration = () => {
       console.log("Google Login Info:", { uid, displayName, email, photoURL });
 
       // Attempt to log in to your backend with the Google user info
-      const response = await fetch("https://nutlip-backend.onrender.com/api/login", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,54 +110,18 @@ const Registration = () => {
       setLoading(false); // Reset loading state after request is completed
     }
   };
-
-  const handleFacebookSignUp = async (e) => {
+  const handleFacebookAuth = async (e) => {
     e.preventDefault();
-    try {
-      const result = await signInWithPopup(auth, facebookProvider);
-      const { uid, displayName, email, photoURL } = result.user;
-      setUser(result.user);
-
-      console.log("Facebook Signup Info:", { uid, displayName, email, photoURL });
-
-      const response = await fetch("https://nutlip-backend.onrender.com/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: displayName,
-          email: email,
-          password: uid,
-        }),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-      }
-
-      router.push("/register?option=login");
-
-    } catch (error) {
-      console.error("Error during Facebook sign-up:", error);
-      setError("An error occurred during Facebook sign-up.");
-    }
-  };
-
-
-  const handleFacebookSignIn = async (e) => {
-    e.preventDefault();
-    setLoading(true); // Show loading indicator during Facebook sign-in
+    setLoading(true); // Show loading indicator
 
     try {
       const result = await signInWithPopup(auth, facebookProvider);
       const { uid, displayName, email, photoURL } = result.user;
 
-      console.log("Facebook Login Info:", { uid, displayName, email, photoURL });
+      console.log("Facebook Auth Info:", { uid, displayName, email, photoURL });
 
-      // Attempt to log in to your backend with the Facebook user info
-      const response = await fetch("https://nutlip-backend.onrender.com/api/login", {
+      // Check if the user is already registered by attempting to log in
+      const loginResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -168,21 +132,39 @@ const Registration = () => {
         }),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userInformation", JSON.stringify(data));
-        setUserInformation(data);
-
-        router.push("/"); // Redirect to a protected route after sign-in
+      if (loginResponse.ok) {
+        const loginData = await loginResponse.json();
+        localStorage.setItem("token", loginData.token);
+        localStorage.setItem("userInformation", JSON.stringify(loginData));
+        setUserInformation(loginData);
       } else {
-        console.log(data);
-        setError(data || "Failed to log in with Facebook.");
+        // If the login fails, try to register the user
+        const registerResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: displayName,
+            email: email,
+            password: uid,
+          }),
+        });
+
+        if (registerResponse.ok) {
+          const registerData = await registerResponse.json();
+          localStorage.setItem("token", registerData.token);
+          localStorage.setItem("userInformation", JSON.stringify(registerData));
+          setUserInformation(registerData);
+        } else {
+          throw new Error("Registration failed");
+        }
       }
+
+      router.push("/"); // Redirect to a protected route after sign-in or registration
     } catch (error) {
-      console.error("Error during Facebook sign-in:", error);
-      setError("An error occurred during Facebook sign-in.");
+      console.error("Error during Facebook authentication:", error);
+      setError("An error occurred during Facebook authentication.");
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
@@ -225,8 +207,8 @@ const Registration = () => {
               Login
             </p>
           </div>
-          {type === "signup" && <Signup userCreated={handleChange} handleGoogleSignUp={handleGoogleSignUp} handleFacebookSignUp={handleFacebookSignUp} />}
-          {type === "login" && <Login handleGoogleSignIn={handleGoogleSignIn} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookSignIn={handleFacebookSignIn} />}
+          {type === "signup" && <Signup userCreated={handleChange} handleGoogleSignUp={handleGoogleSignUp} handleFacebookAuth={handleFacebookAuth} />}
+          {type === "login" && <Login handleGoogleSignIn={handleGoogleSignIn} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookAuth={handleFacebookAuth} />}
           {type === "verify" && <Verify />}
           {type === "forgetPassword" && <ForgetPassword />}
         </div>
@@ -235,7 +217,7 @@ const Registration = () => {
   );
 };
 
-const Signup = ({ handleGoogleSignUp, handleFacebookSignUp }, props) => {
+const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const [isError, setError] = useState("");
@@ -272,7 +254,7 @@ const Signup = ({ handleGoogleSignUp, handleFacebookSignUp }, props) => {
     setLoading(false);
     setError(null);
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/register", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -393,7 +375,7 @@ const Signup = ({ handleGoogleSignUp, handleFacebookSignUp }, props) => {
         <form className={styles.alternateLog} >
           <button
             className={styles.Facebook}
-            onClick={handleFacebookSignUp}
+            onClick={handleFacebookAuth}
           >
             <img
               width="30"
@@ -409,7 +391,7 @@ const Signup = ({ handleGoogleSignUp, handleFacebookSignUp }, props) => {
   );
 };
 
-const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserror, handleFacebookSignIn }) => {
+export const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserror, handleFacebookAuth }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const router = useRouter();
@@ -544,7 +526,7 @@ const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserror, han
           </form>
 
           <form className={styles.alternateLog} >
-            <button className={styles.Facebook} onClick={handleFacebookSignIn}>
+            <button className={styles.Facebook} onClick={handleFacebookAuth}>
               <img
                 width="30"
                 height="30"

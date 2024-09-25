@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../../styles/buy/Details.module.css";
 import RelatedProperties from "../../../components/buy/BuyRelatedProperties";
-import axios from "axios";
 
 import {
   DetailsContent,
@@ -50,7 +49,7 @@ const Details = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`https://nutlip-backend.onrender.com/api/apartments/getapartment/${id}`);
+        const res = await fetch(`https://nutlip-server.uc.r.appspot.com/api/apartments/getapartment/${id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch");
         }
@@ -113,7 +112,7 @@ const Details = () => {
           <section className={styles.buy}>
             <div className={styles.agent}>
               <div className={styles.mortgage}>
-                x<h4>Need a Mortgage Broker?</h4>
+                <h4>Need a Mortgage Broker?</h4>
                 <p>
                   Search for a mortgage broker from the copiled list on the
                   platform

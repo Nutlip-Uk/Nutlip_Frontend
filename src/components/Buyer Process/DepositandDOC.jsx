@@ -7,7 +7,7 @@ import { storage } from '../../../firebase';
 import { LoginContext } from "../../context/Login.context";
 
 
-export const Deposit = ({ userType, transaction, transactionContent, id }) => {
+export const Deposit = ({ userType, transaction, transactionContent, id, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
   const { userInformation } = useContext(LoginContext);
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
@@ -74,7 +74,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
     e.preventDefault();
     try {
       console.log("BANK DETAILS", form);
-      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   const HandleUploadProofOfFunds = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_proofoffunds10_08", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_proofoffunds10_08", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   const handleConfirm = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch("https://nutlip-backend.onrender.com/api/transaction/transaction_confirmproofoffunds_09", {
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds_09", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -142,86 +142,139 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
   };
 
   return (
-    <div className={styles.offer}>
-      <section className={styles.Header}>
-        <h2>{"10% Deposit"}</h2>
+    <>
+      <div className={styles.offer}>
+        <section className={styles.Header}>
+          <h2 className="text-xl font-semibold">{"10% Deposit"}</h2>
 
-        {userType === "property_seeker" && (
-          <p>
-            Please deposit 10% (percent) of the total amount of money the Seller
-            is to receive into the designated bank account of the Seller. Then
-            upload evidence of payment to Seller. Bank Account details are
-            below:
-          </p>
-        )}
+          {userType === "conveyancer_buyer" && (
+            <p>
+              Please deposit 10% (percent) of the total amount of money the Seller
+              is to receive into the designated bank account of the Seller. Then
+              upload evidence of payment to Seller. Bank Account details are
+              below:
+            </p>
+          )}
 
-        {userType === "Real_estate_agent" && (
-          <p style={{ textWrap: "wrap" }}>
-            Please provide the details of your designated bank account below,
-            for which the buyer can deposit 10 percent of the total amount
-            accepted for the purchase of the Real Estate property.
-          </p>
-        )}
+          {userType === "conveyancer_seller" && (
+            <p style={{ textWrap: "wrap" }}>
+              Please provide the details of your designated bank account below,
+              for which the buyer can deposit 10 percent of the total amount
+              accepted for the purchase of the Real Estate property.
+            </p>
+          )}
+          {userType === "property_seeker" && (
+            <p style={{ textWrap: "wrap" }}>
+              The Seller has confirmed receipt of the 10% (percent) deposit payment into the designated bank account provided by the Seller for the sale of the real estate property. Below are the bank details provided by the Seller. Please download and view the Proof of Payment document attached.
+            </p>
+          )}
+          {userType === "Real_estate_agent" && (
+            <p style={{ textWrap: "wrap" }}>
+              The 10% deposit has been paid into the bank account details provided below. Your representative has confirmed receipt of funds. Please download and view the Proof of Payment document attached.          </p>
+          )}
 
-        <br />
-        {userType === "Real_estate_agent" && (
-          <strong>Amount : € {transaction.offer.PriceOffer * 0.1}</strong>
-        )}
-      </section>
 
-      {userType === "property_seeker" && (
-        <section className={styles.list}>
-          <p>SELLER BANK DETAILS</p>
-          <ul>
-            <li>Bank name: {transactionContent.bankdetails[0]?.bankName}</li>
-            <li>Sort code: {transactionContent.bankdetails[0]?.sortcode}</li>
-            <li>Account number: {transactionContent.bankdetails[0]?.accountNo}</li>
-            <li>Account name: {transactionContent.bankdetails[0]?.accountName}</li>
-            <li>IBAN: {transactionContent.bankdetails[0]?.IBAN}</li>
-            <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
-          </ul>
+
+          <br />
+          {userType === "conveyancer_seller" && (
+            <strong>Amount : € {transaction.offer.PriceOffer * 0.1}</strong>
+          )}
         </section>
-      )}
 
-      {userType === "property_seeker" && (
-        <div className={styles.fileContainer}>
-          {!transactionContent.proof_of_funds_10 && <section id={styles.file_upload}>
-            <label>
-              {fileUrl ? (
-                <img src={fileUrl} alt="Uploaded document" />
+
+
+        {
+          (userType === "property_seeker" || userType === "Real_estate_agent") && (
+            <div>
+              {!transactionContent?.proof_of_funds_10 ? (
+                <div>
+                  <p className="text-red-500 font-semibold">10% deposit yet to be confirmed by Seller Conveyancer...</p>
+                </div>
               ) : (
-                'Upload Document'
+
+                <div className={styles.fileContainer}>
+                  <section id={styles.file_upload}>
+                    <label>
+                      {transactionContent?.proof_of_funds_10
+                        === "" ? (
+                        "User has not uploaded Funds document yet"
+                      ) : (
+                        <img src={transactionContent?.proof_of_funds_10
+                        } alt="Uploaded document" />
+                      )}
+                    </label>
+                  </section>
+                  {transactionContent?.confirm_proof_of_funds_10 &&
+
+                    (
+                      <button className={`min-w-fit w-full text-white text-green-700 p-2 rounded-md `} style={{ backgroundColor: "green" }} >Funds Confirmed</button>
+                    )
+                  }
+                </div>
+
               )}
-              <input type="file" onChange={handleImageChange} disabled={uploading} />
-            </label>
-            {uploading && <p>Uploading...</p>}
-          </section>}
+            </div>
+          )
+        }
 
-          {transactionContent.proof_of_funds_10 && <section id={styles.file_upload}>
-            <label>
-              <img src={transactionContent.proof_of_funds_10} alt="Uploaded document" />
+        {userType === "conveyancer_buyer" && (
+          <section className={styles.list}>
+            <p className="font-semibold">SELLER BANK DETAILS</p>
+            {transactionContent?.bankdetails?.length > 0 ? (
+              <ul className="text-sm md:text-md lg:text-lg xl:text-xl">
+                <li className="font-medium">Bank name: {transactionContent?.bankdetails[0]?.bankName}</li>
+                <li className="font-medium">Sort code: {transactionContent?.bankdetails[0]?.sortcode}</li>
+                <li className="font-medium">Account number: {transactionContent?.bankdetails[0]?.accountNo}</li>
+                <li className="font-medium">Account name: {transactionContent?.bankdetails[0].accountName}</li>
+                <li className="font-medium">IBAN: {transactionContent?.bankdetails[0]?.IBAN}</li>
+                <li className="font-medium">Amount: € {transaction?.offer?.PriceOffer * 0.1}</li>
+              </ul>
+            ) : (
+              <p className="text-red-400 text-xs lg:text-md xl:text-lg">Agent Conveyancer is yet to send bank details ...</p>
+            )}
+          </section>
+        )}
 
-            </label>
-          </section>}
-          {transactionContent?.proof_of_funds_10 == null ? <button className={styles.fileuploadButton} onClick={HandleUploadProofOfFunds} >Continue</button> : <button style={{ background: "green" }} className={styles.fileuploadButton} >Upload Sent</button>}
-        </div>
-      )}
+        {(userType === "conveyancer_buyer" && transactionContent?.bankdetails?.length > 0) && (
+          <div className={styles.fileContainer}>
+            {!transactionContent.proof_of_funds_10 && <section id={styles.file_upload}>
+              <label>
+                {fileUrl ? (
+                  <img src={fileUrl} alt="Uploaded document" />
+                ) : (
+                  'Upload Document'
+                )}
+                <input type="file" onChange={handleImageChange} disabled={uploading} />
+              </label>
 
-      {userType === "Real_estate_agent" && (
-        <>
-          {transactionContent.bankdetails[0] || confirmed ? (
-            <section className={styles.formContainer}>
-              <p className={styles.formHeader}>{"Bank Account Details"}</p>
-              {confirmed && <ul>
-                <li>Bank name: {form.bankName}</li>
-                <li>Sort code: {form.sortcode}</li>
-                <li>Account number: {form.accountNo}</li>
-                <li>Account name: {form.accountName}</li>
-                <li>IBAN: {form.IBAN}</li>
-                <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
-              </ul>}
+            </section>}
+            {uploading && <p className="text-xs h-auto italic text-neutral-400">Uploading...</p>}
 
-              {/* {
+            {transactionContent?.proof_of_funds_10 && <section id={styles.file_upload}>
+              <label>
+                <img src={transactionContent?.proof_of_funds_10} alt="Uploaded document" />
+
+              </label>
+            </section>}
+            {transactionContent?.proof_of_funds_10 == null ? <button className={styles.fileuploadButton} onClick={HandleUploadProofOfFunds} >Upload</button> : <button style={{ background: "green" }} className={styles.fileuploadButton} >Upload Sent</button>}
+          </div>
+        )}
+
+        {userType === "conveyancer_seller" && (
+          <>
+            {transactionContent.bankdetails[0] || confirmed ? (
+              <section className={styles.formContainer}>
+                <p className="text-lg font-medium">{"Bank Account Details"}</p>
+                {confirmed && <ul>
+                  <li className="font-medium">Bank name: {form?.bankName}</li>
+                  <li className="font-medium">Sort code: {form?.sortcode}</li>
+                  <li className="font-medium">Account number: {form?.accountNo}</li>
+                  <li className="font-medium">Account name: {form?.accountName}</li>
+                  <li className="font-medium">IBAN: {form?.IBAN}</li>
+                  <li className="font-medium">Amount: € {transaction.offer.PriceOffer * 0.1}</li>
+                </ul>}
+
+                {/* {
                 transactionContent.bankdetails.length > 0 && transactionContent.bankdetails[0] &&
                 <ul>
                   <li>Bank name: {transactionContent.bankdetails[0]?.bankName}</li>
@@ -234,114 +287,145 @@ export const Deposit = ({ userType, transaction, transactionContent, id }) => {
               } */}
 
 
-              {transactionContent.bankdetails.length > 0 ? (
-                <button style={{ background: "green", maxWidth: "30%" }} className={styles.confirm} >Sent</button>
-              ) : (
-                <button type="button" style={{ maxWidth: "30%" }} onClick={handleSubmit} className={styles.confirm}>Send</button>
-              )}
+                {transactionContent.bankdetails.length > 0 ? (
+                  <button style={{ background: "green", maxWidth: "30%" }} className={styles.confirm} >Sent</button>
+                ) : (
+                  <button type="button" style={{ maxWidth: "30%" }} onClick={handleSubmit} className={styles.confirm}>Send</button>
+                )}
 
-              <div className={styles.fileContainer}>
-                <section id={styles.file_upload}>
-                  <label>
-                    {transactionContent?.proof_of_funds_10
-                      === "" ? (
-                      "User has not uploaded Funds document yet"
-                    ) : (
-                      <img src={transactionContent.proof_of_funds_10
-                      } alt="Uploaded document" />
+                <div className={styles.fileContainer}>
+                  <section id={styles.file_upload}>
+                    <label className="italic text-neutral-400 ">
+                      {transactionContent?.proof_of_funds_10
+                        == null ? (
+                        "Proof of payment pending.."
+                      ) : (
+                        <img src={transactionContent?.proof_of_funds_10
+                        } alt="Uploaded document" />
+                      )}
+                    </label>
+                  </section>
+                  {transactionContent?.proof_of_funds_10
+                    !== null && (
+                      <button className={styles.fileuploadButton} style={transactionContent?.confirm_proof_of_funds_10 === true
+                        ? { background: "green" } : { background: "red" }} onClick={handleConfirm}>{transactionContent?.confirm_proof_of_funds_10 === true
+                          ? "Confirmed Funds" : "confirm funds"}</button>
                     )}
-                  </label>
-                </section>
-                {transactionContent?.proof_of_funds_10
-                  !== "" && (
-                    <button className={styles.fileuploadButton} style={transactionContent?.confirm_proof_of_funds_10 === true
-                      ? { background: "green" } : { background: "red" }} onClick={handleConfirm}>{transactionContent?.confirm_proof_of_funds_10 === true
-                        ? "Confirmed Funds" : "confirm funds"}</button>
-                  )}
-              </div>
-            </section>
-          ) : (
-            <section className={styles.formContainer}>
-              <p className={styles.formHeader}>{"Seller’s Bank Account Details"}</p>
-              <form className={styles.form} onSubmit={(e) => { e.preventDefault(); setConfirmed(true); }}>
-                <div className={styles.formInput}>
-                  <label>
-                    Account name
-                    <input
-                      type="text"
-                      required
-                      placeholder="Account name"
-                      value={form.accountName}
-                      onChange={handleFormChange}
-                      name="accountName"
-                    />
-                  </label>
                 </div>
-                <div className={styles.formInput}>
-                  <label>
-                    Bank name
-                    <input
-                      required
-                      type="text"
-                      placeholder="Bank name"
-                      value={form.bankName}
-                      onChange={handleFormChange}
-                      name="bankName"
-                    />
-                  </label>
-                </div>
-                <div className={styles.formInput}>
-                  <label>
-                    Sort code
-                    <input
-                      required
-                      type="text"
-                      placeholder="Sort code"
-                      value={form.sortcode}
-                      onChange={handleFormChange}
-                      name="sortcode"
-                    />
-                  </label>
-                </div>
-                <div className={styles.formInput}>
-                  <label>
-                    Account number
-                    <input
-                      required
-                      type="text"
-                      placeholder="Account number"
-                      value={form.accountNo}
-                      onChange={handleFormChange}
-                      name="accountNo"
-                    />
-                  </label>
-                </div>
-                <div className={styles.formInput}>
-                  <label>
-                    IBAN
-                    <input
-                      required
-                      type="text"
-                      placeholder="IBAN"
-                      value={form.IBAN}
-                      onChange={handleFormChange}
-                      name="IBAN"
-                    />
-                  </label>
-                </div>
-                <button type="submit" onClick={(e) => { e.preventDefault(); setConfirmed(true); }} className={styles.confirm}>Confirm</button>
-              </form>
-            </section>
-          )}
-        </>
-      )
-      }
-    </div >
+              </section>
+            ) : (
+              <section className={styles.formContainer}>
+                <p className={`${styles.formHeader}`}>{"Bank Account Details"}</p>
+                <form className={styles.form} onSubmit={(e) => { e.preventDefault(); setConfirmed(true); }}>
+                  <div className={styles.formInput}>
+                    <label>
+                      Account name
+                      <input
+                        type="text"
+                        required
+                        placeholder="Account name"
+                        value={form.accountName}
+                        onChange={handleFormChange}
+                        name="accountName"
+
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.formInput}>
+                    <label>
+                      Bank name
+                      <input
+                        required
+                        type="text"
+                        placeholder="Bank name"
+                        value={form.bankName}
+                        onChange={handleFormChange}
+                        name="bankName"
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.formInput}>
+                    <label>
+                      Sort code
+                      <input
+                        required
+                        type="text"
+                        placeholder="Sort code"
+                        value={form.sortcode}
+                        onChange={handleFormChange}
+                        name="sortcode"
+                        minLength={1}
+                        maxLength={6}
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.formInput}>
+                    <label>
+                      Account number
+                      <input
+                        required
+                        type="text"
+                        placeholder="Account number"
+                        value={form.accountNo}
+                        onChange={handleFormChange}
+                        name="accountNo"
+                        minLength={1}
+                        maxLength={11}
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.formInput}>
+                    <label>
+                      <p>IBAN <span className="text-xs text-neutral-500">{"(optional)"}</span></p>
+                      <input
+                        required
+                        type="text"
+                        placeholder="IBAN"
+                        value={form.IBAN}
+                        onChange={handleFormChange}
+                        name="IBAN"
+                        minLength={1}
+                        maxLength={11}
+                      />
+                    </label>
+                  </div>
+                  <button type="submit" onClick={(e) => { e.preventDefault(); setConfirmed(true); }} className={styles.confirm}>Confirm</button>
+                </form>
+              </section>
+            )}
+          </>
+        )
+        }
+      </div >
+
+
+      <div className="flex gap-4 justify-between w-full" id="page_nav">
+        <button
+          onClick={handleBackClick}
+          disabled={currentStage === 0}
+          className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }`}
+        >
+          Back
+        </button>
+
+        <button
+          onClick={handleNextClick}
+          disabled={!transactionContent?.confirm_proof_of_funds_10}
+          className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }  ${(transactionContent?.confirm_proof_of_funds_10) ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
+        >
+          Next : <span>{"Date of completion"}</span>
+        </button>
+      </div>
+
+
+    </>
   );
 };
 
 
-export const DOC = ({ transaction, id, userType, transactionContent }) => {
+export const DOC = ({ transaction, id, userType, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     "January",
@@ -371,18 +455,18 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const dates = `${selectedDay} ${selectedMonth} ${selectedYear}`;
-    const date = 2024
-    console.log(date);
+
+    console.log(dates);
 
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_setdate_010`, {
+      const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_setdate_010`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           transactionId: id,
-          date: date,
+          date: dates,
         }),
       });
 
@@ -402,7 +486,7 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
     console.log(id);
     console.log(transaction.offerId);
     try {
-      const response = await fetch(`https://nutlip-backend.onrender.com/api/transaction/transaction_confirmdate_011`, {
+      const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmdate_011`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -421,70 +505,101 @@ export const DOC = ({ transaction, id, userType, transactionContent }) => {
   }
 
   return (
-    <div className={styles.offer}>
-      <section id={styles.text}>
-        <h2>Date for Conclusion</h2>
-        <p>
-          The date for completion agreed upon by all participants in this
-          transaction for the sale/purchase of the real estate property is shown
-          below.
-        </p>
-      </section>
+    <>
+      <div className={styles.offer}>
+        <section id={styles.text}>
+          <h2 className="text-xl font-semibold">Date for Conclusion</h2>
+          <p>
+            The date for completion agreed upon by all participants in this
+            transaction for the sale/purchase of the real estate property is shown
+            below.
+          </p>
+        </section>
 
-      {userType == "property_seeker" && <form className={styles.DateContainer} onSubmit={handleSubmit}>
-        {!transactionContent.completion_date && <label>Select</label>}
+        {userType == "conveyancer_buyer" && <form className={styles.DateContainer} onSubmit={handleSubmit}>
+          {!transactionContent.completion_date && <label>Select</label>}
 
-        {!transactionContent.completion_date && <div className={styles.selectContainer}>
-          <select value={selectedDay} onChange={handleDayChange}>
-            <option value="" disabled>
-              Select Day
-            </option>
-            {days.map((day) => (
-              <option key={day} value={day}>
-                {day}
+          {!transactionContent.completion_date && <div className={styles.selectContainer}>
+            <select value={selectedDay} onChange={handleDayChange}>
+              <option value="" disabled>
+                Select Day
               </option>
-            ))}
-          </select>
+              {days.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
 
-          <select value={selectedMonth} onChange={handleMonthChange}>
-            <option value="" disabled>
-              Select Month
-            </option>
-            {months.map((month) => (
-              <option key={month} value={month}>
-                {month}
+            <select value={selectedMonth} onChange={handleMonthChange}>
+              <option value="" disabled>
+                Select Month
               </option>
-            ))}
-          </select>
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
 
-          <select value={selectedYear} onChange={handleYearChange}>
-            <option value="" disabled>
-              Select Year
-            </option>
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
+            <select value={selectedYear} onChange={handleYearChange}>
+              <option value="" disabled>
+                Select Year
               </option>
-            ))}
-          </select>
-        </div>}
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>}
 
-        {transactionContent.completion_date && (
+          {transactionContent?.completion_date && (
+            <form className={styles.DateContainer}>
+              <input disabled style={{ width: "100%" }} className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
+            </form>
+          )}
+
+          <button style={transactionContent.completion_date ? { background: "green", color: "white", cursor: "pointer" } : { background: "red", color: "white", cursor: "pointer" }} type="submit" onClick={handleSubmit}>{transactionContent.completion_date ? "Sent" : " Set Date"}</button>
+        </form>}
+
+        {
+          userType == "conveyancer_seller" &&
           <form className={styles.DateContainer}>
-            <input disabled className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
+            <input disabled style={{ width: "100%" }} className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
+            <button style={transactionContent.agreeded_on_completion_date_buyer ? { background: "green", color: "white", width: "100%" } : { background: "red", color: "white" }} onClick={handleConfirm}>{transactionContent.completion_date ? "Confirmed" : "Confirm"}</button>
           </form>
-        )}
+        }
+        {
+          (userType == "Real_estate_agent" || userType == "property_seeker") &&
+          <form className={styles.DateContainer}>
+            <input disabled style={{ width: "100%" }} className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
+            <button className="text-white " style={transactionContent.agreeded_on_completion_date_buyer ? { backgroundColor: "green", color: "white" } : { backgroundColor: "grey", colo: "white" }} >{transactionContent.completion_date ? "Confirmed" : "Not Confirmed"}</button>
+          </form>
+        }
 
-        <button style={transactionContent.completion_date ? { background: "green", color: "white", cursor: "pointer" } : { background: "red", color: "white", cursor: "pointer" }} type="submit" onClick={handleSubmit}>{transactionContent.completion_date ? "Sent" : " Set Date"}</button>
-      </form>}
 
-      {
-        userType == "Real_estate_agent" &&
-        <form className={styles.DateContainer}>
-          <input disabled style={{ width: "100%" }} className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
-          <button style={transactionContent.agreeded_on_completion_date_buyer ? { background: "green", color: "white", width: "100%" } : { background: "red", color: "white" }} onClick={handleConfirm}>{transactionContent.completion_date ? "Confirmed" : "Confirm"}</button>
-        </form>
-      }
-    </div>
+      </div>
+
+      <div className="flex gap-4 justify-between w-full" id="page_nav">
+        <button
+          onClick={handleBackClick}
+          disabled={currentStage === 0}
+          className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }`}
+        >
+          Back
+        </button>
+
+        <button
+          onClick={handleNextClick}
+          disabled={!transactionContent.agreeded_on_completion_date_buyer}
+          className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }  ${(transactionContent.agreeded_on_completion_date_buyer) ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
+        >
+          Next : <span>{"90% Deposit"}</span>
+        </button>
+      </div>
+    </>
   );
 };

@@ -4,30 +4,40 @@ import { LoginContext } from './Login.context';
 export const UserTypeContext = createContext();
 
 export const UserTypeProvider = ({ children }) => {
-  const { userInformation } = useContext(LoginContext) || {}; // Add a default empty object if LoginContext is undefined
+  const { userInformation } = useContext(LoginContext);
   const [userType, setUserType] = useState('');
+  const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
-    console.log("userInformation", userInformation?.user?.id);
     async function fetchData() {
-      if (userInformation?.user?.id) {
-        try {
-          const response = await fetch(`https://nutlip-backend.onrender.com/api/users/${userInformation.user.id}`);
+      try {
+        if (userInformation?.user?.id) {
+          const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation?.user?.id}`);
           const data = await response.json();
-          console.log("Data", data);
-          setUserType(data?.userType?.type);
-          console.log("User Type", data.userType);
-        } catch (error) {
-          console.error("Error fetching user type:", error);
+          const userdata = data.data.userType.type;
+          setUserInfo(data.data);
+          setUserType(userdata);
+          localStorage.setItem('userType', userdata); // Store userType in localStorage
+          console.log("User Type after fetch:", data.data.userType.type);
         }
+      } catch (error) {
+        console.error("Error fetching user type:", error);
       }
     }
     fetchData();
-  }, [userInformation, userType]);
+  }, [userInformation]);
+
+  useEffect(() => {
+    const storedUserType = localStorage.getItem('userType'); // Retrieve userType from localStorage
+    if (storedUserType) {
+      setUserType(storedUserType);
+    }
+  }, []);
 
   const contextValues = {
     userType,
     setUserType,
+    userInfo
   };
 
   return (

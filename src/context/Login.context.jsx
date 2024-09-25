@@ -5,19 +5,24 @@ export const LoginContext = createContext();
 const LoginProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
   const router = useRouter();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const handleLogin = async (formData) => {
     // Login logic using fetch (replace with your API call)
-    const response = await fetch('https://nutlip-backend.onrender.com/api/login', {
+    const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
     return response; // Return the response object for further processing (optional)
     GetUser();
+
   };
+
+
+
   const GetUser = async () => {
-    const response = await fetch(`/api/user/${userInformation.user.id}`, {
+    const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -27,13 +32,15 @@ const LoginProvider = ({ children }) => {
     if (response.ok) {
       console.log(data.newUser);
       console.log(data)
+      const loggedin = localStorage.setItem("Loggedin", true);
+      setIsUserLoggedIn(loggedin);
     }
     return response;
   };
 
 
   const handleWelcome = async () => {
-    const response = await fetch(`/api/user/${userInformation.user.id}`, {
+    const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -85,7 +92,7 @@ const LoginProvider = ({ children }) => {
 
 
   return (
-    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation, handleLogout, handleWelcome }}>
+    <LoginContext.Provider value={{ userInformation, handleLogin, setUserInformation, handleLogout, handleWelcome, isUserLoggedIn }}>
       {children}
     </LoginContext.Provider>
   );
