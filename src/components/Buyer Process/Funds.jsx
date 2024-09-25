@@ -5,7 +5,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { ImageContext } from '../../context/ImageContext.context';
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
-import Skeleton from '@mui/joy/Skeleton';
 
 
 export const Funds = ({ userType, id, transactionContent, isLoading, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
