@@ -17,7 +17,7 @@ const CancelledTransactions = () => {
       const fetchCancelledtransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-wdsi.onrender.com/api/transaction/getCanceledTransactionForAUser/${userId}`
+            `https://nutlip-server.uc.r.appspot.com/api/transaction/getCanceledTransactionForAUser/${userId}`
           );
           const data = await res.json();
           console.log("Cancelled Transaction", data);
@@ -29,7 +29,7 @@ const CancelledTransactions = () => {
       const fetchConveyancersCancelledtransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-wdsi.onrender.com/api/conveyancer/getCanceledTransaction/${userId}`
+            `https://nutlip-server.uc.r.appspot.com/api/conveyancer/getCanceledTransaction/${userId}`
           );
           const data = await res.json();
           console.log("Conveyancer Cancelled Transaction", data);

@@ -159,12 +159,13 @@ export const ConveyancerModal = (props) => {
         <section id={conveyancer.conveyancer}>
 
           <form className={conveyancer.inputField}>
-            <input type="text" placeholder="Add email address" name="conveyancerEmail" value={conveyancerEmail} onChange={handleChange} />
+            <input disabled type="text" placeholder="Add email address" name="conveyancerEmail" value={conveyancerEmail} onChange={handleChange} />
             <Button
               bgcolor="#DA0025"
               textcolor="#FFF"
               width="30"
               content="Send"
+              disabled
             />
           </form>
 
@@ -216,7 +217,7 @@ const Offer = ({ change, form, handleChange, data, userInformation, handleShow }
     }
 
     try {
-      const response = await fetch('https://nutlip-backend-wdsi.onrender.com/api/offer/createoffer', {
+      const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/offer/createoffer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -335,7 +336,7 @@ const Offer = ({ change, form, handleChange, data, userInformation, handleShow }
               <label htmlFor="PaymentType">What’s your payment method?</label>
               <select id="PaymentType" name="PaymentType" value={form.PaymentType} onChange={handleChange}>
                 <option value="" disabled selected>
-                  Select (Pay with cash, Mortgage, Crypto)
+                  Select (Pay with cash, Mortgage)
                 </option>
                 <option name="Cash" value="Cash">Cash</option>
                 <option name="mortgage" value="mortgage">Mortgage</option>

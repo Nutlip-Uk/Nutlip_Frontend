@@ -16,7 +16,7 @@ const OffersSent = () => {
 
       try {
         const response = await fetch(
-          `https://nutlip-backend-wdsi.onrender.com/api/offer/getofferssent/${userId}`
+          `https://nutlip-server.uc.r.appspot.com/api/offer/getofferssent/${userId}`
         );
 
         if (response.ok) {
@@ -36,7 +36,7 @@ const OffersSent = () => {
       const updatedOffers = await Promise.all(
         offersData.map(async (offer) => {
           const response = await fetch(
-            `https://nutlip-backend-wdsi.onrender.com/api/apartments/getapartment/${offer.apartmentId}`
+            `https://nutlip-server.uc.r.appspot.com/api/apartments/getapartment/${offer.apartmentId}`
           );
           if (response.ok) {
             const apartmentData = await response.json();

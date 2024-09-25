@@ -16,7 +16,7 @@ const CompletedTransactions = () => {
       const fetchCompletedTransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-wdsi.onrender.com/api/transaction/getCompletedTransactionForAUser/${userId}`
+            `https://nutlip-server.uc.r.appspot.com/api/transaction/getCompletedTransactionForAUser/${userId}`
           );
           const data = await res.json();
           console.log("Completed Transaction", data.data);
@@ -28,7 +28,7 @@ const CompletedTransactions = () => {
       const fetchConveyancersCompletedTransactions = async () => {
         if (userId) {
           const res = await fetch(
-            `https://nutlip-backend-wdsi.onrender.com/api/conveyancer/getcompletedtransaction/${userId}`
+            `https://nutlip-server.uc.r.appspot.com/api/conveyancer/getcompletedtransaction/${userId}`
           );
           const data = await res.json();
           console.log("Conveyancer Completed Transaction", data.data);

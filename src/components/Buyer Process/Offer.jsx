@@ -3,9 +3,10 @@ import styles from "../../styles/BuyerProcess/offerAccepted.module.css"
 import Button from '../styled components/Button'
 import { useEffect, useState } from 'react';
 import Skeleton from '@mui/joy/Skeleton';
+import CopyButton from '../CopyButton';
 
 
-export const Offer = ({ userType, transaction, apartment, id, sellerInfo, isLoading, agent }) => {
+export const Offer = ({ userType, transaction, transactionContent, apartment, id, sellerInfo, isLoading, agent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [viewProperty, setViewProperty] = useState(false);
 
 
@@ -14,7 +15,16 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo, isLoad
     }
 
 
-    return (
+    function formatUserId(userId) {
+        const firstPart = userId?.slice(0, 4);
+        const lastPart = userId?.slice(-4);
+        return `${firstPart}....${lastPart}`;
+    }
+
+
+
+    return (<>
+
         <div className={styles.offer}>
             <section className={styles.text}>
                 <h2>Offer Accepted</h2>
@@ -26,7 +36,7 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo, isLoad
                 <div className={styles.transactionId} >
                     <p>Transaction ID</p>
 
-                    <strong style={{ textTransform: "uppercase" }}>{id && id.slice(0, 8)}</strong>
+                    <strong style={{ textTransform: "uppercase" }}>{id && id?.slice(0, 8)}</strong>
 
 
                 </div>
@@ -195,7 +205,7 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo, isLoad
 
 
 
-                        <p>Agent ID: {agent?._id?.slice(0, 6)}</p>
+                        <p>Agent ID: {formatUserId(agent?._id)} <CopyButton textToCopy={agent?._id} /> </p>
 
 
 
@@ -228,5 +238,22 @@ export const Offer = ({ userType, transaction, apartment, id, sellerInfo, isLoad
 
             </section>
         </div>
+
+
+
+
+        <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <button
+                onClick={handleNextClick}
+
+                disabled={userType === "Real_estate_agent" ? !transactionContent?.proof_of_funds : currentStage >= transactionNames?.length - 1}
+                className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                    } ${!transactionContent?.proof_of_funds && userType === "Real_estate_agent" ? 'cursor-not-allowed opacity-50 text-gray-500 border-gray-500' : 'cursor-pointer'}`}
+            >
+                Next : <span>{"Fund's Verification"}</span>
+            </button>
+        </div >
+
+    </>
     )
 }
