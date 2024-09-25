@@ -347,8 +347,8 @@ const PostPropertyDetailOne = ({ next, form, handleChange }) => {
               <option value="select">Select</option>
               <option value="Flat">Flat</option>
               <option value="Detached">Detached</option>
-              <option value="MidTerrace">Mid-Terrace</option>
-              <option value="EndofTerrace">End-of-Terrace</option>
+              <option value="Mid-Terrace">Mid-Terrace</option>
+              <option value="End-of-Terrace">End-of-Terrace</option>
               <option value="Terrace">Terrace</option>
               <option value="Bungalow">Bungalow</option>
               <option value="Cottage">Cottage</option>
