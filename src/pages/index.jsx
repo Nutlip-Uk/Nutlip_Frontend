@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../context/Login.context';
 import { UserTypeContext } from '../context/UserType.context';
 import { useRouter } from 'next/router';
+import VirtualTourViewer from '../components/virtualTour';
 
 export default function Home() {
   const router = useRouter();
@@ -43,6 +44,7 @@ export default function Home() {
       <Revolutionizing />
       <PropertyView />
       <Why />
+
     </main>
   );
 }

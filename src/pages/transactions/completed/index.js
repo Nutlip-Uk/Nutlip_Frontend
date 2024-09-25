@@ -51,6 +51,24 @@ const CompletedTransactions = () => {
             <p className="text-neutral-600 ">No Completed Transaction found</p>
           </div>
         )}
+
+        <div>
+          {completedData.map((data) => {
+            return (
+              <Link
+                href={`/transactions/current/${data?.transaction?._id}`}
+                key={data?._id}
+                className={`${styles.Box} bg-white w-full rounded-lg shadow-md`}
+              >
+                <p>Transaction Id: {data?.transaction?._id.slice(0, 7)}</p>
+                <p>
+                  Transaction Stage :
+                  {data?.transaction?.transactionCurrentStage}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
