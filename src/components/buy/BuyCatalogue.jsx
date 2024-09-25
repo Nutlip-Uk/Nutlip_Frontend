@@ -7,7 +7,7 @@ import { buy } from './../../utils/buyproperties';
 import { useRouter } from "next/router"
 import Link from 'next/link';
 import { useState, useEffect, useContext } from "react";
-import Skeleton from '@mui/joy/Skeleton';
+
 import { UserTypeContext } from "../../context/UserType.context";
 
 
@@ -143,12 +143,12 @@ function Property({ property, isLoading }) {
 
           <div className={styles.propertyInfo}>
 
-            <p className={styles.name}>{property?.Title}</p>
+            <p className={`${styles.name}`}>{property?.Title}</p>
 
 
 
 
-            <p className={styles.location}>{property?.location}</p>
+            <p className={styles.location}>{property?.location[1]}</p>
 
 
 

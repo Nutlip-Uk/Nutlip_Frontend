@@ -1,6 +1,6 @@
 import Image from "next/image"
 import styles from "../../styles/Rent/SearchResult.module.css"
-import Skeleton from '@mui/joy/Skeleton';
+
 
 
 
@@ -18,9 +18,9 @@ const ResultHeader = ({ totalCount, isLoading }) => {
         <div className={styles.container}>
             <div className={styles.infoCon}>
                 <div className={styles.resultNum}>
-                    <Skeleton className="relative w-auto" loading={isLoading} height={"100%"}>
-                        <p>{totalCount} results</p>
-                    </Skeleton>
+
+                    <p>{totalCount} results</p>
+
 
                 </div>
                 <div className={styles.mapView}>

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/offerAccepted.module.css"
 import Button from '../styled components/Button'
 import { useEffect, useState } from 'react';
-import Skeleton from '@mui/joy/Skeleton';
+
 import CopyButton from '../CopyButton';
 
 
