@@ -15,9 +15,11 @@
 
 #file_upload {
   display: flex;
+  flex-direction: column;
   align-self: stretch;
   gap: 26px;
-  align-items: center;
+  align-items: start;
+  justify-content: center;
   width: 100%;
 }
 

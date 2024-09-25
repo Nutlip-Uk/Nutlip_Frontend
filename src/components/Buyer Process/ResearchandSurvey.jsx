@@ -3,7 +3,7 @@ import styles from "../../styles/BuyerProcess/ResearchAndSurvey.module.css"
 import Button from "../styled components/Button"
 import { LoginContext } from "../../context/Login.context"
 
-export const ResearchSurvey = ({ userType, transaction, id, transactionContent }) => {
+export const ResearchSurvey = ({ userType, transaction, id, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [confirm, setConfirmed] = useState(false)
 
 
@@ -12,7 +12,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
 
     const handleConfirm = async () => {
         try {
-            const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/transaction/transaction_researchandsurvery_05`, {
+            const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
             {userType === "conveyancer_seller" &&
                 <div className={styles.container}>
                     <section className={styles.text}>
-                        <h2>Research and Survey</h2>
+                        <h2 className="text-2xl font-bold">Research and Survey</h2>
                         <p>The research and survey for the chosen real estate property has now been confirmed by the buyer and his representative</p>
                     </section>
 
@@ -130,6 +130,33 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent }
                 </div>
 
             }
+
+
+
+            <div className="flex gap-4 justify-between w-full" id="page_nav">
+                <button
+                    onClick={handleBackClick}
+                    disabled={currentStage === 0}
+                    className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                        }`}
+                >
+                    Back
+                </button>
+
+                <button
+                    onClick={handleNextClick}
+                    disabled={(userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
+                        && (!transactionContent?.contract_upload_unsigned_seller)}
+                    className={`flex items-center border-b gap-2 text-base font-medium ${currentStage >= transactionNames?.length - 1
+                        ? 'cursor-not-allowed opacity-50 text-gray-600 border-gray-600'
+                        : !transactionContent?.contract_upload_unsigned_seller && (userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
+                            ? 'cursor-pointer opacity-25 text-gray-600 border-gray-600'
+                            : 'cursor-not-allowed  text-red-600 border-red-600'
+                        }`}
+                >
+                    Next : <span>{"Contract Upload"}</span>
+                </button>
+            </div >
 
 
 

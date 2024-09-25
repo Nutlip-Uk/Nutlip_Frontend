@@ -148,7 +148,7 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
             </>
           ) : (
             <div className={sty.NavLogin}>
-              <Link href={"/register?option=signup"}>Login</Link>
+              <Link href={"/register?option=login"}>Login</Link>
               {/* <Link
                 href={{
                   pathname: "/register",
@@ -218,6 +218,33 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
                   <Link href={"/dashboard?option=postProperty"}>Dashboard</Link>
                 </div>
               )}
+
+              {
+                userType === "Private_seller" && <hr />
+              }
+
+
+              {
+                userType === "Private_seller" && (
+                  <div className={sty.popUplink} onClick={() => setPopup(false)}>
+                    <img src="/navbar/transaction.svg" />
+                    <Link href={"/dashboard?option=listings"}>My Listings</Link>
+                  </div>
+                )
+              }
+              {
+                userType === "Private_seller" && <hr />
+              }
+
+
+              {
+                userType === "Private_seller" && (
+                  <div className={sty.popUplink} onClick={() => setPopup(false)}>
+                    <img src="/navbar/transaction.svg" />
+                    <Link href={"/dashboard?option=messages"}>Messages</Link>
+                  </div>
+                )
+              }
               <hr />
               <div className={sty.popUplink}>
                 <img src="/navbar/settings.svg" />

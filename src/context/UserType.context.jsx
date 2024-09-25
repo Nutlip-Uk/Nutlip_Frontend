@@ -4,20 +4,20 @@ import { LoginContext } from './Login.context';
 export const UserTypeContext = createContext();
 
 export const UserTypeProvider = ({ children }) => {
-  const { userInformation } = useContext(LoginContext)
+  const { userInformation } = useContext(LoginContext);
   const [userType, setUserType] = useState('');
-  const [userInfo, setUserInfo] = useState([])
+  const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         if (userInformation?.user?.id) {
-          const response = await fetch(`https://nutlip-backend-wdsi.onrender.com/api/users/${userInformation?.user?.id}`);
+          const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation?.user?.id}`);
           const data = await response.json();
           const userdata = data.data.userType.type;
-          setUserInfo(data.data)
-          console.log(userInfo)
+          setUserInfo(data.data);
           setUserType(userdata);
+          localStorage.setItem('userType', userdata); // Store userType in localStorage
           console.log("User Type after fetch:", data.data.userType.type);
         }
       } catch (error) {
@@ -26,6 +26,13 @@ export const UserTypeProvider = ({ children }) => {
     }
     fetchData();
   }, [userInformation]);
+
+  useEffect(() => {
+    const storedUserType = localStorage.getItem('userType'); // Retrieve userType from localStorage
+    if (storedUserType) {
+      setUserType(storedUserType);
+    }
+  }, []);
 
   const contextValues = {
     userType,
