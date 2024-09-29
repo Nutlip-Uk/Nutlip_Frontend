@@ -19,7 +19,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { useRouter } from "next/router";
-import Loading from "../../components/loading";
+import Loading from "../Loading";
 import { toast } from "react-toastify";
 const PostProperty = () => {
   const count = useRef(1);
