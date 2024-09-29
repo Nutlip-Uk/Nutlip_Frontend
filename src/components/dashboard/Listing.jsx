@@ -3,15 +3,12 @@ import styles from "../../styles/dashboard/listing.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext, useRef } from "react";
 import { LoginContext } from "../../context/Login.context";
-<<<<<<< HEAD
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { Button, DialogActions, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 const Listing = () => {
   const router = useRouter();
@@ -24,10 +21,7 @@ const Listing = () => {
   const { userInformation } = useContext(LoginContext);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const userId = userInformation?.user.id;
-<<<<<<< HEAD
   const [isModalOpen, setIsModalOpen] = useState(false);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
   let allListing = "allListing";
   let recentlyAdded = "recentlyAdded";
@@ -82,7 +76,6 @@ const Listing = () => {
     return <div>Error: {error}</div>;
   }
 
-<<<<<<< HEAD
   const deleteProperty = ({ apartment }) => {
     setIsModalOpen(true);
   }
@@ -91,8 +84,6 @@ const Listing = () => {
     console.log(`deleting ${apartment?.id}`)
   }
 
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   return (
     <>
       <div className={styles.Section}>
@@ -105,14 +96,10 @@ const Listing = () => {
             apartments={apartments}
             selectedApartment={selectedApartment}
             setSelectedApartment={setSelectedApartment}
-<<<<<<< HEAD
             isModalOpen={isModalOpen}
             deleteProperty={deleteProperty}
             setIsModalOpen={setIsModalOpen}
             HandleDelete={HandleDelete}
-=======
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
           />
         )}
         {count.current === 2 && <ListingDetail next={next} back={back} apartment={selectedApartment} />}
@@ -135,37 +122,23 @@ const Navigation = ({ handleChange, type }) => {
           >
             All listings
           </p>
-<<<<<<< HEAD
           <button
             disabled
-=======
-          <p
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             className={`${type === "recentlyAdded" ? styles.selected : styles.unselected
               }`}
             onClick={() => handleChange("recentlyAdded")}
           >
             Recently added
-<<<<<<< HEAD
           </button>
 
           <button
             disabled
-=======
-          </p>
-
-          <p
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             className={`${type === "featured" ? styles.selected : styles.unselected
               }`}
             onClick={() => handleChange("featured")}
           >
             Featured
-<<<<<<< HEAD
           </button>
-=======
-          </p>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         </div>
         <div className={styles.search}>
           <img src="/navbar/search.svg" />
@@ -176,7 +149,6 @@ const Navigation = ({ handleChange, type }) => {
   );
 };
 
-<<<<<<< HEAD
 const ListProperty = ({ next, handleChange, type, userId, apartments, setSelectedApartment, deleteProperty, isModalOpen, setIsModalOpen, HandleDelete }) => {
   // Track selected properties via checkboxes
   const [selectedProperties, setSelectedProperties] = useState([]);
@@ -189,31 +161,24 @@ const ListProperty = ({ next, handleChange, type, userId, apartments, setSelecte
         : [...prevSelected, apartmentId]
     );
   };
-=======
-const ListProperty = ({ next, handleChange, type, userId, apartments, setSelectedApartment }) => {
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
   const handlePropertyClick = (apartment) => {
     setSelectedApartment(apartment);
     next();
   };
 
-<<<<<<< HEAD
   // Redirect to edit form (this can be a separate page or modal form)
   const handleEdit = (apartment) => {
     // Navigate to edit page with apartment details
     setSelectedApartment(apartment); // Set the selected apartment for editing
 
   };
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
   return (
     <>
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
       <div className={styles.propertyListing}>
-<<<<<<< HEAD
         {Array.isArray(apartments) &&
           apartments.map((apartment) => (
             <>
@@ -320,60 +285,6 @@ const ListProperty = ({ next, handleChange, type, userId, apartments, setSelecte
 
 
 
-=======
-        {Array.isArray(apartments) && apartments.map((apartment) => (
-          <div key={apartment?._id} className={styles.propertyContainer}>
-            <input type="checkbox" />
-
-            <div className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
-              <div className={styles.PropertyImg}>
-                <img src={apartment?.images[0]} />
-
-                <div className={styles.propertyText}>
-                  <p>{apartment?.Title}</p>
-                  <p className="line-clamp-1">{apartment?.location}</p>
-
-                  <div className={styles.propertySize}>
-                    <li>
-                      <img src="/bedroom.svg" alt="" />
-                      <p>{apartment?.bedrooms}</p>
-                    </li>
-                    <li>
-                      <img src="/bathtub.svg" alt="" />
-                      <p>{apartment?.bathrooms}</p>
-                    </li>
-                    <li>
-                      <img src="/chair.svg" alt="" />
-                      <p>{apartment?.LivingRoom}</p>
-                    </li>
-                    <li>
-                      <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
-                      <p>{apartment?.Toilets}</p>
-                    </li>
-                  </div>
-
-                  {apartment.date_created && (
-                    <p>
-                      Last Updated:{" "}
-                      {new Date(apartment.date_created).toLocaleString()}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <hr />
-
-              <div className={styles.PropertyInfo}>
-                <p>Listing ID: {apartment._id.slice(0, 5)}</p>
-                <p>£ {apartment.Amount}</p>
-                <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
-                <p>View property</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     </>
   );
 };
