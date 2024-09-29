@@ -2,7 +2,11 @@
 import Image from 'next/image';
 import styles from "../../styles/BuyerProcess/FullPayment.module.css";
 import { useContext, useState } from 'react';
+<<<<<<< HEAD
 import { ImageContext, useImageContext } from "../../context/ImageContext.context";
+=======
+import { ImageContext } from "../../context/ImageContext.context";
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 import { LoginContext } from '../../context/Login.context';
@@ -13,7 +17,10 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
     const { url, setUrl } = useContext(ImageContext);
     const [fileUrl, setFileUrl] = useState('');
     const [confirmed, setConfirmed] = useState(false);
+<<<<<<< HEAD
     const { setLoading } = useImageContext();
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     const [form, setForm] = useState({
         transactionId: id,
         userId: userInformation.user.id,
@@ -62,7 +69,10 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
     const HandleBankDetails = async () => {
         e.preventDefault();
         console.log("BANK DETAILS", form);
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
                 method: "PUT",
@@ -77,18 +87,28 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
             if (response.ok) {
                 const data = await response.json();
                 console.log("RESPONSE FOR BANK DETAILS SENT", data);
+<<<<<<< HEAD
                 setLoading(false);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             }
 
         } catch (error) {
             console.error("Error submitting bank details:", error);
+<<<<<<< HEAD
             setLoading(false);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         setLoading(true);
+=======
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             console.log("File URL:", fileUrl);
             console.log("url", url);
@@ -107,16 +127,25 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
             if (response.ok) {
                 const data = await response.json();
                 console.log("Data posted successfully", data.message);
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error(error && error.message);
             setLoading(false);
+=======
+            }
+        } catch (error) {
+            console.error(error && error.message);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
     const handleConfirm = async () => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds90_013", {
                 method: "PUT",
@@ -132,11 +161,17 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                 const data = await response.json();
                 console.log(data);
                 setConfirmed(true);
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.log(error);
             setLoading(false);
+=======
+            }
+        } catch (error) {
+            console.log(error);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
@@ -332,9 +367,14 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                 {
                     (userType === "property_seeker" || userType === "Real_estate_agent") && (
                         <>
+<<<<<<< HEAD
                             {transactionContent?.confirm_proof_of_funds_90 ?
                                 (<div className={styles.fileContainer}>
 
+=======
+                            {transactionContent?.proof_of_funds_90 ?
+                                (<div className={styles.fileContainer}>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                                     <section id={styles.file_upload}>
                                         <label>
                                             {transactionContent?.proof_of_funds_90 === "" ? (

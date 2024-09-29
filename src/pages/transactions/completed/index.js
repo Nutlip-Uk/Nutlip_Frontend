@@ -1,4 +1,5 @@
 import Link from "next/link";
+<<<<<<< HEAD
 import React, { useContext, useEffect, useState } from "react";
 import styles from "../../../styles/Transactions/complete.module.css";
 import { LoginContext } from "../../../context/Login.context";
@@ -6,12 +7,19 @@ import { UserTypeContext } from "../../../context/UserType.context";
 import { useImageContext } from "../../../context/ImageContext.context";
 import Loading from "../../../components/Loading";
 import { toast } from "react-toastify";
+=======
+import React, { useContext, useEffect } from "react";
+import styles from "../../../styles/Transactions/complete.module.css";
+import { LoginContext } from "../../../context/Login.context";
+import { UserTypeContext } from "../../../context/UserType.context";
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 const CompletedTransactions = () => {
   const { userInformation } = useContext(LoginContext);
   const { userType } = useContext(UserTypeContext);
 
   const userId = userInformation?.user?.id;
+<<<<<<< HEAD
   const [completedData, setCompletedData] = useState([]);
   const { loading, setLoading } = useImageContext();
   const [error, setError] = useState(null);
@@ -124,6 +132,70 @@ const CompletedTransactions = () => {
         </div>
       </div>
     </>
+=======
+  const [completedData, setCompletedData] = React.useState([]);
+
+  useEffect(() => {
+    if (userType !== "Conveyancer") {
+      const fetchCompletedTransactions = async () => {
+        if (userId) {
+          const res = await fetch(
+            `https://nutlip-server.uc.r.appspot.com/api/transaction/getCompletedTransactionForAUser/${userId}`
+          );
+          const data = await res.json();
+          console.log("Completed Transaction", data.data);
+          setCompletedData(data.data);
+        }
+      };
+      fetchCompletedTransactions();
+    } else {
+      const fetchConveyancersCompletedTransactions = async () => {
+        if (userId) {
+          const res = await fetch(
+            `https://nutlip-server.uc.r.appspot.com/api/conveyancer/getcompletedtransaction/${userId}`
+          );
+          const data = await res.json();
+          console.log("Conveyancer Completed Transaction", data.data);
+          setCompletedData(data.data);
+        }
+      };
+      fetchConveyancersCompletedTransactions();
+    }
+  }, [userId]);
+
+  return (
+    <div className={styles.Section}>
+      <div className={styles.container}>
+        <Link href={"/transactions"} className={styles.Header}>
+          <h2>Completed Transactions</h2>
+        </Link>
+
+        {completedData.length == 0 && (
+          <div>
+            <p className="text-neutral-600 ">No Completed Transaction found</p>
+          </div>
+        )}
+
+        <div>
+          {completedData.map((data) => {
+            return (
+              <Link
+                href={`/transactions/current/${data?.transaction?._id}`}
+                key={data?._id}
+                className={`${styles.Box} bg-white w-full rounded-lg shadow-md`}
+              >
+                <p>Transaction Id: {data?.transaction?._id.slice(0, 7)}</p>
+                <p>
+                  Transaction Stage :
+                  {data?.transaction?.transactionCurrentStage}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   );
 };
 

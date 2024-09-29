@@ -2,17 +2,27 @@ import { useContext, useState } from "react"
 import styles from "../../styles/BuyerProcess/ResearchAndSurvey.module.css"
 import Button from "../styled components/Button"
 import { LoginContext } from "../../context/Login.context"
+<<<<<<< HEAD
 import { useImageContext } from "../../context/ImageContext.context"
 
 export const ResearchSurvey = ({ userType, transaction, id, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [confirm, setConfirmed] = useState(false)
     const { setLoading } = useImageContext();
+=======
+
+export const ResearchSurvey = ({ userType, transaction, id, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
+    const [confirm, setConfirmed] = useState(false)
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
     const { userInformation } = useContext(LoginContext);
 
 
     const handleConfirm = async () => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
@@ -28,12 +38,18 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent, 
                 setConfirmed(true);
                 const data = await response.json();
                 console.log(data); // Log the response
+<<<<<<< HEAD
                 setLoading(false);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             }
 
         } catch (error) {
             console.error('Error confirming research and survey:', error);
+<<<<<<< HEAD
             setLoading(false);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     }
 

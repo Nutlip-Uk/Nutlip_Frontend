@@ -28,7 +28,6 @@ const Transactions = () => {
   const [update, setUpdate] = useState(false);
 
 
-
   useEffect(() => {
     setCurrentType(type || "transaction");
   }, [type]);
@@ -62,7 +61,6 @@ const Transactions = () => {
       setUserId(userId);
 
       const fetchData = async () => {
-
         try {
           const apartmentsResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/apartments/getuserapartments/${userId}`);
           const apartmentsData = await apartmentsResponse.json();
@@ -97,7 +95,6 @@ const Transactions = () => {
   useEffect(() => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
-
         try {
           const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
           const data = await response.json();
@@ -367,7 +364,6 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
     }));
 
     await handleOffer(apartmentId, offerId, userId, status);
-
 
   };
 

@@ -1,10 +1,16 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/Contract.module.css"
 import { useContext, useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { ImageContext, useImageContext } from '../../context/ImageContext.context';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 import { set } from 'mongoose';
+=======
+import { ImageContext } from '../../context/ImageContext.context';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../../firebase';
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 
 
@@ -14,7 +20,11 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
     const [fileUrl, setFileUrl] = useState('');
     const [upload, setupload] = useState(false);
     const [receiveFile, setReceiveFile] = useState('');
+<<<<<<< HEAD
     const { setLoading } = useImageContext();
+=======
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -43,7 +53,10 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
     };
 
     const HandleSubmitSeller = async () => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_contractupload_06_seller`, {
                 method: "PUT",
@@ -59,6 +72,7 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
@@ -68,6 +82,14 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
     };
     const HandleSubmitBuyer = async () => {
         setLoading(true);
+=======
+            }
+        } catch (error) {
+            console.error('Error submitting contract upload:', error);
+        }
+    };
+    const HandleSubmitBuyer = async () => {
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_contractupload_06_buyer`, {
                 method: "PUT",
@@ -83,17 +105,26 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
             setLoading(false);
+=======
+            }
+        } catch (error) {
+            console.error('Error submitting contract upload:', error);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
 
     const HandleConfirm = async () => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_contractupload_06_seller_confirms`, {
                 method: "PUT",
@@ -109,11 +140,17 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                 const data = await response.json();
                 console.log(data.message);
                 console.log("successfullly confirmed")// Successfully Confirmed message
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error('Error Confirming contract upload:', error);
             setLoading(false);
+=======
+            }
+        } catch (error) {
+            console.error('Error Confirming contract upload:', error);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     }
 
@@ -130,6 +167,7 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
 
                 {(userType === "property_seeker" || userType === "Real_estate_agent") && (
                     <div className={styles.fileContainer}>
+<<<<<<< HEAD
                         {
                             transactionContent.contract_upload_signed_seller_confirmed_date ? (
                                 <section id={styles.file_upload}>
@@ -150,6 +188,22 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                                 <p className='italic text-lg text-red-500'> Contract not confirmed yet</p>
                             )
                         }
+=======
+                        <section id={styles.file_upload}>
+                            <label>
+                                {transactionContent?.contract_upload_signed_buyer
+                                    && (
+                                        <img src={transactionContent?.contract_upload_signed_buyer
+                                        } alt="Uploaded document" />
+                                    )}
+                            </label>
+
+                            {transactionContent?.contract_upload_signed_seller_confirmed_date &&
+                                <button style={{
+                                    background: "green"
+                                }} className={styles.fileuploadButton}> Signed contract sent by seller</button>}
+                        </section>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
                         <div className={styles.buttonContainer}>
                             <a href={transactionContent?.contract_upload_signed_buyer} download className={styles.download}><em>Download Contract</em></a>

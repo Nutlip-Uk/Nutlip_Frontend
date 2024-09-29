@@ -5,15 +5,23 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { GridLoader, HashLoader } from "react-spinners";
+<<<<<<< HEAD
+=======
+import { useSession, signIn, signOut } from "next-auth/react";
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import { LoginContext } from '../../context/Login.context';
 import { RegistrationContext } from "../../context/Register.context";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, facebookProvider, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
+<<<<<<< HEAD
 import { Message, useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
 import { useImageContext } from "../../context/ImageContext.context";
 import Toast from "../../components/Toast";
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 const Registration = () => {
   const router = useRouter();
@@ -23,9 +31,12 @@ const Registration = () => {
   const [loading, setLoading] = useState(false);
   const [iserror, setError] = useState()
   const { setUserInformation } = useContext(LoginContext);
+<<<<<<< HEAD
   const [loginStatus, setLoginStatus] = useState(null); // To manage toast display state
   const [toastContent, setToastContent] = useState('');
   const [toastType, setToastType] = useState('info');
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 
   let sign = "signup";
@@ -43,6 +54,7 @@ const Registration = () => {
     setType(data.option);
   });
 
+<<<<<<< HEAD
   const handleGoogleAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -54,6 +66,18 @@ const Registration = () => {
 
       // Attempt to register first
       const registerResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
+=======
+  const handleGoogleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const { uid, displayName, email, photoURL } = result.user;
+      setUser(result.user);
+
+      console.log("Google Login Info:", { uid, displayName, email, photoURL });
+
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,6 +89,7 @@ const Registration = () => {
         }),
       });
 
+<<<<<<< HEAD
       if (registerResponse.ok) {
         const registerData = await registerResponse.json();
         console.log("Register Response:", registerData);
@@ -106,6 +131,56 @@ const Registration = () => {
       toast.error("An error occurred during Google authentication.");
     } finally {
       setLoading(false);
+=======
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+      }
+
+      router.push("/register?option=login");
+    } catch (error) {
+      console.error("Error during sign-Up:", error);
+    }
+  };
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const { uid, displayName, email, photoURL } = result.user;
+
+      console.log("Google Login Info:", { uid, displayName, email, photoURL });
+
+      // Attempt to log in to your backend with the Google user info
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: uid, // Using Firebase UID as the password or a unique identifier
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userInformation", JSON.stringify(data));
+        setUserInformation(data);
+
+        router.push("/"); // Redirect to a protected route after sign-in
+      } else {
+        console.log(data);
+        setError(data || "Failed to log in with Google.");
+      }
+    } catch (error) {
+      console.error("Error during Google sign-in:", error);
+      setError("An error occurred during Google sign-in.");
+    } finally {
+      setLoading(false); // Reset loading state after request is completed
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     }
   };
   const handleFacebookAuth = async (e) => {
@@ -135,7 +210,10 @@ const Registration = () => {
         localStorage.setItem("token", loginData.token);
         localStorage.setItem("userInformation", JSON.stringify(loginData));
         setUserInformation(loginData);
+<<<<<<< HEAD
         toast.success("Login successful.");
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
       } else {
         // If the login fails, try to register the user
         const registerResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
@@ -155,10 +233,15 @@ const Registration = () => {
           localStorage.setItem("token", registerData.token);
           localStorage.setItem("userInformation", JSON.stringify(registerData));
           setUserInformation(registerData);
+<<<<<<< HEAD
           toast.success("Registration successful. You are now logged in.");
         } else {
           throw new Error("Registration failed");
           toast.error("Registration failed.");
+=======
+        } else {
+          throw new Error("Registration failed");
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
       }
 
@@ -166,16 +249,28 @@ const Registration = () => {
     } catch (error) {
       console.error("Error during Facebook authentication:", error);
       setError("An error occurred during Facebook authentication.");
+<<<<<<< HEAD
       toast.error("An error occurred during Facebook authentication.");
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
   };
 
 
+<<<<<<< HEAD
   return (
     <main className={styles.main}>
       {loginStatus && <Toast type={toastType} content={toastContent} duration />}
+=======
+
+
+
+
+  return (
+    <main className={styles.main}>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
       <div className={styles.mainImage}>
         <img
           src={`${type === "signup" ? "/images/form.png" : "/images/form2.png"
@@ -206,8 +301,13 @@ const Registration = () => {
               Login
             </p>
           </div>
+<<<<<<< HEAD
           {type === "signup" && <Signup userCreated={handleChange} handleGoogleAuth={handleGoogleAuth} handleFacebookAuth={handleFacebookAuth} loginStatus={loginStatus} setLoginStatus={setLoginStatus} toastContent={toastContent} setToastContent={setToastContent} toastType={toastType} setToastType={setToastType} />}
           {type === "login" && <Login handleGoogleAuth={handleGoogleAuth} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookAuth={handleFacebookAuth} loginStatus={loginStatus} setLoginStatus={setLoginStatus} toastContent={toastContent} setToastContent={setToastContent} toastType={toastType} setToastType={setToastType} />}
+=======
+          {type === "signup" && <Signup userCreated={handleChange} handleGoogleSignUp={handleGoogleSignUp} handleFacebookAuth={handleFacebookAuth} />}
+          {type === "login" && <Login handleGoogleSignIn={handleGoogleSignIn} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookAuth={handleFacebookAuth} />}
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
           {type === "verify" && <Verify />}
           {type === "forgetPassword" && <ForgetPassword />}
         </div>
@@ -216,7 +316,11 @@ const Registration = () => {
   );
 };
 
+<<<<<<< HEAD
 const Signup = ({ handleGoogleAuth, handleFacebookAuth, loginStatus, setLoginStatus, toastContent, setToastContent, toastType, setToastType }, props) => {
+=======
+const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const [isError, setError] = useState("");
@@ -266,27 +370,43 @@ const Signup = ({ handleGoogleAuth, handleFacebookAuth, loginStatus, setLoginSta
       if (!response.ok) {
         const errorData = await response.json();
         console.log(errorData)
+<<<<<<< HEAD
         setToastContent(errorData || "Failed to register check your email or password ");
         setToastType('error');
         setError(errorData || "Failed to register check your email or password ");
         return;
+=======
+        setError(errorData || "Failed to register check your email or password ");
+        return;
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
       }
 
       //* If registration is successful, you might redirect the user to the login page
       if (response.status === 201) {
+<<<<<<< HEAD
         setToastContent('Registeration Successful!');
         setToastType('success');
         router.push("/register?option=login");
+=======
+        router.push("/register?option=login");
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
       }
 
     } catch (error) {
       console.log(error)
+<<<<<<< HEAD
       setToastContent(error || "Something went wrong !");
       setToastType('error');
 
     }
 
     setLoginStatus(true);
+=======
+
+    }
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   };
 
   let verify = "verify";
@@ -352,7 +472,11 @@ const Signup = ({ handleGoogleAuth, handleFacebookAuth, loginStatus, setLoginSta
 
         <button
           /* onClick={() => router.push(`/register?option=${verify}`)} */
+<<<<<<< HEAD
 
+=======
+          onClick={() => toast.success("Creating account")}
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
           className={styles.CreateAccount}
           type="submit"
         >
@@ -371,7 +495,11 @@ const Signup = ({ handleGoogleAuth, handleFacebookAuth, loginStatus, setLoginSta
           <button
             className={styles.Google}
             style={{ backgroundColor: "white" }}
+<<<<<<< HEAD
             onClick={handleGoogleAuth}
+=======
+            onClick={handleGoogleSignUp}
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
           >
             <img src="/google.svg" alt="" />
             <p>Continue with Google</p>
@@ -396,7 +524,11 @@ const Signup = ({ handleGoogleAuth, handleFacebookAuth, loginStatus, setLoginSta
   );
 };
 
+<<<<<<< HEAD
 export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror, handleFacebookAuth, loginStatus, setLoginStatus, toastContent, setToastContent, toastType, setToastType }) => {
+=======
+export const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserror, handleFacebookAuth }) => {
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const router = useRouter();
@@ -434,6 +566,7 @@ export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror
         localStorage.setItem("token", data.token)
         localStorage.setItem("userInformation", JSON.stringify(data));
         setUserInformation(data);
+<<<<<<< HEAD
         setToastContent("Login successful");
         setToastType("success");
         toast.success("Logging In")
@@ -455,6 +588,19 @@ export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror
       setLoading(false); // Reset loading state after request is completed
     }
     setLoginStatus(true);
+=======
+
+        router.push("/");
+      } else {
+        console.log(data)
+        setError(data || "Failed to register check your email or password ");
+      }
+    } catch (error) {
+
+    } finally {
+      setLoading(false); // Reset loading state after request is completed
+    }
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   };
   return (
     <>
@@ -509,7 +655,10 @@ export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror
             </div>
 
             <button
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
               onClick={() => router.push(`/register?option=${forgetPassword}`)}
               className={styles.forgetPassword}
             >
@@ -531,7 +680,11 @@ export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror
           </div>
         </form>
         <div className={styles.GoogleContainer}>
+<<<<<<< HEAD
           <form className={styles.alternateLog} onSubmit={handleGoogleAuth}>
+=======
+          <form className={styles.alternateLog} onSubmit={handleGoogleSignIn}>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             <button
               className={styles.Google}
               style={{ backgroundColor: "white" }}
@@ -559,7 +712,10 @@ export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror
     </>
   );
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 const Verify = () => {
   const router = useRouter();
   const [showSuccess, setShowSuccess] = useState(false);
@@ -609,6 +765,7 @@ const Verify = () => {
   );
 };
 
+<<<<<<< HEAD
 // const Success = () => {
 //   return (
 //     <>
@@ -622,6 +779,21 @@ const Verify = () => {
 //     </>
 //   );
 // };
+=======
+const Success = () => {
+  return (
+    <>
+      <div className={otp.successContainer}>
+        <img src="/success.svg" alt="success" />
+        <p className={otp.success}>Successful</p>
+        <p className={otp.congrats}>
+          Congratulations!! You have successfully created an account
+        </p>
+      </div>
+    </>
+  );
+};
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 const ForgetPassword = () => {
   const router = useRouter();

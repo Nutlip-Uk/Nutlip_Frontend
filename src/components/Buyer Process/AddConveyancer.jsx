@@ -2,13 +2,19 @@ import styles from "../../styles/BuyerProcess/AddConveyancer.module.css";
 import { useState, useEffect } from "react";
 import { ConveyancerModal } from "../Modals/Offer.modal";
 import CopyButton from "../../components/CopyButton.jsx";
+<<<<<<< HEAD
 import { useImageContext } from "../../context/ImageContext.context.jsx";
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 export const AddConveyancer = ({ userType, transaction, id, userInformation, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const [buyerConveyancer, setBuyerConveyancer] = useState(null);
     const [sellerConveyancer, setSellerConveyancer] = useState(null);
+<<<<<<< HEAD
     const { setLoading } = useImageContext();
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
     useEffect(() => {
         console.log("Transaction Content:", transactionContent[0]);
@@ -31,7 +37,10 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
 
     const fetchConveyancerDetails = async (conveyancerID, type) => {
         console.log("Fetching conveyancer details for ID:", conveyancerID);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${conveyancerID}`);
             console.log("Fetch response:", response);
@@ -48,12 +57,18 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
             }
         } catch (error) {
             console.error(error);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
     const addSellerConveyancer = async (conveyancerID) => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_selleraddconveyancer_03", {
                 method: "PUT",
@@ -71,7 +86,10 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                 console.log("Seller conveyancer added successfully", data);
                 setShowModal2(false);
                 await fetchConveyancerDetails(conveyancerID, "Real_estate_agent");
+<<<<<<< HEAD
                 setLoading(false);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             }
         } catch (error) {
             console.log(error);
@@ -79,7 +97,10 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     };
 
     const addBuyerConveyancer = async (conveyancerID) => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_buyerconveyancer_04", {
                 method: "PUT",
@@ -97,11 +118,17 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                 console.log(data);
                 setShowModal(false);
                 await fetchConveyancerDetails(conveyancerID, "property_seeker");
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.log(' error:', error);
             setLoading(false);
+=======
+            }
+        } catch (error) {
+            console.log(' error:', error);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 

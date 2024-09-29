@@ -1,4 +1,5 @@
 .Section {
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -398,12 +399,417 @@
   }
 
   .AccountFormOne {
+=======
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+    width: 90%;
+    height: 100%;
+}
+
+.NavContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Header {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.search {
+    height: 40px;
+    padding: 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    gap: 8px;
+    border-radius: 10px;
+}
+
+.search input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    color: #626161;
+}
+
+.TransactionsContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 24px;
+}
+
+.Box {
+    width: 100%;
+    height: 190px;
+    border-radius: 16px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 30px;
+    gap: 8px;
+}
+
+.BoxHeader {
+    font-size: 20px;
+    font-weight: 600;
+}
+.BoxText {
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+
+.AccountMainForm {
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+}
+
+.AccountFormOne {
+    width: 100%;
+    background: white;
+    padding: 16px 20px;
+    border-radius: 16px;
+    height: 130px;
+    display: flex;
+    gap:5%;
+    
+    align-items:center;
+}
+
+.AccountFormOne  hr{
+    height:100%;
+}
+.accountType {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width:100%;
+   
+}
+
+.accountType p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.radioContainer {
+    display: flex;
+    gap: 16px;
+}
+
+.radioContainer label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: #4b4b4b;
+}
+
+.accountStatus{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    width: 35%;
+}
+
+.accountStatus p{
+font-size: 16px;
+font-weight: 500;
+}
+
+.getVerified{
+    display:flex;
+    gap:16px;
+}
+
+
+.getVerified p:nth-child(1){
+font-size: 16px;
+font-weight: 600;
+color: #4B4B4B;
+
+}
+.getVerified p:nth-child(2){
+    border-bottom: 2px solid #001F6D;
+    font-family: Poppins;
+font-size: 16px;
+font-weight: 500;
+color: #001F6D;
+
+
+}
+
+
+.AccountFormTwo{
+    width: 100%;
+height: 537px;
+border-radius: 16px;
+background: #FFFFFF;
+padding:24px 24px;
+}
+
+.inputContainer{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    width:100%;
+    gap:24px;
+}
+
+.inputContainer label{
+    display:flex;
+    flex-direction:column;
+    width:304px;
+font-size: 16px;
+font-weight: 500;
+color: #141212;
+gap:8px;
+}
+
+.inputContainer label input{
+    width:100%;
+height:52px;
+padding: 14px;
+border-radius: 8px;
+border: 1px solid #D0D5DD;
+box-shadow: 0px 1px 2px 0px #1018280D;
+
+}
+
+.disable{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.disable input{
+    width: 20px;
+height: 20px;
+border-radius:16px;
+}
+
+.disable p{
+font-size: 16px;
+font-weight: 400;
+color: #4B4B4B;
+
+}
+
+
+.buttonContainer{
+    width:100%;
+    display:flex;
+    justify-content:end;
+    gap:16px;
+    padding: 20px 0;
+}
+
+.buttonContainer button{
+font-size: 16px;
+font-weight: 500;
+height:52px;
+padding: 14px 32px;
+border-radius:8px;
+border:none;
+
+}
+
+.buttonContainer button:nth-child(1){
+    background: #E8E8E8;
+    color:#626161;
+}
+
+.buttonContainer button:nth-child(2){
+    background: #DA0025;
+    color:white;
+}
+
+.AccountSecondFormOne {
+    width: 100%;
+    background: white;
+    padding: 16px 20px;
+    border-radius: 16px;
+    height: 300px;
+    display: flex;
+    flex-direction:column;
+    gap:24px;
+    
+}
+
+.WebsiteForm{
+    display: flex;
+    width:100%;
+    gap:24px;
+}
+.WebsiteForm label{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    gap:8px;
+font-size: 16px;
+font-weight: 500;
+}
+
+.WebsiteForm input{
+    width:100%;
+height: 52px;
+padding: 14px;
+border-radius: 8px;
+border: 1px solid #D0D5DD;
+box-shadow: 0px 1px 2px 0px #1018280D;
+}
+
+.CompanyLogo{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.CompanyLogo p{
+font-size: 16px;
+font-weight: 500;
+color: #141212;
+
+}
+
+.inputField{
+    display: flex;
+    gap:16px;
+    height:100%;
+    width:100%;
+   
+    flex-wrap: wrap;
+}
+
+
+#file_upload {
+    display: flex;
+    align-self: stretch;
+    gap: 26px;
+    align-items:center;
+}
+
+#file_upload label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 210px;
+    height: 105px;
+    border: 1px dashed black;
+    border-radius: 16px;
+    background-color: #fff;
+    font-size: 14px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+#file_upload input {
+    display: none;
+}
+
+#file_upload img{
+    height: 100%;
+    width: 100%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    object-fit: cover;
+}
+
+
+.AccountSecondFormTwo{
+    width: 100%;
+height: 520px;
+border-radius: 16px;
+background: #FFFFFF;
+padding:24px ;
+display:flex;
+flex-direction:column;
+gap:24px;
+}
+
+.AccountSecondFormTwo label{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    width:100%;
+    font-size: 16px;
+font-weight: 500;
+color: #141212;
+}
+
+.AccountSecondFormTwo label textarea{
+    resize:none;
+    height:130px;
+    width:100%;
+    padding:5px 10px;
+    border: 1px solid #D0D5DD;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+    border-radius:8px;
+}
+
+.AccountSecondFormTwo label textarea::placeholder{
+font-size: 15px;
+font-weight: 400;
+color: #626161;
+}
+
+@media ( width <=400px) {
+    .search {
+        height: 40px;
+        width:50%;
+        padding: 0px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        gap: 8px;
+        border-radius: 10px;
+    }
+    
+    .search input {
+        width:80%;
+    }
+
+    
+.TransactionsContainer{
+    grid-template-columns: repeat(1,1fr);
+    width:100%;
+    gap:16px;
+}
+
+.Box{
+    width: 100%;
+height: 140px;
+}
+
+.AccountFormOne {
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     width: 100%;
     background: white;
     padding: 16px 20px;
     border-radius: 16px;
     height: 100%;
     display: flex;
+<<<<<<< HEAD
     flex-direction: column;
     gap: 16px;
     align-items: unset;
@@ -442,12 +848,45 @@
   }
 
   .AccountSecondFormOne {
+=======
+    flex-direction:column;
+    gap:16px;
+    align-items:unset;
+}
+
+.AccountFormOne  hr{
+    height:100%;
+}
+.accountType {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.radioContainer {
+    display: flex;
+    flex-wrap:wrap;
+    gap: 16px;
+}
+.AccountFormTwo{
+    width: 100%;
+height: 100%;
+}
+
+.inputContainer{
+    display:grid;
+    grid-template-columns:repeat(1,1fr);
+}
+
+.AccountSecondFormOne {
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     width: 100%;
     background: white;
     padding: 16px 20px;
     border-radius: 16px;
     height: 100%;
     display: flex;
+<<<<<<< HEAD
     flex-direction: column;
     gap: 24px;
   }
@@ -656,3 +1095,29 @@
     min-width: fit-content;
   }
 }
+=======
+    flex-direction:column;
+    gap:24px;
+    
+}
+
+.WebsiteForm{
+    display: flex;
+    flex-direction:column;
+    width:100%;
+    gap:24px;
+}
+.AccountSecondFormTwo{
+height: 100%;
+}
+
+
+}
+@media (400px <= width <=779px) {
+  
+}
+
+@media (780px <= width <= 960px) {
+    
+}
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731

@@ -2,7 +2,10 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from "next/router";
 export const LoginContext = createContext();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 const LoginProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
   const router = useRouter();
@@ -20,6 +23,11 @@ const LoginProvider = ({ children }) => {
 
   };
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   const GetUser = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'GET',
@@ -37,6 +45,10 @@ const LoginProvider = ({ children }) => {
     return response;
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   const handleWelcome = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'PUT',
@@ -86,7 +98,10 @@ const LoginProvider = ({ children }) => {
       console.error('Error logging out on server', error);
     }
     window.location.reload();
+<<<<<<< HEAD
     router.push("/");
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   };
 
 

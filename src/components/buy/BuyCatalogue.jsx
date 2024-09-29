@@ -9,7 +9,10 @@ import Link from 'next/link';
 import { useState, useEffect, useContext } from "react";
 
 import { UserTypeContext } from "../../context/UserType.context";
+<<<<<<< HEAD
 import OfferModal from "../Modals/Offer.modal";
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 
 export const BuyCatalogue = ({ properties, isLoading }) => {
@@ -37,6 +40,7 @@ function Property({ property, isLoading }) {
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 
   const { userType } = useContext(UserTypeContext);
+<<<<<<< HEAD
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(!showModal);
@@ -48,6 +52,11 @@ function Property({ property, isLoading }) {
   return (
     <div className={styles.propertyContainer}>
       {showModal && <OfferModal handleShow={closeModal} data={property} />}
+=======
+
+  return (
+    <div className={styles.propertyContainer}>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
       <div className={styles.property}>
         <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
 
@@ -114,7 +123,11 @@ function Property({ property, isLoading }) {
 
 
 
+<<<<<<< HEAD
             {< button onClick={() => openModal()} > Make an offer</button>}
+=======
+            {(userType == "property_seeker") && < button > Make an offer</button>}
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
           </div>
 

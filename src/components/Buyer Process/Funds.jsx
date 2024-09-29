@@ -2,7 +2,11 @@ import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import { storage } from '../../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+<<<<<<< HEAD
 import { ImageContext, useImageContext } from '../../context/ImageContext.context';
+=======
+import { ImageContext } from '../../context/ImageContext.context';
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
 
@@ -11,7 +15,11 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
+<<<<<<< HEAD
   const { loading, setLoading } = useImageContext();
+=======
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 
   const handleImageChange = (e) => {
@@ -43,7 +51,10 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
   };
 
   const handleSubmit = async () => {
+<<<<<<< HEAD
     setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     try {
       const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
@@ -60,6 +71,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
       if (response.ok) {
         console.log(data.message);
+<<<<<<< HEAD
         setLoading(false);
       } else {
         console.error(data.message);
@@ -68,11 +80,21 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
     } catch (error) {
       console.error('Error uploading proof of funds', error);
       setLoading(false);
+=======
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Error uploading proof of funds', error);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     }
   };
 
   const handleConfirm = async () => {
+<<<<<<< HEAD
     setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     try {
       const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
@@ -88,6 +110,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
       if (response.ok) {
         console.log(data.message);
+<<<<<<< HEAD
         setLoading(false);
       } else {
         console.error(data.message);
@@ -99,6 +122,20 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
     }
   };
 
+=======
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Error confirming proof of funds', error);
+    }
+  };
+
+
+  const handleCheck = () => {
+
+  }
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   return (
     <>
       <div className={styles.offer}>
@@ -132,8 +169,13 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
         {userType === "Real_estate_agent" && (
           <div className={styles.fileContainer}>
+<<<<<<< HEAD
             <section id={styles.file_upload} className='relative rounded-e-lg flex flex-col items-start'>
               <label >
+=======
+            <section id={styles.file_upload} className='relative rounded-e-lg'>
+              <label>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                 {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
                 {transactionContent?.proof_of_funds && (
 
@@ -141,7 +183,10 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
                 )}
               </label>
+<<<<<<< HEAD
               <a href={transactionContent?.proof_of_funds} download className={`text-blue-900 font-semibold border-b-2 border-blue-900`}><em>Download Contract</em></a>
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             </section>
             {!transactionContent?.confirm_proof_of_funds ? (
               <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>

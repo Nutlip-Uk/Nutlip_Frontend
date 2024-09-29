@@ -1,7 +1,11 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/TitleTransfer.module.css"
 import { useContext, useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { ImageContext, useImageContext } from "../../context/ImageContext.context";
+=======
+import { ImageContext } from "../../context/ImageContext.context";
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 
@@ -11,7 +15,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     const [fileUrl, setFileUrl] = useState('');
     const [upload, setupload] = useState(false);
     const [receiveFile, setReceiveFile] = useState('');
+<<<<<<< HEAD
     const { setLoading } = useImageContext();
+=======
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -40,7 +48,10 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     };
 
     const handleSubmitSeller = async () => {
+<<<<<<< HEAD
         setLoading(true);
+=======
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_legalTitle_014`, {
                 method: "PUT",
@@ -57,6 +68,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                 const data = await response.json();
 
                 console.log(data.message); // Successfully uploaded message
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
@@ -66,6 +78,15 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     };
     const handleSubmitBuyer = async () => {
         setLoading(true);
+=======
+            }
+        } catch (error) {
+            console.error('Error submitting contract upload:', error);
+        }
+    };
+    const handleSubmitBuyer = async () => {
+
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_legalTitle_015`, {
                 method: "PUT",
@@ -81,11 +102,17 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
+<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
             setLoading(false);
+=======
+            }
+        } catch (error) {
+            console.error('Error submitting contract upload:', error);
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
@@ -111,14 +138,22 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                                 <section id={styles.file_upload}>
                                     <label className='italic text-xs text-neutral-500'>
                                         {transactionContent?.legal_title_document_signed != null ?
+<<<<<<< HEAD
                                             <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
+=======
+                                            <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                                             : "Transfer of title document pending ..."
                                         }
                                     </label>
                                 </section>
 
                                 <div className={styles.buttonContainer}>
+<<<<<<< HEAD
                                     <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
+=======
+                                    <a href={transactionContent?.legal_title_document_signed} download className={styles.download}><em>Download Contract</em></a>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                                 </div>
                             </div>
                         )}
@@ -141,7 +176,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
 
 
                                 <div className={styles.buttonContainer}>
+<<<<<<< HEAD
                                     <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
+=======
+                                    <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                                     <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
                                 </div>
 
@@ -203,7 +242,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
 
 
                                         <div className={styles.buttonContainer}>
+<<<<<<< HEAD
                                             <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
+=======
+                                            <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
+>>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                                             {/* <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button> */}
                                         </div>
                                     </>
