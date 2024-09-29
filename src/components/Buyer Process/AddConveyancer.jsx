@@ -2,11 +2,13 @@ import styles from "../../styles/BuyerProcess/AddConveyancer.module.css";
 import { useState, useEffect } from "react";
 import { ConveyancerModal } from "../Modals/Offer.modal";
 import CopyButton from "../../components/CopyButton.jsx";
+import { useImageContext } from "../../context/ImageContext.context.jsx";
 export const AddConveyancer = ({ userType, transaction, id, userInformation, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const [buyerConveyancer, setBuyerConveyancer] = useState(null);
     const [sellerConveyancer, setSellerConveyancer] = useState(null);
+    const { setLoading } = useImageContext();
 
     useEffect(() => {
         console.log("Transaction Content:", transactionContent[0]);
@@ -29,6 +31,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
 
     const fetchConveyancerDetails = async (conveyancerID, type) => {
         console.log("Fetching conveyancer details for ID:", conveyancerID);
+
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${conveyancerID}`);
             console.log("Fetch response:", response);
@@ -45,10 +48,12 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
             }
         } catch (error) {
             console.error(error);
+
         }
     };
 
     const addSellerConveyancer = async (conveyancerID) => {
+        setLoading(true);
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_selleraddconveyancer_03", {
                 method: "PUT",
@@ -66,6 +71,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                 console.log("Seller conveyancer added successfully", data);
                 setShowModal2(false);
                 await fetchConveyancerDetails(conveyancerID, "Real_estate_agent");
+                setLoading(false);
             }
         } catch (error) {
             console.log(error);
@@ -73,6 +79,7 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
     };
 
     const addBuyerConveyancer = async (conveyancerID) => {
+        setLoading(true);
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_buyerconveyancer_04", {
                 method: "PUT",
@@ -90,9 +97,11 @@ export const AddConveyancer = ({ userType, transaction, id, userInformation, tra
                 console.log(data);
                 setShowModal(false);
                 await fetchConveyancerDetails(conveyancerID, "property_seeker");
+                setLoading(false);
             }
         } catch (error) {
             console.log(' error:', error);
+            setLoading(false);
         }
     };
 

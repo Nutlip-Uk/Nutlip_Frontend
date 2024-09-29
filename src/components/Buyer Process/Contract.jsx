@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/Contract.module.css"
 import { useContext, useEffect, useState } from 'react';
-import { ImageContext } from '../../context/ImageContext.context';
+import { ImageContext, useImageContext } from '../../context/ImageContext.context';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
+import { set } from 'mongoose';
 
 
 
@@ -13,7 +14,7 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
     const [fileUrl, setFileUrl] = useState('');
     const [upload, setupload] = useState(false);
     const [receiveFile, setReceiveFile] = useState('');
-
+    const { setLoading } = useImageContext();
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -42,6 +43,7 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
     };
 
     const HandleSubmitSeller = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_contractupload_06_seller`, {
                 method: "PUT",
@@ -57,12 +59,15 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
+                setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
+            setLoading(false);
         }
     };
     const HandleSubmitBuyer = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_contractupload_06_buyer`, {
                 method: "PUT",
@@ -78,14 +83,17 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
+                setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
+            setLoading(false);
         }
     };
 
 
     const HandleConfirm = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_contractupload_06_seller_confirms`, {
                 method: "PUT",
@@ -101,9 +109,11 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                 const data = await response.json();
                 console.log(data.message);
                 console.log("successfullly confirmed")// Successfully Confirmed message
+                setLoading(false);
             }
         } catch (error) {
             console.error('Error Confirming contract upload:', error);
+            setLoading(false);
         }
     }
 
@@ -120,20 +130,26 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
 
                 {(userType === "property_seeker" || userType === "Real_estate_agent") && (
                     <div className={styles.fileContainer}>
-                        <section id={styles.file_upload}>
-                            <label>
-                                {transactionContent?.contract_upload_signed_buyer
-                                    && (
-                                        <img src={transactionContent?.contract_upload_signed_buyer
-                                        } alt="Uploaded document" />
-                                    )}
-                            </label>
+                        {
+                            transactionContent.contract_upload_signed_seller_confirmed_date ? (
+                                <section id={styles.file_upload}>
+                                    <label>
+                                        {transactionContent?.contract_upload_signed_buyer
+                                            && (
+                                                <img src={transactionContent?.contract_upload_signed_buyer
+                                                } alt="Uploaded document" />
+                                            )}
+                                    </label>
 
-                            {transactionContent?.contract_upload_signed_seller_confirmed_date &&
-                                <button style={{
-                                    background: "green"
-                                }} className={styles.fileuploadButton}> Signed contract sent by seller</button>}
-                        </section>
+                                    {transactionContent?.contract_upload_signed_seller_confirmed_date &&
+                                        <button style={{
+                                            background: "green"
+                                        }} className={styles.fileuploadButton}> Signed contract </button>}
+                                </section>
+                            ) : (
+                                <p className='italic text-lg text-red-500'> Contract not confirmed yet</p>
+                            )
+                        }
 
                         <div className={styles.buttonContainer}>
                             <a href={transactionContent?.contract_upload_signed_buyer} download className={styles.download}><em>Download Contract</em></a>

@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from "next/router";
 export const LoginContext = createContext();
 
+
 const LoginProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(null);
   const router = useRouter();
@@ -19,8 +20,6 @@ const LoginProvider = ({ children }) => {
 
   };
 
-
-
   const GetUser = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'GET',
@@ -37,7 +36,6 @@ const LoginProvider = ({ children }) => {
     }
     return response;
   };
-
 
   const handleWelcome = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
@@ -88,6 +86,7 @@ const LoginProvider = ({ children }) => {
       console.error('Error logging out on server', error);
     }
     window.location.reload();
+    router.push("/");
   };
 
 

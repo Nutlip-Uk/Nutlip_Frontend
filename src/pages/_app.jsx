@@ -4,6 +4,7 @@ import Layout from '../components/Layout'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
+import 'rsuite/dist/rsuite-no-reset.min.css';
 
 export default function App({ Component, pageProps }) {
   const { session, ...otherPageProps } = pageProps;

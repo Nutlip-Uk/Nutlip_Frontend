@@ -2,7 +2,10 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useRef, useContext } from "react";
 import styles from "../../styles/dashboard/transaction.module.css";
 import { LoginContext } from "../../context/Login.context";
-
+import Link from "next/link";
+import { toast } from "react-toastify";
+import { useImageContext } from "../../context/ImageContext.context";
+import Loading from "../Loading";
 const Transactions = () => {
   const router = useRouter();
   const { option, type } = router.query;
@@ -16,10 +19,14 @@ const Transactions = () => {
   const [selectedApartmentAddress, setSelectedApartmentAddress] = useState(null);
   const [selectedApartmentTitle, setSelectedApartmentTitle] = useState(null);
   const [offersReceived, setOffersReceived] = useState([]);
+  const [offersDeclined, setOffersDeclined] = useState([]);
+  const [offersAccepted, setOffersAccepted] = useState([]);
+  const [offersHold, setOffersHold] = useState([]);
   const [propertyOffers, setPropertyOffers] = useState([]);
   const [sentOffers, setSentOffers] = useState([]);
   const count = useRef(1);
   const [update, setUpdate] = useState(false);
+
 
 
   useEffect(() => {
@@ -55,6 +62,7 @@ const Transactions = () => {
       setUserId(userId);
 
       const fetchData = async () => {
+
         try {
           const apartmentsResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/apartments/getuserapartments/${userId}`);
           const apartmentsData = await apartmentsResponse.json();
@@ -64,6 +72,9 @@ const Transactions = () => {
           const offersReceivedResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/offer/getoffersreceived/${userId}`);
           const offersReceivedData = await offersReceivedResponse.json();
           setOffersReceived(offersReceivedData);
+          setOffersDeclined(offersReceivedData);
+          setOffersAccepted(offersReceivedData);
+          setOffersHold(offersReceivedData);
           console.log("offersReceivedData:", offersReceivedData);
 
           const offersSentResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/offer/getofferssent/${userId}`);
@@ -73,6 +84,9 @@ const Transactions = () => {
 
         } catch (error) {
           console.error("Error fetching data:", error);
+          toast.error("Error fetching data. Please try again later.");
+        } finally {
+
         }
       };
 
@@ -83,19 +97,28 @@ const Transactions = () => {
   useEffect(() => {
     if (selectedApartmentId) {
       const fetchPropertyOffers = async () => {
+
         try {
           const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/offer/getapartmentoffer/${selectedApartmentId}`);
           const data = await response.json();
           setPropertyOffers(data.offers);
           console.log("propertyOffers:", data.offers);
+          toast.success("Property offers fetched successfully.");
         } catch (error) {
           console.error("Error fetching property offers:", error);
+
+          toast.error("Error fetching property offers. Please try again later.");
+        } finally {
+
         }
       };
 
       fetchPropertyOffers();
     }
   }, [selectedApartmentId]);
+
+
+
 
   const handleViewOffers = (apartmentId, apartmentAmount, apartmentAddress, apartmentTitle) => {
     setSelectedApartmentId(apartmentId);
@@ -118,6 +141,13 @@ const Transactions = () => {
     setSelectedApartmentTitle(apartmentTitle);
     handleChange("viewDeclinedOffers");
   };
+  const handleViewHoldOffers = (apartmentId, apartmentAmount, apartmentAddress, apartmentTitle) => {
+    setSelectedApartmentId(apartmentId);
+    setSelectedApartmentAmount(apartmentAmount);
+    setSelectedApartmentAddress(apartmentAddress);
+    setSelectedApartmentTitle(apartmentTitle);
+    handleChange("viewHoldOffers");
+  };
   const handleViewOngoing = (apartmentId, apartmentAmount, apartmentAddress, apartmentTitle) => {
     setSelectedApartmentId(apartmentId);
     setSelectedApartmentAmount(apartmentAmount);
@@ -127,32 +157,24 @@ const Transactions = () => {
   };
 
 
-  let transaction = "transaction";
+
   let offers = "offers";
-  let ongoing = "ongoing";
-  let offerReceived = "offerReceived";
-  let offerSent = "offerSent";
-  let offersOnHold = "offersOnHold";
-  let offersDeclined = "offersDeclined";
-  let offerSentCompleted = "offerSentCompleted";
-  let offerSentCancelled = "offerSentCancelled";
-  let completedTransactions = "completedTransactions";
-  let cancelledTransactions = "cancelledTransactions";
-  let viewAcceptedOffers = "viewAcceptedOffers";
 
 
 
   return (
     <div className={styles.Section}>
+
       {currentType === "transaction" && <MainTransaction handleChange={handleChange} offers={offers} />}
       {currentType === "offers" && <Offers handleChange={handleChange} />}
-      {currentType === "ongoing" && <Ongoing apartments={apartments} propertyOffers={propertyOffers} handleChange={handleChange} handleViewOngoing={handleViewOngoing} />}
+      {currentType === "ongoing" && <Ongoing apartments={apartments} propertyOffers={propertyOffers} handleChange={handleChange} handleViewOngoing={handleViewOngoing} offersAccepted={offersAccepted} />}
       {currentType === "offerReceived" && (
         <OfferReceived
           handleViewOffers={handleViewOffers}
           apartments={apartments}
           userId={userId}
           handleChange={handleChange}
+          offersReceived={offersReceived}
         />
       )}
       {currentType === "viewOffers" && (
@@ -166,9 +188,9 @@ const Transactions = () => {
         />
       )}
 
-      {currentType === "OffersAccepted" && <OffersAccepted apartments={apartments} propertyOffers={propertyOffers} handleChange={handleChange} handleViewAcceptedOffers={handleViewAcceptedOffers} />}
-      {currentType === "offersOnHold" && <OffersOnHold handleChange={handleChange} />}
-      {currentType === "offersDeclined" && <OffersDeclined handleViewDeclinedOffers={handleViewDeclinedOffers} handleChange={handleChange} propertyOffers={propertyOffers} apartments={apartments} />}
+      {currentType === "OffersAccepted" && <OffersAccepted apartments={apartments} propertyOffers={propertyOffers} handleChange={handleChange} handleViewAcceptedOffers={handleViewAcceptedOffers} offersAccepted={offersAccepted} />}
+      {currentType === "offersOnHold" && <OffersOnHold handleChange={handleChange} offersHold={offersHold} apartments={apartments} handleViewHoldOffers={handleViewHoldOffers} />}
+      {currentType === "offersDeclined" && <OffersDeclined handleViewDeclinedOffers={handleViewDeclinedOffers} handleChange={handleChange} propertyOffers={propertyOffers} apartments={apartments} offersDeclined={offersDeclined} />}
       {currentType === "completedTransactions" && <CompletedTransactions handleChange={handleChange} />}
       {currentType === "CancelledTransactions" && <CancelledTransactions handleChange={handleChange} />}
       {currentType === "viewAcceptedOffers" && <ViewAcceptedOffers handleChange={handleChange} selectedApartmentAddress={selectedApartmentAddress} selectedApartmentTitle={selectedApartmentTitle} selectedApartmentId={selectedApartmentId}
@@ -178,6 +200,7 @@ const Transactions = () => {
         selectedApartmentAmount={selectedApartmentAmount}
         propertyOffers={propertyOffers} />}
       {currentType === "viewDeclinedOffers" && <ViewDeclinedOffers handleChange={handleChange} propertyOffers={propertyOffers} selectedApartmentAmount={selectedApartmentAmount} selectedApartmentAddress={selectedApartmentAddress} selectedApartmentTitle={selectedApartmentTitle} />}
+      {currentType === "viewHoldOffers" && <ViewHoldOffers handleChange={handleChange} propertyOffers={propertyOffers} selectedApartmentAmount={selectedApartmentAmount} selectedApartmentAddress={selectedApartmentAddress} selectedApartmentTitle={selectedApartmentTitle} handleViewHoldOffers={handleViewHoldOffers} />}
     </div>
   );
 };
@@ -200,22 +223,22 @@ const MainTransaction = ({ handleChange, offers }) => {
       </div>
 
       <div className={styles.TransactionsContainer}>
-        <div className={styles.Box} onClick={() => handleChange("offers")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("offers")}>
           <img src="/dashboard/transaction.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Offers</p>
           <p className={styles.BoxText}>Transactions currently ongoing</p>
         </div>
-        <div className={styles.Box} onClick={() => handleChange("ongoing")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("ongoing")}>
           <img src="/dashboard/transaction.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Ongoing transactions</p>
           <p className={styles.BoxText}>Transactions currently ongoing</p>
         </div>
-        <div className={styles.Box} onClick={() => handleChange("completedTransactions")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("completedTransactions")}>
           <img src="/dashboard/check.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Completed transactions</p>
           <p className={styles.BoxText}>Transactions completed in full</p>
         </div>
-        <div className={styles.Box} onClick={() => handleChange("CancelledTransactions")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("CancelledTransactions")}>
           <img src="/dashboard/cancel.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Cancelled transactions</p>
           <p className={styles.BoxText}>Transactions halted</p>
@@ -246,24 +269,24 @@ const Offers = ({ handleChange }) => {
 
       <div className={styles.TransactionsContainer}>
         <div
-          className={styles.Box}
+          className={`${styles.Box} card`}
           onClick={() => handleChange("offerReceived")}
         >
           <img src="/dashboard/receive.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Offers received</p>
           <p className={styles.BoxText}>Transactions currently ongoing</p>
         </div>
-        <div className={styles.Box} onClick={() => handleChange("OffersAccepted")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("OffersAccepted")}>
           <img src="/dashboard/accepted.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Offers Accepted</p>
           <p className={styles.BoxText}>Transactions completed in full</p>
         </div>
-        <div className={styles.Box} onClick={() => handleChange("offersOnHold")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("offersOnHold")}>
           <img src="/dashboard/hold.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Offers on hold</p>
           <p className={styles.BoxText}>Transactions halted</p>
         </div>
-        <div className={styles.Box} onClick={() => handleChange("offersDeclined")}>
+        <div className={`${styles.Box} card`} onClick={() => handleChange("offersDeclined")}>
           <img src="/dashboard/cancel.svg" height={24} width={24} />
           <p className={styles.BoxHeader}>Offers declined</p>
           <p className={styles.BoxText}>Transactions halted</p>
@@ -273,15 +296,16 @@ const Offers = ({ handleChange }) => {
   );
 };
 
-const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, selectedApartmentId }) => {
-
-
-
+const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, offersReceived = {} }) => {
+  // Ensure offersReceived.offers is an array before using it
+  const apartmentsWithOffers = apartments.filter(apartment => {
+    return Array.isArray(offersReceived.offers) && offersReceived.offers.some(offer => offer.apartmentId === apartment._id);
+  });
 
   return (
     <>
       <div className={styles.NavContainer}>
-        <h1 onClick={() => handleChange("offers")} className={styles.Header}>
+        <h1 onClick={() => handleChange("offers")} className={`${styles.Header} cursor-pointer`}>
           {"< Offers received"}
         </h1>
 
@@ -292,36 +316,39 @@ const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, sel
       </div>
 
       <div className={styles.propertyList}>
-        {apartments?.map((apartment) => (
-          <div key={apartment?._id} className={styles.propertyContainer}>
-            <div className={styles.Property}>
-              <div className={styles.PropertyImg}>
-                <img src={apartment?.images[0]} alt={apartment?.Title} />
+        {apartmentsWithOffers.length > 0 ? (
+          apartmentsWithOffers.map(apartment => (
+            <div key={apartment._id} className={styles.propertyContainer}>
+              <div className={styles.Property}>
+                <div className={styles.PropertyImg}>
+                  <img src={apartment.images[0]} alt={apartment.Title} />
 
-                <div className={styles.propertyText}>
-                  <p>{apartment?.Title || "Title N/A"}</p>
-                  <p className="line-clamp-2">{apartment?.address || "Address N/A"}</p>
-
-                  <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+                  <div className={styles.propertyText}>
+                    <p>{apartment.Title || "Title N/A"}</p>
+                    <p className="line-clamp-2">{apartment.address || "Address N/A"}</p>
+                    <p>{`Last updated: ${new Date(apartment.date_created).toLocaleDateString()}`}</p>
+                  </div>
                 </div>
+
+                <hr />
+
+                <div className={styles.PropertyInfo}>
+                  <p> Listing ID: {apartment._id ? apartment._id.slice(-6) : ' N/A'}</p>
+                  <p>{`£ ${apartment.Amount}`}</p>
+                  <p>{`Status: ${apartment.status || "Available"}`}</p>
+                </div>
+
+                <hr />
+
+                <button className={styles.viewOffer} onClick={() => handleViewOffers(apartment._id, apartment.Amount)}>
+                  <p>View offers</p>
+                </button>
               </div>
-
-              <hr />
-
-              <div className={styles.PropertyInfo}>
-                <p> Listing ID: {apartment._id ? apartment?._id.slice(-6) : ' N/A'}</p>
-                <p>{`£ ${apartment?.Amount}`}</p>
-                <p>{`Status: ${apartment.status || "Available"}`}</p>
-              </div>
-
-              <hr />
-
-              <button className={styles.viewOffer} onClick={() => handleViewOffers(apartment._id, apartment.Amount)}>
-                <p>View offers</p>
-              </button>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No offers received for the listed apartments.</p>
+        )}
       </div>
     </>
   );
@@ -330,6 +357,8 @@ const OfferReceived = ({ handleChange, userId, apartments, handleViewOffers, sel
 const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount, selectedApartmentId }) => {
   const [offerStatuses, setOfferStatuses] = useState({});
   const [offerAlreadyAccepted, setOfferAlreadyAccepted] = useState();
+  const router = useRouter()
+  const { setLoading, loading } = useImageContext();
 
   const handleButtonClick = async (index, status, apartmentId, offerId, userId) => {
     await setOfferStatuses(prevStatuses => ({
@@ -339,7 +368,7 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
 
     await handleOffer(apartmentId, offerId, userId, status);
 
-    window.location.reload();
+
   };
 
 
@@ -371,7 +400,9 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
 
   const handleOffer = async (apartmentId, offerId, userId, status) => {
     console.log("apartmentId:", apartmentId, "offerId:", offerId, "userId:", userId, "status:", status)
+    setLoading(true);
 
+    let updatedOffers = [...propertyOffers];
     try {
       const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/offer/changeofferstatus?apartmentid=${apartmentId}&userid=${userId}&offerid=${offerId}`, {
         method: 'PUT',
@@ -384,24 +415,39 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
       const data = await response.json();
       console.log("data:", data);
 
+      if (response.ok) {
+        toast.success("Offer status updated successfully");
+        setloading(false);
+        await router.push("/dashboard?option=transaction&type=offerReceived")
+        window.location.reload();
+      }
+
+
       if (data.message === 'Property already has an accepted offer') {
         setOfferAlreadyAccepted(data.message);
 
         // Revert the status change if there's an error or conflict
         updatedOffers[index].status = 'pending'; // or revert to the previous status
         setPropertyOffers(updatedOffers);
+        toast.warning("Property already has an accepted offer");
+        setloading(false);
       }
     } catch (error) {
       console.error("Error updating offer status:", error);
       // Revert the status if an error occurs
       updatedOffers[index].status = 'pending'; // or revert to the previous status
       setPropertyOffers(updatedOffers);
+      toast.error("Error updating offer status");
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
 
 
   }
   return (
     <>
+      {loading && <Loading />}
       <div className={styles.NavContainer}>
         <h1 onClick={() => handleChange("offerReceived")} className={styles.NavBack}>
           {"< Back"}
@@ -419,105 +465,113 @@ const ViewOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount
             <p className={styles.alreadyAccepted}>This {offerAlreadyAccepted}</p>
           </div>
         )}
-        {Array.isArray(propertyOffers) && propertyOffers.map((offer, index) => (
-          <div key={offer._id} className={styles.viewOfferContainer}>
-            <div className={styles.Offer}>
-              <div className={styles.actualPrice}>
-                <p>Actual price</p>
-                <p>{`£${selectedApartmentAmount}`}</p>
-              </div>
+        {Array.isArray(propertyOffers) && propertyOffers.length > 0 ? (
+          propertyOffers.map((offer, index) => (
+            <div key={offer._id} className={styles.viewOfferContainer}>
+              <div className={styles.Offer}>
+                <div className={styles.actualPrice}>
+                  <p>Actual price</p>
+                  <p>{`£${selectedApartmentAmount}`}</p>
+                </div>
 
-              <hr />
+                <hr />
 
-              <div className={styles.offered}>
-                <p>Offer</p>
-                <p>{`£${offer.PriceOffer}`}</p>
-                <p>Offer Detail</p>
-                {/* <p>offer id {offer._id}</p>
-                <p>apartment id {offer.apartmentId}</p>
-                <p>user.id {offer.userId}</p> */}
-              </div>
+                <div className={styles.offered}>
+                  <p>Offer</p>
+                  <p>{`£${offer.PriceOffer}`}</p>
+                  <p>Offer Detail</p>
+                </div>
 
-              <hr />
+                <hr />
 
-              <div className={styles.offerContact}>
-                <img src="/dashboard/call.svg" alt="call" />
-                <img src="/dashboard/whatsapp.svg" alt="whatsapp" />
-                <img src="/dashboard/message.svg" alt="message" />
-              </div>
+                <div className={styles.offerContact}>
+                  <img src="/dashboard/call.svg" alt="call" />
+                  <img src="/dashboard/whatsapp.svg" alt="whatsapp" />
+                  <img src="/dashboard/message.svg" alt="message" />
+                </div>
 
-              <hr />
+                <hr />
 
-              <div className={styles.decision}>
-                {offer.status === 'accepted' || offer.status === 'on hold' || offer.status === 'declined' ? (
-                  <p style={getStatusStyle(offer.status)}>
-                    {`Offer ${offer.status}`}
-                  </p>
-                ) : (
-                  <>
-                    <button onClick={() => handleButtonClick(index, 'accepted', offer.apartmentId, offer._id, offer.userId)}>Accept</button>
-                    <button onClick={() => handleButtonClick(index, 'on hold', offer.apartmentId, offer._id, offer.userId)}>Hold</button>
-                    <button onClick={() => handleButtonClick(index, 'declined', offer.apartmentId, offer._id, offer.userId)}>Decline</button>
-                  </>
-                )}
+                <div className={styles.decision}>
+                  {offer.status === 'accepted' || offer.status === 'on hold' || offer.status === 'declined' ? (
+                    <p style={getStatusStyle(offer.status)}>
+                      {`Offer ${offer.status}`}
+                    </p>
+                  ) : (
+                    <>
+                      <button onClick={() => handleButtonClick(index, 'accepted', offer.apartmentId, offer._id, offer.userId)}>Accept</button>
+                      <button onClick={() => handleButtonClick(index, 'on hold', offer.apartmentId, offer._id, offer.userId)}>Hold</button>
+                      <button onClick={() => handleButtonClick(index, 'declined', offer.apartmentId, offer._id, offer.userId)}>Decline</button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
+          ))
+        ) : (
+          // Display this message when no offers are available
+          <div className={"h-[600px] flex justify-center items-center"}>
+            <p className="italic">No offers available at the moment..</p>
           </div>
-        ))}
+        )}
       </div>
     </>
   );
 };
 
-
-const OffersAccepted = ({ handleChange, apartments, propertyOffers = [], handleViewAcceptedOffers }) => {
+const OffersAccepted = ({ handleChange, apartments, propertyOffers = [], handleViewAcceptedOffers, offersAccepted }) => {
+  const apartmentsWithOffers = apartments.filter(apartment => {
+    return Array.isArray(offersAccepted.offers) && offersAccepted.offers.some(offer => offer.apartmentId === apartment._id && offer.status === "accepted");
+  });
 
   return (
     <>
-      <h1 onClick={() => handleChange("offers")}>Offers Accepted</h1>
+      <h1 className="text-2xl font-medium cursor-pointer" onClick={() => handleChange("offers")}>{"< Offers Accepted"}</h1>
       <div className={styles.propertyList}>
-        {apartments?.map((apartment) => (
-          <div key={apartment?._id} className={styles.propertyContainer}>
-            <div className={styles.Property}>
-              <div className={styles.PropertyImg}>
-                <img src={apartment?.images[0]} alt={apartment?.Title} />
+        {apartmentsWithOffers.length > 0 ? (
+          apartmentsWithOffers.map(apartment => (
+            <div key={apartment._id} className={styles.propertyContainer}>
+              <div className={styles.Property}>
+                <div className={styles.PropertyImg}>
+                  <img src={apartment.images[0]} alt={apartment.Title} />
 
-                <div className={styles.propertyText}>
-                  <p className="line-clamp-3">{apartment?.Title || "Title N/A"}</p>
-                  <p className="line-clamp-1">{apartment?.address || "Address N/A"}</p>
-
-                  <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+                  <div className={styles.propertyText}>
+                    <p>{apartment.Title || "Title N/A"}</p>
+                    <p className="line-clamp-2">{apartment.address || "Address N/A"}</p>
+                    <p>{`Last updated: ${new Date(apartment.date_created).toLocaleDateString()}`}</p>
+                  </div>
                 </div>
+
+                <hr />
+
+                <div className={styles.PropertyInfo}>
+                  <p> Listing ID: {apartment._id ? apartment._id.slice(-6) : ' N/A'}</p>
+                  <p>{`£ ${apartment.Amount}`}</p>
+                  <p>{`Status: ${apartment.status || "Available"}`}</p>
+                </div>
+
+                <hr />
+
+                <button className={styles.viewOffer} onClick={() => handleViewAcceptedOffers(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
+                  <p>View offers</p>
+                </button>
               </div>
-
-              <hr />
-
-              <div className={styles.PropertyInfo}>
-                <p> Listing ID: {apartment._id ? apartment?._id.slice(-6) : ' N/A'}</p>
-                <p>{`£ ${apartment?.Amount}`}</p>
-                <p>{`Status: ${apartment.status || "Available"}`}</p>
-              </div>
-
-              <hr />
-
-              <button className={styles.viewOffer} onClick={() => handleViewAcceptedOffers(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
-                <p>View offers</p>
-              </button>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No offers received for the listed apartments.</p>
+        )}
       </div>
     </>
   );
 }
-
 
 const ViewAcceptedOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount, selectedApartmentTitle, selectedApartmentAddress }) => {
 
   const router = useRouter();
   return (
     <>
-      <h3 onClick={() => handleChange("OffersAccepted")}>View Accepted Offers</h3>
+      <h3 className="text-2xl font-medium cursor-pointer" onClick={() => handleChange("OffersAccepted")}>{"< View Accepted Offers"}</h3>
       <div className={styles.viewOfferListing}>
         {Array.isArray(propertyOffers) && propertyOffers.filter(offer => offer.status === "accepted").length > 0 ? (
           propertyOffers.filter(offer => offer.status === "accepted").map((offer, index) => (
@@ -564,51 +618,146 @@ const ViewAcceptedOffers = ({ handleChange, propertyOffers = [], selectedApartme
   )
 }
 
-const OffersOnHold = ({ handleChange }) => {
+const OffersOnHold = ({ handleChange, apartments, offersHold, handleViewHoldOffers }) => {
+  const apartmentsWithOffers = apartments.filter(apartment => {
+    return Array.isArray(offersHold.offers) && offersHold.offers.some(offer => offer.apartmentId === apartment._id && offer.status === "on hold");
+  });
   return (
     <>
-      <h1 onClick={() => handleChange("offers")}>Offers on hold</h1>
-      .
+      <h1 className="text-2xl font-medium cursor-pointer" onClick={() => handleChange("offers")}>{"< Offers on hold"}</h1>
+      <div className={styles.propertyList}>
+        {apartmentsWithOffers.length > 0 ? (
+          apartmentsWithOffers.map(apartment => (
+            <div key={apartment._id} className={styles.propertyContainer}>
+              <div className={styles.Property}>
+                <div className={styles.PropertyImg}>
+                  <img src={apartment.images[0]} alt={apartment.Title} />
+
+                  <div className={styles.propertyText}>
+                    <p>{apartment.Title || "Title N/A"}</p>
+                    <p className="line-clamp-2">{apartment.address || "Address N/A"}</p>
+                    <p>{`Last updated: ${new Date(apartment.date_created).toLocaleDateString()}`}</p>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className={styles.PropertyInfo}>
+                  <p> Listing ID: {apartment._id ? apartment._id.slice(-6) : ' N/A'}</p>
+                  <p>{`£ ${apartment.Amount}`}</p>
+                  <p>{`Status: ${apartment.status || "Available"}`}</p>
+                </div>
+
+                <hr />
+
+                <button className={styles.viewOffer} onClick={() => handleViewHoldOffers(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
+                  <p>View offers</p>
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No offers received for the listed apartments.</p>
+        )}
+      </div>
     </>
   );
 }
 
+const ViewHoldOffers = ({ handleChange, propertyOffers = [], selectedApartmentAmount, selectedApartmentTitle, selectedApartmentAddress }) => {
 
-const OffersDeclined = ({ handleChange, apartments, propertyOffers = [], handleViewDeclinedOffers }) => {
   return (
     <>
-      <h1 onClick={() => handleChange("offers")}>Offers Declined</h1>
-      <div className={styles.propertyList}>
-        {apartments?.map((apartment) => (
-          <div key={apartment?._id} className={styles.propertyContainer}>
-            <div className={styles.Property}>
-              <div className={styles.PropertyImg}>
-                <img src={apartment?.images[0]} alt={apartment?.Title} />
+      <h3 className="text-xl font-semibold cursor-pointer" onClick={() => handleChange("offersOnHold")}>{"< View Offers on Hold"}</h3>
+      <div className={styles.viewOfferListing}>
+        {Array.isArray(propertyOffers) && propertyOffers.filter(offer => offer.status === "accepted").length > 0 ? (
+          propertyOffers.filter(offer => offer.status === "declined").map((offer, index) => (
+            <div key={offer._id} className={styles.viewOfferContainer}>
+              <div className={styles.Offer}>
+                <div className={styles.actualPrice}>
+                  <span>{`£${selectedApartmentAmount}`}</span>
+                  <span>{selectedApartmentTitle}</span>
+                  <span className="line-clamp-1  text-xs">{selectedApartmentAddress}</span>
+                </div>
 
-                <div className={styles.propertyText}>
-                  <p className="line-clamp-3">{apartment?.Title || "Title N/A"}</p>
-                  <p className="line-clamp-1">{apartment?.address || "Address N/A"}</p>
+                <hr />
 
-                  <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+                <div className={styles.offered}>
+                  <p>Offer</p>
+                  <p>{`£${offer.PriceOffer}`}</p>
+                  <p>Offer Detail</p>
+                  {/* <p>offer id {offer._id}</p>
+                <p>apartment id {offer.apartmentId}</p>
+                <p>user.id {offer.userId}</p> */}
+                </div>
+
+                <hr />
+
+                <div className={styles.offerContact}>
+                  <img src="/dashboard/call.svg" alt="call" />
+                  <img src="/dashboard/whatsapp.svg" alt="whatsapp" />
+                  <img src="/dashboard/message.svg" alt="message" />
+                </div>
+
+                <hr />
+
+                <div className={""}>
+                  <button className="bg-blue-600 p-3 rounded-lg text-white text-md">On Hold</button>
                 </div>
               </div>
-
-              <hr />
-
-              <div className={styles.PropertyInfo}>
-                <p> Listing ID: {apartment?._id ? apartment?._id.slice(-6) : ' N/A'}</p>
-                <p>{`£ ${apartment?.Amount}`}</p>
-                <p>{`Status: ${apartment?.status || "Available"}`}</p>
-              </div>
-
-              <hr />
-
-              <button className={styles.viewOffer} onClick={() => handleViewDeclinedOffers(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
-                <p>View offers</p>
-              </button>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No accepted offers at this time.</p>
+        )}
+      </div>
+    </>
+  )
+}
+
+const OffersDeclined = ({ handleChange, apartments, propertyOffers = [], handleViewDeclinedOffers, offersDeclined }) => {
+  const apartmentsWithOffers = apartments.filter(apartment => {
+    return Array.isArray(offersDeclined.offers) && offersDeclined.offers.some(offer => offer.apartmentId === apartment._id && offer.status === "declined");
+  });
+
+
+  return (
+    <>
+      <h1 className="text-2xl cursor-pointer font-medium" onClick={() => handleChange("offers")}>{"< Offers Declined"}</h1>
+      <div className={styles.propertyList}>
+        {apartmentsWithOffers.length > 0 ? (
+          apartmentsWithOffers.map(apartment => (
+            <div key={apartment._id} className={styles.propertyContainer}>
+              <div className={styles.Property}>
+                <div className={styles.PropertyImg}>
+                  <img src={apartment.images[0]} alt={apartment.Title} />
+
+                  <div className={styles.propertyText}>
+                    <p>{apartment.Title || "Title N/A"}</p>
+                    <p className="line-clamp-2">{apartment.address || "Address N/A"}</p>
+                    <p>{`Last updated: ${new Date(apartment.date_created).toLocaleDateString()}`}</p>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className={styles.PropertyInfo}>
+                  <p> Listing ID: {apartment._id ? apartment._id.slice(-6) : ' N/A'}</p>
+                  <p>{`£ ${apartment.Amount}`}</p>
+                  <p>{`Status: ${apartment.status || "Available"}`}</p>
+                </div>
+
+                <hr />
+
+                <button className={styles.viewOffer} onClick={() => handleViewDeclinedOffers(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
+                  <p>View offers</p>
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No offers received for the listed apartments.</p>
+        )}
       </div>
     </>
   );
@@ -618,7 +767,7 @@ const ViewDeclinedOffers = ({ handleChange, propertyOffers = [], selectedApartme
 
   return (
     <>
-      <h3 className="text-xl font-semibold" onClick={() => handleChange("OffersAccepted")}>View Declined Offers</h3>
+      <h3 className="text-xl font-semibold cursor-pointer" onClick={() => handleChange("offersDeclined")}>{"< View Declined Offers"}</h3>
       <div className={styles.viewOfferListing}>
         {Array.isArray(propertyOffers) && propertyOffers.filter(offer => offer.status === "accepted").length > 0 ? (
           propertyOffers.filter(offer => offer.status === "declined").map((offer, index) => (
@@ -665,7 +814,6 @@ const ViewDeclinedOffers = ({ handleChange, propertyOffers = [], selectedApartme
   )
 }
 
-
 const CompletedTransactions = ({ handleChange }) => {
 
   const { userInformation } = useContext(LoginContext);
@@ -696,11 +844,24 @@ const CompletedTransactions = ({ handleChange }) => {
         <h1 onClick={() => handleChange("transaction")}>Completed Transactions</h1>
       </div>
 
-      {
-        completedData.length == 0 && (
-          <p>No completed transactions found.</p>
-        )
-      }
+      {completedData.map((data) => {
+        return (
+          <Link
+            href={`/transactions/current/${data?.transaction?._id}`}
+            key={data?._id}
+            className={`${styles.Box} bg-white w-full rounded-lg shadow-md`}
+          >
+            <p>Transaction Id: {data?.transaction?._id.slice(0, 7)}</p>
+            <p>
+              Transaction Stage :
+              {data?.transaction?.transactionCurrentStage}
+            </p>
+          </Link>
+        );
+      })}
+
+
+
     </div>
   );
 }
@@ -743,50 +904,57 @@ const CancelledTransactions = ({ handleChange }) => {
   );
 }
 
-const Ongoing = ({ handleChange, apartments, propertyOffers = [], handleViewOngoing }) => {
+const Ongoing = ({ handleChange, apartments, propertyOffers = [], handleViewOngoing, handleViewAcceptedOffers, offersAccepted }) => {
+  const apartmentsWithOffers = apartments.filter(apartment => {
+    return Array.isArray(offersAccepted.offers) && offersAccepted.offers.some(offer => offer.apartmentId === apartment._id && offer.status === "accepted");
+  });
   return (
     <>
-      <h1 onClick={() => handleChange("transaction")}>Ongoing </h1>
+      <h1 className="text-2xl font-medium cursor-pointer" onClick={() => handleChange("transaction")}>{"< Ongoing "}</h1>
       <div className={styles.propertyList}>
-        {apartments?.map((apartment) => (
-          <div key={apartment?._id} className={styles.propertyContainer}>
-            <div className={styles.Property}>
-              <div className={styles.PropertyImg}>
-                <img src={apartment?.images[0]} alt={apartment?.Title} />
+        {apartmentsWithOffers.length > 0 ? (
+          apartmentsWithOffers.map(apartment => (
+            <div key={apartment._id} className={styles.propertyContainer}>
+              <div className={styles.Property}>
+                <div className={styles.PropertyImg}>
+                  <img src={apartment.images[0]} alt={apartment.Title} />
 
-                <div className={styles.propertyText}>
-                  <p className="line-clamp-3">{apartment?.Title || "Title N/A"}</p>
-                  <p className="line-clamp-1">{apartment?.address || "Address N/A"}</p>
-
-                  <p>{`Last updated: ${new Date(apartment?.date_created).toLocaleDateString()}`}</p>
+                  <div className={styles.propertyText}>
+                    <p>{apartment.Title || "Title N/A"}</p>
+                    <p className="line-clamp-2">{apartment.address || "Address N/A"}</p>
+                    <p>{`Last updated: ${new Date(apartment.date_created).toLocaleDateString()}`}</p>
+                  </div>
                 </div>
+
+                <hr />
+
+                <div className={styles.PropertyInfo}>
+                  <p> Listing ID: {apartment._id ? apartment._id.slice(-6) : ' N/A'}</p>
+                  <p>{`£ ${apartment.Amount}`}</p>
+                  <p>{`Status: ${apartment.status || "Available"}`}</p>
+                </div>
+
+                <hr />
+
+                <button className={styles.viewOffer} onClick={() => handleViewOngoing(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
+                  <p>View offers</p>
+                </button>
               </div>
-
-              <hr />
-
-              <div className={styles.PropertyInfo}>
-                <p> Listing ID: {apartment._id ? apartment?._id.slice(-6) : ' N/A'}</p>
-                <p>{`£ ${apartment?.Amount}`}</p>
-                <p>{`Status: ${apartment.status || "Available"}`}</p>
-              </div>
-
-              <hr />
-
-              <button className={styles.viewOffer} onClick={() => handleViewOngoing(apartment._id, apartment.Amount, apartment.address, apartment.Title)}>
-                <p>View offers</p>
-              </button>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No offers received for the listed apartments.</p>
+        )}
       </div>
     </>
   );
 };
 
 const ViewOngoingTransactions = ({ handleChange, propertyOffers = [], selectedApartmentAmount, selectedApartmentTitle, selectedApartmentAddress }) => {
+  const router = useRouter();
   return (
     <>
-      <h3 onClick={() => handleChange("OffersAccepted")}>Ongoing Transactions</h3>
+      <h3 onClick={() => handleChange("ongoing")} className="text-2xl font-medium cursor-pointer">{"< Ongoing Transactions"}</h3>
       <div className={styles.viewOfferListing}>
         {Array.isArray(propertyOffers) && propertyOffers.filter(offer => offer.status === "accepted").length > 0 ? (
           propertyOffers.filter(offer => offer.status === "accepted").map((offer, index) => (
@@ -826,7 +994,7 @@ const ViewOngoingTransactions = ({ handleChange, propertyOffers = [], selectedAp
             </div>
           ))
         ) : (
-          <p>No Ongoing Transactions at this time.</p>
+          <p>No accepted offers at this time.</p>
         )}
       </div>
     </>

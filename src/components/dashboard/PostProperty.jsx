@@ -2,9 +2,9 @@ import styles from "../../styles/dashboard/postProperty.module.css";
 import { useRef, useState, useContext, useEffect } from "react";
 import { Image } from "next/image";
 import jwtDecode from "jwt-decode";
-import mongoose from "mongoose";
+import mongoose, { set } from "mongoose";
 import UploadImage from "../uploadImage";
-import { ImageContext } from "../../context/ImageContext.context";
+import { ImageContext, useImageContext } from "../../context/ImageContext.context";
 import { storage } from "../../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { FaPlus } from "react-icons/fa";
@@ -19,7 +19,8 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { useRouter } from "next/router";
-
+import Loading from "../../components/loading";
+import { toast } from "react-toastify";
 const PostProperty = () => {
   const count = useRef(1);
   const router = useRouter();
@@ -29,7 +30,8 @@ const PostProperty = () => {
     { file: null, preview: null, status: "Upload" },
   ]);
   const [showUploadMessage, setShowUploadMessage] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  const { loading, setLoading } = useImageContext()
 
   const [form, setForm] = useState({
     userId: "",
@@ -137,9 +139,68 @@ const PostProperty = () => {
     }, 3000);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("userId:", form.userId);
+    console.log("Form data:", form);
+
+    setLoading(true);
+
+    try {
+      // Upload images first
+      const uploadedImageUrls = await Promise.all(
+        fileInputs.map(async (input, index) => {
+          if (input.file) {
+            return await handleUpload(index);
+          }
+          return null;
+        })
+      );
+
+      // Filter out null values and update form with new image URLs
+      const newImageUrls = uploadedImageUrls.filter(url => url !== null);
+      const updatedForm = {
+        ...form,
+        images: [...form.images, ...newImageUrls]
+      };
+
+      // Now submit the form with updated image URLs
+      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/apartments/create-apartment", {
+        method: "POST",
+        body: JSON.stringify(updatedForm),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Form submitted successfully:", data);
+        toast.success("Property created successfully");
+        router.push("/dashboard?option=listing");
+        next();
+        setLoading(false);
+      } else {
+        const errorData = await response.json();
+        console.log("Error:", errorData);
+        setLoading(false);
+        toast.error("Error submitting form");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+      toast.error("Error submitting form");
+      setLoading(false);
+
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   const handleUpload = async (index) => {
     const selectedFile = fileInputs[index].file;
-    if (!selectedFile) return;
+    if (!selectedFile) return null;
 
     console.log(`Starting upload for input ${index}:`, selectedFile);
 
@@ -150,32 +211,29 @@ const PostProperty = () => {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // Progress function ...
-          console.log(`Upload progress for input ${index}:`, snapshot);
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload progress for input ${index}: ${progress}%`);
+          // Update UI to show progress if desired
         },
         (error) => {
-          // Error function ...
           console.error(error);
           reject(error);
         },
         async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setUrl((prevUrls) => [...prevUrls, downloadURL]);
-          setForm((prevForm) => ({
-            ...prevForm,
-            images: [...prevForm.images, downloadURL],
-          }));
-          setFileInputs((prevFileInputs) => {
-            const newFileInputs = [...prevFileInputs];
-            newFileInputs[index].status = "Upload Successful";
-            return newFileInputs;
-          });
-          console.log(`Upload successful for input ${index}:`, downloadURL);
-          resolve();
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log(`Upload successful for input ${index}:`, downloadURL);
+            resolve(downloadURL);
+          } catch (error) {
+            console.error("Error getting download URL:", error);
+            reject(error);
+          }
         }
       );
     });
   };
+
+
   const addImageInput = () => {
     setFileInputs((prevFileInputs) => [
       ...prevFileInputs,
@@ -208,41 +266,6 @@ const PostProperty = () => {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("userId:", form.userId); // Log the userId value
-    console.log("Form data:", form);
-
-    // Call the handleUpload function for each file input
-    await Promise.all(
-      fileInputs.map((input, index) => {
-        return handleUpload(index);
-      })
-    );
-
-    try {
-      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/apartments/create-apartment", {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Form submitted successfully:", data);
-        // todo redirect to a different page
-        router.push("/dashboard?option=listing");
-        next();
-      } else {
-        const errorData = await response.json();
-        console.log("Error:", errorData);
-      }
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
 
   return (
     <form onSubmit={handleSubmit} className={styles.Section}>
@@ -275,6 +298,7 @@ const PostProperty = () => {
           showUploadMessage={showUploadMessage}
           handleFloorPlanUpload={handleFloorPlanUpload}
           setForm={setForm}
+
         />
       )}
       {count.current === 4 && (
@@ -747,27 +771,17 @@ const PostPropertyDescription = ({
             {fileInputs.map((input, index) => (
               <div key={index} id={styles.file_upload}>
                 <label>
-                  {input.status === "Upload" &&
-                    !input.file &&
-                    "Upload Document"}
+                  {!input.file ? "Upload Document" : ""}
                   <input
                     type="file"
                     onChange={(e) => handleImageChange(e, index)}
                   />
-                  {input.status === "Upload" && input.preview && (
+                  {input.preview && (
                     <img
                       height={200}
                       width={200}
                       src={input.preview}
                       alt={`Preview ${index}`}
-                    />
-                  )}
-                  {url[index] && (
-                    <img
-                      height={200}
-                      width={200}
-                      src={url[index]}
-                      alt={`Uploaded ${index}`}
                     />
                   )}
                 </label>
@@ -808,8 +822,10 @@ const PostPropertyDescription = ({
 };
 
 const PostPropertyDetailsReview = ({ next, back, form }) => {
+  const { loading, setLoading } = useImageContext()
   return (
     <>
+      {loading && <Loading />}
       <div className={styles.Header}>
         <button onClick={back}>
           {"<"} <h1>Detail Reviews</h1>

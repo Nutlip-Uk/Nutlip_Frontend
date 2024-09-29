@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import { storage } from '../../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { ImageContext } from '../../context/ImageContext.context';
+import { ImageContext, useImageContext } from '../../context/ImageContext.context';
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
 
@@ -11,7 +11,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
-
+  const { loading, setLoading } = useImageContext();
 
 
   const handleImageChange = (e) => {
@@ -43,6 +43,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
@@ -59,15 +60,19 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
       if (response.ok) {
         console.log(data.message);
+        setLoading(false);
       } else {
         console.error(data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error uploading proof of funds', error);
+      setLoading(false);
     }
   };
 
   const handleConfirm = async () => {
+    setLoading(true);
     try {
       const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
@@ -83,18 +88,17 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
       if (response.ok) {
         console.log(data.message);
+        setLoading(false);
       } else {
         console.error(data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error confirming proof of funds', error);
+      setLoading(false);
     }
   };
 
-
-  const handleCheck = () => {
-
-  }
   return (
     <>
       <div className={styles.offer}>
@@ -128,8 +132,8 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
         {userType === "Real_estate_agent" && (
           <div className={styles.fileContainer}>
-            <section id={styles.file_upload} className='relative rounded-e-lg'>
-              <label>
+            <section id={styles.file_upload} className='relative rounded-e-lg flex flex-col items-start'>
+              <label >
                 {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
                 {transactionContent?.proof_of_funds && (
 
@@ -137,6 +141,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
                 )}
               </label>
+              <a href={transactionContent?.proof_of_funds} download className={`text-blue-900 font-semibold border-b-2 border-blue-900`}><em>Download Contract</em></a>
             </section>
             {!transactionContent?.confirm_proof_of_funds ? (
               <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>

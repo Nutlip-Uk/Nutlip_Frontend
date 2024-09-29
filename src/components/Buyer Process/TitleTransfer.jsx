@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/TitleTransfer.module.css"
 import { useContext, useEffect, useState } from 'react';
-import { ImageContext } from "../../context/ImageContext.context";
+import { ImageContext, useImageContext } from "../../context/ImageContext.context";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 
@@ -11,7 +11,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     const [fileUrl, setFileUrl] = useState('');
     const [upload, setupload] = useState(false);
     const [receiveFile, setReceiveFile] = useState('');
-
+    const { setLoading } = useImageContext();
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -40,6 +40,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     };
 
     const handleSubmitSeller = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_legalTitle_014`, {
                 method: "PUT",
@@ -56,13 +57,15 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                 const data = await response.json();
 
                 console.log(data.message); // Successfully uploaded message
+                setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
+            setLoading(false);
         }
     };
     const handleSubmitBuyer = async () => {
-
+        setLoading(true);
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_legalTitle_015`, {
                 method: "PUT",
@@ -78,9 +81,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
+                setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
+            setLoading(false);
         }
     };
 
@@ -106,14 +111,14 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                                 <section id={styles.file_upload}>
                                     <label className='italic text-xs text-neutral-500'>
                                         {transactionContent?.legal_title_document_signed != null ?
-                                            <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
+                                            <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
                                             : "Transfer of title document pending ..."
                                         }
                                     </label>
                                 </section>
 
                                 <div className={styles.buttonContainer}>
-                                    <a href={transactionContent?.legal_title_document_signed} download className={styles.download}><em>Download Contract</em></a>
+                                    <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
                                 </div>
                             </div>
                         )}
@@ -136,7 +141,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
 
 
                                 <div className={styles.buttonContainer}>
-                                    <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
+                                    <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
                                     <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
                                 </div>
 
@@ -198,7 +203,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
 
 
                                         <div className={styles.buttonContainer}>
-                                            <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
+                                            <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
                                             {/* <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button> */}
                                         </div>
                                     </>

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useState, useEffect, useContext } from "react";
 
 import { UserTypeContext } from "../../context/UserType.context";
+import OfferModal from "../Modals/Offer.modal";
 
 
 export const BuyCatalogue = ({ properties, isLoading }) => {
@@ -36,9 +37,17 @@ function Property({ property, isLoading }) {
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 
   const { userType } = useContext(UserTypeContext);
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => {
+    setShowModal(!showModal);
+  };
+  const openModal = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <div className={styles.propertyContainer}>
+      {showModal && <OfferModal handleShow={closeModal} data={property} />}
       <div className={styles.property}>
         <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
 
@@ -105,7 +114,7 @@ function Property({ property, isLoading }) {
 
 
 
-            {(userType == "property_seeker") && < button > Make an offer</button>}
+            {< button onClick={() => openModal()} > Make an offer</button>}
 
           </div>
 

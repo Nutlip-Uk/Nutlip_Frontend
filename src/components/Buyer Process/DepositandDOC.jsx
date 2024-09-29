@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "../../styles/BuyerProcess/DepositandDoc.module.css";
 import { useContext, useState } from "react";
-import { ImageContext } from "../../context/ImageContext.context";
+import { ImageContext, useImageContext } from "../../context/ImageContext.context";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 import { LoginContext } from "../../context/Login.context";
@@ -13,6 +13,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
   const [confirmed, setConfirmed] = useState(false);
+  const { setLoading } = useImageContext();
   const [form, setForm] = useState({
     transactionId: id,
     userId: userInformation.user.id,
@@ -72,6 +73,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
   const handleSubmit = async (e) => {
 
     e.preventDefault();
+    setLoading(true);
     try {
       console.log("BANK DETAILS", form);
       const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
@@ -87,15 +89,18 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
       if (response.ok) {
         const data = await response.json();
         console.log("RESPONSE FOR BANK DETAILS SENT", data.message);
+        setLoading(false);
       }
 
     } catch (error) {
       console.error("Error submitting bank details:", error);
+      setLoading(false);
     }
   };
 
   const HandleUploadProofOfFunds = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_proofoffunds10_08", {
         method: "PUT",
@@ -111,15 +116,18 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
       if (response.ok) {
         const data = await response.json();
         console.log(data.message);
+        setLoading(false);
       }
 
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   }
 
   const handleConfirm = async (e) => {
     e.preventDefault()
+    setLoading(true);
     try {
       const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds_09", {
         method: "PUT",
@@ -134,10 +142,12 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
         const data = await response.json();
         console.log(data.message);
         setConfirmed(true);
+        setLoading(false);
       }
 
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -186,7 +196,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
         {
           (userType === "property_seeker" || userType === "Real_estate_agent") && (
             <div>
-              {!transactionContent?.proof_of_funds_10 ? (
+              {!transactionContent?.confirm_proof_of_funds_10 ? (
                 <div>
                   <p className="text-red-500 font-semibold">10% deposit yet to be confirmed by Seller Conveyancer...</p>
                 </div>
@@ -195,13 +205,13 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                 <div className={styles.fileContainer}>
                   <section id={styles.file_upload}>
                     <label>
-                      {transactionContent?.proof_of_funds_10
-                        === "" ? (
-                        "User has not uploaded Funds document yet"
-                      ) : (
-                        <img src={transactionContent?.proof_of_funds_10
-                        } alt="Uploaded document" />
-                      )}
+                      {!transactionContent?.confirm_proof_of_funds_10
+                        ? (
+                          "User has not uploaded Funds document yet"
+                        ) : (
+                          <img src={transactionContent?.proof_of_funds_10
+                          } alt="Uploaded document" />
+                        )}
                     </label>
                   </section>
                   {transactionContent?.confirm_proof_of_funds_10 &&
@@ -442,8 +452,8 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
     "December",
   ];
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
-
+  const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
+  const { setLoading } = useImageContext();
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
@@ -457,7 +467,7 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
     const dates = `${selectedDay} ${selectedMonth} ${selectedYear}`;
 
     console.log(dates);
-
+    setLoading(true);
     try {
       const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_setdate_010`, {
         method: "PUT",
@@ -474,10 +484,12 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
         const data = await response.json();
         console.log("Date successfully sent");
         console.log(`Date successfully sent: ${data.message}`);
+        setLoading(false);
       }
 
     } catch (error) {
       console.log(`Failed to send date: ${error.message}`);
+      setLoading(false);
     }
   };
 
@@ -485,6 +497,7 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
     e.preventDefault();
     console.log(id);
     console.log(transaction.offerId);
+    setLoading(true);
     try {
       const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmdate_011`, {
         method: "PUT",
@@ -498,9 +511,11 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
       if (response.ok) {
         const data = await response.json();
         console.log("date successfully confirmed:", data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.log("Failed to confirm date:", error);
+      setLoading(false);
     }
   }
 
@@ -567,7 +582,7 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
           userType == "conveyancer_seller" &&
           <form className={styles.DateContainer}>
             <input disabled style={{ width: "100%" }} className={styles.dateConfirmation} type="text" name="" id="" value={!transactionContent?.completion_date == "" ? transactionContent.completion_date : "Date not yet set"} />
-            <button style={transactionContent.agreeded_on_completion_date_buyer ? { background: "green", color: "white", width: "100%" } : { background: "red", color: "white" }} onClick={handleConfirm}>{transactionContent.completion_date ? "Confirmed" : "Confirm"}</button>
+            <button style={transactionContent.agreeded_on_completion_date_buyer ? { background: "green", color: "white", width: "100%" } : { background: "red", color: "white" }} disabled={transactionContent.completion_date == ""} onClick={handleConfirm}>{transactionContent.completion_date ? "Confirm" : "Confirmed"}</button>
           </form>
         }
         {

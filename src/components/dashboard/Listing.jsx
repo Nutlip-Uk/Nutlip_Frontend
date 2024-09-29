@@ -3,6 +3,12 @@ import styles from "../../styles/dashboard/listing.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext, useRef } from "react";
 import { LoginContext } from "../../context/Login.context";
+import { MdDeleteOutline } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { Button, DialogActions, DialogContent, DialogTitle, ModalDialog } from "@mui/joy";
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import Typography from '@mui/joy/Typography';
 
 const Listing = () => {
   const router = useRouter();
@@ -15,6 +21,7 @@ const Listing = () => {
   const { userInformation } = useContext(LoginContext);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const userId = userInformation?.user.id;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   let allListing = "allListing";
   let recentlyAdded = "recentlyAdded";
@@ -69,6 +76,14 @@ const Listing = () => {
     return <div>Error: {error}</div>;
   }
 
+  const deleteProperty = ({ apartment }) => {
+    setIsModalOpen(true);
+  }
+
+  const HandleDelete = async ({ apartment }) => {
+    console.log(`deleting ${apartment?.id}`)
+  }
+
   return (
     <>
       <div className={styles.Section}>
@@ -81,7 +96,10 @@ const Listing = () => {
             apartments={apartments}
             selectedApartment={selectedApartment}
             setSelectedApartment={setSelectedApartment}
-
+            isModalOpen={isModalOpen}
+            deleteProperty={deleteProperty}
+            setIsModalOpen={setIsModalOpen}
+            HandleDelete={HandleDelete}
           />
         )}
         {count.current === 2 && <ListingDetail next={next} back={back} apartment={selectedApartment} />}
@@ -104,21 +122,23 @@ const Navigation = ({ handleChange, type }) => {
           >
             All listings
           </p>
-          <p
+          <button
+            disabled
             className={`${type === "recentlyAdded" ? styles.selected : styles.unselected
               }`}
             onClick={() => handleChange("recentlyAdded")}
           >
             Recently added
-          </p>
+          </button>
 
-          <p
+          <button
+            disabled
             className={`${type === "featured" ? styles.selected : styles.unselected
               }`}
             onClick={() => handleChange("featured")}
           >
             Featured
-          </p>
+          </button>
         </div>
         <div className={styles.search}>
           <img src="/navbar/search.svg" />
@@ -129,71 +149,142 @@ const Navigation = ({ handleChange, type }) => {
   );
 };
 
-const ListProperty = ({ next, handleChange, type, userId, apartments, setSelectedApartment }) => {
+const ListProperty = ({ next, handleChange, type, userId, apartments, setSelectedApartment, deleteProperty, isModalOpen, setIsModalOpen, HandleDelete }) => {
+  // Track selected properties via checkboxes
+  const [selectedProperties, setSelectedProperties] = useState([]);
+
+  // Handle selecting or deselecting a property
+  const handleCheckboxChange = (apartmentId) => {
+    setSelectedProperties((prevSelected) =>
+      prevSelected.includes(apartmentId)
+        ? prevSelected.filter((id) => id !== apartmentId)
+        : [...prevSelected, apartmentId]
+    );
+  };
 
   const handlePropertyClick = (apartment) => {
     setSelectedApartment(apartment);
     next();
   };
 
+  // Redirect to edit form (this can be a separate page or modal form)
+  const handleEdit = (apartment) => {
+    // Navigate to edit page with apartment details
+    setSelectedApartment(apartment); // Set the selected apartment for editing
+
+  };
 
   return (
     <>
       <p className={styles.Header}>My Listing</p>
       <Navigation handleChange={handleChange} type={type} />
       <div className={styles.propertyListing}>
-        {Array.isArray(apartments) && apartments.map((apartment) => (
-          <div key={apartment?._id} className={styles.propertyContainer}>
-            <input type="checkbox" />
+        {Array.isArray(apartments) &&
+          apartments.map((apartment) => (
+            <>
+              <div key={apartment?._id} className={styles.propertyContainer}>
+                {/* Checkbox for selecting a property */}
+                <input
+                  type="checkbox"
+                  onChange={() => handleCheckboxChange(apartment?._id)}
+                  checked={selectedProperties.includes(apartment?._id)}
+                />
 
-            <div className={styles.Property} onClick={() => handlePropertyClick(apartment)}>
-              <div className={styles.PropertyImg}>
-                <img src={apartment?.images[0]} />
+                <div
+                  className={styles.Property}
+                  onClick={() => handlePropertyClick(apartment)}
+                >
+                  <div className={styles.PropertyImg}>
+                    <img src={apartment?.images[0]} />
 
-                <div className={styles.propertyText}>
-                  <p>{apartment?.Title}</p>
-                  <p className="line-clamp-1">{apartment?.location}</p>
+                    <div className={styles.propertyText}>
+                      <p>{apartment?.Title}</p>
+                      <p className="line-clamp-1">{apartment?.location}</p>
 
-                  <div className={styles.propertySize}>
-                    <li>
-                      <img src="/bedroom.svg" alt="" />
-                      <p>{apartment?.bedrooms}</p>
-                    </li>
-                    <li>
-                      <img src="/bathtub.svg" alt="" />
-                      <p>{apartment?.bathrooms}</p>
-                    </li>
-                    <li>
-                      <img src="/chair.svg" alt="" />
-                      <p>{apartment?.LivingRoom}</p>
-                    </li>
-                    <li>
-                      <img width={"24"} height={"20"} src="https://img.icons8.com/ios/50/toilet-bowl.png" alt="toilet-bowl" />
-                      <p>{apartment?.Toilets}</p>
-                    </li>
+                      <div className={styles.propertySize}>
+                        <li>
+                          <img src="/bedroom.svg" alt="" />
+                          <p>{apartment?.bedrooms}</p>
+                        </li>
+                        <li>
+                          <img src="/bathtub.svg" alt="" />
+                          <p>{apartment?.bathrooms}</p>
+                        </li>
+                        <li>
+                          <img src="/chair.svg" alt="" />
+                          <p>{apartment?.LivingRoom}</p>
+                        </li>
+                        <li>
+                          <img
+                            width={"24"}
+                            height={"20"}
+                            src="https://img.icons8.com/ios/50/toilet-bowl.png"
+                            alt="toilet-bowl"
+                          />
+                          <p>{apartment?.Toilets}</p>
+                        </li>
+                      </div>
+
+                      {apartment.date_created && (
+                        <p>
+                          Last Updated:{" "}
+                          {new Date(apartment.date_created).toLocaleString()}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
-                  {apartment.date_created && (
-                    <p>
-                      Last Updated:{" "}
-                      {new Date(apartment.date_created).toLocaleString()}
-                    </p>
-                  )}
+                  <hr />
+
+                  <div className={styles.PropertyInfo}>
+                    <p>Listing ID: {apartment._id.slice(0, 5)}</p>
+                    <p>£ {apartment.Amount}</p>
+                    <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
+                    <p>View property</p>
+                  </div>
                 </div>
+
+                {/* Conditionally show the buttons if the checkbox is checked */}
+                {selectedProperties.includes(apartment._id) && (
+                  <div className={`flex gap-x-3 items-center`}>
+                    <button className="text-2xl text-blue-700 hover:scale-110 focus:scale-110 transition duration-300" onClick={() => handleEdit(apartment)}><FaRegEdit />
+                    </button>
+                    <button className="text-2xl text-red-600 hover:scale-110 focus:scale-110 transition duration-300" onClick={() => deleteProperty(apartment._id)}><MdDeleteOutline />
+                    </button>
+                  </div>
+                )}
               </div>
 
-              <hr />
+              <Modal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-desc"
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 
-              <div className={styles.PropertyInfo}>
-                <p>Listing ID: {apartment._id.slice(0, 5)}</p>
-                <p>£ {apartment.Amount}</p>
-                <p>Status: {apartment.isSold ? "Unavailable" : "Available"}</p>
-                <p>View property</p>
-              </div>
-            </div>
-          </div>
-        ))}
+              >
+                <ModalDialog
+                  color="danger"
+                  variant="outlined"
+                >
+
+                  <ModalClose variant="plain" sx={{ m: 1 }} onClick={() => setIsModalOpen(false)} />
+                  <DialogTitle>Delete</DialogTitle>
+                  <DialogContent>Are you sure you want to delete this property ?</DialogContent>
+
+                  <DialogActions>
+                    <Button variant="contained" color="danger" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                    <Button variant="contained" color="danger" onClick={() => HandleDelete(apartment)}>Delete</Button>
+                  </DialogActions>
+                </ModalDialog>
+              </Modal>
+
+            </>
+          ))}
       </div>
+
+
+
     </>
   );
 };
