@@ -23,7 +23,6 @@ import Loading from "../../../../components/Loading";
 import { useImageContext } from "../../../../context/ImageContext.context";
 
 const Process = () => {
-
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(0);
   const router = useRouter();
@@ -50,11 +49,16 @@ const Process = () => {
 
       try {
         // Fetch transaction data
-        const transactionResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/gettransaction/${id}`);
+        const transactionResponse = await fetch(
+          `https://nutlip-server.uc.r.appspot.com/api/transaction/gettransaction/${id}`
+        );
         const transactionData = await transactionResponse.json();
         setTransaction(transactionData.transaction);
 
-        const adjustedStage = Math.max(0, transactionData.transaction.transactionCurrentStage - 1);
+        const adjustedStage = Math.max(
+          0,
+          transactionData.transaction.transactionCurrentStage - 1
+        );
         setTransactionStage(adjustedStage);
 
         // Set the current stage, prioritizing localStorage if available
@@ -64,34 +68,48 @@ const Process = () => {
 
         if (transactionResponse.ok) {
           // Fetch transaction content data
-          const txcontent = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/gettransactioncontent/${id}`);
+          const txcontent = await fetch(
+            `https://nutlip-server.uc.r.appspot.com/api/transaction/gettransactioncontent/${id}`
+          );
           const data = await txcontent.json();
           const transactionContentData = data.transactioncontent[0];
           setTransactionContent(transactionContentData);
           console.log("TRANSACTION CONTENT", transactionContentData);
 
           // Fetch apartment data using transactionData
-          const apartmentResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`);
+          const apartmentResponse = await fetch(
+            `https://nutlip-server.uc.r.appspot.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`
+          );
           const apartmentData = await apartmentResponse.json();
           setApartment(apartmentData.data);
           console.log("apartmentData:", apartmentData.data);
 
           // Fetch seller data using userInformation
-          const sellerResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation?.user?.id}`);
+          const sellerResponse = await fetch(
+            `https://nutlip-server.uc.r.appspot.com/api/users/${userInformation?.user?.id}`
+          );
           const sellerData = await sellerResponse.json();
           setSellerInfo(sellerData.data);
           console.log("seller data", sellerInfo);
 
           // Fetch agent data using apartment data
-          const agentResponse = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${apartmentData.data.userId}`);
+          const agentResponse = await fetch(
+            `https://nutlip-server.uc.r.appspot.com/api/users/${apartmentData.data.userId}`
+          );
           const agentData = await agentResponse.json();
           setAgent(agentData.data);
           console.log("agent data", agentData.data);
 
           // Determine userType based on fetched data
-          if (transactionContentData.convenyancer_buyer === userInformation?.user?.id) {
+          if (
+            transactionContentData.convenyancer_buyer ===
+            userInformation?.user?.id
+          ) {
             setUserType("conveyancer_buyer");
-          } else if (transactionContentData.convenyancer_seller === userInformation?.user?.id) {
+          } else if (
+            transactionContentData.convenyancer_seller ===
+            userInformation?.user?.id
+          ) {
             setUserType("conveyancer_seller");
           } else {
             setUserType(sellerData.data.userType?.type);
@@ -112,7 +130,8 @@ const Process = () => {
   useEffect(() => {
     if (stage) {
       const stageNumber = parseInt(stage, 10); // Convert the stage query param to a number
-      if (!isNaN(stageNumber) && stageNumber >= 0 && stageNumber <= 10) { // Ensure it's a valid stage number
+      if (!isNaN(stageNumber) && stageNumber >= 0 && stageNumber <= 10) {
+        // Ensure it's a valid stage number
         setCurrentStage(stageNumber);
       }
     }
@@ -122,16 +141,16 @@ const Process = () => {
     setProgress(Math.floor((currentStage / 10) * 100));
   }, [currentStage]);
 
-
   const handleNextClick = () => {
-    if (currentStage < 10) { // Assuming there are 11 stages (0-10)
+    if (currentStage < 10) {
+      // Assuming there are 11 stages (0-10)
       const nextStage = currentStage + 1;
       setCurrentStage(nextStage);
 
       // Push the new stage (as a number) to the URL
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, stage: nextStage } // Update the stage query with the number
+        query: { ...router.query, stage: nextStage }, // Update the stage query with the number
       });
 
       // Optionally, save the current stage to localStorage
@@ -147,7 +166,7 @@ const Process = () => {
       // Push the previous stage (as a number) to the URL
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, stage: prevStage }
+        query: { ...router.query, stage: prevStage },
       });
 
       // Optionally, save the current stage to localStorage
@@ -163,29 +182,33 @@ const Process = () => {
 
         <div id={styles.top_bar}>
           <div className={styles.rightSide}>
-            <div className={styles.googlemeet} >
+            <div className={styles.googlemeet}>
               <Image
-                src="/logos_google-meet.svg"
+                src="/zoom-svgrepo-comh.svg"
                 width={30}
                 height={30}
-                alt=""
+                alt="zoom-logo"
               />
-              <p>Google meet</p>
+              <p href="/zoom">Zoom</p>
             </div>
 
             <li>Online (2)</li>
 
             <div className={styles.TransactionId}>
               <p style={{ textTransform: "uppercase" }}>
-                <span style={{ textTransform: "Capitalize" }}>Transaction ID:</span>
+                <span style={{ textTransform: "Capitalize" }}>
+                  Transaction ID:
+                </span>
                 {id && id?.slice(0, 8)}
               </p>
             </div>
           </div>
 
-          {currentStage >= 5 ? null : <button className={styles.CancelTransaction}>
-            Cancel <span>Transaction</span>
-          </button>}
+          {currentStage >= 5 ? null : (
+            <button className={styles.CancelTransaction}>
+              Cancel <span>Transaction</span>
+            </button>
+          )}
         </div>
 
         <Progress_bar bgcolor="#001F6D" progress={progress} height={30} />
@@ -209,9 +232,18 @@ const Process = () => {
 
 const Success = () => {
   return (
-    <div className={"flex flex-col justify-center items-center gap-y-3 w-full "}>
-      <div className={"w-full flex flex-col gap-y-3 justify-center items-center "}>
-        <Image src="/buyerprocess/success.png" alt="success" width={300} height={200} />
+    <div
+      className={"flex flex-col justify-center items-center gap-y-3 w-full "}
+    >
+      <div
+        className={"w-full flex flex-col gap-y-3 justify-center items-center "}
+      >
+        <Image
+          src="/buyerprocess/success.png"
+          alt="success"
+          width={300}
+          height={200}
+        />
         <div className={"flex flex-col justify-center items-center gap-y-1 "}>
           <h2 className={"text-md font-semibold"}>Congratulations</h2>
           <p className={"text-lg font-semibold"}>Transaction complete</p>
@@ -220,6 +252,5 @@ const Success = () => {
     </div>
   );
 };
-
 
 export default Process;
