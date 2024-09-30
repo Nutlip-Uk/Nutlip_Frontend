@@ -1,0 +1,779 @@
+.Section {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    background: #0000006e;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 80%;
+    height: 600px;
+    padding: 20px 30px;
+    gap: 1%;
+    border-radius: 16px;
+    background: white;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}
+
+.cancelButton {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    height:20px;
+}
+
+.cancelButton button {
+    border: none;
+    background: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.box {
+    height:100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcomeContainer {
+    display: flex;
+    gap: 48px;
+    width: 90%;
+}
+
+.welcomeImg {
+    width: 50%;
+    height: 367.56px;
+}
+
+.welcomeText {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    width: 60%;
+}
+
+.welcomeText p:nth-child(1) {
+    font-size: 40px;
+    font-weight: 600;
+}
+.welcomeText p:nth-child(2) {
+    font-size: 16px;
+    font-weight: 400;
+    width: 80%;
+}
+.welcomeText button {
+    background: #da0025;
+    color: white;
+    width: 80%;
+    height: 52px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: none;
+}
+
+/* WHAT DESCRIBES YOU */
+
+.DescribeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+.DescribesText {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 60%;
+}
+
+.DescribesText p:nth-child(1) {
+    font-size: 40px;
+    font-weight: 600;
+    width: 70%;
+}
+.DescribesText p:nth-child(2) {
+    font-size: 16px;
+    font-weight: 400;
+    width: 80%;
+}
+.DescribesText button {
+    background: #da0025;
+    color: white;
+    width: 80%;
+    height: 52px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: none;
+}
+
+.radioGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.radioButtonContainer {
+    border: 1px solid #d8dadc;
+    border-radius: 8px;
+    padding: 15px 24px;
+    display: flex;
+    gap: 8px;
+}
+
+.radioButtonContainer label {
+    font-size: 16px;
+    font-weight: 400;
+    color: #3b3a3a;
+}
+.radioButtonContainer input[type="radio"]:checked ~ .radioButtonContainer {
+    border: 1px solid blue;
+}
+
+.radioButtonContainer :is(input[type="radio"]:checked) {
+    border: 1px solid blue;
+}
+
+/* FORM STYLES */
+
+.formContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+}
+
+.formHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formHeader h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #141212;
+}
+
+.formHeader p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #141212;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+.form2{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+.formFour {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+.form label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.form input,
+.form select {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+}
+.form2 label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.form2 input,
+.form2 select {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+}
+.formFour label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.formFour input,
+.formFour select {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.submit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.submit button {
+    width: 40%;
+    height: 52px;
+    border-radius: 8px;
+    background: #da0025;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.congratulationsContainer{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:24px;
+}
+
+.congratulationsImg{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.congratulationsImg p{
+font-size: 20px;
+font-weight: 600;
+}
+
+.Thankyou{
+    text-align:center;
+font-size: 16px;
+font-weight: 400;
+}
+
+.congratulationsContainer button{
+    width:100%;
+    background: #DA0025;
+padding: 14px 20px;
+border-radius: 8px;
+font-size: 16px;
+font-weight: 500;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+@media (width <=400px) {
+    .container {
+        width: 90%;
+        height: auto;
+        padding: 20px 20px;
+        gap: 1%;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+    }
+    
+    .box {
+        height: 100%;;
+    }
+
+    .welcomeContainer {
+        display: flex;
+        gap: 48px;
+        width: 100%;
+    }
+    
+
+    .welcomeImg {
+        width: 50%;
+        height: 367.56px;
+        display: none;
+    }
+
+    .welcomeText {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+    .welcomeText p:nth-child(1) {
+        font-size: 30px;
+        font-weight: 600;
+    }
+    .welcomeText p:nth-child(2) {
+        font-size: 16px;
+        font-weight: 400;
+        width: 100%;
+    }
+
+    .welcomeText button {
+        width: 100%;
+        height: 52px;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .DescribeForm {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 100%;
+    }
+    .DescribesText {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .DescribesText p:nth-child(1) {
+        font-size: 20px;
+        font-weight: 600;
+        width: 100%;
+    }
+    .DescribesText p:nth-child(2) {
+        font-size: 16px;
+        font-weight: 400;
+        width: 100%;
+    }
+    .DescribesText button {
+        background: #da0025;
+        color: white;
+        width: 100%;
+        height: 52px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        border: none;
+        font-size: 16px;
+    }
+
+    .radioGroup {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .radioButtonContainer {
+        border: 1px solid #d8dadc;
+        border-radius: 8px;
+        padding: 10px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* FORM STYLES */
+
+    .MainContainer{
+        height:500px;
+        overflow: scroll;
+    }
+
+    .formContainer {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: start;
+    }
+
+    .formHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .formHeader h2 {
+        font-size: 32px;
+        font-weight: 600;
+        color: #141212;
+    }
+
+    .formHeader p {
+        font-size: 16px;
+        font-weight: 400;
+        color: #141212;
+    }
+
+    .form {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 24px;
+        width: 100%;
+    }
+
+    .formFour {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 24px;
+        width: 100%;
+    }
+}
+@media (400px <= width <=779px) {
+    .container {
+        width: 90%;
+        height: auto;
+        padding: 20px 20px;
+        gap: 1%;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+    }
+    
+    .box {
+        height: 100%;;
+    }
+
+    .box {
+        height: 90%;
+        overflow: scroll;
+    }
+
+    .welcomeContainer {
+        display: flex;
+        gap: 48px;
+        width: 100%;
+    }
+    .welcomeContainerFirst {
+        height: auto;
+        display: flex;
+        gap: 48px;
+        width: 100%;
+    }
+
+    .welcomeImg {
+        width: 50%;
+        height: 367.56px;
+        display: none;
+    }
+
+    .welcomeText {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+    .welcomeText p:nth-child(1) {
+        font-size: 30px;
+        font-weight: 600;
+    }
+    .welcomeText p:nth-child(2) {
+        font-size: 16px;
+        font-weight: 400;
+        width: 100%;
+    }
+
+    .welcomeText button {
+        width: 100%;
+        height: 52px;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .DescribeForm {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 100%;
+    }
+    .DescribesText {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .DescribesText p:nth-child(1) {
+        font-size: 20px;
+        font-weight: 600;
+        width: 100%;
+    }
+    .DescribesText p:nth-child(2) {
+        font-size: 16px;
+        font-weight: 400;
+        width: 100%;
+    }
+    .DescribesText button {
+        background: #da0025;
+        color: white;
+        width: 100%;
+        height: 52px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        border: none;
+        font-size: 16px;
+    }
+
+    .radioGroup {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .radioButtonContainer {
+        border: 1px solid #d8dadc;
+        border-radius: 8px;
+        padding: 10px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* FORM STYLES */
+    .MainContainer{
+        height:500px;
+        overflow: scroll;
+    }
+
+
+    .formContainer {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: start;
+    }
+
+    .formHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .formHeader h2 {
+        font-size: 32px;
+        font-weight: 600;
+        color: #141212;
+    }
+
+    .formHeader p {
+        font-size: 16px;
+        font-weight: 400;
+        color: #141212;
+    }
+
+    .form {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 24px;
+        width: 100%;
+    }
+
+    .formFour {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 24px;
+        width: 100%;
+    }
+}
+
+@media (780px <= width <= 960px) {
+    .Section {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        background: #0000006e;
+        display: grid;
+        place-content: center;
+        place-items: center;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .container {
+        width: 95%;
+        height: 600px;
+        padding: 20px 15px;
+        gap: 1%;
+        border-radius: 16px;
+        background: white;
+        -webkit-border-radius: 16px;
+        -moz-border-radius: 16px;
+        -ms-border-radius: 16px;
+        -o-border-radius: 16px;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+    }
+    
+    .welcomeContainer {
+        display: flex;
+        gap: 48px;
+        width: 95%;
+    }
+    
+    .welcomeImg {
+        width: 55%;
+        height: 367.56px;
+        overflow:hidden;
+    }
+    
+    .welcomeText {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        width: 50%;
+    }
+    .welcomeText p:nth-child(1) {
+        font-size: 30px;
+        font-weight: 600;
+    }
+    .welcomeText p:nth-child(2) {
+        width: 90%;
+    }
+    
+.DescribesText {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 60%;
+}
+
+.DescribesText p:nth-child(1) {
+    font-size: 30px;
+    font-weight: 600;
+    width: 70%;
+}
+.DescribesText p:nth-child(2) {
+    font-size: 16px;
+    font-weight: 400;
+    width: 90%;
+}
+
+/* FORM STYLES */
+
+.formContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+}
+
+.formHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formHeader h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #141212;
+}
+
+.formHeader p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #141212;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+.formFour {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+.form label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.form input,
+.form select {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    font-size:16px;
+}
+.formFour label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.formFour input,
+.formFour select {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.submit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.submit button {
+    width: 40%;
+    height: 52px;
+    border-radius: 8px;
+    background: #da0025;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+    
+}

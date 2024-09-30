@@ -1,0 +1,53 @@
+.Section *{
+    margin: 0;
+}
+
+
+.Section{
+    background-color: #e4e6eb37;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    width: 80%;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    gap:16px;
+    padding:50px 0;
+}
+.Header p{
+    color: #141212;
+font-size: 28px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+text-align: center;
+}
+
+
+.AccordionContainer{
+    width: 100%;
+    display: flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.typography{
+   
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.accordiondetails{
+    color: var(--Text-txt-secondary, rgba(60, 60, 67, 0.85));
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}

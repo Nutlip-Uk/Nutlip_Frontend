@@ -1,0 +1,326 @@
+.container * {
+    font-family: "Poppins";
+}
+
+.Section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    background-color: #f8faff;
+    padding:30px 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    gap: 20px;
+    width: 90%;
+}
+
+/* Google meet and online participants */
+#top_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+}
+
+.rightSide {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: auto;
+}
+
+.googlemeet {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.googlemeet img {
+}
+
+#top_bar li {
+    color: #16aa63;
+    list-style: url("../../../public/Ellipse\ 266.svg");
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: auto;
+}
+
+.CancelTransaction {
+    background: #d0d0d0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+}
+
+.CancelTransaction:hover {
+    transition: 0.3s;
+    scale: 0.96;
+}
+/* Google meet and online participants  */
+
+/* Page navigation */
+#page_nav {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#page_nav button,
+#page_nav_2 a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor:pointer;
+}
+
+#page_nav button:last-of-type,
+#page_nav_2 a {
+    color: var(--Brand-red, #da0025);
+    border-bottom: 1px solid #da0025;
+    align-items: flex-end;
+    text-decoration: none;
+}
+
+#page_nav_2 {
+    display: flex;
+    justify-content: flex-end;
+    width: 90%;
+}
+/* Page navigation */
+
+/* FIle upload styling */
+
+/* FIle upload styling */
+
+/* Conveyancer invite styling */
+
+/* Conveyancer invite styling */
+
+/* DEPOSIT STYLING */
+#list {
+    align-self: stretch;
+}
+
+#list ul {
+    display: grid;
+    gap: 5px;
+    list-style: none;
+    text-indent: 0;
+    padding-left: 0;
+}
+/* DEPOSIT STYLING */
+
+/* Date styling for DOC */
+#date {
+    display: grid;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300, #d0d5dd);
+    background: #fff;
+
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+/* Date styling for DOC */
+
+#success{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 50dvh;
+    padding: 20px;
+    background-color: #f8faff;
+
+}
+
+.successText{
+display: flex;
+flex-direction: column;
+gap:0px;
+}
+#success img {
+   
+}
+#success p {
+    text-align: center;
+}
+
+
+@media ( width <=400px) {
+    .container {
+        width: 100%;
+    }
+    #top_bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+    }
+    .googlemeet p{
+        display: none;
+    }
+    #top_bar li {
+        color: #16aa63;
+        list-style: url("../../../public/Ellipse\ 266.svg");
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 6px 8px;
+        width: auto;
+        font-size:10px;
+        text-align:center;
+    }
+    .CancelTransaction span {
+        display:none;
+      }
+      .TransactionId span{
+          display:none;
+      }
+
+      .TransactionId {
+        font-size:10px;
+      }
+
+      .CancelTransaction{
+        font-size:12px;
+        padding:4px 6px;
+      } 
+
+      #page_nav {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    #page_nav button,
+    #page_nav_2 a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid black;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0em;
+        cursor:pointer;
+    }
+    
+   
+
+
+}
+@media (400px <= width <=779px) {
+    .container {
+        width: 100%;
+    }
+    .googlemeet p{
+        display: none;
+    }
+
+    #top_bar li {
+        color: #16aa63;
+        list-style: url("../../../public/Ellipse\ 266.svg");
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 8px 12px;
+        width: auto;
+        font-size:12px;
+    }
+    
+.CancelTransaction span {
+  display:none;
+}
+.TransactionId span{
+    display:none;
+}
+
+
+.TransactionId {
+    font-size:14px;
+  }
+
+ 
+
+#page_nav {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#page_nav button,
+#page_nav_2 a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+    cursor:pointer;
+}
+
+.CancelTransaction {
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 8px;
+    padding: 5px;
+    min-width: fit-content;
+
+    cursor: pointer;
+}
+
+
+}
+
+@media (780px <= width <= 960px) {
+    .container{
+        width: 98%;
+    }
+    .CancelTransaction {
+        font-size: 14px;
+        font-weight: 400;
+        border-radius: 8px;
+        padding: 8px;
+        min-width: fit-content;
+    
+    }    
+}

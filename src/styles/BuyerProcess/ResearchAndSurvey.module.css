@@ -1,0 +1,152 @@
+.container{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    height:50dvh;
+}
+
+.Header{
+    display:flex;
+    flex-direction:column;
+    gap:8px; 
+}
+
+.Header h2{
+    color: #000;
+font-size: 24px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.Header p{
+    color: #000;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.ResearchInvite{
+    display:flex;
+    flex-direction:column;
+    gap:32px; 
+}
+
+.Research{
+    display:flex;
+    gap:16px;
+    align-items:center;
+}
+
+.Research hr{
+    height:50%;
+}
+
+.SubHeader{
+    display:flex;
+    flex-direction:column;
+    gap:4px; 
+}
+
+.SubHeader h3{
+    color: var(--Grey-5, #3B3A3A);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.SubHeader p{
+color: #434343;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+
+.ResearchButton{
+    display: flex;
+padding: 10px 20px;
+justify-content: center;
+align-items: center;
+    border-radius: 8px;
+background: var(--Brand-red, #DA0025);
+color: var(--White, #FFF);
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+border:none;
+cursor:pointer;
+}
+
+.ResearchDetails{
+    display: flex;
+padding: 16px 32px;
+flex-direction: column;
+align-items: flex-start;
+gap: 3px;
+    border-radius: 12px;
+background: #FFF;
+}
+
+
+
+@media ( width <=400px) {
+    .container{
+        display:flex;
+        flex-direction:column;
+        gap:16px;
+        height:auto;
+
+    }
+    .Research{
+        display:flex;
+        gap:8px;
+        align-items:start;
+        flex-direction:column;
+    }
+    
+    .Research hr{
+        height:0%;
+    }
+    
+    .ResearchButton{
+        display: flex;
+        width:100%;
+    padding: 10px 20px;
+   
+    }
+}
+@media (400px <= width <=779px) {
+    .container{
+        display:flex;
+        flex-direction:column;
+        gap:16px;
+        height:auto;
+        
+    }
+    .Research{
+        display:flex;
+        gap:8px;
+        align-items:start;
+        flex-direction:column;
+    }
+    
+    .Research hr{
+        height:0%;
+    }
+    
+    .ResearchButton{
+        display: flex;
+        width:100%;
+    padding: 10px 20px;
+   
+    }
+    
+}
+
+@media (780px <= width <= 960px) {
+    
+}

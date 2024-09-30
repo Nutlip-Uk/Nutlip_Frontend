@@ -1,0 +1,1093 @@
+.Section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+    width: 90%;
+    height: 100%;
+    min-height: 80vh;
+}
+.NavBack {
+    font-size: 16px;
+    font-weight: 500;
+    color: #001f6d;
+    cursor: pointer;
+}
+
+
+.NavContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Header{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.search {
+    height: 40px;
+    padding: 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    gap: 8px;
+    border-radius: 10px;
+}
+
+.search input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    color: #626161;
+}
+
+
+.TransactionsContainer{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    width:100%;
+    gap:24px;
+}
+
+.Box{
+    width: 100%;
+height: 190px;
+border-radius: 16px;
+background:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding: 0 30px;
+gap:8px;
+
+}
+
+.BoxHeader{
+    font-size: 20px;
+    font-weight: 600;
+}
+.BoxText{
+    font-size: 16px;
+    font-weight: 500;
+    color:#434343;
+}
+
+.propertyList{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    height: 100%;
+    width: 100%;
+}
+
+
+.propertyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 201px;
+    width: 100%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    background: white;
+    padding: 0 10px;
+    gap: 0px;
+    cursor: pointer;
+}
+
+.Property {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 0px;
+}
+
+.Property hr {
+    height: 60%;
+}
+.PropertyImg {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 60%;
+}
+
+.PropertyImg img {
+    width: 247.41px;
+    height: 158px;
+    border-radius: 8.54px;
+}
+
+.propertyText {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    gap: 8px;
+   
+}
+
+.propertyText p:nth-child(1) {
+    font-size: 20px;
+    text-wrap: wrap;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.propertyText p:nth-child(2) {
+    text-wrap: wrap;
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+.propertyText p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+
+.PropertyInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.PropertyInfo p:nth-child(1) {
+    background: #e6556e;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px 8px;
+    color: white;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.PropertyInfo p:nth-child(2) {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.PropertyInfo p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #001f6d;
+}
+.PropertyInfo p:nth-child(4) {
+    font-size: 14px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.viewOffer{
+    min-width: fit-content;
+    width:139px;
+    height: 51px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: 1px solid #141212;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+    color:#141212;
+    background:transparent;
+font-size: 16px;
+font-weight: 500;
+cursor:pointer;
+transition:0.3s ease-in;
+}
+
+.viewOffer:hover{
+    background-color: #141212;
+    color: white;
+    scale: 0.95;
+    transition:0.3s ease;
+}
+
+.viewOffer p{
+    min-width: fit-content;
+}
+
+.viewOfferListing{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.viewOfferContainer {
+    display: flex;
+    height: 130px;
+    width: 100%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    background: white;
+    padding: 20px;
+    gap: 30px;
+    cursor: pointer;
+}
+
+.Offer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 0px;
+}
+
+.Offer hr {
+    height: 60%;
+}
+
+
+.actualPrice{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+
+}
+
+
+
+.actualPrice p:nth-child(1){
+font-size: 16px;
+font-weight: 400;
+color:#434343;
+}
+
+.actualPrice p:nth-child(2){
+    font-size: 24px;
+    font-weight: 600;
+    color: #3B3A3A;
+
+}
+
+.actualPrice span:nth-child(1){
+font-size: 24px;
+font-weight: 600;
+    color: #2e2d2d;
+
+}
+
+.actualPrice span:nth-child(2){
+    font-size: 18px;
+    font-weight: 600;
+    color: #3B3A3A;
+    text-align: center;
+}
+
+.actualPrice span:nth-child(3){
+    font-size: 16px;
+    font-weight: 400;
+    color: #434343;
+
+}
+
+.offered{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+}
+
+
+.offered p:nth-child(1){
+font-size: 16px;
+font-weight: 400;
+color: #626161;
+
+}
+.offered p:nth-child(2){
+    font-size: 24px;
+    font-weight: 600;
+    color: #3B3A3A;
+}
+.offered p:nth-child(3){
+color:#001f6d;
+font-size: 16px;
+font-weight: 500;
+border-bottom: 1px solid #001f6d;
+
+}
+
+.offerContact {
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.decision{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.decision button{
+    width:100px;
+    height: 51px;
+    padding: 0px 0px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: 1px solid #141212;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+    color:#fff;
+font-size: 16px;
+font-weight: 500;
+text-align: center;
+cursor:pointer;
+border:none;
+transition:0.3s ease-in;
+}
+
+.decision button:hover{
+    scale:0.95;
+    transition:0.3s ease-in;
+}
+
+.decision button:nth-child(1){
+    background: #2CC77D;
+
+}
+.decision button:nth-child(2){
+    background: #001F6D;
+
+}
+.decision button:nth-child(3){
+    background: #DA0025;
+
+}
+.acceptedcontainer{
+    width: 100%;
+    position: relative;
+}
+.alreadyAccepted{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    gap:8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(234, 234, 234);
+    height: 50px;
+    width: 90%;
+    background-color: rgb(23, 26, 26);
+    text-align: center;
+    position: fixed;
+    z-index: 1;
+}
+
+
+
+@media ( width <=400px) {
+    .Header{
+        font-size: 18px;
+    }
+  
+.search {
+    width:40%;
+    padding: 0px 5px;
+}
+
+.search input {
+    width:80%;
+}
+
+.TransactionsContainer{
+    grid-template-columns: repeat(1,1fr);
+    width:100%;
+    gap:16px;
+}
+
+.Box{
+    width: 100%;
+height: 140px;
+}
+
+.propertyList{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    height: 100%;
+    width: 100%;
+}
+
+
+.propertyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    background: white;
+    padding: 10px 10px;
+    gap: 0px;
+    cursor: pointer;
+}
+
+.Property {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 8px;
+}
+
+.PropertyImg {
+    display: flex;
+    flex-direction:column;  
+    align-items: unset;
+    gap: 16px;
+    width: 100%;
+}
+
+.PropertyImg img {
+    width: 100%;
+    height: 190px;
+    border-radius: 8.54px;
+}
+
+.propertyText {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+   
+}
+
+.propertyText p:nth-child(1) {
+    font-size: 20px;
+    text-wrap: wrap;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.propertyText p:nth-child(2) {
+    text-wrap: wrap;
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+.propertyText p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+
+.PropertyInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.PropertyInfo p:nth-child(1) {
+    background: #e6556e;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px 8px;
+    color: white;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.PropertyInfo p:nth-child(2) {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.PropertyInfo p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #001f6d;
+}
+.PropertyInfo p:nth-child(4) {
+    font-size: 14px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.viewOffer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 40px;
+    font-size: 16px;
+}
+
+.viewOfferListing{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.viewOfferContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 30px;
+    cursor: pointer;
+    padding:10px 5px;
+}
+
+.Offer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 10px;
+}
+
+.Offer hr{
+    width:100%;
+}
+
+.actualPrice{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+
+}
+
+
+.offered{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+}
+
+
+.offerContact {
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.decision{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.decision button{
+    width:90px;
+    height: 40px;
+    padding: unset;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: 1px solid #141212;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+    color:#fff;
+font-size: 16px;
+font-weight: 500;
+cursor:pointer;
+border:none;
+transition:0.3s ease-in;
+text-align: center;
+}
+
+
+.offerContact {
+    width:100%;
+    display:flex;
+    place-content:center;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+
+}
+@media (400px <= width <=779px) {
+    .Header{
+        font-size: 20px;
+    }
+  
+.search {
+    width:50%;
+    padding: 0px 5px;
+}
+
+.search input {
+    width:80%;
+}
+
+.TransactionsContainer{
+    grid-template-columns: repeat(1,1fr);
+    width:100%;
+    gap:16px;
+}
+
+.Box{
+    width: 100%;
+height: 140px;
+}
+
+.propertyList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:16px;
+    height: 100%;
+    width: 100%;
+}
+
+
+.propertyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: 70%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    background: white;
+    padding: 10px 10px;
+    gap: 0px;
+    cursor: pointer;
+}
+
+.Property {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 8px;
+}
+
+.PropertyImg {
+    display: flex;
+    flex-direction:column;  
+    align-items: unset;
+    gap: 16px;
+    width: 100%;
+}
+
+.PropertyImg img {
+    width: 100%;
+    height: 190px;
+    border-radius: 8.54px;
+}
+
+.propertyText {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+   
+}
+
+.propertyText p:nth-child(1) {
+    font-size: 20px;
+    text-wrap: wrap;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.propertyText p:nth-child(2) {
+    text-wrap: wrap;
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+.propertyText p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+
+.PropertyInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.PropertyInfo p:nth-child(1) {
+    background: #e6556e;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px 8px;
+    color: white;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.PropertyInfo p:nth-child(2) {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.PropertyInfo p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #001f6d;
+}
+.PropertyInfo p:nth-child(4) {
+    font-size: 14px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.viewOffer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 40px;
+    font-size: 16px;
+}
+
+.viewOfferListing{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    width: 100%;
+    overflow: hidden;
+    align-items: center;
+}
+
+.viewOfferContainer {
+    display: flex;
+    height: 100%;
+    width: 70%;
+    gap: 30px;
+    cursor: pointer;
+    padding:10px 5px;
+}
+
+.Offer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 10px;
+}
+
+.Offer hr{
+    width:100%;
+}
+
+.actualPrice{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+}
+
+
+.offered{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+}
+
+
+.offerContact {
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.decision{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.decision button{
+    width:90px;
+    height: 40px;
+    padding: unset;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: 1px solid #141212;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+    color:#fff;
+font-size: 16px;
+font-weight: 500;
+cursor:pointer;
+border:none;
+transition:0.3s ease-in;
+text-align: center;
+}
+
+
+.offerContact {
+    width:100%;
+    display:flex;
+    place-content:center;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+}
+
+@media (780px <= width <= 1200px) {
+    
+.propertyList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:16px;
+    height: 100%;
+    width: 100%;
+}
+
+
+.propertyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: 60%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    background: white;
+    padding: 10px 10px;
+    gap: 0px;
+    cursor: pointer;
+}
+
+.Property {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 8px;
+}
+
+.PropertyImg {
+    display: flex;
+    flex-direction:column;  
+    align-items: unset;
+    gap: 16px;
+    width: 100%;
+}
+
+.PropertyImg img {
+    width: 100%;
+    height: 190px;
+    border-radius: 8.54px;
+}
+
+.propertyText {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+   
+}
+
+.propertyText p:nth-child(1) {
+    font-size: 20px;
+    text-wrap: wrap;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.propertyText p:nth-child(2) {
+    text-wrap: wrap;
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+.propertyText p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #434343;
+}
+
+.PropertyInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.PropertyInfo p:nth-child(1) {
+    background: #e6556e;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px 8px;
+    color: white;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.PropertyInfo p:nth-child(2) {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3b3a3a;
+}
+.PropertyInfo p:nth-child(3) {
+    font-size: 16px;
+    font-weight: 500;
+    color: #001f6d;
+}
+.PropertyInfo p:nth-child(4) {
+    font-size: 14px;
+    font-weight: 500;
+    color: #141212;
+}
+
+.viewOffer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 40px;
+    font-size: 16px;
+}
+
+
+.viewOfferListing{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    width: 100%;
+    overflow: hidden;
+    align-items: center;
+}
+
+.viewOfferContainer {
+    display: flex;
+    height: 100%;
+    width: 70%;
+    gap: 30px;
+    cursor: pointer;
+    padding:20px 15px;
+}
+
+.Offer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 98%;
+    gap: 10px;
+}
+
+.Offer hr{
+    width:100%;
+}
+
+.actualPrice{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+}
+
+
+.offered{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-items:center;
+}
+
+
+.offerContact {
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.decision{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.decision button{
+    width:90px;
+    height: 50px;
+    padding: unset;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: 1px solid #141212;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+    color:#fff;
+font-size: 16px;
+font-weight: 500;
+cursor:pointer;
+border:none;
+transition:0.3s ease-in;
+text-align: center;
+}
+
+
+.offerContact {
+    width:100%;
+    display:flex;
+    place-content:center;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+
+
+}

@@ -1,0 +1,220 @@
+.Section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+    width: 90%;
+    height: 100%;
+}
+
+
+.NavContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Header{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.search {
+    height: 40px;
+    padding: 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    gap: 8px;
+    border-radius: 10px;
+}
+
+.search input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    color: #626161;
+}
+
+.CardContainer{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.Carder{
+    border: 0.83px solid #EFF0F6;
+    box-shadow: 0px 1.6696211099624634px 10.01772689819336px 0px #14142B14;
+    background: linear-gradient(0deg, #FFFFFF, #FFFFFF),linear-gradient(0deg, #EFF0F7, #EFF0F7);
+    width: 330px;
+    height: 460px;
+    border-radius:16px ;
+    -webkit-border-radius:16px ;
+    -moz-border-radius:16px ;
+    -ms-border-radius:16px ;
+    -o-border-radius:16px ;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+}
+
+.Card{
+    width: 85%;
+    padding: 20px 0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.CardHeader{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.cardPlan{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.cardPlan img{
+    width: 48px;
+height: 48px;
+
+}
+
+.cardPlan h1{
+font-size: 24px;
+font-weight: 600;
+color: #141212;
+
+}
+
+
+.cardPrice{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    height:auto;
+}
+
+.cardPrice p:nth-child(1){
+font-size: 45px;
+font-weight: 700;
+color: #141212;
+
+}
+.cardPrice p:nth-child(2){
+font-size: 16px;
+font-weight: 500;
+color: #626161;
+}
+
+.CardIncludedContainer{
+    display: flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.CardIncludeHeader{
+font-size: 16px;
+font-weight: 600;
+color: #626161;
+
+}
+
+.CardIncludedList{
+    display:flex;
+    gap:4px;
+    align-items: start;
+}
+
+.CardIncludedList img{
+    width: 18.71px;
+height: 18.71px;
+}
+
+.CardFooter button{
+    width:100%;
+    height:52px;
+    border-radius:8px;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    -ms-border-radius:8px;
+    -o-border-radius:8px;
+    background: #DA0025;
+    color:white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+
+}
+
+
+@media ( width <=400px) {
+    .search {
+        height: 40px;
+        width:50%;
+        padding: 0px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        gap: 8px;
+        border-radius: 10px;
+    }
+    
+    .search input {
+        width:80%;
+        background: none;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: 400;
+        color: #626161;
+    }
+
+    .Carder{
+        width: 330px;
+        height: 100%;
+    }
+    
+    
+}
+@media (400px <= width <=779px) {
+    .search {
+        height: 40px;
+        width:50%;
+        padding: 0px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        gap: 8px;
+        border-radius: 10px;
+    }
+    
+    .search input {
+        width:80%;
+        background: none;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: 400;
+        color: #626161;
+    }
+
+    .Carder{
+        width: 330px;
+        height: 100%;
+    }
+}
+
+@media (780px <= width <= 960px) {
+    
+}

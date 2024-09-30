@@ -1,0 +1,343 @@
+.Section {
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    background-color: #F5F5F5;
+    padding: 30px 0;
+}
+
+.Container{
+    width: 90%;
+    height: auto;
+    padding: 60px 0;
+}
+
+.Header{
+    text-align: center;
+    width:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: auto;
+    align-items:center;
+    margin:0;
+    padding:0;
+    gap:20px;
+    padding-bottom: 30px ;
+}
+
+.Header p:nth-child(1){
+font-size: 32px;
+font-weight: 600;
+line-height: 34px;
+letter-spacing: 0em;
+text-align: center;
+color: #0D263B;
+margin:0;
+
+}
+.Header p:nth-child(2){
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: black;
+    display: grid;
+    place-self: center;
+    width: 70%;
+    margin:0;
+}
+
+
+.GridContainer{
+    display: grid;
+    grid-template-columns:repeat(3, minmax(min(200px, 300px), 1fr));
+    gap: 20px;
+}
+
+.BoxContainer{
+    background-color: white;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    width: auto;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.Box{
+    width: 90%;
+    height: auto;
+    display:flex;
+   flex-direction:column;
+   gap:10x;
+}
+
+.IconContainer img{
+    height: 40px;
+    width: 40px;
+}
+
+.title{
+    width: 90%;
+}
+
+.title p{
+
+font-size: 24px;
+font-weight: 600;
+line-height: 36px;
+letter-spacing: 0.5px;
+text-align: left;
+color: #141212;
+margin:0;
+}
+.text{
+    width: 95%;
+}
+
+.text p{
+
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+text-align: left;
+color: black;
+margin:0;
+}
+
+@media ( width<= 400px){
+    .Header p:nth-child(1){
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 34px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #0D263B;
+        
+        }
+    .Header p:nth-child(2){
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: black;
+        display: grid;
+        place-self: center;
+        width: 97%;
+    }
+    .GridContainer{
+        display: grid;
+        grid-template-columns:repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    }
+
+    .BoxContainer{
+        background-color: white;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 0;
+}
+
+    .Box{
+        width: 90%;
+        height: auto;
+       
+    }
+
+    .IconContainer img{
+        height: 30px;
+        width: 30px;
+    }
+
+    .title{
+        width: 90%;
+    }
+    
+    .title p{
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: left;
+        
+    color: #141212;
+    }
+    .text{
+        width: 95%;
+    }
+    
+    .text p{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        text-align: left;
+        
+    color: black;
+    }
+}
+
+@media (400px <= width <=779px) {
+    .Header p:nth-child(1){
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 34px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #0D263B;
+        
+        }
+    .Header p:nth-child(2){
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: black;
+        display: grid;
+        place-self: center;
+        width:97%;
+    }
+    .GridContainer{
+        display: grid;
+        grid-template-columns:repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    }
+
+    
+    .BoxContainer{
+        background-color: white;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+}
+
+    .Box{
+        width: 90%;
+        height: auto;
+       
+    }
+
+    .title{
+        width: 90%;
+    }
+    
+    .title p{
+    
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #141212;
+    }
+    .text{
+        width: 95%;
+    }
+    
+    .text p{
+    
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        text-align: left;
+    color: black;
+    }
+}
+
+
+
+@media (780px <= width <= 1200px) {
+    .Header p:nth-child(2){
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: black;
+        display: grid;
+        place-self: center;
+        width: 90%;
+    }
+    
+    .GridContainer{
+        display: grid;
+        grid-template-columns:repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    }
+
+    .BoxContainer{
+        background-color: white;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        padding: 10px 0;
+}
+
+    .Box{
+        width: 90%;
+        height: auto;
+    }
+
+    .title{
+        width: 90%;
+    }
+    
+    .title p{
+    
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #141212;
+    }
+    .text{
+        width: 95%;
+    }
+    
+    .text p{
+    
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        text-align: left;
+    color: black;
+    }
+}
