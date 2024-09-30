@@ -9,10 +9,7 @@ import Link from 'next/link';
 import { useState, useEffect, useContext } from "react";
 
 import { UserTypeContext } from "../../context/UserType.context";
-<<<<<<< HEAD
 import OfferModal from "../Modals/Offer.modal";
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 
 export const BuyCatalogue = ({ properties, isLoading }) => {
@@ -40,7 +37,6 @@ function Property({ property, isLoading }) {
   const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 
   const { userType } = useContext(UserTypeContext);
-<<<<<<< HEAD
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(!showModal);
@@ -52,82 +48,73 @@ function Property({ property, isLoading }) {
   return (
     <div className={styles.propertyContainer}>
       {showModal && <OfferModal handleShow={closeModal} data={property} />}
-=======
+      <div className={styles.property}>
+        <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
 
-  return (
-    <div className={styles.propertyContainer}>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-        <div className={styles.property}>
-          <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
-
-            <div className={styles.indications}>
-              <p style={property.justAddedExpiration === false ? { display: "none" } : null}>{property.justAddedExpiration ? "Just added " : null}</p>
-              <FaRegHeart className={styles.heart} />
-            </div>
+          <div className={styles.indications}>
+            <p style={property.justAddedExpiration === false ? { display: "none" } : null}>{property.justAddedExpiration ? "Just added " : null}</p>
+            <FaRegHeart className={styles.heart} />
+          </div>
 
 
 
-            <img className={styles.image} src={property.images[0]} alt="" />
+          <img className={styles.image} src={property.images[0]} alt="" />
 
 
-            <div className={styles.propertyFeatures}>
+          <div className={styles.propertyFeatures}>
 
 
 
-              <li>
-                <img src="/picture.svg" alt="" />
-                <p>1/{property?.images.length}</p>
-              </li>
+            <li>
+              <img src="/picture.svg" alt="" />
+              <p>1/{property?.images.length}</p>
+            </li>
 
 
 
 
-              <li>
-                <img src="/video.svg" alt="" />
-                <p>{property?.options?.videos}</p>
-              </li>
+            <li>
+              <img src="/video.svg" alt="" />
+              <p>{property?.options?.videos}</p>
+            </li>
 
 
 
 
-              <li>
-                <img src="/vr.svg" alt="" />
-                <p>{property?.options?.vr}</p>
-              </li>
+            <li>
+              <img src="/vr.svg" alt="" />
+              <p>{property?.options?.vr}</p>
+            </li>
 
 
 
-              <li>
-                <img src="/floorplan.svg" alt="" />
-                <p>{property?.options?.floor_plan}</p>
-              </li>
+            <li>
+              <img src="/floorplan.svg" alt="" />
+              <p>{property?.options?.floor_plan}</p>
+            </li>
 
 
 
 
 
-              <li>
-                <img src="/360tour.svg" alt="" />
-                <p>{property?.options?.virtual_tour}</p>
-              </li>
+            <li>
+              <img src="/360tour.svg" alt="" />
+              <p>{property?.options?.virtual_tour}</p>
+            </li>
 
 
 
-            </div>
-          </Link>
+          </div>
+        </Link>
 
-          <div className={styles.propertyDetails}>
-            <div className={styles.propertyOffer}>
+        <div className={styles.propertyDetails}>
+          <div className={styles.propertyOffer}>
 
-              <p>£{property?.Amount}</p>
+            <p>£{property?.Amount}</p>
 
 
 
-<<<<<<< HEAD
-  { < button onClick={() => openModal()} > Make an offer</button> }
-=======
-            {(userType == "property_seeker") && < button > Make an offer</button>}
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
+            {< button onClick={() => openModal()} > Make an offer</button>}
 
           </div >
 

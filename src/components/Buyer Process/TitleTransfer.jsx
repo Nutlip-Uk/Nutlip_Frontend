@@ -1,11 +1,7 @@
 import Image from 'next/image'
 import styles from "../../styles/BuyerProcess/TitleTransfer.module.css"
 import { useContext, useEffect, useState } from 'react';
-<<<<<<< HEAD
 import { ImageContext, useImageContext } from "../../context/ImageContext.context";
-=======
-import { ImageContext } from "../../context/ImageContext.context";
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 
@@ -15,11 +11,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     const [fileUrl, setFileUrl] = useState('');
     const [upload, setupload] = useState(false);
     const [receiveFile, setReceiveFile] = useState('');
-<<<<<<< HEAD
     const { setLoading } = useImageContext();
-=======
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -48,10 +40,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     };
 
     const handleSubmitSeller = async () => {
-<<<<<<< HEAD
         setLoading(true);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_legalTitle_014`, {
                 method: "PUT",
@@ -68,7 +57,6 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                 const data = await response.json();
 
                 console.log(data.message); // Successfully uploaded message
-<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
@@ -78,15 +66,6 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
     };
     const handleSubmitBuyer = async () => {
         setLoading(true);
-=======
-            }
-        } catch (error) {
-            console.error('Error submitting contract upload:', error);
-        }
-    };
-    const handleSubmitBuyer = async () => {
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_legalTitle_015`, {
                 method: "PUT",
@@ -102,17 +81,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully uploaded message
-<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error('Error submitting contract upload:', error);
             setLoading(false);
-=======
-            }
-        } catch (error) {
-            console.error('Error submitting contract upload:', error);
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
@@ -138,187 +111,171 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                                 <section id={styles.file_upload}>
                                     <label className='italic text-xs text-neutral-500'>
                                         {transactionContent?.legal_title_document_signed != null ?
-<<<<<<< HEAD
                                             <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
-=======
-                                            <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                                             : "Transfer of title document pending ..."
                                         }
                                     </label>
                                 </section>
 
                                 <div className={styles.buttonContainer}>
-<<<<<<< HEAD
-    <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
-=======
-                                    <a href={transactionContent?.legal_title_document_signed} download className={styles.download}><em>Download Contract</em></a>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-                                </div >
-                            </div >
-                        )}
-
-{
-    userType === "conveyancer_buyer" && (
-        <div className={styles.fileContainer}>
-            <section id={styles.file_upload}>
-                <div className={styles.contractContainer}>
-                    <label>
-                        {transactionContent?.legal_title_document_unsigned &&
-                            <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
-                        }
-                    </label>
-                    {transactionContent?.legal_title_document_unsigned && <button style={{ background: "green" }} className={styles.fileuploadButton}>Received</button>}
-                </div>
-            </section>
-
-
-
-
-
-            <div className={styles.buttonContainer}>
-<<<<<<< HEAD
                                     <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
-=======
-                                    <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-                                    <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
                                 </div >
-
-
-
-        {!transactionContent?.legal_title_document_signed && <section id={styles.file_upload}>
-            <div className={styles.contractContainer}>
-                <label>
-                    {fileUrl ? (
-                        <img src={fileUrl} alt="Uploaded document" />
-                    ) : (
-                        <p className='italic text-xs text-neutral-500'>Upload Document</p>
-                    )}
-                    <input type="file" onChange={handleImageChange} disabled={uploading} />
-                </label>
-                {uploading && <p className='italic text-xs text-neutral-500'>Uploading...</p>}
-                <button onClick={handleSubmitBuyer} style={transactionContent?.legal_title_document_signed ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document_signed ? <p>Sent!</p> : <p>Send</p>}</button>
-            </div>
-        </section>
-}
-
-
-{
-    transactionContent?.legal_title_document_signed && <section id={styles.file_upload}>
-        <div className={styles.contractContainer}>
-
-            <label>
-
-                <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
-
-            </label>
-
-            {transactionContent?.legal_title_document_signed && <button style={{ background: "green" }} className={styles.fileuploadButton}>Sent</button>}
-        </div>
-    </section>
-}
-
-
                             </div >
                         )}
 
-
-{
-    userType === "conveyancer_seller" && (
-        <div className={styles.fileContainer}>
-            {transactionContent?.legal_title_document_signed && (
-                <>
-                    <section id={styles.file_upload}>
-                        <div className={styles.contractContainer}>
-                            <label>
-                                {transactionContent?.legal_title_document_signed &&
-                                    <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
-                                }
-                            </label>
-
-                            {transactionContent?.legal_title_document_signed && <button className={styles.fileuploadButton} style={{
-                                background: "green"
-                            }}>Received</button>}
-                        </div>
-                    </section>
-
-
-                    <div className={styles.buttonContainer}>
-<<<<<<< HEAD
-    <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
-=======
-                                            <a href={transactionContent?.legal_title_document_unsigned} download className={styles.download}><em>Download Contract</em></a>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-    {/* <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button> */ }
-                                        </div >
-                                    </>
-                                )
-}
+                        {
+                            userType === "conveyancer_buyer" && (
+                                <div className={styles.fileContainer}>
+                                    <section id={styles.file_upload}>
+                                        <div className={styles.contractContainer}>
+                                            <label>
+                                                {transactionContent?.legal_title_document_unsigned &&
+                                                    <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
+                                                }
+                                            </label>
+                                            {transactionContent?.legal_title_document_unsigned && <button style={{ background: "green" }} className={styles.fileuploadButton}>Received</button>}
+                                        </div>
+                                    </section>
 
 
 
-{
-    !transactionContent?.legal_title_document_unsigned && <section id={styles.file_upload}>
-        <div className={styles.contractContainer}>
-            <label>
-                {fileUrl ? (
-                    <img src={fileUrl} alt="Uploaded document" />
-                ) : (
-                    <p>Upload Document</p>
-                )}
-                <input type="file" onChange={handleImageChange} disabled={uploading} />
-            </label>
-            {uploading && <p>Uploading...</p>}
-        </div>
-    </section>
-}
 
-{
-    transactionContent?.contract_upload_unsigned_seller && <section id={styles.file_upload}>
-        <div className={styles.contractContainer}>
 
-            {transactionContent?.legal_title_document_unsigned && (
-                <label>
-                    <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
-                </label>
-            )
-            }
-            {!transactionContent?.legal_title_document_unsigned ? <button onClick={handleSubmitSeller} className={styles.fileuploadButton}>send</button> : <button className={styles.fileuploadButton} style={{
-                background: "green"
-            }}>Sent</button>}
-        </div>
-    </section>
-}
+                                    <div className={styles.buttonContainer}>
+                                        <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
+                                        <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button>
+                                    </div >
 
 
 
-                            </div >
-                        )}
+                                    {!transactionContent?.legal_title_document_signed && <section id={styles.file_upload}>
+                                        <div className={styles.contractContainer}>
+                                            <label>
+                                                {fileUrl ? (
+                                                    <img src={fileUrl} alt="Uploaded document" />
+                                                ) : (
+                                                    <p className='italic text-xs text-neutral-500'>Upload Document</p>
+                                                )}
+                                                <input type="file" onChange={handleImageChange} disabled={uploading} />
+                                            </label>
+                                            {uploading && <p className='italic text-xs text-neutral-500'>Uploading...</p>}
+                                            <button onClick={handleSubmitBuyer} style={transactionContent?.legal_title_document_signed ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document_signed ? <p>Sent!</p> : <p>Send</p>}</button>
+                                        </div>
+                                    </section>
+                                    }
+
+
+                                    {
+                                        transactionContent?.legal_title_document_signed && <section id={styles.file_upload}>
+                                            <div className={styles.contractContainer}>
+
+                                                <label>
+
+                                                    <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
+
+                                                </label>
+
+                                                {transactionContent?.legal_title_document_signed && <button style={{ background: "green" }} className={styles.fileuploadButton}>Sent</button>}
+                                            </div>
+                                        </section>
+                                    }
+
+
+                                </div >
+                            )}
+
+
+                        {
+                            userType === "conveyancer_seller" && (
+                                <div className={styles.fileContainer}>
+                                    {transactionContent?.legal_title_document_signed && (
+                                        <>
+                                            <section id={styles.file_upload}>
+                                                <div className={styles.contractContainer}>
+                                                    <label>
+                                                        {transactionContent?.legal_title_document_signed &&
+                                                            <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
+                                                        }
+                                                    </label>
+
+                                                    {transactionContent?.legal_title_document_signed && <button className={styles.fileuploadButton} style={{
+                                                        background: "green"
+                                                    }}>Received</button>}
+                                                </div>
+                                            </section>
+
+
+                                            <div className={styles.buttonContainer}>
+                                                <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
+                                                {/* <button onClick={() => setupload(true)} className={styles.download}>Upload Document</button> */}
+                                            </div >
+                                        </>
+                                    )
+                                    }
+
+
+
+                                    {
+                                        !transactionContent?.legal_title_document_unsigned && <section id={styles.file_upload}>
+                                            <div className={styles.contractContainer}>
+                                                <label>
+                                                    {fileUrl ? (
+                                                        <img src={fileUrl} alt="Uploaded document" />
+                                                    ) : (
+                                                        <p>Upload Document</p>
+                                                    )}
+                                                    <input type="file" onChange={handleImageChange} disabled={uploading} />
+                                                </label>
+                                                {uploading && <p>Uploading...</p>}
+                                            </div>
+                                        </section>
+                                    }
+
+                                    {
+                                        transactionContent?.contract_upload_unsigned_seller && <section id={styles.file_upload}>
+                                            <div className={styles.contractContainer}>
+
+                                                {transactionContent?.legal_title_document_unsigned && (
+                                                    <label>
+                                                        <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
+                                                    </label>
+                                                )
+                                                }
+                                                {!transactionContent?.legal_title_document_unsigned ? <button onClick={handleSubmitSeller} className={styles.fileuploadButton}>send</button> : <button className={styles.fileuploadButton} style={{
+                                                    background: "green"
+                                                }}>Sent</button>}
+                                            </div>
+                                        </section>
+                                    }
+
+
+
+                                </div >
+                            )}
 
                     </div >
                 </section >
             </div >
 
-    <div className="flex gap-4 justify-between w-full" id="page_nav">
-        <button
-            onClick={handleBackClick}
-            disabled={currentStage === 0}
-            className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                }`}
-        >
-            Back
-        </button>
+            <div className="flex gap-4 justify-between w-full" id="page_nav">
+                <button
+                    onClick={handleBackClick}
+                    disabled={currentStage === 0}
+                    className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                        }`}
+                >
+                    Back
+                </button>
 
-        <button
-            onClick={handleNextClick}
+                <button
+                    onClick={handleNextClick}
 
-            disabled={!transactionContent?.legal_title_document_signed}
-            className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium  ${(transactionContent?.legal_title_document_signed) ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
-        >
-            Next : <span>{"Congratulations"}</span>
-        </button>
-    </div>
+                    disabled={!transactionContent?.legal_title_document_signed}
+                    className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium  ${(transactionContent?.legal_title_document_signed) ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
+                >
+                    Next : <span>{"Congratulations"}</span>
+                </button>
+            </div>
         </>
     )
 }

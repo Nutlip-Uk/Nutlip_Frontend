@@ -2,11 +2,7 @@ import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import { storage } from '../../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-<<<<<<< HEAD
 import { ImageContext, useImageContext } from '../../context/ImageContext.context';
-=======
-import { ImageContext } from '../../context/ImageContext.context';
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import styles from "../../styles/BuyerProcess/Funds.module.css";
 import Button from '../styled components/Button';
 
@@ -15,11 +11,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
   const [uploading, setUploading] = useState(false);
   const { url, setUrl } = useContext(ImageContext);
   const [fileUrl, setFileUrl] = useState('');
-<<<<<<< HEAD
   const { loading, setLoading } = useImageContext();
-=======
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
 
   const handleImageChange = (e) => {
@@ -51,10 +43,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
   };
 
   const handleSubmit = async () => {
-<<<<<<< HEAD
     setLoading(true);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     try {
       const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_uploadproofoffunds_01', {
         method: 'PUT',
@@ -71,7 +60,6 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
       if (response.ok) {
         console.log(data.message);
-<<<<<<< HEAD
         setLoading(false);
       } else {
         console.error(data.message);
@@ -80,21 +68,11 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
     } catch (error) {
       console.error('Error uploading proof of funds', error);
       setLoading(false);
-=======
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error('Error uploading proof of funds', error);
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     }
   };
 
   const handleConfirm = async () => {
-<<<<<<< HEAD
     setLoading(true);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     try {
       const response = await fetch('https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds_02', {
         method: 'PUT',
@@ -110,7 +88,6 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
       if (response.ok) {
         console.log(data.message);
-<<<<<<< HEAD
         setLoading(false);
       } else {
         console.error(data.message);
@@ -122,20 +99,6 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
     }
   };
 
-=======
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error('Error confirming proof of funds', error);
-    }
-  };
-
-
-  const handleCheck = () => {
-
-  }
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
   return (
     <>
       <div className={styles.offer}>
@@ -169,73 +132,65 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
         {userType === "Real_estate_agent" && (
           <div className={styles.fileContainer}>
-<<<<<<< HEAD
-  <section id={styles.file_upload} className='relative rounded-e-lg flex flex-col items-start'>
-    <label >
-=======
-            <section id={styles.file_upload} className='relative rounded-e-lg'>
-        <label>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-          {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
-          {transactionContent?.proof_of_funds && (
+            <section id={styles.file_upload} className='relative rounded-e-lg flex flex-col items-start'>
+              <label >
+                {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
+                {transactionContent?.proof_of_funds && (
 
-            <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
+                  <img src={transactionContent?.proof_of_funds} width={250} height={200} alt="Uploaded document" />
 
-          )}
-        </label>
-<<<<<<< HEAD
-  <a href={transactionContent?.proof_of_funds} download className={`text-blue-900 font-semibold border-b-2 border-blue-900`}><em>Download Contract</em></a>
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
+                )}
+              </label>
+              <a href={transactionContent?.proof_of_funds} download className={`text-blue-900 font-semibold border-b-2 border-blue-900`}><em>Download Contract</em></a>
             </section >
-  {!transactionContent?.confirm_proof_of_funds ? (
-    <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>
-  ) : (
-    <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
-  )}
+            {!transactionContent?.confirm_proof_of_funds ? (
+              <button className={styles.fileuploadButton} onClick={handleConfirm}>Confirm Funds</button>
+            ) : (
+              <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+            )}
           </div >
         )}
 
 
-{
-  userType === "conveyancer_seller" && (
-    <div>
-      Conveyancer Seller
+        {
+          userType === "conveyancer_seller" && (
+            <div>
+              Conveyancer Seller
 
-      <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
-    </div>
-  )
-}
-{
-  userType === "conveyancer_buyer" && (
-    <div>
-      Conveyancer Buyer
+              <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+            </div>
+          )
+        }
+        {
+          userType === "conveyancer_buyer" && (
+            <div>
+              Conveyancer Buyer
 
-      <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
-    </div>
-  )
-}
+              <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+            </div>
+          )
+        }
       </div >
 
-  <div className="flex gap-4 justify-between w-full" id="page_nav">
-    <button
-      onClick={handleBackClick}
-      disabled={currentStage === 0}
-      className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-        }`}
-    >
-      Back
-    </button>
+      <div className="flex gap-4 justify-between w-full" id="page_nav">
+        <button
+          onClick={handleBackClick}
+          disabled={currentStage === 0}
+          className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }`}
+        >
+          Back
+        </button>
 
-    <button
-      onClick={handleNextClick}
-      disabled={!transactionContent?.confirm_proof_of_funds}
-      className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-        }  ${transactionContent?.confirm_proof_of_funds ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
-    >
-      Next : <span>{"Add Conveyancer"}</span>
-    </button>
-  </div>
+        <button
+          onClick={handleNextClick}
+          disabled={!transactionContent?.confirm_proof_of_funds}
+          className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            }  ${transactionContent?.confirm_proof_of_funds ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
+        >
+          Next : <span>{"Add Conveyancer"}</span>
+        </button>
+      </div>
     </>
   );
 };

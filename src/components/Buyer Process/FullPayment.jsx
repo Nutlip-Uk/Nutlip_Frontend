@@ -2,11 +2,7 @@
 import Image from 'next/image';
 import styles from "../../styles/BuyerProcess/FullPayment.module.css";
 import { useContext, useState } from 'react';
-<<<<<<< HEAD
 import { ImageContext, useImageContext } from "../../context/ImageContext.context";
-=======
-import { ImageContext } from "../../context/ImageContext.context";
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase';
 import { LoginContext } from '../../context/Login.context';
@@ -17,10 +13,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
     const { url, setUrl } = useContext(ImageContext);
     const [fileUrl, setFileUrl] = useState('');
     const [confirmed, setConfirmed] = useState(false);
-<<<<<<< HEAD
     const { setLoading } = useImageContext();
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
     const [form, setForm] = useState({
         transactionId: id,
         userId: userInformation.user.id,
@@ -69,10 +62,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
     const HandleBankDetails = async () => {
         e.preventDefault();
         console.log("BANK DETAILS", form);
-<<<<<<< HEAD
         setLoading(true);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_proofoffunds10_08_upload_bankdetails", {
                 method: "PUT",
@@ -87,28 +77,18 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
             if (response.ok) {
                 const data = await response.json();
                 console.log("RESPONSE FOR BANK DETAILS SENT", data);
-<<<<<<< HEAD
                 setLoading(false);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
             }
 
         } catch (error) {
             console.error("Error submitting bank details:", error);
-<<<<<<< HEAD
             setLoading(false);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-<<<<<<< HEAD
         setLoading(true);
-=======
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             console.log("File URL:", fileUrl);
             console.log("url", url);
@@ -127,25 +107,16 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
             if (response.ok) {
                 const data = await response.json();
                 console.log("Data posted successfully", data.message);
-<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error(error && error.message);
             setLoading(false);
-=======
-            }
-        } catch (error) {
-            console.error(error && error.message);
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
     const handleConfirm = async () => {
-<<<<<<< HEAD
         setLoading(true);
-=======
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_confirmproofoffunds90_013", {
                 method: "PUT",
@@ -161,17 +132,11 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                 const data = await response.json();
                 console.log(data);
                 setConfirmed(true);
-<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.log(error);
             setLoading(false);
-=======
-            }
-        } catch (error) {
-            console.log(error);
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     };
 
@@ -367,65 +332,60 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                 {
                     (userType === "property_seeker" || userType === "Real_estate_agent") && (
                         <>
-<<<<<<< HEAD
-    {
-        transactionContent?.confirm_proof_of_funds_90 ?
-        (<div className={styles.fileContainer}>
+                            {
+                                transactionContent?.confirm_proof_of_funds_90 ?
+                                    (<div className={styles.fileContainer}>
 
-=======
-                            {transactionContent?.proof_of_funds_90 ?
-                (<div className={styles.fileContainer}>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-                    <section id={styles.file_upload}>
-                        <label>
-                            {transactionContent?.proof_of_funds_90 === "" ? (
-                                "User has not uploaded Funds document yet"
-                            ) : (
-                                <img src={transactionContent.proof_of_funds_90} alt="Uploaded document" />
-                            )}
-                        </label>
-                    </section>
-                    {transactionContent?.confirm_proof_of_funds_90 && (
-                        <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
-                    )}
-                </div>) : (
-                    <div>
-                        <p className='text-red-500 font-semibold'>Documents havent been uploaded or confirmed yet by respective party...</p>
-                    </div>
-                )}
-        </>
-        )
+                                        <section id={styles.file_upload}>
+                                            <label>
+                                                {transactionContent?.proof_of_funds_90 === "" ? (
+                                                    "User has not uploaded Funds document yet"
+                                                ) : (
+                                                    <img src={transactionContent.proof_of_funds_90} alt="Uploaded document" />
+                                                )}
+                                            </label>
+                                        </section>
+                                        {transactionContent?.confirm_proof_of_funds_90 && (
+                                            <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+                                        )}
+                                    </div>) : (
+                                        <div>
+                                            <p className='text-red-500 font-semibold'>Documents havent been uploaded or confirmed yet by respective party...</p>
+                                        </div>
+                                    )}
+                        </>
+                    )
                 }
 
 
 
             </div >
 
-    <div className="flex gap-4 justify-between w-full" id="page_nav">
-        <button
-            onClick={handleBackClick}
-            disabled={currentStage === 0}
-            className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                }`}
-        >
-            Back
-        </button>
+            <div className="flex gap-4 justify-between w-full" id="page_nav">
+                <button
+                    onClick={handleBackClick}
+                    disabled={currentStage === 0}
+                    className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                        }`}
+                >
+                    Back
+                </button>
 
-        <button
-            onClick={handleNextClick}
-            disabled={(userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
-                && (!transactionContent?.legal_title_document_unsigned)}
+                <button
+                    onClick={handleNextClick}
+                    disabled={(userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
+                        && (!transactionContent?.legal_title_document_unsigned)}
 
-            className={`flex items-center border-b gap-2 text-base font-medium ${currentStage >= transactionNames?.length - 1
-                ? 'cursor-not-allowed opacity-50 text-gray-600 border-gray-600'
-                : !transactionContent?.legal_title_document_unsigned && (userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
-                    ? 'cursor-pointer opacity-25 text-gray-600 border-gray-600'
-                    : 'cursor-not-allowed  text-red-600 border-red-600'
-                }`}
-        >
-            Next : <span>{"Transfer of Title"}</span>
-        </button>
-    </div>
+                    className={`flex items-center border-b gap-2 text-base font-medium ${currentStage >= transactionNames?.length - 1
+                        ? 'cursor-not-allowed opacity-50 text-gray-600 border-gray-600'
+                        : !transactionContent?.legal_title_document_unsigned && (userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
+                            ? 'cursor-pointer opacity-25 text-gray-600 border-gray-600'
+                            : 'cursor-not-allowed  text-red-600 border-red-600'
+                        }`}
+                >
+                    Next : <span>{"Transfer of Title"}</span>
+                </button>
+            </div>
 
         </>
     );
