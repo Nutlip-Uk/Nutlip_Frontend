@@ -2,15 +2,17 @@ import { useContext, useState } from "react"
 import styles from "../../styles/BuyerProcess/ResearchAndSurvey.module.css"
 import Button from "../styled components/Button"
 import { LoginContext } from "../../context/Login.context"
+import { useImageContext } from "../../context/ImageContext.context"
 
 export const ResearchSurvey = ({ userType, transaction, id, transactionContent, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
     const [confirm, setConfirmed] = useState(false)
-
+    const { setLoading } = useImageContext();
 
     const { userInformation } = useContext(LoginContext);
 
 
     const handleConfirm = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_researchandsurvery_05`, {
                 method: "PUT",
@@ -26,10 +28,12 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent, 
                 setConfirmed(true);
                 const data = await response.json();
                 console.log(data); // Log the response
+                setLoading(false);
             }
 
         } catch (error) {
             console.error('Error confirming research and survey:', error);
+            setLoading(false);
         }
     }
 
@@ -136,7 +140,7 @@ export const ResearchSurvey = ({ userType, transaction, id, transactionContent, 
 
 
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <div className="flex justify-between w-full gap-4" id="page_nav">
                 <button
                     onClick={handleBackClick}
                     disabled={currentStage === 0}

@@ -38,7 +38,7 @@ const CancelledTransactions = () => {
       };
       fetchConveyancersCancelledtransactions();
     }
-  }, [userId]);
+  }, [userId, userType]);
 
   return (
     <div className={styles.Section}>

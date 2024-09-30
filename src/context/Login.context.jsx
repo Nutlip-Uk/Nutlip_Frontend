@@ -19,8 +19,6 @@ const LoginProvider = ({ children }) => {
 
   };
 
-
-
   const GetUser = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
       method: 'GET',
@@ -37,7 +35,6 @@ const LoginProvider = ({ children }) => {
     }
     return response;
   };
-
 
   const handleWelcome = async () => {
     const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/users/${userInformation.user.id}`, {
@@ -88,6 +85,7 @@ const LoginProvider = ({ children }) => {
       console.error('Error logging out on server', error);
     }
     window.location.reload();
+    router.push("/");
   };
 
 

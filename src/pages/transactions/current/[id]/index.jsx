@@ -19,6 +19,8 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { LoginContext } from '../../../../context/Login.context';
+import Loading from "../../../../components/Loading";
+import { useImageContext } from "../../../../context/ImageContext.context";
 
 const Process = () => {
 
@@ -36,7 +38,7 @@ const Process = () => {
   const { userInformation } = useContext(LoginContext);
   const [transactionContent, setTransactionContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
+  const { loading } = useImageContext();
 
 
   useEffect(() => {
@@ -105,7 +107,7 @@ const Process = () => {
     };
 
     fetchData();
-  }, [id, userInformation?.user?.id, transactionContent,]);
+  }, [id, userInformation?.user?.id, transactionContent, sellerInfo]);
 
   useEffect(() => {
     if (stage) {
@@ -153,7 +155,6 @@ const Process = () => {
     }
   };
 
-  console.log('WHAT USERTYPE', userType)
 
   return (
     <div className={styles.Section}>
@@ -200,9 +201,9 @@ const Process = () => {
         {currentStage === 8 && <FullPayment id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
         {currentStage === 9 && <TransferTitle id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
         {currentStage === 10 && <Success userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
-
-      </div>
-    </div>
+        {loading && <Loading />}
+      </div >
+    </div >
   );
 };
 

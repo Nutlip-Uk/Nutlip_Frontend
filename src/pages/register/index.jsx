@@ -5,14 +5,16 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { GridLoader, HashLoader } from "react-spinners";
-import { useSession, signIn, signOut } from "next-auth/react";
-
 import { LoginContext } from '../../context/Login.context';
 import { RegistrationContext } from "../../context/Register.context";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, facebookProvider, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
+import { Message, useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
+import { useImageContext } from "../../context/ImageContext.context";
+import Toast from "../../components/Toast";
+import { Success } from "../../components/Modals/Offer.modal";
 
 const Registration = () => {
   const router = useRouter();
@@ -22,6 +24,9 @@ const Registration = () => {
   const [loading, setLoading] = useState(false);
   const [iserror, setError] = useState()
   const { setUserInformation } = useContext(LoginContext);
+  const [loginStatus, setLoginStatus] = useState(null); // To manage toast display state
+  const [toastContent, setToastContent] = useState('');
+  const [toastType, setToastType] = useState('info');
 
 
   let sign = "signup";
@@ -39,16 +44,17 @@ const Registration = () => {
     setType(data.option);
   });
 
-  const handleGoogleSignUp = async (e) => {
+  const handleGoogleAuth = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
       const { uid, displayName, email, photoURL } = result.user;
-      setUser(result.user);
 
-      console.log("Google Login Info:", { uid, displayName, email, photoURL });
+      console.log("Google Auth Info:", { uid, displayName, email, photoURL });
 
-      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
+      // Attempt to register first
+      const registerResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,54 +66,47 @@ const Registration = () => {
         }),
       });
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-      }
+      if (registerResponse.ok) {
+        const registerData = await registerResponse.json();
+        console.log("Register Response:", registerData);
+        localStorage.setItem("token", registerData.token);
+        localStorage.setItem("userInformation", JSON.stringify(registerData));
+        setUserInformation(registerData);
+        toast.success("Registration successful. You are now logged in.");
+        router.push("/");
 
-      router.push("/register?option=login");
-    } catch (error) {
-      console.error("Error during sign-Up:", error);
-    }
-  };
-  const handleGoogleSignIn = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const { uid, displayName, email, photoURL } = result.user;
-
-      console.log("Google Login Info:", { uid, displayName, email, photoURL });
-
-      // Attempt to log in to your backend with the Google user info
-      const response = await fetch("https://nutlip-server.uc.r.appspot.com/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: uid, // Using Firebase UID as the password or a unique identifier
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userInformation", JSON.stringify(data));
-        setUserInformation(data);
-
-        router.push("/"); // Redirect to a protected route after sign-in
       } else {
-        console.log(data);
-        setError(data || "Failed to log in with Google.");
+        // If registration fails (likely because account exists), attempt to login
+        const loginResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: uid,
+          }),
+        });
+
+        const loginData = await loginResponse.json();
+
+        if (loginResponse.ok) {
+          localStorage.setItem("token", loginData.token);
+          localStorage.setItem("userInformation", JSON.stringify(loginData));
+          setUserInformation(loginData);
+          router.push("/");
+          toast.success("Login successful.");
+        } else {
+          console.log(loginData);
+          setError(loginData || "Failed to authenticate with Google.");
+        }
       }
     } catch (error) {
-      console.error("Error during Google sign-in:", error);
-      setError("An error occurred during Google sign-in.");
+      console.error("Error during Google authentication:", error);
+      setError("An error occurred during Google authentication.");
+      toast.error("An error occurred during Google authentication.");
     } finally {
-      setLoading(false); // Reset loading state after request is completed
+      setLoading(false);
     }
   };
   const handleFacebookAuth = async (e) => {
@@ -137,6 +136,7 @@ const Registration = () => {
         localStorage.setItem("token", loginData.token);
         localStorage.setItem("userInformation", JSON.stringify(loginData));
         setUserInformation(loginData);
+        toast.success("Login successful.");
       } else {
         // If the login fails, try to register the user
         const registerResponse = await fetch("https://nutlip-server.uc.r.appspot.com/api/register", {
@@ -156,8 +156,10 @@ const Registration = () => {
           localStorage.setItem("token", registerData.token);
           localStorage.setItem("userInformation", JSON.stringify(registerData));
           setUserInformation(registerData);
+          toast.success("Registration successful. You are now logged in.");
         } else {
           throw new Error("Registration failed");
+          toast.error("Registration failed.");
         }
       }
 
@@ -165,18 +167,16 @@ const Registration = () => {
     } catch (error) {
       console.error("Error during Facebook authentication:", error);
       setError("An error occurred during Facebook authentication.");
+      toast.error("An error occurred during Facebook authentication.");
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
   };
 
 
-
-
-
-
   return (
     <main className={styles.main}>
+      {loginStatus && <Toast type={toastType} content={toastContent} duration />}
       <div className={styles.mainImage}>
         <img
           src={`${type === "signup" ? "/images/form.png" : "/images/form2.png"
@@ -207,17 +207,17 @@ const Registration = () => {
               Login
             </p>
           </div>
-          {type === "signup" && <Signup userCreated={handleChange} handleGoogleSignUp={handleGoogleSignUp} handleFacebookAuth={handleFacebookAuth} />}
-          {type === "login" && <Login handleGoogleSignIn={handleGoogleSignIn} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookAuth={handleFacebookAuth} />}
+          {type === "signup" && <Signup userCreated={handleChange} handleGoogleAuth={handleGoogleAuth} handleFacebookAuth={handleFacebookAuth} loginStatus={loginStatus} setLoginStatus={setLoginStatus} toastContent={toastContent} setToastContent={setToastContent} toastType={toastType} setToastType={setToastType} />}
+          {type === "login" && <Login handleGoogleAuth={handleGoogleAuth} setLoading={setLoading} loading={loading} iserror={iserror} setError={setError} handleFacebookAuth={handleFacebookAuth} loginStatus={loginStatus} setLoginStatus={setLoginStatus} toastContent={toastContent} setToastContent={setToastContent} toastType={toastType} setToastType={setToastType} />}
           {type === "verify" && <Verify />}
           {type === "forgetPassword" && <ForgetPassword />}
-        </div>
-      </div>
-    </main>
+        </div >
+      </div >
+    </main >
   );
 };
 
-const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
+const Signup = ({ handleGoogleAuth, handleFacebookAuth, loginStatus, setLoginStatus, toastContent, setToastContent, toastType, setToastType }, props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const [isError, setError] = useState("");
@@ -267,21 +267,27 @@ const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
       if (!response.ok) {
         const errorData = await response.json();
         console.log(errorData)
+        setToastContent(errorData || "Failed to register check your email or password ");
+        setToastType('error');
         setError(errorData || "Failed to register check your email or password ");
         return;
-
       }
 
       //* If registration is successful, you might redirect the user to the login page
       if (response.status === 201) {
+        setToastContent('Registeration Successful!');
+        setToastType('success');
         router.push("/register?option=login");
-
       }
 
     } catch (error) {
       console.log(error)
+      setToastContent(error || "Something went wrong !");
+      setToastType('error');
 
     }
+
+    setLoginStatus(true);
   };
 
   let verify = "verify";
@@ -347,7 +353,6 @@ const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
 
         <button
           /* onClick={() => router.push(`/register?option=${verify}`)} */
-          onClick={() => toast.success("Creating account")}
           className={styles.CreateAccount}
           type="submit"
         >
@@ -366,7 +371,7 @@ const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
           <button
             className={styles.Google}
             style={{ backgroundColor: "white" }}
-            onClick={handleGoogleSignUp}
+            onClick={handleGoogleAuth}
           >
             <img src="/google.svg" alt="" />
             <p>Continue with Google</p>
@@ -391,7 +396,7 @@ const Signup = ({ handleGoogleSignUp, handleFacebookAuth }, props) => {
   );
 };
 
-export const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserror, handleFacebookAuth }) => {
+export const Login = ({ handleGoogleAuth, setLoading, loading, setError, iserror, handleFacebookAuth, loginStatus, setLoginStatus, toastContent, setToastContent, toastType, setToastType }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [home, setHome] = useState(false);
   const router = useRouter();
@@ -429,17 +434,27 @@ export const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserr
         localStorage.setItem("token", data.token)
         localStorage.setItem("userInformation", JSON.stringify(data));
         setUserInformation(data);
-
-        router.push("/");
+        setToastContent("Login successful");
+        setToastType("success");
+        toast.success("Logging In")
+        setTimeout(() => {
+          router.push("/");
+        }, 5000);
       } else {
         console.log(data)
-        setError(data || "Failed to register check your email or password ");
+        setError(data.message || "Failed to register check your email or password ");
+        setToastContent("Login failed");
+        setToastType("error");
+        toast.error("Login Failed")
       }
     } catch (error) {
-
+      setToastContent("Error during Login");
+      setToastType("error");
+      toast.error("Login Failed")
     } finally {
       setLoading(false); // Reset loading state after request is completed
     }
+    setLoginStatus(true);
   };
   return (
     <>
@@ -515,7 +530,7 @@ export const Login = ({ handleGoogleSignIn, setLoading, loading, setError, iserr
           </div>
         </form>
         <div className={styles.GoogleContainer}>
-          <form className={styles.alternateLog} onSubmit={handleGoogleSignIn}>
+          <form className={styles.alternateLog} onSubmit={handleGoogleAuth}>
             <button
               className={styles.Google}
               style={{ backgroundColor: "white" }}
@@ -592,19 +607,19 @@ const Verify = () => {
   );
 };
 
-const Success = () => {
-  return (
-    <>
-      <div className={otp.successContainer}>
-        <img src="/success.svg" alt="success" />
-        <p className={otp.success}>Successful</p>
-        <p className={otp.congrats}>
-          Congratulations!! You have successfully created an account
-        </p>
-      </div>
-    </>
-  );
-};
+// const Success = () => {
+//   return (
+//     <>
+//       <div className={otp.successContainer}>
+//         <img src="/success.svg" alt="success" />
+//         <p className={otp.success}>Successful</p>
+//         <p className={otp.congrats}>
+//           Congratulations!! You have successfully created an account
+//         </p>
+//       </div>
+//     </>
+//   );
+// };
 
 const ForgetPassword = () => {
   const router = useRouter();
