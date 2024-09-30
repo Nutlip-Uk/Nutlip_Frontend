@@ -214,12 +214,12 @@ const Process = () => {
         {currentStage === 9 && <TransferTitle id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
         {currentStage === 10 && <Success userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
 <<<<<<< HEAD
-        {loading && <Loading />}
+  { loading && <Loading /> }
 =======
 
 >>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

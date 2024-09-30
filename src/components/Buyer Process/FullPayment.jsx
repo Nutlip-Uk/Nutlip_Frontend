@@ -368,63 +368,64 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                     (userType === "property_seeker" || userType === "Real_estate_agent") && (
                         <>
 <<<<<<< HEAD
-                            {transactionContent?.confirm_proof_of_funds_90 ?
-                                (<div className={styles.fileContainer}>
+    {
+        transactionContent?.confirm_proof_of_funds_90 ?
+        (<div className={styles.fileContainer}>
 
 =======
                             {transactionContent?.proof_of_funds_90 ?
-                                (<div className={styles.fileContainer}>
+                (<div className={styles.fileContainer}>
 >>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-                                    <section id={styles.file_upload}>
-                                        <label>
-                                            {transactionContent?.proof_of_funds_90 === "" ? (
-                                                "User has not uploaded Funds document yet"
-                                            ) : (
-                                                <img src={transactionContent.proof_of_funds_90} alt="Uploaded document" />
-                                            )}
-                                        </label>
-                                    </section>
-                                    {transactionContent?.confirm_proof_of_funds_90 && (
-                                        <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
-                                    )}
-                                </div>) : (
-                                    <div>
-                                        <p className='text-red-500 font-semibold'>Documents havent been uploaded or confirmed yet by respective party...</p>
-                                    </div>
-                                )}
-                        </>
-                    )
+                    <section id={styles.file_upload}>
+                        <label>
+                            {transactionContent?.proof_of_funds_90 === "" ? (
+                                "User has not uploaded Funds document yet"
+                            ) : (
+                                <img src={transactionContent.proof_of_funds_90} alt="Uploaded document" />
+                            )}
+                        </label>
+                    </section>
+                    {transactionContent?.confirm_proof_of_funds_90 && (
+                        <button className={styles.fileuploadButton} style={{ backgroundColor: "green" }}>Funds Confirmed</button>
+                    )}
+                </div>) : (
+                    <div>
+                        <p className='text-red-500 font-semibold'>Documents havent been uploaded or confirmed yet by respective party...</p>
+                    </div>
+                )}
+        </>
+        )
                 }
 
 
 
-            </div>
+            </div >
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
-                <button
-                    onClick={handleBackClick}
-                    disabled={currentStage === 0}
-                    className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                        }`}
-                >
-                    Back
-                </button>
+    <div className="flex gap-4 justify-between w-full" id="page_nav">
+        <button
+            onClick={handleBackClick}
+            disabled={currentStage === 0}
+            className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                }`}
+        >
+            Back
+        </button>
 
-                <button
-                    onClick={handleNextClick}
-                    disabled={(userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
-                        && (!transactionContent?.legal_title_document_unsigned)}
+        <button
+            onClick={handleNextClick}
+            disabled={(userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
+                && (!transactionContent?.legal_title_document_unsigned)}
 
-                    className={`flex items-center border-b gap-2 text-base font-medium ${currentStage >= transactionNames?.length - 1
-                        ? 'cursor-not-allowed opacity-50 text-gray-600 border-gray-600'
-                        : !transactionContent?.legal_title_document_unsigned && (userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
-                            ? 'cursor-pointer opacity-25 text-gray-600 border-gray-600'
-                            : 'cursor-not-allowed  text-red-600 border-red-600'
-                        }`}
-                >
-                    Next : <span>{"Transfer of Title"}</span>
-                </button>
-            </div>
+            className={`flex items-center border-b gap-2 text-base font-medium ${currentStage >= transactionNames?.length - 1
+                ? 'cursor-not-allowed opacity-50 text-gray-600 border-gray-600'
+                : !transactionContent?.legal_title_document_unsigned && (userType === "conveyancer_buyer" || userType === "property_seeker" || userType === "Real_estate_agent")
+                    ? 'cursor-pointer opacity-25 text-gray-600 border-gray-600'
+                    : 'cursor-not-allowed  text-red-600 border-red-600'
+                }`}
+        >
+            Next : <span>{"Transfer of Title"}</span>
+        </button>
+    </div>
 
         </>
     );

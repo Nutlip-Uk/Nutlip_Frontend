@@ -168,26 +168,26 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                 {(userType === "property_seeker" || userType === "Real_estate_agent") && (
                     <div className={styles.fileContainer}>
 <<<<<<< HEAD
-                        {
-                            transactionContent.contract_upload_signed_seller_confirmed_date ? (
-                                <section id={styles.file_upload}>
-                                    <label>
-                                        {transactionContent?.contract_upload_signed_buyer
-                                            && (
-                                                <img src={transactionContent?.contract_upload_signed_buyer
-                                                } alt="Uploaded document" />
-                                            )}
-                                    </label>
+    {
+        transactionContent.contract_upload_signed_seller_confirmed_date ? (
+            <section id={styles.file_upload}>
+                <label>
+                    {transactionContent?.contract_upload_signed_buyer
+                        && (
+                            <img src={transactionContent?.contract_upload_signed_buyer
+                            } alt="Uploaded document" />
+                        )}
+                </label>
 
-                                    {transactionContent?.contract_upload_signed_seller_confirmed_date &&
-                                        <button style={{
-                                            background: "green"
-                                        }} className={styles.fileuploadButton}> Signed contract </button>}
-                                </section>
-                            ) : (
-                                <p className='italic text-lg text-red-500'> Contract not confirmed yet</p>
-                            )
-                        }
+                {transactionContent?.contract_upload_signed_seller_confirmed_date &&
+                    <button style={{
+                        background: "green"
+                    }} className={styles.fileuploadButton}> Signed contract </button>}
+            </section>
+        ) : (
+            <p className='italic text-lg text-red-500'> Contract not confirmed yet</p>
+        )
+    }
 =======
                         <section id={styles.file_upload}>
                             <label>
@@ -205,156 +205,160 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                         </section>
 >>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
-                        <div className={styles.buttonContainer}>
-                            <a href={transactionContent?.contract_upload_signed_buyer} download className={styles.download}><em>Download Contract</em></a>
-                        </div>
-                    </div>
+    <div className={styles.buttonContainer}>
+        <a href={transactionContent?.contract_upload_signed_buyer} download className={styles.download}><em>Download Contract</em></a>
+    </div>
+                    </div >
                 )}
 
-                {userType === "conveyancer_buyer" && (
-                    <div className={styles.fileContainer}>
-                        <section id={styles.file_upload}>
-                            <div className={styles.contractContainer}>
-                                <label>
-                                    {transactionContent?.contract_upload_unsigned_seller
-                                        &&
-                                        <img src={transactionContent?.contract_upload_unsigned_seller || receiveFile} alt="Uploaded document" />
-                                    }
-                                </label>
-
-                                {transactionContent.contract_upload_unsigned_seller && <button style={{
-                                    background: "green"
-                                }} className={styles.fileuploadButton}>Received</button>}
-                            </div>
-                        </section>
-
-
-
-
-                        <div className={styles.buttonContainer}>
-                            <a href={transactionContent?.contract_upload_unsigned_seller
-                            } download className={styles.download}><em>Download Contract</em></a>
-                            <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
-                        </div>
-
-
-
-                        {!transactionContent.contract_upload_signed_buyer && <section id={styles.file_upload}>
-                            <div className={styles.contractContainer}>
-                                <label>
-                                    {fileUrl ? (
-                                        <img src={fileUrl} alt="Uploaded document" />
-                                    ) : (
-                                        <p>Upload Document</p>
-                                    )}
-                                    <input type="file" onChange={handleImageChange} disabled={uploading} />
-                                </label>
-                                {uploading && <p>Uploading...</p>}
-                                {!transactionContent.contract_upload_signed_buyer && <button onClick={HandleSubmitBuyer} style={transactionContent?.contract_upload_signed_buyer ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload_signed_buyer ? <p>Sent!</p> : <p>Send</p>}</button>}
-                            </div>
-                        </section>
+{
+    userType === "conveyancer_buyer" && (
+        <div className={styles.fileContainer}>
+            <section id={styles.file_upload}>
+                <div className={styles.contractContainer}>
+                    <label>
+                        {transactionContent?.contract_upload_unsigned_seller
+                            &&
+                            <img src={transactionContent?.contract_upload_unsigned_seller || receiveFile} alt="Uploaded document" />
                         }
+                    </label>
 
-                        {
-                            transactionContent.contract_upload_signed_buyer && <section id={styles.file_upload}>
-                                <div className={styles.contractContainer}>
-                                    <label>
-                                        {transactionContent?.contract_upload_signed_buyer &&
-                                            <img src={transactionContent?.contract_upload_signed_buyer} alt="Uploaded document" />
-                                        }
-                                    </label>
-                                    {transactionContent?.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
-                                    {!transactionContent?.contract_upload_signed_buyer && <button onClick={HandleSubmitBuyer} style={transactionContent?.contract_upload_signed_buyer ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload_signed_buyer ? <p>Sent!</p> : <p>Send</p>}</button>}
-                                </div>
-                            </section>
-                        }
-                    </div>
-                )}
-
-
-                {userType === "conveyancer_seller" && (
-                    <div className={styles.fileContainer}>
-                        {transactionContent?.contract_upload_signed_buyer && <section id={styles.file_upload}>
-                            <div className={styles.contractContainer}>
-                                <label>
-                                    {transactionContent?.contract_upload_signed_buyer &&
-                                        <img src={transactionContent?.contract_upload_signed_buyer} alt="Uploaded document" />
-                                    }
-                                </label>
-
-                                {transactionContent?.contract_upload_signed_buyer && <button onClick={HandleConfirm} style={transactionContent?.contract_upload_signed_seller_confirmed_date ? { display: "none" } : null} className={styles.fileuploadButton}> <p>Confirm</p></button>}
-
-                                {transactionContent?.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
-                            </div>
-
-
-
-                            <div className={styles.buttonContainer}>
-                                <a href={transactionContent?.contract_upload_signed_buyer} download className={styles.download}><em>Download Contract</em></a>
-                                <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
-                            </div>
-                        </section>}
+                    {transactionContent.contract_upload_unsigned_seller && <button style={{
+                        background: "green"
+                    }} className={styles.fileuploadButton}>Received</button>}
+                </div>
+            </section>
 
 
 
 
-
-                        {!transactionContent.contract_upload_unsigned_seller && (<section id={styles.file_upload}>
-                            <div className={styles.contractContainer}>
-                                <label>
-                                    {fileUrl ? (
-                                        <img src={fileUrl} alt="Uploaded document" />
-                                    ) : (
-                                        <p>Upload Document</p>
-                                    )}
-                                    <input type="file" onChange={handleImageChange} disabled={uploading} />
-                                </label>
-
-                                {uploading && <p>Uploading...</p>}
-                                {fileUrl && <button onClick={HandleSubmitSeller} className={styles.fileuploadButton}>send</button>}
-                            </div>
-                        </section>)
-                        }
-
-                        {
-                            transactionContent.contract_upload_unsigned_seller && <section id={styles.file_upload}>
-                                <div className={styles.contractContainer}>
-                                    <label>
-                                        {transactionContent?.contract_upload_unsigned_seller &&
-                                            <img src={transactionContent?.contract_upload_unsigned_seller} alt="Uploaded document" />
-                                        }
-                                    </label>
-
-                                    <button style={{ background: "green" }} className={styles.fileuploadButton}> Sent </button>
-                                </div>
-
-                            </section>
-                        }
-
-
-                    </div>
-                )}
+            <div className={styles.buttonContainer}>
+                <a href={transactionContent?.contract_upload_unsigned_seller
+                } download className={styles.download}><em>Download Contract</em></a>
+                <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
             </div>
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
-                <button
-                    onClick={handleBackClick}
-                    disabled={currentStage === 0}
-                    className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                        }`}
-                >
-                    Back
-                </button>
 
-                <button
-                    onClick={handleNextClick}
-                    disabled={!transactionContent?.contract_upload_signed_seller_confirmed_date}
-                    className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                        }  ${(transactionContent?.contract_upload_signed_seller_confirmed_date) ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
-                >
-                    Next : <span>{"Nutlip Commission"}</span>
-                </button>
-            </div>
+
+            {!transactionContent.contract_upload_signed_buyer && <section id={styles.file_upload}>
+                <div className={styles.contractContainer}>
+                    <label>
+                        {fileUrl ? (
+                            <img src={fileUrl} alt="Uploaded document" />
+                        ) : (
+                            <p>Upload Document</p>
+                        )}
+                        <input type="file" onChange={handleImageChange} disabled={uploading} />
+                    </label>
+                    {uploading && <p>Uploading...</p>}
+                    {!transactionContent.contract_upload_signed_buyer && <button onClick={HandleSubmitBuyer} style={transactionContent?.contract_upload_signed_buyer ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload_signed_buyer ? <p>Sent!</p> : <p>Send</p>}</button>}
+                </div>
+            </section>
+            }
+
+            {
+                transactionContent.contract_upload_signed_buyer && <section id={styles.file_upload}>
+                    <div className={styles.contractContainer}>
+                        <label>
+                            {transactionContent?.contract_upload_signed_buyer &&
+                                <img src={transactionContent?.contract_upload_signed_buyer} alt="Uploaded document" />
+                            }
+                        </label>
+                        {transactionContent?.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
+                        {!transactionContent?.contract_upload_signed_buyer && <button onClick={HandleSubmitBuyer} style={transactionContent?.contract_upload_signed_buyer ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.contract_upload_signed_buyer ? <p>Sent!</p> : <p>Send</p>}</button>}
+                    </div>
+                </section>
+            }
+        </div>
+    )
+}
+
+
+{
+    userType === "conveyancer_seller" && (
+        <div className={styles.fileContainer}>
+            {transactionContent?.contract_upload_signed_buyer && <section id={styles.file_upload}>
+                <div className={styles.contractContainer}>
+                    <label>
+                        {transactionContent?.contract_upload_signed_buyer &&
+                            <img src={transactionContent?.contract_upload_signed_buyer} alt="Uploaded document" />
+                        }
+                    </label>
+
+                    {transactionContent?.contract_upload_signed_buyer && <button onClick={HandleConfirm} style={transactionContent?.contract_upload_signed_seller_confirmed_date ? { display: "none" } : null} className={styles.fileuploadButton}> <p>Confirm</p></button>}
+
+                    {transactionContent?.contract_upload_signed_seller_confirmed_date && <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>}
+                </div>
+
+
+
+                <div className={styles.buttonContainer}>
+                    <a href={transactionContent?.contract_upload_signed_buyer} download className={styles.download}><em>Download Contract</em></a>
+                    <button onClick={() => setupload(!upload)} className={styles.download}>Upload Document</button>
+                </div>
+            </section>}
+
+
+
+
+
+            {!transactionContent.contract_upload_unsigned_seller && (<section id={styles.file_upload}>
+                <div className={styles.contractContainer}>
+                    <label>
+                        {fileUrl ? (
+                            <img src={fileUrl} alt="Uploaded document" />
+                        ) : (
+                            <p>Upload Document</p>
+                        )}
+                        <input type="file" onChange={handleImageChange} disabled={uploading} />
+                    </label>
+
+                    {uploading && <p>Uploading...</p>}
+                    {fileUrl && <button onClick={HandleSubmitSeller} className={styles.fileuploadButton}>send</button>}
+                </div>
+            </section>)
+            }
+
+            {
+                transactionContent.contract_upload_unsigned_seller && <section id={styles.file_upload}>
+                    <div className={styles.contractContainer}>
+                        <label>
+                            {transactionContent?.contract_upload_unsigned_seller &&
+                                <img src={transactionContent?.contract_upload_unsigned_seller} alt="Uploaded document" />
+                            }
+                        </label>
+
+                        <button style={{ background: "green" }} className={styles.fileuploadButton}> Sent </button>
+                    </div>
+
+                </section>
+            }
+
+
+        </div>
+    )
+}
+            </div >
+
+    <div className="flex gap-4 justify-between w-full" id="page_nav">
+        <button
+            onClick={handleBackClick}
+            disabled={currentStage === 0}
+            className={`flex items-center gap-2 text-black border-b border-black text-base font-medium ${currentStage === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                }`}
+        >
+            Back
+        </button>
+
+        <button
+            onClick={handleNextClick}
+            disabled={!transactionContent?.contract_upload_signed_seller_confirmed_date}
+            className={`flex items-center gap-2 text-red-600 border-b border-red-600 text-base font-medium ${currentStage >= transactionNames?.length - 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                }  ${(transactionContent?.contract_upload_signed_seller_confirmed_date) ? "" : "text-gray-600 border-gray-600 opacity-25 "}`}
+        >
+            Next : <span>{"Nutlip Commission"}</span>
+        </button>
+    </div>
         </>
     )
 }

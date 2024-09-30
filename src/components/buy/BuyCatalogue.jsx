@@ -57,79 +57,79 @@ function Property({ property, isLoading }) {
   return (
     <div className={styles.propertyContainer}>
 >>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
-      <div className={styles.property}>
-        <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
+        <div className={styles.property}>
+          <Link href={`/buy/search/${property._id}`} className={styles.ImageContainer}>
 
-          <div className={styles.indications}>
-            <p style={property.justAddedExpiration === false ? { display: "none" } : null}>{property.justAddedExpiration ? "Just added " : null}</p>
-            <FaRegHeart className={styles.heart} />
-          </div>
-
-
-
-          <img className={styles.image} src={property.images[0]} alt="" />
-
-
-          <div className={styles.propertyFeatures}>
+            <div className={styles.indications}>
+              <p style={property.justAddedExpiration === false ? { display: "none" } : null}>{property.justAddedExpiration ? "Just added " : null}</p>
+              <FaRegHeart className={styles.heart} />
+            </div>
 
 
 
-            <li>
-              <img src="/picture.svg" alt="" />
-              <p>1/{property?.images.length}</p>
-            </li>
+            <img className={styles.image} src={property.images[0]} alt="" />
+
+
+            <div className={styles.propertyFeatures}>
 
 
 
-
-            <li>
-              <img src="/video.svg" alt="" />
-              <p>{property?.options?.videos}</p>
-            </li>
+              <li>
+                <img src="/picture.svg" alt="" />
+                <p>1/{property?.images.length}</p>
+              </li>
 
 
 
 
-            <li>
-              <img src="/vr.svg" alt="" />
-              <p>{property?.options?.vr}</p>
-            </li>
-
-
-
-            <li>
-              <img src="/floorplan.svg" alt="" />
-              <p>{property?.options?.floor_plan}</p>
-            </li>
+              <li>
+                <img src="/video.svg" alt="" />
+                <p>{property?.options?.videos}</p>
+              </li>
 
 
 
 
-
-            <li>
-              <img src="/360tour.svg" alt="" />
-              <p>{property?.options?.virtual_tour}</p>
-            </li>
-
+              <li>
+                <img src="/vr.svg" alt="" />
+                <p>{property?.options?.vr}</p>
+              </li>
 
 
-          </div>
-        </Link>
 
-        <div className={styles.propertyDetails}>
-          <div className={styles.propertyOffer}>
+              <li>
+                <img src="/floorplan.svg" alt="" />
+                <p>{property?.options?.floor_plan}</p>
+              </li>
 
-            <p>£{property?.Amount}</p>
+
+
+
+
+              <li>
+                <img src="/360tour.svg" alt="" />
+                <p>{property?.options?.virtual_tour}</p>
+              </li>
+
+
+
+            </div>
+          </Link>
+
+          <div className={styles.propertyDetails}>
+            <div className={styles.propertyOffer}>
+
+              <p>£{property?.Amount}</p>
 
 
 
 <<<<<<< HEAD
-            {< button onClick={() => openModal()} > Make an offer</button>}
+  { < button onClick={() => openModal()} > Make an offer</button> }
 =======
             {(userType == "property_seeker") && < button > Make an offer</button>}
 >>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 
-          </div>
+          </div >
 
           <div className={styles.propertySize}>
 
@@ -201,10 +201,10 @@ function Property({ property, isLoading }) {
             </div>
           </div>
 
-        </div>
+        </div >
 
 
-      </div>
+      </div >
     </div >
   )
 }
