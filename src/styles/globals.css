@@ -1,32 +1,16 @@
-<<<<<<< HEAD
 @import url("https://fonts.googleapis.com/css2?family=Urbanist&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600&family=Urbanist&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
-=======
-@import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600&family=Urbanist&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-=======
-*{
-
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 }
 
 body * {
