@@ -1,6 +1,5 @@
 import Button from "../styled components/Button"
 import styles from "../../styles/BuyerProcess/commission.module.css"
-<<<<<<< HEAD
 import { useImageContext } from "../../context/ImageContext.context";
 
 
@@ -8,13 +7,6 @@ export const NutlipCommission = ({ id, transactionContent, userType, handleBackC
     const { setLoading } = useImageContext();
     const HandleConfirm = async () => {
         setLoading(true);
-=======
-
-
-export const NutlipCommission = ({ id, transactionContent, userType, handleBackClick, handleNextClick, currentStage, transactionNames }) => {
-
-    const HandleConfirm = async () => {
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         try {
             const response = await fetch(`https://nutlip-server.uc.r.appspot.com/api/transaction/transaction_nutlippayment_07`, {
                 method: "PUT",
@@ -29,17 +21,11 @@ export const NutlipCommission = ({ id, transactionContent, userType, handleBackC
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.message); // Successfully Confirmed message
-<<<<<<< HEAD
                 setLoading(false);
             }
         } catch (error) {
             console.error('Error Confirming Payment:', error);
             setLoading(false);
-=======
-            }
-        } catch (error) {
-            console.error('Error Confirming Payment:', error);
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
         }
     }
 

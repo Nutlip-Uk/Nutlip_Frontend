@@ -1,23 +1,15 @@
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
-<<<<<<< HEAD
 import styles from "../../../styles/Transactions/complete.module.css";
 import { LoginContext } from "../../../context/Login.context";
 import { UserTypeContext } from "../../../context/UserType.context";
 import { useImageContext } from "../../../context/ImageContext.context";
 import Loading from "../../../components/Loading";
 import { toast } from "react-toastify";
-=======
-import { LoginContext } from "../../../context/Login.context";
-import styles from "../../../styles/Transactions/complete.module.css";
-import { UserTypeContext } from "../../../context/UserType.context";
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 const InCompletedTransactions = () => {
-  const { userInformation } = useContext(LoginContext);
   const { userType } = useContext(UserTypeContext);
+  const { userInformation } = useContext(LoginContext);
 
-<<<<<<< HEAD
   const userId = userInformation?.user?.id;
   const [completedData, setCompletedData] = useState([]);
   const { loading, setLoading } = useImageContext();
@@ -77,7 +69,7 @@ const InCompletedTransactions = () => {
     };
 
     fetchCompletedTransactions();
-  }, [userId, userType]);
+  }, [userId, userType, setLoading]);
 
   if (error) {
     toast.error(error);
@@ -135,73 +127,4 @@ const InCompletedTransactions = () => {
     </>
   );
 };
-=======
-  const [IncompleteData, setIncompleteData] = useState([]);
-
-  const userId = userInformation?.user?.id;
-
-  useEffect(() => {
-    if (userType !== "Conveyancer") {
-      const fetchIncompletedTransactions = async () => {
-        if (userId) {
-          const res = await fetch(
-            `https://nutlip-server.uc.r.appspot.com/api/transaction/getUnCompletedTransactionForAUser/${userId}`
-          );
-          const data = await res.json();
-          console.log("Incompleted Transaction", data.data);
-          setIncompleteData(data?.data);
-        }
-      };
-      fetchIncompletedTransactions();
-    } else {
-      const fetchConveyancersIncompletedTransactions = async () => {
-        if (userId) {
-          const res = await fetch(
-            `https://nutlip-server.uc.r.appspot.com/api/conveyancer/getuncompletedtransaction/${userId}`
-          );
-          const data = await res.json();
-          console.log("Conveyancer Incomplete Transaction", data?.data);
-          setIncompleteData(data?.data);
-        }
-      };
-      fetchConveyancersIncompletedTransactions();
-    }
-  }, [userId, userType]);
-
-  return (
-    <div className={`${styles.Section} `}>
-      <div className={` ${styles.container}`}>
-        <Link href={"/transactions"} className={` ${styles.Header}`}>
-          <h2>Incomplete Transactions</h2>
-        </Link>
-
-        {IncompleteData.length == 0 && (
-          <div>
-            <p className="text-neutral-600">No Incomplete Transaction found</p>
-          </div>
-        )}
-
-        <div>
-          {IncompleteData.map((data) => {
-            return (
-              <Link
-                href={`/transactions/current/${data?.transaction?._id}`}
-                key={data?._id}
-                className={`${styles.Box} bg-white w-full rounded-lg shadow-md`}
-              >
-                <p>Transaction Id: {data?.transaction?._id.slice(0, 7)}</p>
-                <p>
-                  Transaction Stage :
-                  {data?.transaction?.transactionCurrentStage}
-                </p>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-};
-
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
 export default InCompletedTransactions;

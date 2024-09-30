@@ -68,17 +68,7 @@ const OffersSent = () => {
         {offers.length > 0 && (
           <div className={styles.ListContainer}>
             {offers.map((offer) => (
-<<<<<<< HEAD
               <div key={offer._id} className={styles.ListBox}>
-=======
-              <div
-                key={offer._id}
-                className={styles.ListBox}
-                onClick={() =>
-                  router.push(`/transactions/offerssent/${offer.apartmentId}`)
-                }
-              >
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                 <span className={styles.ListingId}>
                   Offer ID: {offer._id.slice(0, 8)}
                 </span>
@@ -88,7 +78,6 @@ const OffersSent = () => {
                   <span
                     style={
                       offer.status === "accepted"
-<<<<<<< HEAD
                         ? { background: "#00912D", color: "white" }
                         : offer.status === "declined"
                         ? { background: "#FF0000", color: "white" }
@@ -96,15 +85,6 @@ const OffersSent = () => {
                         ? { background: "#1230AE", color: "white" }
                         : offer.status === "pending"
                         ? { background: "gray", color: "black" }
-=======
-                        ? { background: "#00712D", color: "white" }
-                        : offer.status === "cancelled"
-                        ? { background: "#FF0000", color: "white" }
-                        : offer.status === "on hold"
-                        ? { background: "#FFA500", color: "white" }
-                        : offer.status === "pending"
-                        ? { background: "#F9E400", color: "black" }
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
                         : {}
                     }
                   >
@@ -112,10 +92,6 @@ const OffersSent = () => {
                   </span>
                 </div>
                 <p>{offer?.apartment?.Title || "Apartment Title"}</p>
-<<<<<<< HEAD
-=======
-                <p>{offer?.apartment?.address || "Apartment Address"}</p>
->>>>>>> 3a30097087fe14f9e156140d83b0807a172c1731
               </div>
             ))}
           </div>

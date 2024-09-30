@@ -4,8 +4,7 @@ import Layout from '../components/Layout'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { SessionProvider } from "next-auth/react"
-import React, { useEffect } from 'react'
-import { Analytics } from '@vercel/analytics/react';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }) {
   const { session, ...otherPageProps } = pageProps;
