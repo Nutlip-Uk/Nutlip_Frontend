@@ -1,2 +1,0 @@
-node_modules 20-15-16-771/@next/swc-darwin-arm64/next-swc.darwin-arm64.node
-node_modules

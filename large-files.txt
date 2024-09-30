@@ -1,9 +1,0 @@
-node_modules 20-15-16-771/@next/swc-darwin-arm64/next-swc.darwin-arm64.node
-node_modules 20-15-16-771/antd/dist/antd-with-locales.js.map
-node_modules 20-15-16-771/antd/dist/antd-with-locales.min.js.map
-node_modules 20-33-33-459/react-icons/gi/index.js
-node_modules 20-33-33-459/react-icons/gi/index.esm.js
-node_modules 20-15-16-771/antd/dist/antd.min.js.map
-node_modules 20-15-16-771/antd/dist/antd.js.map
-node_modules 20-33-33-459/@zoom/meetingsdk/dist/ui/337.zoom-meetingsdk.css
-node_modules 20-33-33-459/yarn/lib/cli.js
