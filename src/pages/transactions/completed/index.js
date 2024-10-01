@@ -94,13 +94,13 @@ const CompletedTransactions = () => {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {completedData.map((data) => (
                 <Link
-                  href={`/transactions/current/${data?._id}`}
+                  href={`/transactions/current/${data?.transaction?._id}`}
                   key={data?._id}
                   className={`${styles.Box} bg-white rounded-lg shadow-md`}
                 >
                   <p className="px-2 py-1 text-white bg-red-400 rounded-lg">
                     <span className="font-medium">Transaction Id:</span>{" "}
-                    {data?._id.slice(0, 7)}
+                    {data?.transaction?._id.slice(0, 7)}
                   </p>
                   <p className="font-medium">
                     <span className="text-lg font-medium">
