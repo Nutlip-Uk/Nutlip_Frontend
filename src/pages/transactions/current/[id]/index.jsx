@@ -18,7 +18,7 @@ import styles from "../../../../styles/Transactions/OfferProcess.module.css";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { LoginContext } from '../../../../context/Login.context';
+import { LoginContext } from "../../../../context/Login.context";
 import Loading from "../../../../components/Loading";
 import { useImageContext } from "../../../../context/ImageContext.context";
 
@@ -38,7 +38,6 @@ const Process = () => {
   const [transactionContent, setTransactionContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { loading } = useImageContext();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -174,6 +173,9 @@ const Process = () => {
     }
   };
 
+  const handleZoomClick = () => {
+    router.push("/zoom");
+  };
 
   return (
     <div className={styles.Section}>
@@ -184,12 +186,14 @@ const Process = () => {
           <div className={styles.rightSide}>
             <div className={styles.googlemeet}>
               <Image
-                src="/zoom-svgrepo-comh.svg"
+                src="/brand-zoom-svgrepo-com.svg"
                 width={30}
                 height={30}
-                alt="zoom-logo"
+                alt=""
               />
-              <p href="/zoom">Zoom</p>
+              <p onClick={handleZoomClick} style={{ cursor: "pointer" }}>
+                Zoom
+              </p>
             </div>
 
             <li>Online (2)</li>
@@ -213,20 +217,142 @@ const Process = () => {
 
         <Progress_bar bgcolor="#001F6D" progress={progress} height={30} />
 
-        {currentStage === 0 && <Offer id={id} userType={userType} transaction={transaction} transactionContent={transactionContent} apartment={apartment} sellerInfo={sellerInfo} isLoading={isLoading} agent={agent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 1 && <Funds id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} isLoading={isLoading} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 2 && <AddConveyancer id={id} userType={userType} transaction={transaction} apartment={apartment} userInformation={userInformation} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 3 && <ResearchSurvey userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} id={id} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 4 && <Contract id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 5 && <NutlipCommission id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 6 && <Deposit id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 7 && <DOC id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 8 && <FullPayment id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 9 && <TransferTitle id={id} userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} handleBackClick={handleBackClick} handleNextClick={handleNextClick} currentStage={currentStage} />}
-        {currentStage === 10 && <Success userType={userType} transaction={transaction} apartment={apartment} transactionContent={transactionContent} />}
+        {currentStage === 0 && (
+          <Offer
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            transactionContent={transactionContent}
+            apartment={apartment}
+            sellerInfo={sellerInfo}
+            isLoading={isLoading}
+            agent={agent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 1 && (
+          <Funds
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            isLoading={isLoading}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 2 && (
+          <AddConveyancer
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            userInformation={userInformation}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 3 && (
+          <ResearchSurvey
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            id={id}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 4 && (
+          <Contract
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 5 && (
+          <NutlipCommission
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 6 && (
+          <Deposit
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 7 && (
+          <DOC
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 8 && (
+          <FullPayment
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 9 && (
+          <TransferTitle
+            id={id}
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+            handleBackClick={handleBackClick}
+            handleNextClick={handleNextClick}
+            currentStage={currentStage}
+          />
+        )}
+        {currentStage === 10 && (
+          <Success
+            userType={userType}
+            transaction={transaction}
+            apartment={apartment}
+            transactionContent={transactionContent}
+          />
+        )}
         {loading && <Loading />}
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 

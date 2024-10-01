@@ -118,7 +118,7 @@ function Zoom() {
             </div>
           </div>
           {emailSent && (
-            <p className={styles.successmessage}>Email sent successfully!</p>
+            <p className={styles.successmessage}>Email sent successfully! </p>
           )}
         </div>
       )}
