@@ -36,7 +36,7 @@ export const Offer = ({ userType, transaction, transactionContent, apartment, id
                 <div className={styles.transactionId} >
                     <p>Transaction ID</p>
 
-                    <strong style={{ textTransform: "uppercase" }}>{id && id?.slice(0, 8)}</strong>
+                    <strong style={{ textTransform: "uppercase" }}>{formatUserId(id)} <CopyButton textToCopy={id} /> </strong>
 
 
                 </div>

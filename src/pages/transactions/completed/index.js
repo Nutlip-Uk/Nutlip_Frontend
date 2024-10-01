@@ -6,6 +6,7 @@ import { UserTypeContext } from "../../../context/UserType.context";
 import { useImageContext } from "../../../context/ImageContext.context";
 import Loading from "../../../components/Loading";
 import { toast } from "react-toastify";
+import CopyButton from "../../../components/CopyButton";
 
 const CompletedTransactions = () => {
   const { userInformation } = useContext(LoginContext);
@@ -76,6 +77,12 @@ const CompletedTransactions = () => {
     toast.error(error);
   }
 
+  function formatUserId(userId) {
+    const firstPart = userId?.slice(0, 4);
+    const lastPart = userId?.slice(-4);
+    return `${firstPart}....${lastPart}`;
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -100,10 +107,11 @@ const CompletedTransactions = () => {
                 >
                   <p className="px-2 py-1 text-white bg-red-400 rounded-lg">
                     <span className="font-medium">Transaction Id:</span>{" "}
-                    {data?.transaction?._id.slice(0, 7)}
+                    {formatUserId(data?.transaction?._id)}{" "}
+                    <CopyButton textToCopy={data?.transaction?._id} />
                   </p>
                   <p className="font-medium">
-                    <span className="text-lg font-medium">
+                    <span className="text-lg font-medium z-40">
                       Transaction Stage:
                     </span>{" "}
                     {data?.transaction.transactionCurrentStage}

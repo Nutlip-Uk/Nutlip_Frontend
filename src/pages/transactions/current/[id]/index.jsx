@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { LoginContext } from "../../../../context/Login.context";
 import Loading from "../../../../components/Loading";
 import { useImageContext } from "../../../../context/ImageContext.context";
+import CopyButton from "../../../../components/CopyButton";
 
 const Process = () => {
   const [progress, setProgress] = useState(0);
@@ -177,6 +178,13 @@ const Process = () => {
     router.push("/zoom");
   };
 
+  function formatUserId(userId) {
+    const firstPart = userId?.slice(0, 4);
+    const lastPart = userId?.slice(-4);
+    return `${firstPart}....${lastPart}`;
+  }
+
+
   return (
     <div className={styles.Section}>
       <div className={styles.container}>
@@ -203,7 +211,7 @@ const Process = () => {
                 <span style={{ textTransform: "Capitalize" }}>
                   Transaction ID:
                 </span>
-                {id && id?.slice(0, 8)}
+                {formatUserId(id)} <CopyButton textToCopy={id} />
               </p>
             </div>
           </div>
