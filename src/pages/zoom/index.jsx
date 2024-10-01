@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import styles from "../../styles/zoom/zoom.module.css";
+import styles from "../../styles/Zoom/zoom.module.css";
 
 function Zoom() {
   const [topic, setTopic] = useState("");
@@ -24,8 +24,7 @@ function Zoom() {
       if (error.response) {
         console.error("Error response from server:", error.response.data);
         alert(
-          `Failed to create meeting: ${
-            error.response.data.error || JSON.stringify(error.response.data)
+          `Failed to create meeting: ${error.response.data.error || JSON.stringify(error.response.data)
           }`
         );
       } else if (error.request) {
