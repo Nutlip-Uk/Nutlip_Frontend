@@ -196,7 +196,7 @@ const Process = () => {
               </p>
             </div>
 
-            <li>Online (2)</li>
+            <li>Online (1)</li>
 
             <div className={styles.TransactionId}>
               <p style={{ textTransform: "uppercase" }}>
