@@ -170,7 +170,7 @@ export const AddConveyancer = ({ userType, id, transactionContent, handleBackCli
                 </section>
             </div>
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <div className="flex justify-between w-full gap-4" id="page_nav">
                 <button
                     onClick={handleBackClick}
                     disabled={currentStage === 0}

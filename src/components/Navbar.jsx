@@ -9,25 +9,23 @@ import { LoginContext } from "../context/Login.context";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import { UserTypeContext } from "../context/UserType.context";
-import Avatar from '@mui/joy/Avatar';
+import Avatar from "@mui/joy/Avatar";
 import CopyButton from "./CopyButton";
-
 
 const Navbar = () => {
   const router = useRouter();
+  const { userType } = useContext(UserTypeContext);
 
-  const { userType } = useContext(UserTypeContext)
-
-  const { userInformation, setUserInformation, handleLogout } = useContext(LoginContext);
-
-
+  const { userInformation, setUserInformation, handleLogout } =
+    useContext(LoginContext);
 
   return (
     <div className={sty.navigation}>
       <nav className={sty.nav}>
         <div
-          className={`${router.pathname === "/register" ? sty.reg : sty.NavMain
-            }`}
+          className={`${
+            router.pathname === "/register" ? sty.reg : sty.NavMain
+          }`}
         >
           <Link href="/">
             <Image src="/nav_icon.svg" width={130} height={90} alt={""} />
@@ -138,7 +136,9 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
               <div className={sty.UserLogContainer}>
                 <div className={sty.userInfo} onClick={Popped}>
                   {userInformation.user?.username ? (
-                    <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
+                    <Avatar variant="solid" className="capitalize">
+                      {userInformation?.user?.username?.slice(0, 1)}
+                    </Avatar>
                   ) : null}
                   <p>{userInformation?.user?.username.split(" ")[0]}</p>
                 </div>
@@ -164,10 +164,11 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
       <div className={sty.MenuBtn}>
         {userInformation?.user ? (
           <>
-
             <img src="/navbar/notification.png" alt="" />
             <div className={sty.MobileuserInfo} onClick={Popped}>
-              <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
+              <Avatar variant="solid" className="capitalize">
+                {userInformation?.user?.username?.slice(0, 1)}
+              </Avatar>
             </div>
           </>
         ) : null}
@@ -190,9 +191,15 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
         <>
           <div className={sty.userPopUpContainer}>
             <div className={sty.popUpHeader}>
-              <Avatar variant="solid" className="capitalize">{userInformation?.user?.username?.slice(0, 1)}</Avatar>
-              <p>{userInformation?.user?.email} <span><CopyButton textToCopy={userInformation?.user?.id} /></span> </p>
-
+              <Avatar variant="solid" className="capitalize">
+                {userInformation?.user?.username?.slice(0, 1)}
+              </Avatar>
+              <p>
+                {userInformation?.user?.email}{" "}
+                <span>
+                  <CopyButton textToCopy={userInformation?.user?.id} />
+                </span>{" "}
+              </p>
             </div>
             <div className={sty.popUpList}>
               <div className={sty.popUplink}>
@@ -219,32 +226,22 @@ const MainNavbar = ({ userInformation, handleLogout, userType }) => {
                 </div>
               )}
 
-              {
-                userType === "Private_seller" && <hr />
-              }
+              {userType === "Private_seller" && <hr />}
 
+              {userType === "Private_seller" && (
+                <div className={sty.popUplink} onClick={() => setPopup(false)}>
+                  <img src="/navbar/transaction.svg" />
+                  <Link href={"/dashboard?option=listings"}>My Listings</Link>
+                </div>
+              )}
+              {userType === "Private_seller" && <hr />}
 
-              {
-                userType === "Private_seller" && (
-                  <div className={sty.popUplink} onClick={() => setPopup(false)}>
-                    <img src="/navbar/transaction.svg" />
-                    <Link href={"/dashboard?option=listings"}>My Listings</Link>
-                  </div>
-                )
-              }
-              {
-                userType === "Private_seller" && <hr />
-              }
-
-
-              {
-                userType === "Private_seller" && (
-                  <div className={sty.popUplink} onClick={() => setPopup(false)}>
-                    <img src="/navbar/transaction.svg" />
-                    <Link href={"/dashboard?option=messages"}>Messages</Link>
-                  </div>
-                )
-              }
+              {userType === "Private_seller" && (
+                <div className={sty.popUplink} onClick={() => setPopup(false)}>
+                  <img src="/navbar/transaction.svg" />
+                  <Link href={"/dashboard?option=messages"}>Messages</Link>
+                </div>
+              )}
               <hr />
               <div className={sty.popUplink}>
                 <img src="/navbar/settings.svg" />

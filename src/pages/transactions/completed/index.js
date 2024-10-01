@@ -91,14 +91,14 @@ const CompletedTransactions = () => {
               <p className="text-neutral-600">No Completed Transaction found</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {completedData.map((data) => (
                 <Link
                   href={`/transactions/current/${data?._id}`}
                   key={data?._id}
                   className={`${styles.Box} bg-white rounded-lg shadow-md`}
                 >
-                  <p className="bg-red-400 py-1 px-2 rounded-lg text-white">
+                  <p className="px-2 py-1 text-white bg-red-400 rounded-lg">
                     <span className="font-medium">Transaction Id:</span>{" "}
                     {data?._id.slice(0, 7)}
                   </p>
@@ -110,7 +110,7 @@ const CompletedTransactions = () => {
                   </p>
                   {data.apartment ? (
                     <>
-                      <p className="line-clamp-1 text-lg font-medium">
+                      <p className="text-lg font-medium line-clamp-1">
                         {data.apartment.Title}
                       </p>
                     </>

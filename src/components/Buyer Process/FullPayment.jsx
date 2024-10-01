@@ -181,7 +181,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                 {userType === "conveyancer_buyer" && (
                     <div className={styles.fileContainer}>
                         {!transactionContent.proof_of_funds_90 && <section id={styles.file_upload}>
-                            <label className='italic text-neutral-500 text-sm'>
+                            <label className='text-sm italic text-neutral-500'>
                                 {fileUrl ? (
                                     <img src={fileUrl} width={250} height={200} alt="Uploaded document" />
                                 ) : (
@@ -190,7 +190,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                                 <input type="file" onChange={handleImageChange} disabled={uploading} />
                             </label>
                         </section>}
-                        {uploading && <p className='italic text-xs text-neutral-500'>Uploading...</p>}
+                        {uploading && <p className='text-xs italic text-neutral-500'>Uploading...</p>}
 
                         {transactionContent.proof_of_funds_90 && <section id={styles.file_upload}>
                             <label>
@@ -350,7 +350,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                                         )}
                                     </div>) : (
                                         <div>
-                                            <p className='text-red-500 font-semibold'>Documents havent been uploaded or confirmed yet by respective party...</p>
+                                            <p className='font-semibold text-red-500'>Documents havent been uploaded or confirmed yet by respective party...</p>
                                         </div>
                                     )}
                         </>
@@ -361,7 +361,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
 
             </div >
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <div className="flex justify-between w-full gap-4" id="page_nav">
                 <button
                     onClick={handleBackClick}
                     disabled={currentStage === 0}

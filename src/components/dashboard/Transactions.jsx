@@ -673,7 +673,7 @@ const ViewHoldOffers = ({ handleChange, propertyOffers = [], selectedApartmentAm
                 <div className={styles.actualPrice}>
                   <span>{`£${selectedApartmentAmount}`}</span>
                   <span>{selectedApartmentTitle}</span>
-                  <span className="line-clamp-1  text-xs">{selectedApartmentAddress}</span>
+                  <span className="text-xs line-clamp-1">{selectedApartmentAddress}</span>
                 </div>
 
                 <hr />
@@ -698,7 +698,7 @@ const ViewHoldOffers = ({ handleChange, propertyOffers = [], selectedApartmentAm
                 <hr />
 
                 <div className={""}>
-                  <button className="bg-blue-600 p-3 rounded-lg text-white text-md">On Hold</button>
+                  <button className="p-3 text-white bg-blue-600 rounded-lg text-md">On Hold</button>
                 </div>
               </div>
             </div>
@@ -719,7 +719,7 @@ const OffersDeclined = ({ handleChange, apartments, propertyOffers = [], handleV
 
   return (
     <>
-      <h1 className="text-2xl cursor-pointer font-medium" onClick={() => handleChange("offers")}>{"< Offers Declined"}</h1>
+      <h1 className="text-2xl font-medium cursor-pointer" onClick={() => handleChange("offers")}>{"< Offers Declined"}</h1>
       <div className={styles.propertyList}>
         {apartmentsWithOffers.length > 0 ? (
           apartmentsWithOffers.map(apartment => (
@@ -772,7 +772,7 @@ const ViewDeclinedOffers = ({ handleChange, propertyOffers = [], selectedApartme
                 <div className={styles.actualPrice}>
                   <span>{`£${selectedApartmentAmount}`}</span>
                   <span>{selectedApartmentTitle}</span>
-                  <span className="line-clamp-1  text-xs">{selectedApartmentAddress}</span>
+                  <span className="text-xs line-clamp-1">{selectedApartmentAddress}</span>
                 </div>
 
                 <hr />
@@ -797,7 +797,7 @@ const ViewDeclinedOffers = ({ handleChange, propertyOffers = [], selectedApartme
                 <hr />
 
                 <div className={""}>
-                  <button className="bg-red-600 p-2 rounded-lg text-white text-md">Declined</button>
+                  <button className="p-2 text-white bg-red-600 rounded-lg text-md">Declined</button>
                 </div>
               </div>
             </div>

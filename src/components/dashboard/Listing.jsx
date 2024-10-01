@@ -247,9 +247,9 @@ const ListProperty = ({ next, handleChange, type, userId, apartments, setSelecte
                 {/* Conditionally show the buttons if the checkbox is checked */}
                 {selectedProperties.includes(apartment._id) && (
                   <div className={`flex gap-x-3 items-center`}>
-                    <button className="text-2xl text-blue-700 hover:scale-110 focus:scale-110 transition duration-300" onClick={() => handleEdit(apartment)}><FaRegEdit />
+                    <button className="text-2xl text-blue-700 transition duration-300 hover:scale-110 focus:scale-110" onClick={() => handleEdit(apartment)}><FaRegEdit />
                     </button>
-                    <button className="text-2xl text-red-600 hover:scale-110 focus:scale-110 transition duration-300" onClick={() => deleteProperty(apartment._id)}><MdDeleteOutline />
+                    <button className="text-2xl text-red-600 transition duration-300 hover:scale-110 focus:scale-110" onClick={() => deleteProperty(apartment._id)}><MdDeleteOutline />
                     </button>
                   </div>
                 )}

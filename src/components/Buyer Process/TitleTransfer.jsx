@@ -109,7 +109,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                         {(userType === "property_seeker" || userType == "Real_estate_agent") && (
                             <div className={styles.fileContainer}>
                                 <section id={styles.file_upload}>
-                                    <label className='italic text-xs text-neutral-500'>
+                                    <label className='text-xs italic text-neutral-500'>
                                         {transactionContent?.legal_title_document_signed != null ?
                                             <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
                                             : "Transfer of title document pending ..."
@@ -154,11 +154,11 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                                                 {fileUrl ? (
                                                     <img src={fileUrl} alt="Uploaded document" />
                                                 ) : (
-                                                    <p className='italic text-xs text-neutral-500'>Upload Document</p>
+                                                    <p className='text-xs italic text-neutral-500'>Upload Document</p>
                                                 )}
                                                 <input type="file" onChange={handleImageChange} disabled={uploading} />
                                             </label>
-                                            {uploading && <p className='italic text-xs text-neutral-500'>Uploading...</p>}
+                                            {uploading && <p className='text-xs italic text-neutral-500'>Uploading...</p>}
                                             <button onClick={handleSubmitBuyer} style={transactionContent?.legal_title_document_signed ? { background: "green" } : null} className={styles.fileuploadButton}>{transactionContent?.legal_title_document_signed ? <p>Sent!</p> : <p>Send</p>}</button>
                                         </div>
                                     </section>
@@ -257,7 +257,7 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                 </section >
             </div >
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <div className="flex justify-between w-full gap-4" id="page_nav">
                 <button
                     onClick={handleBackClick}
                     disabled={currentStage === 0}

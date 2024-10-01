@@ -33,7 +33,7 @@ export const NutlipCommission = ({ id, transactionContent, userType, handleBackC
         <>
             <div className={styles.offer}>
                 <div className={styles.text}>
-                    <h2 className="font-semibold text-xl" >Nutlip Commission Payment</h2>
+                    <h2 className="text-xl font-semibold" >Nutlip Commission Payment</h2>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Document should be maximum of 2MB in these formats; png, jpg, pdf or doc.</p>
                 </div>
 
@@ -53,7 +53,7 @@ export const NutlipCommission = ({ id, transactionContent, userType, handleBackC
                 </div>
             </div>
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <div className="flex justify-between w-full gap-4" id="page_nav">
                 <button
                     onClick={handleBackClick}
                     disabled={currentStage === 0}

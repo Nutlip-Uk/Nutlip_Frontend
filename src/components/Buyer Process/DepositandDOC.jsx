@@ -199,7 +199,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
               {
                 !transactionContent?.confirm_proof_of_funds_10 ? (
                   <div>
-                    <p className="text-red-500 font-semibold">10% deposit yet to be confirmed by Seller Conveyancer...</p>
+                    <p className="font-semibold text-red-500">10% deposit yet to be confirmed by Seller Conveyancer...</p>
                   </div>
                 ) : (
 
@@ -244,7 +244,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                   <li className="font-medium">Amount: € {transaction?.offer?.PriceOffer * 0.1}</li>
                 </ul>
               ) : (
-                <p className="text-red-400 text-xs lg:text-md xl:text-lg">Agent Conveyancer is yet to send bank details ...</p>
+                <p className="text-xs text-red-400 lg:text-md xl:text-lg">Agent Conveyancer is yet to send bank details ...</p>
               )}
             </section>
           )
@@ -264,7 +264,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                 </label>
 
               </section>}
-              {uploading && <p className="text-xs h-auto italic text-neutral-400">Uploading...</p>}
+              {uploading && <p className="h-auto text-xs italic text-neutral-400">Uploading...</p>}
 
               {transactionContent?.proof_of_funds_10 && <section id={styles.file_upload}>
                 <label>
@@ -417,7 +417,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
       </div >
 
 
-      <div className="flex gap-4 justify-between w-full" id="page_nav">
+      <div className="flex justify-between w-full gap-4" id="page_nav">
         <button
           onClick={handleBackClick}
           disabled={currentStage === 0}
@@ -604,7 +604,7 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
 
       </div >
 
-      <div className="flex gap-4 justify-between w-full" id="page_nav">
+      <div className="flex justify-between w-full gap-4" id="page_nav">
         <button
           onClick={handleBackClick}
           disabled={currentStage === 0}

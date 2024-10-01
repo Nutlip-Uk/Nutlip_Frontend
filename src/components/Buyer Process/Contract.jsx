@@ -145,7 +145,7 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                                         }} className={styles.fileuploadButton}> Signed contract </button>}
                                 </section>
                             ) : (
-                                <p className='italic text-lg text-red-500'> Contract not confirmed yet</p>
+                                <p className='text-lg italic text-red-500'> Contract not confirmed yet</p>
                             )
                         }
 
@@ -284,7 +284,7 @@ export const Contract = ({ userType, transaction, id, transactionContent, handle
                 }
             </div >
 
-            <div className="flex gap-4 justify-between w-full" id="page_nav">
+            <div className="flex justify-between w-full gap-4" id="page_nav">
                 <button
                     onClick={handleBackClick}
                     disabled={currentStage === 0}

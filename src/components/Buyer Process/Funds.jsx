@@ -132,7 +132,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
 
         {userType === "Real_estate_agent" && (
           <div className={styles.fileContainer}>
-            <section id={styles.file_upload} className='relative rounded-e-lg flex flex-col items-start'>
+            <section id={styles.file_upload} className='relative flex flex-col items-start rounded-e-lg'>
               <label >
                 {!transactionContent?.proof_of_funds && 'User has not uploaded Funds document yet'}
                 {transactionContent?.proof_of_funds && (
@@ -172,7 +172,7 @@ export const Funds = ({ userType, id, transactionContent, isLoading, handleBackC
         }
       </div >
 
-      <div className="flex gap-4 justify-between w-full" id="page_nav">
+      <div className="flex justify-between w-full gap-4" id="page_nav">
         <button
           onClick={handleBackClick}
           disabled={currentStage === 0}
