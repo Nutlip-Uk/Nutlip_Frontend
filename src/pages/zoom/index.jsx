@@ -12,7 +12,7 @@ function Zoom() {
   const handleCreateMeeting = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/create-meeting",
+        "https://nutlip-server.uc.r.appspot.com/api/create-meeting",
         {
           topic,
           startTime,
@@ -41,7 +41,7 @@ function Zoom() {
   const handleSendEmail = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/send-email",
+        "https://nutlip-server.uc.r.appspot.com/api/send-email",
         {
           recipientEmail,
           meetingLink,
