@@ -125,7 +125,7 @@ const Process = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id, userInformation?.user?.id, transactionContent, sellerInfo]);
 
   useEffect(() => {
     if (stage) {
