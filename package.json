@@ -1,8 +1,6 @@
 {
   "name": "Nutlip",
   "homepage": "https://www.EmmaExcel.github.io/Nutlip-project",
-  "name": "Nutlip",
-  "homepage": "https://www.EmmaExcel.github.io/Nutlip-project",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -76,6 +74,7 @@
     "redux": "^5.0.1",
     "rsuite": "^5.70.3",
     "swiper": "^11.1.12",
+    "swr": "^2.2.5",
     "three": "^0.168.0",
     "uploadthing": "^6.13.3",
     "use-places-autocomplete": "^4.0.1",

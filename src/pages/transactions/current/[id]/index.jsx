@@ -1,3 +1,12 @@
+import React, { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { TransactionContext, TransactionProvider } from '../../../../context/Transaction.context';
+import { Chat } from '../../../../components/styled components/Chat';
+import Progress_bar from '../../../../components/ProgressBar';
+import Button from '../../../../components/styled components/Button';
+import styles from '../../../../styles/Transactions/OfferProcess.module.css';
+import Image from 'next/image';
+import Loading from '../../../../components/Loading';
 import {
   AddConveyancer,
   Contract,
@@ -10,128 +19,27 @@ import {
   Offer,
   ResearchSurvey,
   TransferTitle,
-} from "../../../../components/Buyer Process";
-import { Chat } from "../../../../components/styled components/Chat";
-import Progress_bar from "../../../../components/ProgressBar";
-import Button from "../../../../components/styled components/Button";
-import styles from "../../../../styles/Transactions/OfferProcess.module.css";
-import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { LoginContext } from "../../../../context/Login.context";
-import Loading from "../../../../components/Loading";
-import { useImageContext } from "../../../../context/ImageContext.context";
-import CopyButton from "../../../../components/CopyButton";
+} from '../../../../components/Buyer Process';
+import { useImageContext } from '../../../../context/ImageContext.context';
+import { LoginContext } from '../../../../context/Login.context';
+import { motion } from 'framer-motion';
+import { FiRefreshCw } from 'react-icons/fi';
+import CopyButton from '../../../../components/CopyButton';
 
 const Process = () => {
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
   const router = useRouter();
   const { id, stage } = router.query;
-  const pathname = router.pathname;
-  const [transaction, setTransaction] = useState(null);
-  const [apartment, setApartment] = useState(null);
-  const [transactionStage, setTransactionStage] = useState(0);
-  const [sellerInfo, setSellerInfo] = useState([]);
-  const [agent, setAgent] = useState([]);
-  const [userType, setUserType] = useState(null);
-  const { userInformation } = useContext(LoginContext);
-  const [transactionContent, setTransactionContent] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const { loading } = useImageContext();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!id) return;
-      console.log("user ID:", userInformation?.user?.id);
-
-      setIsLoading(true);
-
-      try {
-        // Fetch transaction data
-        const transactionResponse = await fetch(
-          `https://nutlip-server.uc.r.appspot.com/api/transaction/gettransaction/${id}`
-        );
-        const transactionData = await transactionResponse.json();
-        setTransaction(transactionData.transaction);
-
-        const adjustedStage = Math.max(
-          0,
-          transactionData.transaction.transactionCurrentStage - 1
-        );
-        setTransactionStage(adjustedStage);
-
-        // Set the current stage, prioritizing localStorage if available
-        const savedStage = localStorage.getItem(`currentStage-${id}`);
-
-        console.log("transactionData:", transactionData.transaction);
-
-        if (transactionResponse.ok) {
-          // Fetch transaction content data
-          const txcontent = await fetch(
-            `https://nutlip-server.uc.r.appspot.com/api/transaction/gettransactioncontent/${id}`
-          );
-          const data = await txcontent.json();
-          const transactionContentData = data.transactioncontent[0];
-          setTransactionContent(transactionContentData);
-          console.log("TRANSACTION CONTENT", transactionContentData);
-
-          // Fetch apartment data using transactionData
-          const apartmentResponse = await fetch(
-            `https://nutlip-server.uc.r.appspot.com/api/apartments/getapartment/${transactionData.transaction.ApartmentId}`
-          );
-          const apartmentData = await apartmentResponse.json();
-          setApartment(apartmentData.data);
-          console.log("apartmentData:", apartmentData.data);
-
-          // Fetch seller data using userInformation
-          const sellerResponse = await fetch(
-            `https://nutlip-server.uc.r.appspot.com/api/users/${userInformation?.user?.id}`
-          );
-          const sellerData = await sellerResponse.json();
-          setSellerInfo(sellerData.data);
-          console.log("seller data", sellerInfo);
-
-          // Fetch agent data using apartment data
-          const agentResponse = await fetch(
-            `https://nutlip-server.uc.r.appspot.com/api/users/${apartmentData.data.userId}`
-          );
-          const agentData = await agentResponse.json();
-          setAgent(agentData.data);
-          console.log("agent data", agentData.data);
-
-          // Determine userType based on fetched data
-          if (
-            transactionContentData.convenyancer_buyer ===
-            userInformation?.user?.id
-          ) {
-            setUserType("conveyancer_buyer");
-          } else if (
-            transactionContentData.convenyancer_seller ===
-            userInformation?.user?.id
-          ) {
-            setUserType("conveyancer_seller");
-          } else {
-            setUserType(sellerData.data.userType?.type);
-          }
-
-          console.log("userData:", sellerData.data);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id, userInformation?.user?.id, transactionContent, sellerInfo]);
+  const { transaction, apartment, transactionStage, sellerInfo, agent, userType, transactionContent, isLoading, isError, revalidateData } = useContext(TransactionContext);
+  const { loading, setLoading } = useImageContext();
+  const { userInformation } = useContext(LoginContext)
 
   useEffect(() => {
     if (stage) {
       const stageNumber = parseInt(stage, 10); // Convert the stage query param to a number
-      if (!isNaN(stageNumber) && stageNumber >= 0 && stageNumber <= 10) {
-        // Ensure it's a valid stage number
+      if (!isNaN(stageNumber) && stageNumber >= 0 && stageNumber <= 10) { // Ensure it's a valid stage number
         setCurrentStage(stageNumber);
       }
     }
@@ -142,15 +50,14 @@ const Process = () => {
   }, [currentStage]);
 
   const handleNextClick = () => {
-    if (currentStage < 10) {
-      // Assuming there are 11 stages (0-10)
+    if (currentStage < 10) { // Assuming there are 11 stages (0-10)
       const nextStage = currentStage + 1;
       setCurrentStage(nextStage);
 
       // Push the new stage (as a number) to the URL
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, stage: nextStage }, // Update the stage query with the number
+        query: { ...router.query, stage: nextStage } // Update the stage query with the number
       });
 
       // Optionally, save the current stage to localStorage
@@ -166,7 +73,7 @@ const Process = () => {
       // Push the previous stage (as a number) to the URL
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, stage: prevStage },
+        query: { ...router.query, stage: prevStage }
       });
 
       // Optionally, save the current stage to localStorage
@@ -177,6 +84,10 @@ const Process = () => {
   const handleZoomClick = () => {
     router.push("/zoom");
   };
+
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Error loading data</div>;
+
 
   function formatUserId(userId) {
     const firstPart = userId?.slice(0, 4);
@@ -224,6 +135,18 @@ const Process = () => {
         </div>
 
         <Progress_bar bgcolor="#001F6D" progress={progress} height={30} />
+
+        <motion.button
+          className='fixed bottom-36 right-20 bg-blue-800 text-3xl text-white rounded-full p-3'
+          onClick={() => {
+            setIsSpinning(true);
+            revalidateData().finally(() => setIsSpinning(false)); // Ensure spinning stops after revalidation
+          }}
+          animate={{ rotate: isSpinning ? 360 : 0 }}
+          transition={{ duration: 1, repeat: isSpinning ? Infinity : 0, ease: "linear" }}
+        >
+          <FiRefreshCw />
+        </motion.button>
 
         {currentStage === 0 && (
           <Offer
@@ -387,4 +310,15 @@ const Success = () => {
   );
 };
 
-export default Process;
+const ProcessWrapper = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  return (
+    <TransactionProvider id={id}>
+      <Process />
+    </TransactionProvider>
+  );
+};
+
+export default ProcessWrapper;

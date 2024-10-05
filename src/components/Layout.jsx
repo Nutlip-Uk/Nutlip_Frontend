@@ -15,6 +15,7 @@ import { UserTypeContext, UserTypeProvider } from "../context/UserType.context";
 import { BuyProvider } from "../context/Buy.context";
 import Loading from "./Loading";
 import { CustomProvider } from 'rsuite';
+import { TransactionProvider } from "../context/Transaction.context";
 
 
 const Layout = ({ children }) => {
@@ -37,8 +38,10 @@ const Layout = ({ children }) => {
                         <UserTypeProvider>
                           <Navbar />
                           <AgentOfferContextProvider>
-                            {children}
-                            <Analytics />
+                            <TransactionProvider>
+                              {children}
+                              <Analytics />
+                            </TransactionProvider>
                           </AgentOfferContextProvider>
                           <Footer />
                         </UserTypeProvider>
