@@ -187,7 +187,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
 
           <br />
           {userType === "conveyancer_seller" && (
-            <strong>Amount : € {transaction.offer.PriceOffer * 0.1}</strong>
+            <strong>Amount : £ {transaction.offer.PriceOffer * 0.1}</strong>
           )}
         </section>
 
@@ -241,7 +241,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                   <li className="font-medium">Account number: {transactionContent?.bankdetails[0]?.accountNo}</li>
                   <li className="font-medium">Account name: {transactionContent?.bankdetails[0].accountName}</li>
                   <li className="font-medium">IBAN: {transactionContent?.bankdetails[0]?.IBAN}</li>
-                  <li className="font-medium">Amount: € {transaction?.offer?.PriceOffer * 0.1}</li>
+                  <li className="font-medium">Amount: £ {transaction?.offer?.PriceOffer * 0.1}</li>
                 </ul>
               ) : (
                 <p className="text-xs text-red-400 lg:text-md xl:text-lg">Agent Conveyancer is yet to send bank details ...</p>
@@ -272,7 +272,13 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
 
                 </label>
               </section>}
-              {transactionContent?.proof_of_funds_10 == null ? <button className={styles.fileuploadButton} onClick={HandleUploadProofOfFunds} >Upload</button> : <button style={{ background: "green" }} className={styles.fileuploadButton} >Upload Sent</button>}
+              {transactionContent?.proof_of_funds_10 == null ? (
+                <button className={styles.fileuploadButton} onClick={HandleUploadProofOfFunds}>Upload</button>
+              ) : transactionContent?.confirm_proof_of_funds_10 ? (
+                <button style={{ background: "green" }} className={styles.fileuploadButton}>Confirmed</button>
+              ) : (
+                <button style={{ background: "green" }} className={styles.fileuploadButton}>Upload Sent</button>
+              )}
             </div>
           )
         }
@@ -289,7 +295,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                     <li className="font-medium">Account number: {form?.accountNo}</li>
                     <li className="font-medium">Account name: {form?.accountName}</li>
                     <li className="font-medium">IBAN: {form?.IBAN}</li>
-                    <li className="font-medium">Amount: € {transaction.offer.PriceOffer * 0.1}</li>
+                    <li className="font-medium">Amount: £ {transaction.offer.PriceOffer * 0.1}</li>
                   </ul>}
 
                   {/* {
@@ -300,7 +306,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                   <li>Account number: {transactionContent.bankdetails[0]?.accountNo}</li>
                   <li>Account name: {transactionContent.bankdetails[0]?.accountName}</li>
                   <li>IBAN: {transactionContent.bankdetails[0]?.IBAN}</li>
-                  <li>Amount: € {transaction.offer.PriceOffer * 0.9}</li>
+                  <li>Amount: £ {transaction.offer.PriceOffer * 0.9}</li>
                 </ul>
               } */}
 
@@ -327,7 +333,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                       !== null && (
                         <button className={styles.fileuploadButton} style={transactionContent?.confirm_proof_of_funds_10 === true
                           ? { background: "green" } : { background: "red" }} onClick={handleConfirm}>{transactionContent?.confirm_proof_of_funds_10 === true
-                            ? "Confirmed Funds" : "confirm funds"}</button>
+                            ? "Funds Confirmed" : "confirm funds"}</button>
                       )}
                   </div>
                 </section>
@@ -388,7 +394,7 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                           onChange={handleFormChange}
                           name="accountNo"
                           minLength={1}
-                          maxLength={11}
+                          maxLength={8}
                         />
                       </label>
                     </div>
@@ -402,8 +408,6 @@ export const Deposit = ({ userType, transaction, transactionContent, id, handleB
                           value={form.IBAN}
                           onChange={handleFormChange}
                           name="IBAN"
-                          minLength={1}
-                          maxLength={11}
                         />
                       </label>
                     </div>
@@ -583,7 +587,21 @@ export const DOC = ({ transaction, id, userType, transactionContent, handleBackC
             </form>
           )}
 
-          <button style={transactionContent.completion_date ? { background: "green", color: "white", cursor: "pointer" } : { background: "red", color: "white", cursor: "pointer" }} type="submit" onClick={handleSubmit}>{transactionContent.completion_date ? "Sent" : " Set Date"}</button>
+          <button
+            style={
+              transactionContent.completion_date
+                ? { background: "green", color: "white", cursor: "pointer" }
+                : { background: "red", color: "white", cursor: "pointer" }
+            }
+            type="submit"
+            onClick={handleSubmit}
+          >
+            {transactionContent.agreeded_on_completion_date_buyer
+              ? "Confirmed"
+              : transactionContent.completion_date
+                ? "Sent"
+                : "Set Date"}
+          </button>
         </form>}
 
         {

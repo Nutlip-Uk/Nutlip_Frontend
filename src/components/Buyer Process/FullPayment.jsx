@@ -160,7 +160,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
 
                     <br />
                     {userType === "conveyancer_seller" && (
-                        <strong>Amount : € {transaction.offer.PriceOffer * 0.9}</strong>
+                        <strong>Amount : £ {transaction.offer.PriceOffer * 0.9}</strong>
                     )}
                 </section>
 
@@ -173,7 +173,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                             <li className='font-medium'>Account number: {transactionContent?.bankdetails[0]?.accountNo}</li>
                             <li className='font-medium'>Account name: {transactionContent?.bankdetails[0]?.accountName}</li>
                             <li className='font-medium'>IBAN: {transactionContent?.bankdetails[0]?.IBAN}</li>
-                            <li className='font-medium'>Amount: € {transaction?.offer?.PriceOffer * 0.9}</li>
+                            <li className='font-medium'>Amount: £ {transaction?.offer?.PriceOffer * 0.9}</li>
                         </ul>
                     </section>
                 )}
@@ -200,7 +200,11 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                             </label>
                         </section>}
 
-                        {transactionContent.proof_of_funds_90 && <button style={{ background: "green" }} className={styles.fileuploadButton}>Sent</button>}
+                        {transactionContent.proof_of_funds_90 && (
+                            <button style={{ background: "green" }} className={styles.fileuploadButton}>
+                                {transactionContent?.confirm_proof_of_funds_90 ? 'Confirmed' : 'Sent'}
+                            </button>
+                        )}
                         {!transactionContent.proof_of_funds_90 && <button className={styles.fileuploadButton} onClick={handleSubmit}>Continue</button>}
                     </div>
                 )}
@@ -215,7 +219,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                                     <li>Account number: {form?.accountNo}</li>
                                     <li>Account name: {form?.accountName}</li>
                                     <li>IBAN: {form?.IBAN}</li>
-                                    <li>Amount: € {transaction?.offer?.PriceOffer * 0.9}</li>
+                                    <li>Amount: £ {transaction?.offer?.PriceOffer * 0.9}</li>
                                 </ul>}
 
                                 {
@@ -226,7 +230,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                                         <li className='font-medium'>Account number: {transactionContent?.bankdetails[0]?.accountNo}</li>
                                         <li className='font-medium'>Account name: {transactionContent?.bankdetails[0]?.accountName}</li>
                                         <li className='font-medium'>IBAN: {transactionContent?.bankdetails[0]?.IBAN}</li>
-                                        <li className='font-medium'>Amount: € {transaction?.offer?.PriceOffer * 0.9}</li>
+                                        <li className='font-medium'>Amount: £ {transaction?.offer?.PriceOffer * 0.9}</li>
                                     </ul>
                                 }
 
@@ -248,7 +252,7 @@ export const FullPayment = ({ userType, transaction, transactionContent, id, han
                                         </label>
                                     </section>
                                     {transactionContent?.proof_of_funds_90 != null && (
-                                        <button className={styles.fileuploadButton} style={!transactionContent?.confirm_proof_of_funds_90 ? { background: "red" } : { background: "green" }} onClick={handleConfirm}>{transactionContent?.confirm_proof_of_funds_90 !== true ? "Confirm Fund" : "confirmed funds"}</button>
+                                        <button className={styles.fileuploadButton} style={!transactionContent?.confirm_proof_of_funds_90 ? { background: "red" } : { background: "green" }} onClick={handleConfirm}>{transactionContent?.confirm_proof_of_funds_90 !== true ? "Confirm Fund" : "Funds Confirmed"}</button>
                                     )}
                                 </div>
                             </section>

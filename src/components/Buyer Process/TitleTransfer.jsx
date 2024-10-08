@@ -111,14 +111,14 @@ export const TransferTitle = ({ userType, transaction, transactionContent, id, h
                                 <section id={styles.file_upload}>
                                     <label className='text-xs italic text-neutral-500'>
                                         {transactionContent?.legal_title_document_signed != null ?
-                                            <img src={transactionContent?.legal_title_document_unsigned} alt="Uploaded document" />
+                                            <img src={transactionContent?.legal_title_document_signed} alt="Uploaded document" />
                                             : "Transfer of title document pending ..."
                                         }
                                     </label>
                                 </section>
 
                                 <div className={styles.buttonContainer}>
-                                    <a href={transactionContent?.legal_title_document_unsigned} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
+                                    <a href={transactionContent?.legal_title_document_signed} download="TitleTransfer.pdf" className={styles.download}><em>Download Contract</em></a>
                                 </div >
                             </div >
                         )}
